@@ -1,0 +1,823 @@
+openapi: 3.0.0
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/ojodev/recipe-book/1.0.0
+  - url: https://localhost:8080/cooking-hero/v1
+    description: Developer localhost
+info:
+  description: Api for use recipes in Recipes app
+  version: "1.0.0"
+  title: Recipe book API
+  contact:
+    email: davidmunozsantos@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: users
+    description: users info
+  - name: recipes
+    description: cooking recipes info
+  - name: products
+    description: products used in recipes
+paths:
+  /recipes:
+    get:
+      tags:
+        - recipes
+      summary: searches recipes
+      operationId: getRecipes
+      description: |
+        Search for recipe list
+      parameters:
+        - in: query
+          name: user
+          description: user that create the recipe
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: product
+          description: product included in recipe
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: skip
+          description: number of records to skip for pagination
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - recipes
+      summary: adds a recipe
+      operationId: addRecipe
+      description: Adds an recipe to recipe book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recipe'
+        description: Recipe to add
+      responses:
+        '201':
+          description: recipe created
+        '400':
+          $ref: '#/components/responses/BadRequest' 
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /recipes/{recipe-id}:
+    get:
+      tags:
+        - recipes
+      summary: get recipe by id
+      operationId: getRecipe
+      description: |
+        Search recipe by id
+      parameters:
+        - in: path
+          name: recipe-id
+          description: recipe id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: detail of a recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'  
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'  
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - recipes
+      summary: update recipe
+      operationId: updateRecipe
+      description: |
+        Update recipe info
+      parameters:
+        - in: path
+          name: recipe-id
+          description: recipe id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeUpdate'
+        description: Recipe to update
+      responses:
+        '200':
+          description: recipe updated
+        '400':
+          $ref: '#/components/responses/BadRequest' 
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'   
+    delete:
+      tags:
+        - recipes
+      summary: delete recipe
+      operationId: deleteRecipe
+      description: |
+        Delete recipe
+      parameters:
+        - in: path
+          name: recipe-id
+          description: recipe id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: recipe deleted
+        '400':
+          $ref: '#/components/responses/BadRequest' 
+        '404':
+          $ref: '#/components/responses/NotFound' 
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+                
+  /recipes/{recipe-id}/ingredients:
+    get:
+      tags:
+        - recipes
+      summary: get recipe ingredient list
+      operationId: getIngredients
+      description: |
+        Search ingredients in a recipe
+      parameters:
+        - in: path
+          name: recipe-id
+          description: recipe id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ingredient'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - recipes
+      summary: adds a new ingredien in a recipe or change quantity in a existing ingredient
+      operationId: addIngredient
+      description: Adds ingredient in a recipe
+      parameters:
+        - in: path
+          name: recipe-id
+          description: recipe id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ingredient'
+        description: Recipe to add
+      responses:
+        '201':
+          description: recipe created or modified
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /recipes/{recipe-id}/ingredients/{ingredient-id}:
+    get:
+      tags:
+        - recipes
+      summary: obtain ingredient details
+      operationId: getIngredient
+      description: |
+        Get ingredient details
+      parameters:
+        - in: path
+          name: recipe-id
+          description: recipe id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: ingredient-id
+          description: ingredient id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ingredient'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - recipes
+      summary: update ingredient in a recipe
+      operationId: updateIngredient
+      description: |
+        Update ingredient info
+      parameters:
+        - in: path
+          name: recipe-id
+          description: recipe id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: ingredient-id
+          description: ingredient id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngredientUpdate'
+        description: ingredient to update
+      responses:
+        '200':
+          description: ingredient updated
+        '400':
+          $ref: '#/components/responses/BadRequest' 
+        '404':
+          $ref: '#/components/responses/NotFound' 
+        '500':
+          $ref: '#/components/responses/InternalServerError' 
+    delete:
+      tags:
+        - recipes
+      summary: delete ingredient of a recipe
+      operationId: deleteIngredient
+      description: |
+        Delete ingredient
+      parameters:
+        - in: path
+          name: recipe-id
+          description: recipe id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: ingredient-id
+          description: ingredient id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ingredient deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'   
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /recipes/{recipe-id}/steps:
+    get:
+      tags:
+        - recipes
+      summary: get steps to cook the recipe
+      operationId: getSteps
+      description: |
+        Search steps for a recipe
+      parameters:
+        - in: path
+          name: recipe-id
+          description: recipe id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: steps for cook a recipe
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Step'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - recipes
+      summary: adds a new step (in order) to the list of steps in a recipe
+      operationId: addStep
+      description: Adds a step to a recipe step list
+      parameters:
+        - in: path
+          name: recipe-id
+          description: recipe id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Step'
+        description: Step to add
+      responses:
+        '201':
+          description: step created
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /recipes/{recipe-id}/steps/{step-number}:
+    put:
+      tags:
+        - recipes
+      summary: update step in a recipe
+      operationId: updateStep
+      description: |
+        Update step info
+      parameters:
+        - in: path
+          name: recipe-id
+          description: recipe id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: step-number
+          description: step number in the step list of the recipe
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Step'
+        description: step description to update
+      responses:
+        '200':
+          description: step updated
+        '400':
+          $ref: '#/components/responses/BadRequest' 
+        '404':
+          $ref: '#/components/responses/NotFound' 
+        '500':
+          $ref: '#/components/responses/InternalServerError' 
+    delete:
+      tags:
+        - recipes
+      summary: delete step of a recipe
+      operationId: deleteStep
+      description: |
+        Delete step of a recipe and order other steps in the recipe
+      parameters:
+        - in: path
+          name: recipe-id
+          description: recipe id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: step-number
+          description: step number in the step list of the recipe
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: step deleted and other steps ordered
+        '400':
+          $ref: '#/components/responses/BadRequest'   
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /products:
+    get:
+      tags:
+        - products
+      summary: get product list
+      operationId: getProducts
+      description: |
+        Search products
+      responses:
+        '200':
+          description: product list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - products
+      summary: add a product
+      operationId: addProduct
+      description: |
+        Add a new product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: product created
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+                
+  /products/{product-id}:
+    get:
+      tags:
+        - products
+      summary: get a product
+      operationId: getProduct
+      description: |
+        Search for a product
+      parameters:
+        - in: path
+          name: product-id
+          description: id product
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - products
+      summary: delete a product
+      operationId: deleteProduct
+      description: |
+        Delete product
+      parameters:
+        - in: path
+          name: product-id
+          description: id product
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: product deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /users:
+    get:
+      tags:
+        - users
+      summary: get users
+      operationId: getUsers
+      description: |
+        Search users
+      responses:
+        '200':
+          description: user list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - users
+      summary: add a user
+      operationId: addUser
+      description: |
+        Add a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: user created
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+                
+  /users/{user-id}:
+    get:
+      tags:
+        - users
+      summary: get user details
+      operationId: getUser
+      description: |
+        Search for a user
+      parameters:
+        - in: path
+          name: user-id
+          description: user id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - users
+      summary: update user
+      operationId: updateUser
+      description: |
+        Update user info
+      parameters:
+        - in: path
+          name: user-id
+          description: user id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: user updated
+        '400':
+           $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  responses:
+    BadRequest:
+      description: bad input parameter
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    NotFound:
+      description: not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    InternalServerError:
+      description: internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'    
+  schemas:
+    Recipe:
+      type: object
+      required:
+        - name
+        - description
+        - cousine-type
+        - length
+        - difficulty
+      properties:
+        id:
+          type: string
+          description: id of the recipe. Only used in get operations
+          example: 5c0960ba49a1703ca0831124
+        name:
+          type: string
+          description: name of the recipe
+          example: spanish tortilla
+        description:
+          type: string
+          description: general description of the recipe
+          example: classic Spanish omelette filled with pan-fried potatoes and onion.
+        cousine-type: # TODO DMS Add ref to enum?
+          type: array
+          items:
+            type: string
+          description: cousine type
+          example: spanish
+        length:
+          type: number
+          description: cooking preparation time in minutes  
+          example: 60
+        difficulty:
+          type: number
+          description: difficult level
+          example: 6
+          minimum: 1
+          maximum: 10
+    RecipeUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the recipe
+          example: spanish tortilla
+        description:
+          type: string
+          description: general description of the recipe
+          example: classic Spanish omelette filled with pan-fried potatoes and onion.
+        cousine-type: # TODO DMS Add ref to enum. Muliple options
+          type: string
+          description: cousine type
+          example: spanish
+        length:
+          type: number
+          description: cooking preparation time in minutes  
+          example: 60
+        difficulty:
+          type: number
+          description: difficult level
+          example: 6
+          minimum: 1
+          maximum: 10
+    Ingredient:
+      type: object
+      required:
+        - product
+      properties:
+        product:
+          type: string
+          description: product name
+          example: potatoes
+        quantity:
+          type: number
+          description: number of product units or quantity
+          example: 2
+        unit:
+          type: string
+          description: type of measure
+          example: gr
+    IngredientUpdate:
+      type: object
+      properties:
+        quantity:
+          type: number
+          description: number of product units or quantity
+          example: 2
+        unit:
+          type: string
+          description: type of measure
+          example: gr
+    Product:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: product name
+          example: potatoe
+    Step:
+      type: object
+      required:
+        - description
+      properties:
+        description:
+          type: string
+          description: description of ordered actions to cook the recipe
+          example: In a large frying pan or skillet, heat olive oil over medium-high heat.
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          description: user id name
+          example: ojodev
+        name:
+          type: string
+          description: user real name
+          example: david
+        email:
+          type: string
+          description: user personal email
+          example: ojodev@gmail.com
+        active:
+          type: boolean
+          description: user is active or not
+          example: true
+    UserUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: user real name
+          example: david
+        email:
+          type: string
+          description: user personal email
+          example: ojodev@gmail.com
+        active:
+          type: boolean
+          description: user is active or not
+          example: true
+    ApiError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: error code id
+          example: NAME_NOT_VALID
+        description:
+          type: string
+          description: error description
+          example: Ingredient name is not valid
