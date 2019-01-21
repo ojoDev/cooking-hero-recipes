@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ojodev.cookinghero.recipes.bean.ApiError;
+import com.ojodev.cookinghero.recipes.bean.ApiException;
 import com.ojodev.cookinghero.recipes.bean.Recipe;
 import com.ojodev.cookinghero.recipes.bean.RecipeUpdate;
 
@@ -47,22 +48,21 @@ public interface RecipesApi {
         @ApiResponse(code = 400, message = "bad input parameter", response = ApiError.class),
         @ApiResponse(code = 404, message = "not found", response = ApiError.class),
         @ApiResponse(code = 500, message = "server", response = ApiError.class) })
-    @RequestMapping(value = "/recipes/{recipe_id}",
+    @RequestMapping(value = "/recipes/{recipe-id}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe_id") String recipeId);
-
-
+    ResponseEntity<Void> deleteRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId) throws ApiException;
+    
     @ApiOperation(value = "get recipe by id", nickname = "getRecipe", notes = "Search recipe by id ", response = ApiError.class, tags={ "recipes", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "search results matching criteria", response = ApiError.class),
         @ApiResponse(code = 400, message = "bad input parameter", response = ApiError.class),
         @ApiResponse(code = 404, message = "not found", response = ApiError.class),
         @ApiResponse(code = 500, message = "server error", response = ApiError.class) })
-    @RequestMapping(value = "/recipes/{recipe_id}",
+    @RequestMapping(value = "/recipes/{recipe-id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<ApiError> getRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe_id") String recipeId);
+    ResponseEntity<Recipe> getRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId) throws ApiException;;
 
 
     @ApiOperation(value = "searches recipes", nickname = "getRecipes", notes = "Search for recipe list ", response = Recipe.class, responseContainer = "List", tags={ "recipes", })
@@ -82,11 +82,11 @@ public interface RecipesApi {
         @ApiResponse(code = 400, message = "bad input parameter", response = ApiError.class),
         @ApiResponse(code = 404, message = "not found", response = ApiError.class),
         @ApiResponse(code = 500, message = "server error", response = ApiError.class) })
-    @RequestMapping(value = "/recipes/{recipe_id}",
+    @RequestMapping(value = "/recipes/{recipe-id}",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> updateRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe_id") String recipeId,@ApiParam(value = "Recipe to update"  )  @Valid @RequestBody RecipeUpdate body);
+    ResponseEntity<Void> updateRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId,@ApiParam(value = "Recipe to update"  )  @Valid @RequestBody RecipeUpdate body);
 
 }
 

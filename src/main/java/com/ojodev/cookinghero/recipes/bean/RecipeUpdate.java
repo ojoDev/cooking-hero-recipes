@@ -17,8 +17,6 @@ import io.swagger.annotations.ApiModelProperty;
  * RecipeUpdate
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-12-06T11:16:24.847Z[GMT]")
-
 public class RecipeUpdate   {
   @JsonProperty("name")
   private String name = null;

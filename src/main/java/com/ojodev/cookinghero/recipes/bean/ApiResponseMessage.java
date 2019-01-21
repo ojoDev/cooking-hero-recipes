@@ -2,8 +2,6 @@ package com.ojodev.cookinghero.recipes.bean;
 
 import javax.xml.bind.annotation.XmlTransient;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-12-06T11:16:24.847Z[GMT]")
-
 @javax.xml.bind.annotation.XmlRootElement
 public class ApiResponseMessage {
     public static final int ERROR = 1;
