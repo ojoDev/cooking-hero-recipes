@@ -6,7 +6,18 @@ import com.ojodev.cookinghero.recipes.po.RecipePO;
 
 public interface RecipesRepository {
     
+	RecipePO findRecipe(String recipeId);
+	
 	List<RecipePO> findRecipes();
 	
-	void addRecipe(RecipePO recipe);
+	/**
+	 * Insert a new recipe in DB
+	 * 
+	 * @param recipe recipe object
+	 * 
+	 * @return internal ID of create object
+	 */
+	String addRecipe(RecipePO recipe);
+	
+	RecipePO deleteRecipe(String recipeId);
 }

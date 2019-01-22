@@ -12,14 +12,24 @@ import io.swagger.annotations.ApiModelProperty;
  * ApiError
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-12-06T11:16:24.847Z[GMT]")
-
 public class ApiError {
+	
 	@JsonProperty("code")
 	private String code = null;
 
 	@JsonProperty("description")
 	private String description = null;
+	
+
+	public ApiError() {
+		super();
+	}
+
+	public ApiError(String code, String description) {
+		super();
+		this.code = code;
+		this.description = description;
+	}
 
 	public ApiError code(String code) {
 		this.code = code;
