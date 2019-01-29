@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ojodev.cookinghero.recipes.api.RecipesApi;
 import com.ojodev.cookinghero.recipes.bean.ApiException;
 import com.ojodev.cookinghero.recipes.bean.Recipe;
-import com.ojodev.cookinghero.recipes.bean.RecipeUpdate;
+import com.ojodev.cookinghero.recipes.bean.RecipeRequest;
 import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
 
 import io.swagger.annotations.ApiParam;
@@ -38,7 +39,8 @@ public class RecipesApiController implements RecipesApi {
     public RecipesApiController(ObjectMapper objectMapper, HttpServletRequest request) {
     }
 
-    public ResponseEntity<Void> addRecipe(@ApiParam(value = "Recipe to add"  )  @Valid @RequestBody Recipe body) {
+
+    public ResponseEntity<Void> addRecipe(@ApiParam(value = "Recipe to add"  )  @Valid @RequestBody RecipeRequest body) {
         recipeBusiness.addRecipe(body);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
@@ -53,13 +55,15 @@ public class RecipesApiController implements RecipesApi {
         return new ResponseEntity<Recipe>(recipe, HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Recipe>> getRecipes(@ApiParam(value = "user that create the recipe") @Valid @RequestParam(value = "user", required = false) String user,@Min(0)@ApiParam(value = "number of records to skip for pagination", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {	
-        List<Recipe> recipeList = recipeBusiness.getRecipes();
+    public ResponseEntity<List<Recipe>> getRecipes(@ApiParam(value = "initial date of recipe creation, useful for multiple page lists searches") @Valid @RequestParam(value = "createdFrom", required = false) DateTime createdFrom,@ApiParam(value = "recipe name, partial searches allowed") @Valid @RequestParam(value = "name", required = false) String name,@ApiParam(value = "user id that create the recipe") @Valid @RequestParam(value = "userId", required = false) String userId,@ApiParam(value = "recipe fields returned in response, separated by ','") @Valid @RequestParam(value = "fields", required = false) String fields,@Min(1)@ApiParam(value = "number of page for skip (pagination)", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(1) @Max(50) @ApiParam(value = "maximum number of records returned, by default 20", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
+         List<Recipe> recipeList = recipeBusiness.getRecipes();
         return new ResponseEntity<List<Recipe>>(recipeList, HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> updateRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId,@ApiParam(value = "Recipe to update"  )  @Valid @RequestBody RecipeUpdate body) {
+    public ResponseEntity<Void> updateRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId,@ApiParam(value = "Recipe to update"  )  @Valid @RequestBody RecipeRequest body) {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
+
+
 
 }

@@ -39,8 +39,8 @@
 			</plugin>
 
 			<!-- Uncomment to generate swagger -->
-			 <!--  
-			<plugin> <groupId>io.swagger</groupId> <artifactId>swagger-codegen-maven-plugin</artifactId> 
+			   
+	<!-- 	<plugin> <groupId>io.swagger</groupId> <artifactId>swagger-codegen-maven-plugin</artifactId> 
 				<version>3.0.0-rc1</version> <executions> <execution> <goals> <goal>generate</goal> 
 				</goals> <configuration> <inputSpec>${project.basedir}/src/main/resources/recipes.yml</inputSpec> 
 				<language>spring</language> <configOptions> <sourceFolder>src/gen/java/main</sourceFolder> 
@@ -49,7 +49,7 @@
 				<artifactId>swagger-codegen-generators</artifactId> <version>1.0.0-SNAPSHOT</version> 
 				</dependency> <dependency> <groupId>io.swagger</groupId> <artifactId>swagger-codegen-cli</artifactId> 
 				<version>3.0.0-SNAPSHOT</version> </dependency> </dependencies> </plugin> 
-			-->
+		-->
 				
 		</plugins>
 	</build>
@@ -179,7 +179,17 @@
 			<artifactId>swagger-annotations</artifactId>
 			<version>1.5.21</version>
 		</dependency>
-
+		
+		<dependency>
+		    <groupId>joda-time</groupId>
+		    <artifactId>joda-time</artifactId>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.fasterxml.jackson.datatype</groupId>
+		  <artifactId>jackson-datatype-joda</artifactId>
+		  </dependency>  
+		
 
 		<!-- Mongo -->
 		<dependency>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ojodev.cookinghero.recipes.bean.Recipe;
+import com.ojodev.cookinghero.recipes.bean.RecipeRequest;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.converter.RecipeConverter;
 import com.ojodev.cookinghero.recipes.dao.RecipesRepository;
@@ -50,7 +51,7 @@ public class RecipesBusiness {
 		//return new ArrayList<Recipe>();
 	}
 	
-	public void addRecipe(Recipe recipe) {
+	public void addRecipe(RecipeRequest recipe) {
 		recipesRepository.addRecipe(recipeConverter.toRecipePO(recipe));
 		
 		//TODO DMS: Prueba de inserción de recipe en BBDD

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bson.types.Decimal128;
 import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -21,26 +22,38 @@ public class RecipePO {
 	@Field("cousine_type")
 	private List<String> cousineType;
 
-	private Decimal128 length;
-
+	private Decimal128 cookingTime;
+	
+	private Decimal128 preparationTime;
+	
 	private Decimal128 difficulty;
 
-
+	private String photoId;
+	
+	private List<StepPO> steps;
+	
+	private List<IngredientPO> ingredients;
+	
+	private String user;
+	
+	//TODO DMS: ¿DateTime?
+	private DateTime creationDate;
+	
+	
 	public RecipePO() {
 		super();
 	}
 
-	public RecipePO(ObjectId id, String name, String description, List<String> cousineType, Decimal128 length,
+	public RecipePO(ObjectId id, String name, String description, List<String> cousineType, Decimal128 cookingTime,
 			Decimal128 difficulty) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.cousineType = cousineType;
-		this.length = length;
+		this.cookingTime = cookingTime;
 		this.difficulty = difficulty;
 	}
-	
 
 	public ObjectId getId() {
 		return id;
@@ -74,12 +87,20 @@ public class RecipePO {
 		this.cousineType = cousineType;
 	}
 
-	public Decimal128 getLength() {
-		return length;
+	public Decimal128 getCookingTime() {
+		return cookingTime;
 	}
 
-	public void setLength(Decimal128 length) {
-		this.length = length;
+	public void setCookingTime(Decimal128 cookingTime) {
+		this.cookingTime = cookingTime;
+	}
+
+	public Decimal128 getPreparationTime() {
+		return preparationTime;
+	}
+
+	public void setPreparationTime(Decimal128 preparationTime) {
+		this.preparationTime = preparationTime;
 	}
 
 	public Decimal128 getDifficulty() {
@@ -90,10 +111,51 @@ public class RecipePO {
 		this.difficulty = difficulty;
 	}
 
+	public String getPhotoId() {
+		return photoId;
+	}
+
+	public void setPhotoId(String photoId) {
+		this.photoId = photoId;
+	}
+
+	public List<StepPO> getSteps() {
+		return steps;
+	}
+
+	public void setSteps(List<StepPO> steps) {
+		this.steps = steps;
+	}
+
+	public List<IngredientPO> getIngredients() {
+		return ingredients;
+	}
+
+	public void setIngredients(List<IngredientPO> ingredients) {
+		this.ingredients = ingredients;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public DateTime getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(DateTime creationDate) {
+		this.creationDate = creationDate;
+	}
+
 	@Override
 	public String toString() {
 		return "RecipePO [id=" + id + ", name=" + name + ", description=" + description + ", cousineType=" + cousineType
-				+ ", length=" + length + ", difficulty=" + difficulty + "]";
+				+ ", cookingTime=" + cookingTime + ", preparationTime=" + preparationTime + ", difficulty=" + difficulty
+				+ ", photoId=" + photoId + ", user=" + user + ", creationDate=" + creationDate + "]";
 	}
 
 		

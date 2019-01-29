@@ -10,27 +10,20 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
-import org.joda.time.DateTime;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * Recipe created by a user
+ * RecipeRequest
  */
-@ApiModel(description = "Recipe created by a user")
 @Validated
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.java.SpringCodegen", date = "2019-01-28T21:05:32.614+01:00[Europe/Paris]")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.java.SpringCodegen", date = "2019-01-26T17:12:37.629+01:00[Europe/Paris]")
 
-public class Recipe {
-
-	@JsonProperty("id")
-
-	private String id = null;
+public class RecipeRequest {
 
 	@JsonProperty("name")
 
@@ -43,7 +36,7 @@ public class Recipe {
 	@JsonProperty("cousine-type")
 
 	@Valid
-	private List<String> cousineType = new ArrayList<>();
+	private List<String> cousineType = null;
 
 	@JsonProperty("preparation-time")
 
@@ -75,38 +68,7 @@ public class Recipe {
 
 	private String user = null;
 
-	@JsonProperty("creationDate")
-
-	private DateTime creationDate = null;
-
-	public Recipe id(String id) {
-		this.id = id;
-		return this;
-	}
-
-	/**
-	 * 
-	 * recipe id
-	 * 
-	 * 
-	 * 
-	 * 
-	 * @return id
-	 **/
-
-	@ApiModelProperty(example = "8899457821", required = true, value = "recipe id")
-
-	@NotNull
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public Recipe name(String name) {
+	public RecipeRequest name(String name) {
 		this.name = name;
 		return this;
 	}
@@ -133,7 +95,7 @@ public class Recipe {
 		this.name = name;
 	}
 
-	public Recipe description(String description) {
+	public RecipeRequest description(String description) {
 		this.description = description;
 		return this;
 	}
@@ -160,12 +122,16 @@ public class Recipe {
 		this.description = description;
 	}
 
-	public Recipe cousineType(List<String> cousineType) {
+	public RecipeRequest cousineType(List<String> cousineType) {
 		this.cousineType = cousineType;
 		return this;
 	}
 
-	public Recipe addCousineTypeItem(String cousineTypeItem) {
+	public RecipeRequest addCousineTypeItem(String cousineTypeItem) {
+
+		if (this.cousineType == null) {
+			this.cousineType = new ArrayList<>();
+		}
 
 		this.cousineType.add(cousineTypeItem);
 		return this;
@@ -181,9 +147,7 @@ public class Recipe {
 	 * @return cousineType
 	 **/
 
-	@ApiModelProperty(example = "[\"spanish\",\"veggie\"]", required = true, value = "cousine type")
-
-	@NotNull
+	@ApiModelProperty(example = "[\"spanish\",\"veggie\"]", value = "cousine type")
 
 	public List<String> getCousineType() {
 		return cousineType;
@@ -193,7 +157,7 @@ public class Recipe {
 		this.cousineType = cousineType;
 	}
 
-	public Recipe preparationTime(BigDecimal preparationTime) {
+	public RecipeRequest preparationTime(BigDecimal preparationTime) {
 		this.preparationTime = preparationTime;
 		return this;
 	}
@@ -222,7 +186,7 @@ public class Recipe {
 		this.preparationTime = preparationTime;
 	}
 
-	public Recipe cookingTime(BigDecimal cookingTime) {
+	public RecipeRequest cookingTime(BigDecimal cookingTime) {
 		this.cookingTime = cookingTime;
 		return this;
 	}
@@ -237,9 +201,7 @@ public class Recipe {
 	 * @return cookingTime
 	 **/
 
-	@ApiModelProperty(example = "40", required = true, value = "cooking time in minutes (boil, ...)")
-
-	@NotNull
+	@ApiModelProperty(example = "40", value = "cooking time in minutes (boil, ...)")
 
 	@Valid
 
@@ -251,7 +213,7 @@ public class Recipe {
 		this.cookingTime = cookingTime;
 	}
 
-	public Recipe difficulty(BigDecimal difficulty) {
+	public RecipeRequest difficulty(BigDecimal difficulty) {
 		this.difficulty = difficulty;
 		return this;
 	}
@@ -270,9 +232,7 @@ public class Recipe {
 	 * @return difficulty
 	 **/
 
-	@ApiModelProperty(example = "4", required = true, value = "difficult level")
-
-	@NotNull
+	@ApiModelProperty(example = "4", value = "difficult level")
 
 	@Valid
 	@DecimalMin("1")
@@ -285,7 +245,7 @@ public class Recipe {
 		this.difficulty = difficulty;
 	}
 
-	public Recipe photo(PhotoRef photo) {
+	public RecipeRequest photo(PhotoRef photo) {
 		this.photo = photo;
 		return this;
 	}
@@ -312,12 +272,12 @@ public class Recipe {
 		this.photo = photo;
 	}
 
-	public Recipe steps(List<Step> steps) {
+	public RecipeRequest steps(List<Step> steps) {
 		this.steps = steps;
 		return this;
 	}
 
-	public Recipe addStepsItem(Step stepsItem) {
+	public RecipeRequest addStepsItem(Step stepsItem) {
 
 		if (this.steps == null) {
 			this.steps = new ArrayList<>();
@@ -349,12 +309,12 @@ public class Recipe {
 		this.steps = steps;
 	}
 
-	public Recipe ingredients(List<Ingredient> ingredients) {
+	public RecipeRequest ingredients(List<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 		return this;
 	}
 
-	public Recipe addIngredientsItem(Ingredient ingredientsItem) {
+	public RecipeRequest addIngredientsItem(Ingredient ingredientsItem) {
 
 		if (this.ingredients == null) {
 			this.ingredients = new ArrayList<>();
@@ -386,7 +346,7 @@ public class Recipe {
 		this.ingredients = ingredients;
 	}
 
-	public Recipe user(String user) {
+	public RecipeRequest user(String user) {
 		this.user = user;
 		return this;
 	}
@@ -411,33 +371,6 @@ public class Recipe {
 		this.user = user;
 	}
 
-	public Recipe creationDate(DateTime creationDate) {
-		this.creationDate = creationDate;
-		return this;
-	}
-
-	/**
-	 * 
-	 * recipe creation date
-	 * 
-	 * 
-	 * 
-	 * 
-	 * @return creationDate
-	 **/
-
-	@ApiModelProperty(value = "recipe creation date")
-
-	@Valid
-
-	public DateTime getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(DateTime creationDate) {
-		this.creationDate = creationDate;
-	}
-
 	@Override
 	public boolean equals(java.lang.Object o) {
 		if (this == o) {
@@ -446,29 +379,29 @@ public class Recipe {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		Recipe recipe = (Recipe) o;
-		return Objects.equals(this.id, recipe.id) && Objects.equals(this.name, recipe.name)
-				&& Objects.equals(this.description, recipe.description)
-				&& Objects.equals(this.cousineType, recipe.cousineType)
-				&& Objects.equals(this.preparationTime, recipe.preparationTime)
-				&& Objects.equals(this.cookingTime, recipe.cookingTime)
-				&& Objects.equals(this.difficulty, recipe.difficulty) && Objects.equals(this.photo, recipe.photo)
-				&& Objects.equals(this.steps, recipe.steps) && Objects.equals(this.ingredients, recipe.ingredients)
-				&& Objects.equals(this.user, recipe.user) && Objects.equals(this.creationDate, recipe.creationDate);
+		RecipeRequest recipeRequest = (RecipeRequest) o;
+		return Objects.equals(this.name, recipeRequest.name)
+				&& Objects.equals(this.description, recipeRequest.description)
+				&& Objects.equals(this.cousineType, recipeRequest.cousineType)
+				&& Objects.equals(this.preparationTime, recipeRequest.preparationTime)
+				&& Objects.equals(this.cookingTime, recipeRequest.cookingTime)
+				&& Objects.equals(this.difficulty, recipeRequest.difficulty)
+				&& Objects.equals(this.photo, recipeRequest.photo) && Objects.equals(this.steps, recipeRequest.steps)
+				&& Objects.equals(this.ingredients, recipeRequest.ingredients)
+				&& Objects.equals(this.user, recipeRequest.user);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, description, cousineType, preparationTime, cookingTime, difficulty, photo, steps,
-				ingredients, user, creationDate);
+		return Objects.hash(name, description, cousineType, preparationTime, cookingTime, difficulty, photo, steps,
+				ingredients, user);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class Recipe {\n");
+		sb.append("class RecipeRequest {\n");
 
-		sb.append("    id: ").append(toIndentedString(id)).append("\n");
 		sb.append("    name: ").append(toIndentedString(name)).append("\n");
 		sb.append("    description: ").append(toIndentedString(description)).append("\n");
 		sb.append("    cousineType: ").append(toIndentedString(cousineType)).append("\n");
@@ -479,7 +412,6 @@ public class Recipe {
 		sb.append("    steps: ").append(toIndentedString(steps)).append("\n");
 		sb.append("    ingredients: ").append(toIndentedString(ingredients)).append("\n");
 		sb.append("    user: ").append(toIndentedString(user)).append("\n");
-		sb.append("    creationDate: ").append(toIndentedString(creationDate)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}
