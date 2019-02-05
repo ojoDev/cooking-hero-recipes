@@ -20,53 +20,40 @@ import io.swagger.annotations.ApiModelProperty;
  * RecipeRequest
  */
 @Validated
-
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.java.SpringCodegen", date = "2019-01-26T17:12:37.629+01:00[Europe/Paris]")
-
 public class RecipeRequest {
 
 	@JsonProperty("name")
-
-	private String name = null;
+	private String name;
 
 	@JsonProperty("description")
-
-	private String description = null;
+	private String description;
 
 	@JsonProperty("cousine-type")
-
 	@Valid
-	private List<String> cousineType = null;
+	private List<String> cousineType;
 
 	@JsonProperty("preparation-time")
-
-	private BigDecimal preparationTime = null;
+	private BigDecimal preparationTime;
 
 	@JsonProperty("cooking-time")
-
-	private BigDecimal cookingTime = null;
+	private BigDecimal cookingTime;
 
 	@JsonProperty("difficulty")
-
-	private BigDecimal difficulty = null;
+	private BigDecimal difficulty;
 
 	@JsonProperty("photo")
-
-	private PhotoRef photo = null;
+	private PhotoRef photo;
 
 	@JsonProperty("steps")
-
 	@Valid
-	private List<Step> steps = null;
+	private List<Step> steps;
 
 	@JsonProperty("ingredients")
-
 	@Valid
-	private List<Ingredient> ingredients = null;
+	private List<Ingredient> ingredients;
 
 	@JsonProperty("user")
-
-	private String user = null;
+	private String user;
 
 	public RecipeRequest name(String name) {
 		this.name = name;

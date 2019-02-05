@@ -1,13 +1,13 @@
 package com.ojodev.cookinghero.recipes.enume;
 
-public enum MediaTypeEnum {
+public enum MediaType {
 
 		PHOTO("PHOTO"),
 		VIDEO("VIDEO");
 
 		private String value;
 
-		MediaTypeEnum(String value) {
+		MediaType(String value) {
 			this.value = value;
 		}
 

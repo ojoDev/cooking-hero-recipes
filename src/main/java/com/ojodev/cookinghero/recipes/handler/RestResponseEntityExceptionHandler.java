@@ -19,17 +19,17 @@ public class RestResponseEntityExceptionHandler  {
 	
 	@ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiError> handleNotFound(NotFoundException e) {
-		return new ResponseEntity<ApiError>(new ApiError(e.getCode(),e.getDescription()), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(new ApiError(e.getCode(),e.getDescription()), HttpStatus.NOT_FOUND);
     }
 	
 	@ExceptionHandler(ApiException.class)
     public ResponseEntity<ApiError> handleApiException(ApiException e) {
-		return new ResponseEntity<ApiError>(new ApiError(e.getCode(),e.getDescription()), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(new ApiError(e.getCode(),e.getDescription()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	
 	@ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleException(Exception e) {
-		return new ResponseEntity<ApiError>(new ApiError(messages.get("error.customer.server.code"),messages.get("error.customer.server.desc")), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(new ApiError(messages.get("error.customer.server.code"),messages.get("error.customer.server.desc")), HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
 }

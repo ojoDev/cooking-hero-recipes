@@ -1,18 +1,18 @@
 package com.ojodev.cookinghero.recipes.po;
 
-import com.ojodev.cookinghero.recipes.enume.MediaTypeEnum;
+import com.ojodev.cookinghero.recipes.enume.MediaType;
 
 public class MediaPO {
 	
-	private MediaTypeEnum type;
+	private MediaType type;
 	
 	private String id;
 
-	public MediaTypeEnum getType() {
+	public MediaType getType() {
 		return type;
 	}
 
-	public void setType(MediaTypeEnum type) {
+	public void setType(MediaType type) {
 		this.type = type;
 	}
 

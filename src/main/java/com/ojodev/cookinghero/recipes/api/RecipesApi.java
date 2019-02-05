@@ -37,7 +37,6 @@ public interface RecipesApi {
 	        @ApiResponse(code = 204, message = "no results"),
 	        @ApiResponse(code = 400, message = "bad input parameter", response = ApiError.class),
 	        @ApiResponse(code = 500, message = "internal server error", response = ApiError.class) })
-	    
 	    @RequestMapping(value = "/recipes",
 	        produces = { "application/json" }, 
 	        method = RequestMethod.GET)
@@ -53,7 +52,7 @@ public interface RecipesApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> addRecipe(@ApiParam(value = "Recipe to add"  )  @Valid @RequestBody RecipeRequest body);
+    ResponseEntity<Void> addRecipe(@ApiParam(value = "Recipe to add"  )  @Valid @RequestBody Recipe body);
 
 
     @ApiOperation(value = "delete recipe", nickname = "deleteRecipe", notes = "Delete recipe ", tags={ "recipes", })
@@ -76,7 +75,7 @@ public interface RecipesApi {
     @RequestMapping(value = "/recipes/{recipe-id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Recipe> getRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId) throws ApiException;;
+    ResponseEntity<Recipe> getRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId) throws ApiException;
 
 
 

@@ -51,7 +51,7 @@ public class RecipesBusiness {
 		//return new ArrayList<Recipe>();
 	}
 	
-	public void addRecipe(RecipeRequest recipe) {
+	public void addRecipe(Recipe recipe) {
 		recipesRepository.addRecipe(recipeConverter.toRecipePO(recipe));
 		
 		//TODO DMS: Prueba de inserción de recipe en BBDD

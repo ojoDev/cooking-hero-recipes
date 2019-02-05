@@ -32,13 +32,7 @@ public class User   {
     
   
   @JsonProperty("username")
-  
-  
-  
-  
-  
-  
-  private String username = null;
+  private String username;
   
 
   
