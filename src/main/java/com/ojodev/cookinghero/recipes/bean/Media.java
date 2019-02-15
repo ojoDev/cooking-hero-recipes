@@ -10,7 +10,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * media (photo or video) associated to a recipe
@@ -18,6 +20,8 @@ import lombok.Data;
 @ApiModel(description = "media (photo or video) associated to a recipe")
 @Validated
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Media {
 
 	/**

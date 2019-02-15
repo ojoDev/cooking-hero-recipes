@@ -20,7 +20,7 @@ public class IngredientConverter {
 			ingredient.setProduct(ingredientPO.getProduct());
 			ingredient.setQuantity(
 					ingredientPO.getQuantity() == null ? null : new BigDecimal(ingredientPO.getQuantity()));
-			ingredient.setUnit(ingredient.getUnit());
+			ingredient.setMeasure(ingredient.getMeasure());
 		}
 		return ingredient;
 	}
@@ -36,7 +36,7 @@ public class IngredientConverter {
 			ingredientPO = new IngredientPO();
 			ingredientPO.setProduct(ingredient.getProduct());
 			ingredientPO.setQuantity(ingredient.getQuantity() == null ? null : ingredient.getQuantity().intValue());
-			ingredientPO.setUnit(ingredient.getUnit());
+			ingredientPO.setMeasure(ingredient.getMeasure());
 		}
 		return ingredientPO;
 	}
@@ -45,4 +45,6 @@ public class IngredientConverter {
 		return ingredients == null ? null
 				: ingredients.stream().map(e -> toIngredientPO(e)).collect(Collectors.toList());
 	}
+	
+	
 }

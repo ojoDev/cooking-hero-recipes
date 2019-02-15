@@ -9,6 +9,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import lombok.Data;
+
+@Data
 @Document(collection="recipes")
 public class RecipePO {
 
@@ -54,109 +57,5 @@ public class RecipePO {
 		this.cookingTime = cookingTime;
 		this.difficulty = difficulty;
 	}
-
-	public ObjectId getId() {
-		return id;
-	}
-
-	public void setId(ObjectId id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public List<String> getCousineType() {
-		return cousineType;
-	}
-
-	public void setCousineType(List<String> cousineType) {
-		this.cousineType = cousineType;
-	}
-
-	public Decimal128 getCookingTime() {
-		return cookingTime;
-	}
-
-	public void setCookingTime(Decimal128 cookingTime) {
-		this.cookingTime = cookingTime;
-	}
-
-	public Decimal128 getPreparationTime() {
-		return preparationTime;
-	}
-
-	public void setPreparationTime(Decimal128 preparationTime) {
-		this.preparationTime = preparationTime;
-	}
-
-	public Decimal128 getDifficulty() {
-		return difficulty;
-	}
-
-	public void setDifficulty(Decimal128 difficulty) {
-		this.difficulty = difficulty;
-	}
-
-	public String getPhotoId() {
-		return photoId;
-	}
-
-	public void setPhotoId(String photoId) {
-		this.photoId = photoId;
-	}
-
-	public List<StepPO> getSteps() {
-		return steps;
-	}
-
-	public void setSteps(List<StepPO> steps) {
-		this.steps = steps;
-	}
-
-	public List<IngredientPO> getIngredients() {
-		return ingredients;
-	}
-
-	public void setIngredients(List<IngredientPO> ingredients) {
-		this.ingredients = ingredients;
-	}
-
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	public DateTime getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(DateTime creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	@Override
-	public String toString() {
-		return "RecipePO [id=" + id + ", name=" + name + ", description=" + description + ", cousineType=" + cousineType
-				+ ", cookingTime=" + cookingTime + ", preparationTime=" + preparationTime + ", difficulty=" + difficulty
-				+ ", photoId=" + photoId + ", user=" + user + ", creationDate=" + creationDate + "]";
-	}
-
-		
+	
 }

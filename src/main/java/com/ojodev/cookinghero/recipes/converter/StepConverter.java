@@ -6,15 +6,23 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ojodev.cookinghero.recipes.bean.Step;
+import com.ojodev.cookinghero.recipes.converter.mapper.StepMapper;
 import com.ojodev.cookinghero.recipes.po.StepPO;
 
 @Component
 public class StepConverter {
+	
+	@Autowired
+	private StepMapper stepMapper;
 
 	public Step toStep(StepPO stepPO) {
+		
+		Step step0 = stepMapper.toStep(stepPO);
+		 
 		Step step = null;
 		if (stepPO != null) {
 			step = new Step();

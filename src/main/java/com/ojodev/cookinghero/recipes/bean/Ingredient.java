@@ -29,9 +29,8 @@ public class Ingredient {
 	@Valid
 	private BigDecimal quantity;
 
-	@JsonProperty("unit")
+	@JsonProperty("measure")
 	@ApiModelProperty(example = "gr", value = "type of measure")
-
-	private String unit;
+	private String measure;
 
 }

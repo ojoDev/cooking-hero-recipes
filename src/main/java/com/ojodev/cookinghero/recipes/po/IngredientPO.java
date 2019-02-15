@@ -1,39 +1,31 @@
 package com.ojodev.cookinghero.recipes.po;
 
+import lombok.Data;
+
+@Data
 public class IngredientPO {
-	
+
 	private String product;
-	
+
 	private Integer quantity;
 
-	//Enum?
-	private String unit;
+	private String measure;
 
-	public String getProduct() {
-		return product;
-	}
-
-	public void setProduct(String product) {
+	
+	public IngredientPO(String product) {
+		super();
 		this.product = product;
 	}
 
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
+	public IngredientPO(String product, Integer quantity, String measure) {
+		super();
+		this.product = product;
 		this.quantity = quantity;
+		this.measure = measure;
 	}
 
-	public String getUnit() {
-		return unit;
+	public IngredientPO() {
+		super();
 	}
-
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
-	
-	
-	
 
 }

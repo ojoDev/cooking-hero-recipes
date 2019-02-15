@@ -1,6 +1,7 @@
 package com.ojodev.cookinghero.recipes.business;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,7 @@ import com.ojodev.cookinghero.recipes.bean.Recipe;
 import com.ojodev.cookinghero.recipes.bean.RecipeRequest;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.converter.RecipeConverter;
+import com.ojodev.cookinghero.recipes.converter.mapper.RecipeMapper;
 import com.ojodev.cookinghero.recipes.dao.RecipesRepository;
 import com.ojodev.cookinghero.recipes.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.po.RecipePO;
@@ -24,21 +26,27 @@ public class RecipesBusiness {
 	private RecipeConverter recipeConverter;
 	
 	@Autowired
+	private RecipeMapper recipeMapper;
+	
+	@Autowired
 	private Messages messages;
 
-	public Recipe getRecipe(String recipeId) throws NotFoundException {
-		RecipePO recipePO = recipesRepository.findRecipe(recipeId);
-       if (recipePO==null || recipePO.getId() == null) {
-        	throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
-        }
-		return recipeConverter.toRecipe(recipePO);
-	}
-
-	
 	public List<Recipe> getRecipes() {
-		//Primera forma busqueda
 		List<RecipePO> recipesPOList =recipesRepository.findRecipes();
-		return recipeConverter.toRecipes(recipesPOList);
+		return recipesPOList.stream().map(recipePO -> recipeMapper.toRecipe(recipePO))
+				.collect(Collectors.toList());
+	}
+	
+	public List<Recipe> getRecipes(String recipeName) {
+		//Primera forma busqueda
+		List<RecipePO> recipesPOList =recipesRepository.findRecipes(recipeName);
+		
+		//Conversion sin mapstruct
+		//return recipeConverter.toRecipes(recipesPOList);
+		
+		return recipesPOList.stream().map(recipePO -> recipeMapper.toRecipe(recipePO))
+							.collect(Collectors.toList());
+		
 		//Segunda forma busqueda:
 		//List<RecipePO> tempList = recipesDAO.findRecipes();
 		
@@ -51,7 +59,19 @@ public class RecipesBusiness {
 		//return new ArrayList<Recipe>();
 	}
 	
-	public void addRecipe(Recipe recipe) {
+	public Recipe getRecipe(String recipeId) throws NotFoundException {
+		RecipePO recipePO = recipesRepository.findRecipeById(recipeId);
+       if (recipePO==null || recipePO.getId() == null) {
+        	throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
+        }
+		return recipeConverter.toRecipe(recipePO);
+	}
+
+
+	
+	
+	
+	public void addRecipe(RecipeRequest recipe) {
 		recipesRepository.addRecipe(recipeConverter.toRecipePO(recipe));
 		
 		//TODO DMS: Prueba de inserción de recipe en BBDD

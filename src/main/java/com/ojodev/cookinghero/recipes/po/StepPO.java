@@ -1,37 +1,18 @@
 package com.ojodev.cookinghero.recipes.po;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class StepPO {
-	
+
 	private String description;
 
 	private Integer time;
 
 	private MediaPO media;
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Integer getTime() {
-		return time;
-	}
-
-	public void setTime(Integer time) {
-		this.time = time;
-	}
-
-	public MediaPO getMedia() {
-		return media;
-	}
-
-	public void setMedia(MediaPO media) {
-		this.media = media;
-	}
-	
-	
 
 }

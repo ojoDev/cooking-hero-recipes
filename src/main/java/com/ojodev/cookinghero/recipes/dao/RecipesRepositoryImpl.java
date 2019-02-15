@@ -14,22 +14,31 @@ import com.ojodev.cookinghero.recipes.po.RecipePO;
 @Component
 public class RecipesRepositoryImpl implements RecipesRepository {
 
-    @Autowired
-    MongoTemplate mongoTemplate;
-    
+	@Autowired
+	MongoTemplate mongoTemplate;
+
 	@Override
 	public List<RecipePO> findRecipes() {
 		return mongoTemplate.findAll(RecipePO.class);
 	}
-	
-	public RecipePO findRecipe(String id) {
+
+	@Override
+	public List<RecipePO> findRecipes(String recipeName) {
+		Query query = new Query();
+		if (recipeName != null) {
+			query.addCriteria(Criteria.where("name").is(recipeName));
+		}
+		return mongoTemplate.find(query, RecipePO.class);
+	}
+
+	public RecipePO findRecipeById(String id) {
 		return mongoTemplate.findById(new ObjectId(id), RecipePO.class);
 	}
 
 	@Override
 	public String addRecipe(RecipePO recipe) {
 		RecipePO insertedRecipe = mongoTemplate.insert(recipe);
-		return insertedRecipe ==null ? null : insertedRecipe.getId().toString();
+		return insertedRecipe == null ? null : insertedRecipe.getId().toString();
 	}
 
 	@Override

@@ -6,7 +6,7 @@ servers:
     description: Developer localhost
 info:
   description: Api for use recipes in Recipes app
-  version: 0.0.1
+  version: 0.1.0
   title: Recipe book API
   contact:
     email: davidmunozsantos@gmail.com
@@ -78,7 +78,7 @@ paths:
             type: integer
             format: int32
             minimum: 1
-            maximum: 50
+            maximum: 30
             example: 10
       responses:
         '200':
@@ -161,7 +161,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RecipeRequest'
+              $ref: '#/components/schemas/Recipe'
         description: Recipe to update
       responses:
         '204':
@@ -862,9 +862,7 @@ components:
         - id
         - name
         - description
-        - cousine-type
         - preparation-time
-        - cooking-time
         - difficulty
       properties:
         id:
@@ -959,16 +957,23 @@ components:
           $ref: '#/components/schemas/PhotoRef'
         steps:
           type: array
+          description: steps to cook the recipe
           items:
             $ref: '#/components/schemas/Step'
         ingredients:
           type: array
+          description: ingredients included in the recipe 
           items:
             $ref: '#/components/schemas/Ingredient'
         user:
           type: string
-          description: owner user name
+          description: owner username
           example: ojodev
+        creationDate:
+          type: string
+          description: recipe creation date
+          format: date-time
+          example: '2019-01-23T17:32:28Z'
           
           
     PhotoRef:
@@ -1067,6 +1072,7 @@ components:
           type: boolean
           description: user is active or not
           example: true
+          
     
     UserUpdate:
       type: object

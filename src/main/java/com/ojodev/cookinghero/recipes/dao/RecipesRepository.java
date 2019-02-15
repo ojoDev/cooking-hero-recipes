@@ -6,9 +6,11 @@ import com.ojodev.cookinghero.recipes.po.RecipePO;
 
 public interface RecipesRepository {
     
-	RecipePO findRecipe(String recipeId);
+	RecipePO findRecipeById(String recipeId);
 	
 	List<RecipePO> findRecipes();
+	
+	List<RecipePO> findRecipes(String recipeName);
 	
 	/**
 	 * Insert a new recipe in DB

@@ -1,7 +1,6 @@
 package com.ojodev.cookinghero.recipes.bean;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

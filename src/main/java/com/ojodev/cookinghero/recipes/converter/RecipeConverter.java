@@ -46,7 +46,7 @@ public class RecipeConverter {
 		return recipesPO == null ? null : recipesPO.stream().map(e ->  toRecipe(e)).collect(Collectors.toList());
 	}
 	
-	public RecipePO toRecipePO(Recipe recipe) {
+	public RecipePO toRecipePO(RecipeRequest recipe) {
 		RecipePO recipePO = new RecipePO();
 		if (recipe != null) {
 			recipePO.setName(recipe.getName());
