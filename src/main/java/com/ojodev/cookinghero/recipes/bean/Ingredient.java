@@ -33,4 +33,20 @@ public class Ingredient {
 	@ApiModelProperty(example = "gr", value = "type of measure")
 	private String measure;
 
+	public Ingredient() {
+		super();
+	}
+
+	public Ingredient(@NotNull String product) {
+		super();
+		this.product = product;
+	}
+
+	public Ingredient(@NotNull String product, @Valid BigDecimal quantity, String measure) {
+		super();
+		this.product = product;
+		this.quantity = quantity;
+		this.measure = measure;
+	}
+
 }

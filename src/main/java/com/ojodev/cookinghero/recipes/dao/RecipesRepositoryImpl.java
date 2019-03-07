@@ -1,6 +1,7 @@
 package com.ojodev.cookinghero.recipes.dao;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,8 @@ public class RecipesRepositoryImpl implements RecipesRepository {
 	public List<RecipePO> findRecipes(String recipeName) {
 		Query query = new Query();
 		if (recipeName != null) {
-			query.addCriteria(Criteria.where("name").is(recipeName));
+			Pattern likeRecipeName = Pattern.compile(Pattern.quote(recipeName));
+			query.addCriteria(Criteria.where("name").is(likeRecipeName));
 		}
 		return mongoTemplate.find(query, RecipePO.class);
 	}

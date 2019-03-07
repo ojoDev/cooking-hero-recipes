@@ -1,5 +1,6 @@
 package com.ojodev.cookinghero.recipes.data;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
 import com.ojodev.cookinghero.recipes.bean.PhotoRef;
+import com.ojodev.cookinghero.recipes.bean.RecipeRequest;
 import com.ojodev.cookinghero.recipes.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.po.RecipePO;
 
@@ -23,6 +25,7 @@ public class RecipesExamples {
 	public static final String RECIPE_DESCRIPTION_02 = "Italian pasta with tomato";
 	public static final String RECIPE_01_COUSINE_TYPE_01 = "spanish";
 	public static final String RECIPE_01_COUSINE_TYPE_02 = "veggie";
+	
 	public static final Decimal128 RECIPE_PREPARATION_TIME_01 = new Decimal128(15);
 	public static final Decimal128 RECIPE_COOKING_TIME_01 = new Decimal128(30);
 	public static final Decimal128 RECIPE_DIFFICULTY_01 = new Decimal128(3);
@@ -33,12 +36,21 @@ public class RecipesExamples {
 	
 	public static final String RECIPE_01_PHOTO_REF = "0123456789ab01234111111aa";
 	public static final String RECIPE_USER_01 = "admin";
-	public static final DateTime RECIPE_CREATION_DATE_01 = new DateTime("2019-02-12T21:39:45.618");
+	public static final String RECIPE_CREATION_DATE_01_STRING = "2019-02-12T21:39:45.618Z";
+	public static final DateTime RECIPE_CREATION_DATE_01 = new DateTime(RECIPE_CREATION_DATE_01_STRING);
 
 	public static final RecipePO RECIPE_01 = initRecipe01();
 	public static final RecipePO RECIPE_02 = initRecipe02();
 	public static final List<RecipePO> RECIPE_LIST_TWO_RECIPES = Arrays.asList(RECIPE_01, RECIPE_02);
 	public static final List<RecipePO> RECIPE_LIST_ONE_RECIPE = Arrays.asList(RECIPE_02);
+	
+	public static final BigDecimal RECIPE_REQUEST_PREPARATION_TIME= new BigDecimal(15);
+	public static final BigDecimal RECIPE_REQUEST_COOKING_TIME = new BigDecimal(30);
+	public static final BigDecimal RECIPE_REQUEST_DIFFICULTY = new BigDecimal(3);
+	public static final PhotoRef RECIPE_REQUEST_PHOTO = new PhotoRef(RECIPE_PHOTO_HREF_01);
+	
+	public static final RecipeRequest RECIPE_REQUEST = initRecipeRequest();
+	
 	
 	private static RecipePO initRecipe01() {
 		RecipePO recipePO = new RecipePO();
@@ -65,6 +77,21 @@ public class RecipesExamples {
 		recipePO.setName(RECIPE_NAME_02);
 		recipePO.setDescription(RECIPE_DESCRIPTION_02);
 		return recipePO;
+	}
+	
+	private static RecipeRequest initRecipeRequest() {
+		RecipeRequest recipeRequest = new RecipeRequest();
+		recipeRequest.setName(RECIPE_NAME_01);
+		recipeRequest.setDescription(RECIPE_DESCRIPTION_01);
+		recipeRequest.setCousineType(Arrays.asList(RECIPE_01_COUSINE_TYPE_01, RECIPE_01_COUSINE_TYPE_02));
+		recipeRequest.setPreparationTime(RECIPE_REQUEST_PREPARATION_TIME);
+		recipeRequest.setCookingTime(RECIPE_REQUEST_COOKING_TIME);
+		recipeRequest.setDifficulty(RECIPE_REQUEST_DIFFICULTY);
+		recipeRequest.setPhoto(RECIPE_REQUEST_PHOTO);
+		recipeRequest.setSteps(Arrays.asList(StepsExamples.STEP_REQUEST_01, StepsExamples.STEP_REQUEST_02));
+		recipeRequest.setIngredients(Arrays.asList(IngredientsExamples.INGREDIENT_REQUEST_01, IngredientsExamples.INGREDIENT_REQUEST_02));
+		recipeRequest.setUser(RECIPE_USER_01);
+		return recipeRequest;
 	}
 
 }

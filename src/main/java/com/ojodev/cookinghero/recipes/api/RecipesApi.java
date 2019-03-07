@@ -22,6 +22,7 @@ import com.ojodev.cookinghero.recipes.bean.ApiError;
 import com.ojodev.cookinghero.recipes.bean.ApiException;
 import com.ojodev.cookinghero.recipes.bean.Recipe;
 import com.ojodev.cookinghero.recipes.bean.RecipeRequest;
+import com.ojodev.cookinghero.recipes.exception.NotFoundException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -63,7 +64,7 @@ public interface RecipesApi {
         @ApiResponse(code = 500, message = "server error", response = ApiError.class) })
     @GetMapping(value = "/recipes/{recipe-id}",
         produces = { "application/json" })
-    ResponseEntity<Recipe> getRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId) throws ApiException;
+    ResponseEntity<Recipe> getRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId) throws NotFoundException;
 
     @ApiOperation(value = "update recipe", nickname = "updateRecipe", notes = "Update recipe info ", tags={ "recipes", })
     @ApiResponses(value = { 

@@ -52,9 +52,7 @@ public class RecipesApiController implements RecipesApi {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<Recipe> getRecipe(
-			@ApiParam(value = "recipe id", required = true) @PathVariable("recipe-id") String recipeId)
-			throws ApiException {
+	public ResponseEntity<Recipe> getRecipe(String recipeId) throws NotFoundException {
 		Recipe recipe = recipeBusiness.getRecipe(recipeId);
 		return new ResponseEntity<>(recipe, HttpStatus.OK);
 	}
@@ -69,14 +67,7 @@ public class RecipesApiController implements RecipesApi {
 			@ApiParam(value = "recipe id", required = true) @PathVariable("recipe-id") String recipeId)
 			throws ApiException {
 		recipeBusiness.deleteRecipe(recipeId);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-	
-	private void throwNotFoundIfEmpty(List<Recipe> recipeList) throws NotFoundException {
-		if (recipeList==null || recipeList.isEmpty()) {
-			throw new NotFoundException();
-		}
-		
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 }
