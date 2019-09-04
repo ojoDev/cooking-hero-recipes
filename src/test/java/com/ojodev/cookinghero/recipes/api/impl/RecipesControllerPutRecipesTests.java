@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.ojodev.cookinghero.recipes.po.RecipePO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -21,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.mongodb.client.result.UpdateResult;
 import com.ojodev.cookinghero.recipes.data.RecipesExamples;
-import com.ojodev.cookinghero.recipes.po.RecipePO;
 import com.ojodev.cookinghero.recipes.utils.TestUtils;
 
 @RunWith(SpringRunner.class)
