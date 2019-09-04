@@ -1,19 +1,18 @@
 package com.ojodev.cookinghero.recipes.data;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-
-import org.bson.types.Decimal128;
-import org.bson.types.ObjectId;
-import org.joda.time.DateTime;
-import org.springframework.stereotype.Component;
-
 import com.ojodev.cookinghero.recipes.bean.PhotoRef;
 import com.ojodev.cookinghero.recipes.bean.Recipe;
 import com.ojodev.cookinghero.recipes.bean.RecipeRequest;
 import com.ojodev.cookinghero.recipes.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.po.RecipePO;
+import org.bson.types.Decimal128;
+import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class RecipesExamples {
@@ -25,8 +24,8 @@ public class RecipesExamples {
 	public static final String RECIPE_ID_02 = "0123456789ab0123456789cd";
 	public static final String RECIPE_NAME_02 = "Spaguetti";
 	public static final String RECIPE_DESCRIPTION_02 = "Italian pasta with tomato";
-	public static final String RECIPE_01_COUSINE_TYPE_01 = "spanish";
-	public static final String RECIPE_01_COUSINE_TYPE_02 = "veggie";
+	public static final String RECIPE_01_CUISINE_TYPE_01 = "spanish";
+	public static final String RECIPE_01_CUISINE_TYPE_02 = "veggie";
 	
 	public static final Decimal128 RECIPE_PREPARATION_TIME_01 = new Decimal128(15);
 	public static final Decimal128 RECIPE_DIFFICULTY_01 = new Decimal128(3);
@@ -59,7 +58,7 @@ public class RecipesExamples {
 		recipePO.setId(new ObjectId(RECIPE_ID_01));
 		recipePO.setName(RECIPE_NAME_01);
 		recipePO.setDescription(RECIPE_DESCRIPTION_01);
-		recipePO.setCousineType(Arrays.asList(RECIPE_01_COUSINE_TYPE_01, RECIPE_01_COUSINE_TYPE_02));
+		recipePO.setCuisineType(Arrays.asList(RECIPE_01_CUISINE_TYPE_01, RECIPE_01_CUISINE_TYPE_02));
 		recipePO.setPreparationTime(RECIPE_PREPARATION_TIME_01);
 		recipePO.setDifficulty(RECIPE_DIFFICULTY_01);
 		recipePO.setPhotoId(RECIPE_PHOTO_ID_01);
@@ -84,7 +83,7 @@ public class RecipesExamples {
 		RecipeRequest recipeRequest = new RecipeRequest();
 		recipeRequest.setName(RECIPE_NAME_01);
 		recipeRequest.setDescription(RECIPE_DESCRIPTION_01);
-		recipeRequest.setCousineType(Arrays.asList(RECIPE_01_COUSINE_TYPE_01, RECIPE_01_COUSINE_TYPE_02));
+		recipeRequest.setCuisineType(Arrays.asList(RECIPE_01_CUISINE_TYPE_01, RECIPE_01_CUISINE_TYPE_02));
 		recipeRequest.setPreparationTime(RECIPE_REQUEST_PREPARATION_TIME);;
 		recipeRequest.setDifficulty(RECIPE_REQUEST_DIFFICULTY);
 		recipeRequest.setPhoto(RECIPE_REQUEST_PHOTO);
@@ -99,7 +98,7 @@ public class RecipesExamples {
 		recipe.setId(RECIPE_ID_01);
 		recipe.setName(RECIPE_NAME_01);
 		recipe.setDescription(RECIPE_DESCRIPTION_01);
-		recipe.setCousineType(Arrays.asList(RECIPE_01_COUSINE_TYPE_01, RECIPE_01_COUSINE_TYPE_02));
+		recipe.setCuisineType(Arrays.asList(RECIPE_01_CUISINE_TYPE_01, RECIPE_01_CUISINE_TYPE_02));
 		recipe.setPreparationTime(RECIPE_REQUEST_PREPARATION_TIME);
 		recipe.setDifficulty(RECIPE_REQUEST_DIFFICULTY);
 		recipe.setPhoto(RECIPE_REQUEST_PHOTO);
