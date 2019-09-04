@@ -13,7 +13,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig { 
 	
-	private String BASE_PACKAGE = "com.ojodev.cookinghero";
+	private static final String BASE_PACKAGE = "com.ojodev.cookinghero";
+	
     @Bean
     public Docket api() { 
         return new Docket(DocumentationType.SWAGGER_2)  

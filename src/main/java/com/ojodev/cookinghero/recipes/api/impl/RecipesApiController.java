@@ -22,6 +22,7 @@ import com.ojodev.cookinghero.recipes.bean.ApiException;
 import com.ojodev.cookinghero.recipes.bean.Recipe;
 import com.ojodev.cookinghero.recipes.bean.RecipeRequest;
 import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
+import com.ojodev.cookinghero.recipes.enume.UpsertResultEnum;
 import com.ojodev.cookinghero.recipes.exception.NotFoundException;
 
 import io.swagger.annotations.ApiParam;
@@ -52,31 +53,23 @@ public class RecipesApiController implements RecipesApi {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<Recipe> getRecipe(
-			@ApiParam(value = "recipe id", required = true) @PathVariable("recipe-id") String recipeId)
-			throws ApiException {
+	public ResponseEntity<Recipe> getRecipe(String recipeId) throws NotFoundException {
 		Recipe recipe = recipeBusiness.getRecipe(recipeId);
 		return new ResponseEntity<>(recipe, HttpStatus.OK);
 	}
 
 	public ResponseEntity<Void> updateRecipe(
 			@ApiParam(value = "recipe id", required = true) @PathVariable("recipe-id") String recipeId,
-			@ApiParam(value = "Recipe to update") @Valid @RequestBody RecipeRequest body) {
-		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+			@ApiParam(value = "Recipe to update") @Valid @RequestBody Recipe recipe) {
+		UpsertResultEnum result = recipeBusiness.updateRecipe(recipe);
+		return new ResponseEntity<>(UpsertResultEnum.CREATED.equals(result) ? HttpStatus.CREATED : HttpStatus.NO_CONTENT);
 	}
 
 	public ResponseEntity<Void> deleteRecipe(
 			@ApiParam(value = "recipe id", required = true) @PathVariable("recipe-id") String recipeId)
 			throws ApiException {
 		recipeBusiness.deleteRecipe(recipeId);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-	
-	private void throwNotFoundIfEmpty(List<Recipe> recipeList) throws NotFoundException {
-		if (recipeList==null || recipeList.isEmpty()) {
-			throw new NotFoundException();
-		}
-		
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 }

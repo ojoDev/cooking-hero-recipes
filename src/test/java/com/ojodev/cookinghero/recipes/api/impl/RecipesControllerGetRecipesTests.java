@@ -2,8 +2,8 @@ package com.ojodev.cookinghero.recipes.api.impl;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -17,12 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.dao.RecipesRepository;
 import com.ojodev.cookinghero.recipes.data.IngredientsExamples;
 import com.ojodev.cookinghero.recipes.data.RecipesExamples;
 import com.ojodev.cookinghero.recipes.data.StepsExamples;
@@ -31,25 +31,21 @@ import com.ojodev.cookinghero.recipes.po.RecipePO;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RecipesControllerTests {
+public class RecipesControllerGetRecipesTests {
 
 	@Autowired
 	private MockMvc mvc;
-	
+
 	@Autowired
 	private Messages messages;
-	
-	// TODO DMS: Intentar mockear mongoTemplate para tener un juego de datos
-	// "universal" para todos los test
-	// @MockBean
-	// private MongoTemplate mongoTemplate;
 
 	@MockBean
-	private RecipesRepository recipesRepository;
-
+	private MongoTemplate mongoTemplate;
+	
+	
 	@Test
 	public void getRecipes() throws Exception {
-		initMongoRecipes();
+		initTwoMongoRecipes();
 		this.mvc.perform(get("/recipes").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 		.andExpect(jsonPath("$.length()", is(2)))
 				.andExpect(jsonPath("$[0].id", is(RecipesExamples.RECIPE_ID_01.toString())))
@@ -58,7 +54,6 @@ public class RecipesControllerTests {
 				.andExpect(jsonPath("$[0].cousine-type[0]", is(RecipesExamples.RECIPE_01_COUSINE_TYPE_01)))
 				.andExpect(jsonPath("$[0].cousine-type[1]", is(RecipesExamples.RECIPE_01_COUSINE_TYPE_02)))
 				.andExpect(jsonPath("$[0].preparation-time", is(Integer.valueOf(RecipesExamples.RECIPE_PREPARATION_TIME_01.toString()))))
-				.andExpect(jsonPath("$[0].cooking-time", is(Integer.valueOf(RecipesExamples.RECIPE_COOKING_TIME_01.toString()))))
 				.andExpect(jsonPath("$[0].difficulty", is(Integer.valueOf(RecipesExamples.RECIPE_DIFFICULTY_01.toString()))))
 				.andExpect(jsonPath("$[0].photo.href", containsString(RecipesExamples.RECIPE_PHOTO_HREF_01)))
 				.andExpect(jsonPath("$[0].steps[0].description", is(StepsExamples.STEP_01_DESCRIPTION)))
@@ -83,32 +78,32 @@ public class RecipesControllerTests {
 				.andExpect(jsonPath("$[0].ingredients[4].quantity").doesNotExist())
 				.andExpect(jsonPath("$[0].ingredients[4].measure").doesNotExist())
 				.andExpect(jsonPath("$[0].user", is(RecipesExamples.RECIPE_USER_01)))
-				.andExpect(jsonPath("$[0].creationDate", is(RecipesExamples.RECIPE_CREATION_DATE_01)))
+				.andExpect(jsonPath("$[0].creationDate", is(RecipesExamples.RECIPE_CREATION_DATE_01_STRING)))
 				.andExpect(jsonPath("$[1].id", is(RecipesExamples.RECIPE_ID_02.toString())))
 				.andExpect(jsonPath("$[1].name", is(RecipesExamples.RECIPE_NAME_02)))
 				.andExpect(jsonPath("$[1].description", is(RecipesExamples.RECIPE_DESCRIPTION_02)));
 	}
-
+	
 	@Test
 	public void getRecipesWithParam() throws Exception {
-		initMongoRecipes();
-		this.mvc.perform(get("/recipes").param("name", RecipesExamples.RECIPE_NAME_02).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-		.andExpect(jsonPath("$.length()", is(1)))				
-		.andExpect(jsonPath("$[0].id", is(RecipesExamples.RECIPE_ID_02.toString())))
-		.andExpect(jsonPath("$[0].name", is(RecipesExamples.RECIPE_NAME_02)))
-		.andExpect(jsonPath("$[0].description", is(RecipesExamples.RECIPE_DESCRIPTION_02)));
-	}	
+		initOneMongoRecipe();
+		this.mvc.perform(get("/recipes").param("name", RecipesExamples.RECIPE_NAME_02).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)))
+				.andExpect(jsonPath("$[0].id", is(RecipesExamples.RECIPE_ID_02.toString())))
+				.andExpect(jsonPath("$[0].name", is(RecipesExamples.RECIPE_NAME_02)))
+				.andExpect(jsonPath("$[0].description", is(RecipesExamples.RECIPE_DESCRIPTION_02)));
+	}
 	
-	
+
 	@Test
 	public void getRecipesNotFound() throws Exception {
-		initMongoRecipesNoResults();
+		initNoMongoRecipes();
 		this.mvc.perform(get("/recipes").accept(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
 	}
 	
 	@Test
-	public void getRecipesWithnameNotFound() throws Exception {
-		initMongoRecipesNoResults();
+	public void getRecipesWithNameNotFound() throws Exception {
+		initNoMongoRecipes();
 		this.mvc.perform(get("/recipes").param("name", "xxxxxxxxx").accept(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
 	}
 	
@@ -120,20 +115,21 @@ public class RecipesControllerTests {
 		.andExpect(jsonPath("$.description", is(messages.get("error.server.desc"))));
 	}
 	
-		
-	private void initMongoRecipes() {
-		when(this.recipesRepository.findRecipes(any())).thenReturn(RecipesExamples.RECIPE_LIST_TWO_RECIPES);
-		when(this.recipesRepository.findRecipes(anyString())).thenReturn(RecipesExamples.RECIPE_LIST_ONE_RECIPE);
-	}
-		
-	private void initMongoRecipesNoResults() {
-		when(this.recipesRepository.findRecipes()).thenReturn(new ArrayList<RecipePO>());
-		when(this.recipesRepository.findRecipes(anyString())).thenReturn(new ArrayList<RecipePO>());
-	}
 	
-	private void initOutOfMemoryException() {
-		when(this.recipesRepository.findRecipes()).thenThrow(new OutOfMemoryError());
-		when(this.recipesRepository.findRecipes(anyString())).thenThrow(new OutOfMemoryError());
+	
+	private void initTwoMongoRecipes() {
+		when(this.mongoTemplate.find(any(), eq(RecipePO.class))).thenReturn(RecipesExamples.RECIPE_LIST_TWO_RECIPES);
 	}
 
+	private void initOneMongoRecipe() {
+		when(this.mongoTemplate.find(any(), eq(RecipePO.class))).thenReturn(RecipesExamples.RECIPE_LIST_ONE_RECIPE);
+	}
+
+	private void initNoMongoRecipes() {
+		when(this.mongoTemplate.find(any(), eq(RecipePO.class))).thenReturn(new ArrayList<RecipePO>());
+	}
+
+	private void initOutOfMemoryException() {
+		when(this.mongoTemplate.find(any(), eq(RecipePO.class))).thenThrow(new OutOfMemoryError());
+	}
 }
