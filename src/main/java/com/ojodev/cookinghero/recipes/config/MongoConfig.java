@@ -17,6 +17,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
   
     @Override
     public MongoClient mongoClient() {
+    	//TODO Include in config
         return new MongoClient("127.0.0.1", 27017);
     }
   
