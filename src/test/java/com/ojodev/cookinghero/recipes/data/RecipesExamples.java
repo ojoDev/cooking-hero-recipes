@@ -1,19 +1,18 @@
 package com.ojodev.cookinghero.recipes.data;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-
-import org.bson.types.Decimal128;
-import org.bson.types.ObjectId;
-import org.joda.time.DateTime;
-import org.springframework.stereotype.Component;
-
 import com.ojodev.cookinghero.recipes.bean.PhotoRef;
 import com.ojodev.cookinghero.recipes.bean.Recipe;
 import com.ojodev.cookinghero.recipes.bean.RecipeRequest;
 import com.ojodev.cookinghero.recipes.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.po.RecipePO;
+import org.bson.types.Decimal128;
+import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class RecipesExamples {
