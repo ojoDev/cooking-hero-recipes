@@ -24,9 +24,9 @@ public class RecipeRequest {
 	@JsonProperty("description")
 	private String description;
 
-	@JsonProperty("cousine-type")
+	@JsonProperty("cuisine-type")
 	@Valid
-	private List<String> cousineType;
+	private List<String> cuisineType;
 
 	@JsonProperty("preparation-time")
 	private BigDecimal preparationTime;

@@ -20,8 +20,8 @@ tags:
     description: cooking recipes info
   - name: products
     description: products used in recipes
-  - name: cousine-types
-    description: cousine types for recipes
+  - name: cuisine-types
+    description: cuisine types for recipes
 paths:
   /recipes:
     get:
@@ -60,7 +60,7 @@ paths:
           required: false
           schema:
             type: string
-            example: name,description,cousine-type,preparation-time,cooking-time
+            example: name,description,cuisine-type,preparation-time,cooking-time
         - in: query
           name: skip
           description: number of page for skip (pagination)
@@ -635,17 +635,17 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
           
-  /cousine-types:
+  /cuisine-types:
     get:
       tags:
-        - cousine-types
-      summary: get cousine types
-      operationId: getCousineTypes
+        - cuisine-types
+      summary: get cuisine types
+      operationId: getCuisineTypes
       description: |
-        Cousine types
+        cuisine types
       responses:
         '200':
-          description: cousine type list
+          description: cuisine type list
           content:
             application/json:
               schema:
@@ -658,11 +658,11 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     post:
       tags:
-        - cousine-types
-      summary: add one cousine types
-      operationId: addCousineType
+        - cuisine-types
+      summary: add one cuisine types
+      operationId: addCuisineType
       description: |
-        Add cousine type
+        Add cuisine type
       requestBody:
         content:
           application/json:
@@ -676,18 +676,18 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
-  /cousine-types/{cousine-type-id}:
+  /cuisine-types/{cuisine-type-id}:
     delete:
       tags:
-        - cousine-types
-      summary: delete a cousine type
-      operationId: deleteCousineType
+        - cuisine-types
+      summary: delete a cuisine type
+      operationId: deleteCuisineType
       description: |
-        Delete cousine type
+        Delete cuisine type
       parameters:
         - in: path
-          name: cousine-type-id
-          description: cousine type
+          name: cuisine-type-id
+          description: cuisine type
           required: true
           schema:
             type: string
@@ -877,12 +877,12 @@ components:
           type: string
           description: general description of the recipe
           example: classic Spanish omelette filled with pan-fried potatoes and onion.
-        cousine-type:
+        cuisine-type:
           type: array
           items:
             type: string
           example: [spanish,veggie]
-          description: cousine type
+          description: cuisine type
         preparation-time:
           type: number
           description: ingredient preparation time in minutes (cut potatoes, ...)
@@ -933,12 +933,12 @@ components:
           type: string
           description: general description of the recipe
           example: classic Spanish omelette filled with pan-fried potatoes and onion.
-        cousine-type:
+        cuisine-type:
           type: array
           items:
             type: string
           example: [spanish,veggie]
-          description: cousine type
+          description: cuisine type
         preparation-time:
           type: number
           description: ingredient preparation time in minutes (cut potatoes, ...)
