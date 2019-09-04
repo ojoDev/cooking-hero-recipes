@@ -1,12 +1,9 @@
 package com.ojodev.cookinghero.recipes.dao;
 
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
-
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.regex.Pattern;
-
+import com.mongodb.client.result.UpdateResult;
+import com.ojodev.cookinghero.recipes.enume.UpsertResultEnum;
+import com.ojodev.cookinghero.recipes.po.RecipePO;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -15,15 +12,19 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.client.result.UpdateResult;
-import com.ojodev.cookinghero.recipes.enume.UpsertResultEnum;
-import com.ojodev.cookinghero.recipes.po.RecipePO;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Component
+@Slf4j
 public class RecipesRepositoryImpl implements RecipesRepository {
 
 	@Autowired
-	MongoTemplate mongoTemplate;
+	private MongoTemplate mongoTemplate;
 
 	@Override
 	public List<RecipePO> findRecipes() {
@@ -62,7 +63,7 @@ public class RecipesRepositoryImpl implements RecipesRepository {
 		
 		Update update = new Update();
 				
-		Field fields[] = RecipePO.class.getDeclaredFields();
+		Field[] fields = RecipePO.class.getDeclaredFields();
 		for (Field field: fields) {
 			  String fieldName = field.getName();
 			try { 
@@ -74,11 +75,10 @@ public class RecipesRepositoryImpl implements RecipesRepository {
 				  }
 				  update.set(fieldName, value);
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// TODO DMS Gestionar excepcion
+
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// TODO DMS Gestionar excepcion
 			}
 			
 		}
