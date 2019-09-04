@@ -11,7 +11,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * step to cook a recipe
@@ -19,6 +21,8 @@ import lombok.Data;
 @ApiModel(description = "step to cook a recipe")
 @Validated
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Step {
 
 	@JsonProperty("description")

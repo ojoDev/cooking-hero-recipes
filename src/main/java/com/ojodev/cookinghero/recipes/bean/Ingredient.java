@@ -22,7 +22,7 @@ public class Ingredient {
 	@JsonProperty("product")
 	@ApiModelProperty(example = "potatoes", required = true, value = "product name")
 	@NotNull
-	private String product;
+	private String product = "";
 
 	@JsonProperty("quantity")
 	@ApiModelProperty(example = "2", value = "number of product units or quantity")
@@ -32,5 +32,21 @@ public class Ingredient {
 	@JsonProperty("measure")
 	@ApiModelProperty(example = "gr", value = "type of measure")
 	private String measure;
+
+	public Ingredient() {
+		super();
+	}
+
+	public Ingredient(@NotNull String product) {
+		super();
+		this.product = product;
+	}
+
+	public Ingredient(@NotNull String product, @Valid BigDecimal quantity, String measure) {
+		super();
+		this.product = product;
+		this.quantity = quantity;
+		this.measure = measure;
+	}
 
 }
