@@ -54,7 +54,6 @@ public class RecipesControllerGetRecipesTests {
 				.andExpect(jsonPath("$[0].cousine-type[0]", is(RecipesExamples.RECIPE_01_COUSINE_TYPE_01)))
 				.andExpect(jsonPath("$[0].cousine-type[1]", is(RecipesExamples.RECIPE_01_COUSINE_TYPE_02)))
 				.andExpect(jsonPath("$[0].preparation-time", is(Integer.valueOf(RecipesExamples.RECIPE_PREPARATION_TIME_01.toString()))))
-				.andExpect(jsonPath("$[0].cooking-time", is(Integer.valueOf(RecipesExamples.RECIPE_COOKING_TIME_01.toString()))))
 				.andExpect(jsonPath("$[0].difficulty", is(Integer.valueOf(RecipesExamples.RECIPE_DIFFICULTY_01.toString()))))
 				.andExpect(jsonPath("$[0].photo.href", containsString(RecipesExamples.RECIPE_PHOTO_HREF_01)))
 				.andExpect(jsonPath("$[0].steps[0].description", is(StepsExamples.STEP_01_DESCRIPTION)))

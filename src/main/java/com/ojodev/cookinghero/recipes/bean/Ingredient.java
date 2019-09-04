@@ -22,7 +22,7 @@ public class Ingredient {
 	@JsonProperty("product")
 	@ApiModelProperty(example = "potatoes", required = true, value = "product name")
 	@NotNull
-	private String product;
+	private String product = "";
 
 	@JsonProperty("quantity")
 	@ApiModelProperty(example = "2", value = "number of product units or quantity")

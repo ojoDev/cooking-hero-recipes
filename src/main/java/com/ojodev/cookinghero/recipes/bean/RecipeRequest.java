@@ -31,9 +31,6 @@ public class RecipeRequest {
 	@JsonProperty("preparation-time")
 	private BigDecimal preparationTime;
 
-	@JsonProperty("cooking-time")
-	private BigDecimal cookingTime;
-
 	@JsonProperty("difficulty")
 	private BigDecimal difficulty;
 

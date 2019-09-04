@@ -10,6 +10,7 @@ import javax.validation.constraints.Min;
 
 import org.joda.time.DateTime;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +43,7 @@ public interface RecipesApi {
         @ApiResponse(code = 500, message = "internal server error", response = ApiError.class) })
     @GetMapping(value = "/recipes",
         produces = { "application/json" })
+    @CrossOrigin(origins = "*")
     ResponseEntity<List<Recipe>> getRecipes(@ApiParam(value = "initial date of recipe creation, useful for multiple page lists searches") @Valid @RequestParam(value = "createdFrom", required = false) DateTime createdFrom,@ApiParam(value = "recipe name, partial searches allowed") @Valid @RequestParam(value = "name", required = false) String name,@ApiParam(value = "user id that create the recipe") @Valid @RequestParam(value = "userId", required = false) String userId,@ApiParam(value = "recipe fields returned in response, separated by ','") @Valid @RequestParam(value = "fields", required = false) String fields,@Min(1)@ApiParam(value = "number of page for skip (pagination)", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(1) @Max(50) @ApiParam(value = "maximum number of records returned, by default 20", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit);
         
 
@@ -53,6 +55,7 @@ public interface RecipesApi {
     @PostMapping(value = "/recipes",
         produces = { "application/json" }, 
         consumes = { "application/json" })
+    @CrossOrigin(origins = "*")
     ResponseEntity<Void> addRecipe(@ApiParam(value = "Recipe to add"  )  @Valid @RequestBody RecipeRequest body);
 
     
@@ -64,18 +67,20 @@ public interface RecipesApi {
         @ApiResponse(code = 500, message = "server error", response = ApiError.class) })
     @GetMapping(value = "/recipes/{recipe-id}",
         produces = { "application/json" })
+    @CrossOrigin(origins = "*")
     ResponseEntity<Recipe> getRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId) throws NotFoundException;
 
     @ApiOperation(value = "update recipe", nickname = "updateRecipe", notes = "Update recipe info ", tags={ "recipes", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "recipe updated"),
+        @ApiResponse(code = 204, message = "recipe updated"),
         @ApiResponse(code = 400, message = "bad input parameter", response = ApiError.class),
         @ApiResponse(code = 404, message = "not found", response = ApiError.class),
         @ApiResponse(code = 500, message = "server error", response = ApiError.class) })
     @PutMapping(value = "/recipes/{recipe-id}",
         produces = { "application/json" }, 
         consumes = { "application/json" })
-    ResponseEntity<Void> updateRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId,@ApiParam(value = "Recipe to update"  )  @Valid @RequestBody RecipeRequest body);
+    @CrossOrigin(origins = "*")
+    ResponseEntity<Void> updateRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId,@ApiParam(value = "Recipe to update"  )  @Valid @RequestBody Recipe recipe);
 
 
     @ApiOperation(value = "delete recipe", nickname = "deleteRecipe", notes = "Delete recipe ", tags={ "recipes", })
@@ -86,6 +91,7 @@ public interface RecipesApi {
         @ApiResponse(code = 500, message = "server", response = ApiError.class) })
     @DeleteMapping(value = "/recipes/{recipe-id}",
         produces = { "application/json" })
+    @CrossOrigin(origins = "*")
     ResponseEntity<Void> deleteRecipe(@ApiParam(value = "recipe id",required=true) @PathVariable("recipe-id") String recipeId) throws ApiException;
     
 }

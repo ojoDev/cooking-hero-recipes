@@ -34,16 +34,13 @@ public class RecipesControllerPostRecipesTests {
 
 	@Autowired
 	private MockMvc mvc;
-
-	@Autowired
-	private Messages messages;
-
+	
 	@MockBean
 	private MongoTemplate mongoTemplate;
 	
 	@Test
-	public void postRecipeOK() throws Exception {
-		initRecipeInsertedOK();
+	public void postRecipe() throws Exception {
+		initRecipeInserted();
 		this.mvc.perform(post("/recipes").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
 				.content(TestUtils.asJsonString(RecipesExamples.RECIPE_REQUEST))).andExpect(status().isCreated());
 	}
@@ -59,7 +56,7 @@ public class RecipesControllerPostRecipesTests {
 //	}
 	
 		
-	private void initRecipeInsertedOK() {
+	private void initRecipeInserted() {
 		 Mockito.doAnswer(invocation -> {
 		        return RecipesExamples.RECIPE_01;
 		    }).when(mongoTemplate).insert(RecipePO.class);

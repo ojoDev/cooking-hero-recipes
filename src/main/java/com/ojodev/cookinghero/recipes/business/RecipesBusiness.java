@@ -11,6 +11,7 @@ import com.ojodev.cookinghero.recipes.bean.RecipeRequest;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.converter.mapper.RecipeMapper;
 import com.ojodev.cookinghero.recipes.dao.RecipesRepository;
+import com.ojodev.cookinghero.recipes.enume.UpsertResultEnum;
 import com.ojodev.cookinghero.recipes.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.po.RecipePO;
 
@@ -50,6 +51,10 @@ public class RecipesBusiness {
 
 	public void addRecipe(RecipeRequest recipeRequest) {
 		recipesRepository.addRecipe(recipeMapper.toRecipePO(recipeRequest));
+	}
+	
+	public UpsertResultEnum updateRecipe(Recipe recipe) {
+		return recipesRepository.upsertRecipe(recipeMapper.toRecipePO(recipe));
 	}
 	
 	public void deleteRecipe(String recipeId) throws NotFoundException {
