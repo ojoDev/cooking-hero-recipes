@@ -1,16 +1,10 @@
 package com.ojodev.cookinghero.recipes.api.impl;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.ArrayList;
-
+import com.ojodev.cookinghero.recipes.config.Messages;
+import com.ojodev.cookinghero.recipes.data.IngredientsExamples;
+import com.ojodev.cookinghero.recipes.data.RecipesExamples;
+import com.ojodev.cookinghero.recipes.data.StepsExamples;
+import com.ojodev.cookinghero.recipes.po.RecipePO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +16,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.data.IngredientsExamples;
-import com.ojodev.cookinghero.recipes.data.RecipesExamples;
-import com.ojodev.cookinghero.recipes.data.StepsExamples;
-import com.ojodev.cookinghero.recipes.po.RecipePO;
+import java.util.ArrayList;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -51,8 +50,8 @@ public class RecipesControllerGetRecipesTests {
 				.andExpect(jsonPath("$[0].id", is(RecipesExamples.RECIPE_ID_01.toString())))
 				.andExpect(jsonPath("$[0].name", is(RecipesExamples.RECIPE_NAME_01)))
 				.andExpect(jsonPath("$[0].description", is(RecipesExamples.RECIPE_DESCRIPTION_01)))
-				.andExpect(jsonPath("$[0].cousine-type[0]", is(RecipesExamples.RECIPE_01_COUSINE_TYPE_01)))
-				.andExpect(jsonPath("$[0].cousine-type[1]", is(RecipesExamples.RECIPE_01_COUSINE_TYPE_02)))
+				.andExpect(jsonPath("$[0].cuisine-type[0]", is(RecipesExamples.RECIPE_01_CUISINE_TYPE_01)))
+				.andExpect(jsonPath("$[0].cuisine-type[1]", is(RecipesExamples.RECIPE_01_CUISINE_TYPE_02)))
 				.andExpect(jsonPath("$[0].preparation-time", is(Integer.valueOf(RecipesExamples.RECIPE_PREPARATION_TIME_01.toString()))))
 				.andExpect(jsonPath("$[0].difficulty", is(Integer.valueOf(RecipesExamples.RECIPE_DIFFICULTY_01.toString()))))
 				.andExpect(jsonPath("$[0].photo.href", containsString(RecipesExamples.RECIPE_PHOTO_HREF_01)))
