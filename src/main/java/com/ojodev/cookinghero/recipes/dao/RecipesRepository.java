@@ -2,6 +2,7 @@ package com.ojodev.cookinghero.recipes.dao;
 
 import java.util.List;
 
+import com.ojodev.cookinghero.recipes.enume.UpsertResultEnum;
 import com.ojodev.cookinghero.recipes.po.RecipePO;
 
 public interface RecipesRepository {
@@ -22,4 +23,6 @@ public interface RecipesRepository {
 	String addRecipe(RecipePO recipe);
 	
 	RecipePO deleteRecipe(String recipeId);
+
+	UpsertResultEnum upsertRecipe(RecipePO recipe);
 }

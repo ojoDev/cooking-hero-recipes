@@ -50,7 +50,6 @@ public class RecipesControllerGetRecipeTests {
 				.andExpect(jsonPath("$.cousine-type[0]", is(RecipesExamples.RECIPE_01_COUSINE_TYPE_01)))
 				.andExpect(jsonPath("$.cousine-type[1]", is(RecipesExamples.RECIPE_01_COUSINE_TYPE_02)))
 				.andExpect(jsonPath("$.preparation-time", is(Integer.valueOf(RecipesExamples.RECIPE_PREPARATION_TIME_01.toString()))))
-				.andExpect(jsonPath("$.cooking-time", is(Integer.valueOf(RecipesExamples.RECIPE_COOKING_TIME_01.toString()))))
 				.andExpect(jsonPath("$.difficulty", is(Integer.valueOf(RecipesExamples.RECIPE_DIFFICULTY_01.toString()))))
 				.andExpect(jsonPath("$.photo.href", containsString(RecipesExamples.RECIPE_PHOTO_HREF_01)))
 				.andExpect(jsonPath("$.steps[0].description", is(StepsExamples.STEP_01_DESCRIPTION)))
