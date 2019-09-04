@@ -1,5 +1,9 @@
 package com.ojodev.cookinghero.recipes.data;
 
+import java.math.BigDecimal;
+
+import com.ojodev.cookinghero.recipes.bean.Media;
+import com.ojodev.cookinghero.recipes.bean.Step;
 import com.ojodev.cookinghero.recipes.po.MediaPO;
 import com.ojodev.cookinghero.recipes.po.StepPO;
 
@@ -27,5 +31,18 @@ public class StepsExamples {
 	public static final String STEP_05_DESCRIPTION = "Stir diced tomatoes, tomato sauce, and tomato paste into the pan. Season with oregano, basil, salt, and pepper.";
 	public static final Integer STEP_05_TIME = 8;
 	public static final StepPO STEP_05 = new StepPO(STEP_05_DESCRIPTION, STEP_05_TIME, null);
+	
+	
+	public static final String STEP_REQUEST_01_DESCRIPTION = "Cut potatoes and onion in small portions.";
+	public static final BigDecimal STEP_REQUEST_01_TIME = new BigDecimal(15);
+	public static final Media STEP_REQUEST_01_MEDIA = MediaExamples.MEDIA_REQUEST_01;
+	public static final Step STEP_REQUEST_01 = new Step(STEP_01_DESCRIPTION, STEP_REQUEST_01_TIME, STEP_REQUEST_01_MEDIA);
+	
+	public static final String STEP_REQUEST_02_DESCRIPTION = "In a large frying pan or skillet, heat olive oil over medium-high heat.";
+	public static final BigDecimal STEP_REQUEST_02_TIME = new BigDecimal(15);
+	public static final Media STEP_REQUEST_02_MEDIA = MediaExamples.MEDIA_REQUEST_02;
+	public static final Step STEP_REQUEST_02 = new Step(STEP_02_DESCRIPTION, STEP_REQUEST_02_TIME, STEP_REQUEST_02_MEDIA);
+	
+	
 
 }

@@ -2,6 +2,9 @@ package com.ojodev.cookinghero.recipes.po;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bson.types.Decimal128;
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
@@ -9,9 +12,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import lombok.Data;
-
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection="recipes")
 public class RecipePO {
 
@@ -22,10 +25,8 @@ public class RecipePO {
 
 	private String description;
 
-	@Field("cousine_type")
-	private List<String> cousineType;
-
-	private Decimal128 cookingTime;
+	@Field("cuisine-type")
+	private List<String> cuisineType;
 	
 	private Decimal128 preparationTime;
 	
@@ -41,21 +42,15 @@ public class RecipePO {
 	
 	//TODO DMS: ¿DateTime?
 	private DateTime creationDate;
-	
-	
-	public RecipePO() {
-		super();
-	}
 
-	public RecipePO(ObjectId id, String name, String description, List<String> cousineType, Decimal128 cookingTime,
+	public RecipePO(ObjectId id, String name, String description, List<String> cuisineType, Decimal128 preparationTime,
 			Decimal128 difficulty) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.cousineType = cousineType;
-		this.cookingTime = cookingTime;
+		this.cuisineType = cuisineType;
+		this.preparationTime = preparationTime;
 		this.difficulty = difficulty;
 	}
-	
 }
