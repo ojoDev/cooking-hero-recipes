@@ -3,8 +3,12 @@ package com.ojodev.cookinghero.recipes.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -13,14 +17,25 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig { 
 	
-	private static final String BASE_PACKAGE = "com.ojodev.cookinghero";
+	private static final String BASE_PACKAGE = "com.ojodev.cookinghero.recipes.api";
 	
     @Bean
     public Docket api() { 
-        return new Docket(DocumentationType.SWAGGER_2)  
+        return new Docket(DocumentationType.SWAGGER_2)
           .select()                                  
           .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE))         
           .paths(PathSelectors.any())                          
-          .build();                                           
+          .build().apiInfo(apiEndPointsInfo());
     }
+
+    private ApiInfo apiEndPointsInfo() {
+        return new ApiInfoBuilder().title("Cooking Hero - Recipes API")
+                .description("Cooking Hero - Recipes")
+                .contact(new Contact("Ojodev", "https://github.com/ojoDev", "davidmunozsantos@gmail.com"))
+                .license("Apache 2.0")
+                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+                .version("1.0.0")
+                .build();
+    }
+
 }

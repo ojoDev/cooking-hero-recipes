@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,6 +16,7 @@ import lombok.Data;
 /**
  * Ingredient
  */
+@ApiModel(description = "ingredient and its quantity used in a recipe")
 @Validated
 @Data
 public class Ingredient {
