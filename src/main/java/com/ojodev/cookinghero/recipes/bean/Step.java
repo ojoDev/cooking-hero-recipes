@@ -36,7 +36,7 @@ public class Step {
 	private BigDecimal time;
 
 	@JsonProperty("media")
-	@ApiModelProperty(value = "")
+	@ApiModelProperty(value = "step visualization")
 	@Valid
 	private Media media;
 

@@ -1,5 +1,6 @@
 package com.ojodev.cookinghero.recipes.bean;
 
+import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,6 +13,7 @@ import lombok.ToString;
 /**
  * ApiError
  */
+@ApiModel(description = "api error")
 @Validated
 @ToString
 @EqualsAndHashCode
