@@ -35,6 +35,7 @@ public class RecipesApiController implements RecipesApi {
     @Autowired
     private RecipesBusiness recipeBusiness;
 
+
     public ResponseEntity<List<Recipe>> getRecipes(
             @ApiParam(value = "initial date of recipe creation, useful for multiple page lists searches") @Valid @RequestParam(value = "createdFrom", required = false) DateTime createdFrom,
             @ApiParam(value = "recipe name, partial searches allowed") @Valid @RequestParam(value = "name", required = false) String name,

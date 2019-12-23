@@ -28,6 +28,8 @@ public class SwaggerConfig {
           .build().apiInfo(apiEndPointsInfo());
     }
 
+
+
     private ApiInfo apiEndPointsInfo() {
         return new ApiInfoBuilder().title("Cooking Hero - Recipes API")
                 .description("Cooking Hero - Recipes")
