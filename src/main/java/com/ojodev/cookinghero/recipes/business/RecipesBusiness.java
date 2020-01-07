@@ -6,14 +6,14 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ojodev.cookinghero.recipes.bean.Recipe;
-import com.ojodev.cookinghero.recipes.bean.RecipeRequest;
+import com.ojodev.cookinghero.recipes.api.model.Recipe;
+import com.ojodev.cookinghero.recipes.api.model.RecipeRequest;
 import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.converter.mapper.RecipeMapper;
-import com.ojodev.cookinghero.recipes.dao.RecipesRepository;
-import com.ojodev.cookinghero.recipes.enume.UpsertResultEnum;
-import com.ojodev.cookinghero.recipes.exception.NotFoundException;
-import com.ojodev.cookinghero.recipes.po.RecipePO;
+import com.ojodev.cookinghero.recipes.mapper.RecipeMapper;
+import com.ojodev.cookinghero.recipes.infrastructure.repository.RecipesRepository;
+import com.ojodev.cookinghero.recipes.domain.enume.UpsertResultEnum;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
+import com.ojodev.cookinghero.recipes.infrastructure.po.RecipePO;
 
 
 @Component

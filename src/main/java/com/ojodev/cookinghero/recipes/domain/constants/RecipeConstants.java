@@ -1,0 +1,12 @@
+package com.ojodev.cookinghero.recipes.domain.constants;
+
+public class RecipeConstants {
+	
+	private RecipeConstants() {
+		
+	}
+	
+	// TODO DMS: Ver donde centralizamos esto
+	public static final String MEDIA_PHOTO_URI="media/photos";
+
+}

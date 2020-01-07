@@ -2,10 +2,10 @@ package com.ojodev.cookinghero.recipes.data;
 
 import java.math.BigDecimal;
 
-import com.ojodev.cookinghero.recipes.bean.Media;
-import com.ojodev.cookinghero.recipes.bean.Step;
-import com.ojodev.cookinghero.recipes.po.MediaPO;
-import com.ojodev.cookinghero.recipes.po.StepPO;
+import com.ojodev.cookinghero.recipes.api.model.Media;
+import com.ojodev.cookinghero.recipes.api.model.Step;
+import com.ojodev.cookinghero.recipes.infrastructure.po.MediaPO;
+import com.ojodev.cookinghero.recipes.infrastructure.po.StepPO;
 
 //TODO DMS: Faltan atributos Media
 public class StepsExamples {

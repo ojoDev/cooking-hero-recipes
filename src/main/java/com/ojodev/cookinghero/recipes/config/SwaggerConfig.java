@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig { 
 	
-	private static final String BASE_PACKAGE = "com.ojodev.cookinghero.recipes.api";
+	private static final String BASE_PACKAGE = "com.ojodev.cookinghero.recipes.api.controller";
 	
     @Bean
     public Docket api() { 
