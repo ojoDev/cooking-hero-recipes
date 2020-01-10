@@ -32,4 +32,12 @@ public enum LanguageEnum {
         }
         return null;
     }
+
+    public static String getValueList() {
+        String valueStringList= "";
+        for (LanguageEnum language : LanguageEnum.values()) {
+            valueStringList = valueStringList + (valueStringList.length() > 0 ? ", " : "") + language.value;
+        }
+        return valueStringList;
+    }
 }

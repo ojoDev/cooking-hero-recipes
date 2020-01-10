@@ -2,8 +2,11 @@ package com.ojodev.cookinghero.recipes.api.handler;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
+import com.ojodev.cookinghero.recipes.api.model.ApiFieldError;
 import com.ojodev.cookinghero.recipes.api.model.ApiFieldsError;
-import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiAcceptException;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,12 +25,11 @@ import com.ojodev.cookinghero.recipes.api.model.ApiError;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler{
@@ -46,10 +48,41 @@ public class RestResponseEntityExceptionHandler{
         return new ResponseEntity<>(new ApiError(isEmpty(e.getCode()) ? messages.get("error.notfound.code") : e.getCode(), isEmpty(e.getDescription()) ? messages.get("error.notfound.desc") : e.getDescription()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ApiFieldsException.class)
+    public ResponseEntity<ApiError> handleApiFieldsException(ApiFieldsException e) {
+        LOGGER.error("ApiFieldsException: " + e);
+
+        return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                //   .headers(genereateResponseHeaders(headers))
+                .body(new ApiFieldsError(
+                        messages.get("error.badrequest.invalidparams.code"),
+                        messages.get("error.badrequest.invalidparams.desc"), e.getFields().isEmpty() ? new ArrayList<>() :
+                        e.getFields().stream().map(field -> new ApiFieldError(field.getCode(), field.getField(), field.getDescription())).collect(Collectors.toList())));
+    }
+
+    @ExceptionHandler(ApiAcceptException.class)
+    public ResponseEntity<ApiError> handleApiAcceptException(ApiException e) {
+        LOGGER.error("ApiAcceptException: " + e);
+        return new ResponseEntity<>(new ApiError(
+                StringUtils.isEmpty(e.getCode()) ? messages.get("error.notacceptable.code") : e.getCode(),
+                StringUtils.isEmpty(e.getDescription()) ? messages.get("error.notacceptable.desc") : e.getDescription()),
+                HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiError> notFoundException(ApiException e) {
+        LOGGER.error("NotFoundException: " + e);
+        return new ResponseEntity<>(new ApiError(
+                StringUtils.isEmpty(e.getCode()) ? messages.get("error.notfound.code") : e.getCode(),
+                StringUtils.isEmpty(e.getDescription()) ? messages.get("error.notfound.desc") : e.getDescription()),
+                HttpStatus.NOT_FOUND);
+    }
+
+
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ApiError> handleApiException(ApiException e) {
         LOGGER.error("ApiException: " + e);
-        return new ResponseEntity<>(new ApiError(e.getCode(), ""), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ApiError(e.getCode(), e.getDescription()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
@@ -67,21 +100,18 @@ public class RestResponseEntityExceptionHandler{
     }
 
     @ExceptionHandler({MissingRequestHeaderException.class})
-    public ResponseEntity<ApiFieldsError> handleMissingRequestHeaderException(MissingRequestHeaderException e, HttpHeaders headers,
-                                                                              HttpStatus status,
-                                                                              WebRequest request) {
+    public ResponseEntity<ApiFieldsError> handleMissingRequestHeaderException(MissingRequestHeaderException e) {
         LOGGER.info("MissingRequestHeaderException: " + e);
 
         return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
              //   .headers(genereateResponseHeaders(headers))
                 .body(new ApiFieldsError(
-                        messages.get("error.badrequest.invalidparams.fields.headerparamrequired.code"),
-                        messages.get("error.badrequest.invalidparams.fields.headerparamrequired.desc"),
-                        Arrays.asList(new com.ojodev.cookinghero.recipes.api.model.FieldError(
+                        messages.get("error.badrequest.invalidparams.code"),
+                        messages.get("error.badrequest.invalidparams.desc"),
+                        Arrays.asList(new ApiFieldError(
                                 messages.get("error.badrequest.invalidparams.fields.headerparamrequired.code"),
                                 e.getHeaderName(),
                                 e.getHeaderName() + " " + messages.get("error.badrequest.invalidparams.fields.headerparamrequired.desc")))));
-
         
     }
 

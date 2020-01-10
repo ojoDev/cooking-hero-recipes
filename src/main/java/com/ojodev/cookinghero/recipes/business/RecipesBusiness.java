@@ -17,52 +17,18 @@ import com.ojodev.cookinghero.recipes.infrastructure.po.RecipePO;
 
 
 @Component
-public class RecipesBusiness {
-	
-	@Autowired
-	private RecipesRepository recipesRepository;
-	
-	@Autowired
-	private RecipeMapper recipeMapper;
-	
-	@Autowired
-	private Messages messages;
+public interface RecipesBusiness {
 
-	public List<Recipe> getRecipes() {
-		List<RecipePO> recipesPOList =recipesRepository.findRecipes();
-		return recipesPOList.stream().map(recipePO -> recipeMapper.toRecipe(recipePO))
-				.collect(Collectors.toList());
-	}
+	List<Recipe> getRecipes();
 	
-	public List<Recipe> getRecipes(String recipeName) {
-		List<RecipePO> recipesPOList =recipesRepository.findRecipes(recipeName);
-		return recipesPOList.stream().map(recipePO -> recipeMapper.toRecipe(recipePO))
-							.collect(Collectors.toList());
-	}
+	List<Recipe> getRecipes(String recipeName);
 	
-	public Recipe getRecipe(String recipeId) throws NotFoundException {
-		RecipePO recipePO = recipesRepository.findRecipeById(recipeId);
-       if (recipePO==null || recipePO.getId() == null) {
-        	throw new NotFoundException();
-        }
-		return recipeMapper.toRecipe(recipePO);
-	}
+	Recipe getRecipe(String recipeId) throws NotFoundException;
 
-
-	public void addRecipe(RecipeRequest recipeRequest) {
-		recipesRepository.addRecipe(recipeMapper.toRecipePO(recipeRequest));
-	}
+	void addRecipe(RecipeRequest recipeRequest);
 	
-	public UpsertResultEnum updateRecipe(Recipe recipe) {
-		return recipesRepository.upsertRecipe(recipeMapper.toRecipePO(recipe));
-	}
+	UpsertResultEnum updateRecipe(Recipe recipe);
 	
-	public void deleteRecipe(String recipeId) throws NotFoundException {
-		RecipePO recipe = recipesRepository.deleteRecipe(recipeId);
-		if (recipe == null) {
-			throw new NotFoundException();
-		}
-	}
-	
+	void deleteRecipe(String recipeId) throws NotFoundException;
 	  
 }

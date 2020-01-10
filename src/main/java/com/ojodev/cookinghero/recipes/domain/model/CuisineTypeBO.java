@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 public class CuisineTypeBO {
 
     private String id;
+
     private String name;
 
 }

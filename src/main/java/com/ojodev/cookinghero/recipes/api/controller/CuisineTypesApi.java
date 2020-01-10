@@ -7,6 +7,8 @@ package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
 import io.swagger.annotations.*;
 
 import org.springframework.http.MediaType;
@@ -30,7 +32,7 @@ public interface CuisineTypesApi {
     @RequestMapping(value = "/cuisine-types",
             produces = { MediaType.APPLICATION_JSON_VALUE },
             method = RequestMethod.GET)
-    ResponseEntity<List<CuisineType>> getCuisineTypes(@ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage, @ApiParam(value = "Cuisine type name. Partial searches allowed.") @Valid @RequestParam(value = "name", required = false) String name);
+    ResponseEntity<List<CuisineType>> getCuisineTypes(@ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage, @ApiParam(value = "Cuisine type name. Partial searches allowed.") @Valid @RequestParam(value = "name", required = false) String name) throws ApiFieldsException, ApiException;
 
 
     @ApiOperation(value = "Add a cuisine type", nickname = "addCuisineType", notes = "Add a new cuisine type.   You can add multiple languages in a single request. English (en) is mandatory. ", tags={ "cuisine-types", })
@@ -57,7 +59,7 @@ public interface CuisineTypesApi {
     @RequestMapping(value = "/cuisine-types/{cuisine-type-id}",
             produces = { MediaType.APPLICATION_JSON_VALUE },
             method = RequestMethod.GET)
-    ResponseEntity<CuisineType> getCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId, @ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) LanguageEnum acceptLanguage);
+    ResponseEntity<CuisineType> getCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId, @ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage) throws ApiException;
 
     @ApiOperation(value = "Update a cuisine type", nickname = "updateCuisineType", notes = "Update a cuisineType.    You can add more languages to a exist cuisine type with Accept-Language header. ", tags={ "cuisine-types", })
     @ApiResponses(value = {
@@ -71,7 +73,7 @@ public interface CuisineTypesApi {
             produces = { MediaType.APPLICATION_JSON_VALUE },
             consumes = { MediaType.APPLICATION_JSON_VALUE },
             method = RequestMethod.PUT)
-    ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) LanguageEnum acceptLanguage, @ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId, @ApiParam(value = "CuisineType to update.") @Valid @RequestBody CuisineType body);
+    ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage, @ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId, @ApiParam(value = "CuisineType to update.") @Valid @RequestBody CuisineType body);
 
 
     @ApiOperation(value = "Delete a cuisine type", nickname = "deleteCuisineType", notes = "Delete a cuisine type. ", tags={ "cuisine-types", })

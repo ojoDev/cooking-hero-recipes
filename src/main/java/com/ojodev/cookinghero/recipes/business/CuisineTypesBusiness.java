@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class CuisineTypesBusiness {
+public interface CuisineTypesBusiness {
 
+    List<CuisineTypeBO> getCuisineTypes(LanguageEnum language);
 
-    public List<CuisineTypeBO> getCuisineTypes(Optional<String> name, Optional<LanguageEnum> language) {
-        List<CuisineTypeBO> cuisineTypesList = new ArrayList<>();
-        //TODO DMS: Implement
-        return cuisineTypesList;
-    }
+    List<CuisineTypeBO> getCuisineTypes(String name, LanguageEnum language);
+
+    Optional<CuisineTypeBO> getCuisineType(String id, LanguageEnum language);
+
 
 }

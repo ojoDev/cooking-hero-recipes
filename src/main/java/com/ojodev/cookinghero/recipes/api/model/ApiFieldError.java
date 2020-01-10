@@ -16,18 +16,18 @@ import org.springframework.validation.annotation.Validated;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FieldError {
+public class ApiFieldError {
 
     @JsonProperty("code")
-    @ApiModelProperty(example = "NAME_NOT_VALID", value = "field error code")
+    @ApiModelProperty(example = "NAME_NOT_VALID", value = "Field error code")
     private String code;
 
     @JsonProperty("field")
-    @ApiModelProperty(example = "username", value = "field name")
+    @ApiModelProperty(example = "username", value = "Field name")
     private String field;
 
     @JsonProperty("description")
-    @ApiModelProperty(example = "username is not valid. Minimun length is 3.", value = "error description associated with the field")
+    @ApiModelProperty(example = "username is not valid. Minimun length is 3.", value = "Error description associated with the field")
     private String description;
 
 }

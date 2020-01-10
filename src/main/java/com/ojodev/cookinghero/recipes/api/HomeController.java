@@ -1,4 +1,4 @@
-package com.ojodev.cookinghero.recipes.controller;
+package com.ojodev.cookinghero.recipes.api;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
