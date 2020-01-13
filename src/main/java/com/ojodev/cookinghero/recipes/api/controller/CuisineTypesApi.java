@@ -7,6 +7,7 @@ package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiAcceptException;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
 import io.swagger.annotations.*;
@@ -46,7 +47,7 @@ public interface CuisineTypesApi {
         produces = { MediaType.APPLICATION_JSON_VALUE },
         consumes = { MediaType.APPLICATION_JSON_VALUE },
         method = RequestMethod.POST)
-    ResponseEntity<Void> addCuisineType(@ApiParam(value = "Cuisine type to add.") @Valid @RequestBody CuisineTypeNew body);
+    ResponseEntity<Void> addCuisineType(@ApiParam(value = "Cuisine type to add.") @Valid @RequestBody CuisineTypeNew body) throws ApiException;
 
     @ApiOperation(value = "Get a cuisine type by id", nickname = "getCuisineType", notes = "Search for a cuisine type in a specific language. ", response = CuisineType.class, tags={ "cuisine-types", })
     @ApiResponses(value = {

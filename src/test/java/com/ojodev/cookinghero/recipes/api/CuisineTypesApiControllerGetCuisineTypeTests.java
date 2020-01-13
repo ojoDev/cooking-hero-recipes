@@ -19,6 +19,7 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -53,9 +54,8 @@ public class CuisineTypesApiControllerGetCuisineTypeTests {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH))
-                .andExpect(jsonPath("$.length()", is(1)))
-                .andExpect(jsonPath("$[0].id", is(CuisineTypesExamples.CUISINE_TYPE_01_ID)))
-                .andExpect(jsonPath("$[0].name", is(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH)));
+                .andExpect(jsonPath("$.id", is(CuisineTypesExamples.CUISINE_TYPE_01_ID)))
+                .andExpect(jsonPath("$.name", is(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH)));
     }
 
     @Test
@@ -69,18 +69,16 @@ public class CuisineTypesApiControllerGetCuisineTypeTests {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH))
-                .andExpect(jsonPath("$.length()", is(1)))
-                .andExpect(jsonPath("$[0].id", is(CuisineTypesExamples.CUISINE_TYPE_01_ID)))
-                .andExpect(jsonPath("$[0].name", is(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH)));
+                .andExpect(jsonPath("$.id", is(CuisineTypesExamples.CUISINE_TYPE_01_ID)))
+                .andExpect(jsonPath("$.name", is(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH)));
 
         this.mvc.perform(get("/cuisine-types/{cuisine-type}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_SPANISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_SPANISH))
-                .andExpect(jsonPath("$.length()", is(1)))
-                .andExpect(jsonPath("$[0].id", is(CuisineTypesExamples.CUISINE_TYPE_01_ID)))
-                .andExpect(jsonPath("$[0].name", is(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH)));
+                .andExpect(jsonPath("$.id", is(CuisineTypesExamples.CUISINE_TYPE_01_ID)))
+                .andExpect(jsonPath("$.name", is(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH)));
     }
 
     @Test
@@ -123,14 +121,13 @@ public class CuisineTypesApiControllerGetCuisineTypeTests {
     @Test
     public void getAllCuisineTypesByIdNotFound() throws Exception {
 
-        when(this.cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
-        when(this.cuisineTypesBusiness.getCuisineType(INVALID_ID, any())).thenReturn(Optional.empty());
+        when(this.cuisineTypesBusiness.getCuisineType(eq(CuisineTypesExamples.CUISINE_TYPE_01_ID), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
+        when(this.cuisineTypesBusiness.getCuisineType(eq(INVALID_ID), any())).thenReturn(Optional.empty());
 
         this.mvc.perform(get("/cuisine-types/{cuisine-type}", INVALID_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH))
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
     }
@@ -138,14 +135,14 @@ public class CuisineTypesApiControllerGetCuisineTypeTests {
     @Test
     public void getAllCuisineTypesTypesOutOfMemoryException() throws Exception {
 
-        when(this.cuisineTypesBusiness.getCuisineTypes(any(), any())).thenThrow(new OutOfMemoryError());
+        when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenThrow(new OutOfMemoryError());
 
         this.mvc.perform(get("/cuisine-types/{cuisine-type}", INVALID_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.code", is(messages.get("error.server.code"))))
-                .andExpect(jsonPath("$.description", is(messages.get("error.server.desc"))));
+                .andExpect(jsonPath("$.description", is(messages.get("error.server.desc", LOCALE_ENGLISH))));
     }
 
 

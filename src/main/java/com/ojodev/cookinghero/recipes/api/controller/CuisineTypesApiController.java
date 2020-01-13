@@ -5,6 +5,7 @@ import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.api.model.*;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.*;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.mapper.CuisineTypesMapper;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +48,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
 
     private final HttpServletRequest request;
 
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     public CuisineTypesApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
         this.request = request;
@@ -67,9 +67,33 @@ public class CuisineTypesApiController implements CuisineTypesApi {
 
     }
 
-    public ResponseEntity<Void> addCuisineType(@ApiParam(value = "Cuisine type to add.") @Valid @RequestBody CuisineTypeNew body) {
-        String accept = request.getHeader(HttpHeaders.ACCEPT);
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<Void> addCuisineType(@ApiParam(value = "Cuisine type to add.") @Valid @RequestBody CuisineTypeNew body) throws ApiException {
+        checkAccept(request.getHeader(HttpHeaders.ACCEPT));
+        validateBody(body);
+        saveCuisineType(body);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
+    private void validateBody(CuisineTypeNew body) throws ApiException {
+        boolean existsDefaultLanguage = body.getNames().stream().filter(name -> RecipeConstants.DEFAULT_LANGUAGE.equals(name.getLanguage())).count() > 0;
+        if (!existsDefaultLanguage) {
+            throw new ApiBadRequestException(messages.get("error.badrequest.mustcontaindefault.code"), messages.get("error.badrequest.mustcontaindefault.desc", RecipeConstants.DEFAULT_LANGUAGE));
+        }
+    }
+
+    private void saveCuisineType(CuisineTypeNew cuisineTypeNew) {
+        saveCuisineTypeDefaultLanguage(cuisineTypeNew.getNames());
+        saveCuisineTypesNoDefaultLanguage(cuisineTypeNew.getNames());
+    }
+
+    private void saveCuisineTypeDefaultLanguage(List<CuisineTypeNewName> names) {
+       names.stream().filter(name -> RecipeConstants.DEFAULT_LANGUAGE.equals(name.getLanguage())).forEach(cuisineTypeName ->
+               cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeMapper.toCuisineTypeBO(cuisineTypeName), cuisineTypeName.getLanguage()));
+    }
+
+    private void saveCuisineTypesNoDefaultLanguage(List<CuisineTypeNewName> names) {
+        names.stream().filter(name -> !RecipeConstants.DEFAULT_LANGUAGE.equals(name.getLanguage())).forEach(cuisineTypeName ->
+                cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeMapper.toCuisineTypeBO(cuisineTypeName), cuisineTypeName.getLanguage()));
     }
 
     public ResponseEntity<CuisineType> getCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId, @ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage) throws ApiException {
@@ -78,7 +102,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
         checkAcceptedLanguage(acceptLanguage);
 
         Optional<CuisineTypeBO> cuisineTypeBOOpt = cuisineTypesBusiness.getCuisineType(cuisineTypeId, LanguageEnum.fromValue(acceptLanguage));
-        if (cuisineTypeBOOpt.isPresent()) {
+        if (!cuisineTypeBOOpt.isPresent()) {
             throw new NotFoundException();
         }
         return ResponseEntity.status(HttpStatus.OK)
@@ -88,12 +112,12 @@ public class CuisineTypesApiController implements CuisineTypesApi {
 
     public ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage, @ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId, @ApiParam(value = "CuisineType to update.") @Valid @RequestBody CuisineType body) {
         String accept = request.getHeader(HttpHeaders.ACCEPT);
-        return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
 
     public ResponseEntity<Void> deleteCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId) {
         String accept = request.getHeader(HttpHeaders.ACCEPT);
-        return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
 
     private void checkAcceptedLanguage(String acceptLanguage) throws ApiFieldsException {

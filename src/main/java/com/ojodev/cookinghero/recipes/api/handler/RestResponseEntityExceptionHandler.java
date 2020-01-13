@@ -1,12 +1,10 @@
 package com.ojodev.cookinghero.recipes.api.handler;
 
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-
+import com.ojodev.cookinghero.recipes.api.model.ApiError;
 import com.ojodev.cookinghero.recipes.api.model.ApiFieldError;
 import com.ojodev.cookinghero.recipes.api.model.ApiFieldsError;
-import com.ojodev.cookinghero.recipes.domain.exception.ApiAcceptException;
-import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
-import org.apache.commons.lang3.StringUtils;
+import com.ojodev.cookinghero.recipes.config.Messages;
+import com.ojodev.cookinghero.recipes.domain.exception.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,15 +19,11 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.ojodev.cookinghero.recipes.api.model.ApiError;
-import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
-import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
-
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler{
@@ -41,11 +35,13 @@ public class RestResponseEntityExceptionHandler{
     @Autowired
     private Messages messages;
 
-
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ApiError> handleNotFound(NotFoundException e) {
-        LOGGER.info("NotFoundException: " + e);
-        return new ResponseEntity<>(new ApiError(isEmpty(e.getCode()) ? messages.get("error.notfound.code") : e.getCode(), isEmpty(e.getDescription()) ? messages.get("error.notfound.desc") : e.getDescription()), HttpStatus.NOT_FOUND);
+    @ExceptionHandler(ApiBadRequestException.class)
+    public ResponseEntity<ApiError> handleApiBadRequestException(ApiBadRequestException e) {
+        LOGGER.error("ApiBadRequestException: " + e);
+        return new ResponseEntity<>(new ApiError(
+                isEmpty(e.getCode()) ? messages.get("error.badrequest.code") : e.getCode(),
+                isEmpty(e.getDescription()) ? messages.get("error.badrequest.desc") : e.getDescription()),
+                HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ApiFieldsException.class)
@@ -53,7 +49,6 @@ public class RestResponseEntityExceptionHandler{
         LOGGER.error("ApiFieldsException: " + e);
 
         return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                //   .headers(genereateResponseHeaders(headers))
                 .body(new ApiFieldsError(
                         messages.get("error.badrequest.invalidparams.code"),
                         messages.get("error.badrequest.invalidparams.desc"), e.getFields().isEmpty() ? new ArrayList<>() :
@@ -61,30 +56,31 @@ public class RestResponseEntityExceptionHandler{
     }
 
     @ExceptionHandler(ApiAcceptException.class)
-    public ResponseEntity<ApiError> handleApiAcceptException(ApiException e) {
+    public ResponseEntity<ApiError> handleApiAcceptException(ApiAcceptException e) {
         LOGGER.error("ApiAcceptException: " + e);
         return new ResponseEntity<>(new ApiError(
-                StringUtils.isEmpty(e.getCode()) ? messages.get("error.notacceptable.code") : e.getCode(),
-                StringUtils.isEmpty(e.getDescription()) ? messages.get("error.notacceptable.desc") : e.getDescription()),
+                isEmpty(e.getCode()) ? messages.get("error.notacceptable.code") : e.getCode(),
+                isEmpty(e.getDescription()) ? messages.get("error.notacceptable.desc") : e.getDescription()),
                 HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ApiError> notFoundException(ApiException e) {
-        LOGGER.error("NotFoundException: " + e);
+    public ResponseEntity<ApiError> handleNotFound(NotFoundException e) {
+        LOGGER.info("NotFoundException: " + e);
         return new ResponseEntity<>(new ApiError(
-                StringUtils.isEmpty(e.getCode()) ? messages.get("error.notfound.code") : e.getCode(),
-                StringUtils.isEmpty(e.getDescription()) ? messages.get("error.notfound.desc") : e.getDescription()),
+                isEmpty(e.getCode()) ? messages.get("error.notfound.code") : e.getCode(),
+                isEmpty(e.getDescription()) ? messages.get("error.notfound.desc") : e.getDescription()),
                 HttpStatus.NOT_FOUND);
     }
-
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ApiError> handleApiException(ApiException e) {
         LOGGER.error("ApiException: " + e);
-        return new ResponseEntity<>(new ApiError(e.getCode(), e.getDescription()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ApiError(
+                isEmpty(e.getCode()) ? messages.get("error.server.code") : e.getCode(),
+                isEmpty(e.getDescription()) ? messages.get("error.server.desc") : e.getDescription()),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleMethodNotValidException(MethodArgumentNotValidException e) {

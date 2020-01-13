@@ -1,8 +1,6 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
-import com.ojodev.cookinghero.recipes.api.model.CuisineType;
-import com.ojodev.cookinghero.recipes.api.model.Ingredient;
-import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
+import com.ojodev.cookinghero.recipes.api.model.*;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.IngredientPO;
@@ -24,5 +22,7 @@ public interface CuisineTypesMapper {
 	List<CuisineType> toCuisineTypeList(List<CuisineTypeBO> cuisineTypeBOList);
 
 	CuisineTypeBO toCuisineTypeBO(CuisineTypePO cuisineTypePO, LanguageEnum language);
+
+	CuisineTypeBO toCuisineTypeBO(CuisineTypeNewName cuisineTypeNewName);
 
 }

@@ -6,19 +6,20 @@ import lombok.NoArgsConstructor;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.RelationshipEntity;
 
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@NodeEntity(label="CuisineType")
-public class CuisineTypePO {
+@NodeEntity(label="LanguageName")
+public class LanguageNamePO {
 
     @Id
-    public String id;
+    public Long id;
 
-    @Relationship(type = "REPRESENTED_BY", direction = Relationship.OUTGOING)
-    public List<LanguageNamePO> names;
+    public String language;
+    public String name;
 
 }

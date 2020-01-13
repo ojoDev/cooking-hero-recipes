@@ -2,6 +2,7 @@ package com.ojodev.cookinghero.recipes.business;
 
 import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,5 +18,7 @@ public interface CuisineTypesBusiness {
 
     Optional<CuisineTypeBO> getCuisineType(String id, LanguageEnum language);
 
+    void addCuisineType(List<LanguageNameBO> contentTypeNames);
 
+    void addOrReplaceCuisineType(CuisineTypeBO cuisineType, LanguageEnum language);
 }
