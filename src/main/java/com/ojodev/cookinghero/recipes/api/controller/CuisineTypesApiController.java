@@ -8,7 +8,9 @@ import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.*;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.mapper.CuisineTypesMapper;
+import com.ojodev.cookinghero.recipes.mapper.LanguageEnumMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -40,6 +42,9 @@ public class CuisineTypesApiController implements CuisineTypesApi {
     private CuisineTypesMapper cuisineTypeMapper;
 
     @Autowired
+    private LanguageEnumMapper languageEnumMapper;
+
+    @Autowired
     private Messages messages;
 
     private static final Logger log = LoggerFactory.getLogger(CuisineTypesApiController.class);
@@ -63,7 +68,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
 
         return  ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_LANGUAGE, acceptLanguage)
-                .body(cuisineTypeMapper.toCuisineTypeList(cuisineTypesBusiness.getCuisineTypes(name, LanguageEnum.fromValue(acceptLanguage))));
+                .body(cuisineTypeMapper.toCuisineTypeList(cuisineTypesBusiness.getCuisineTypes(name, LanguageEnumBO.fromValue(acceptLanguage))));
 
     }
 
@@ -88,12 +93,12 @@ public class CuisineTypesApiController implements CuisineTypesApi {
 
     private void saveCuisineTypeDefaultLanguage(List<CuisineTypeNewName> names) {
        names.stream().filter(name -> RecipeConstants.DEFAULT_LANGUAGE.equals(name.getLanguage())).forEach(cuisineTypeName ->
-               cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeMapper.toCuisineTypeBO(cuisineTypeName), cuisineTypeName.getLanguage()));
+               cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeMapper.toCuisineTypeBO(cuisineTypeName), languageEnumMapper.toLanguageEnumBO(cuisineTypeName.getLanguage())));
     }
 
     private void saveCuisineTypesNoDefaultLanguage(List<CuisineTypeNewName> names) {
         names.stream().filter(name -> !RecipeConstants.DEFAULT_LANGUAGE.equals(name.getLanguage())).forEach(cuisineTypeName ->
-                cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeMapper.toCuisineTypeBO(cuisineTypeName), cuisineTypeName.getLanguage()));
+                cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeMapper.toCuisineTypeBO(cuisineTypeName),  languageEnumMapper.toLanguageEnumBO(cuisineTypeName.getLanguage())));
     }
 
     public ResponseEntity<CuisineType> getCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId, @ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage) throws ApiException {
@@ -101,7 +106,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
         checkAccept(request.getHeader(HttpHeaders.ACCEPT));
         checkAcceptedLanguage(acceptLanguage);
 
-        Optional<CuisineTypeBO> cuisineTypeBOOpt = cuisineTypesBusiness.getCuisineType(cuisineTypeId, LanguageEnum.fromValue(acceptLanguage));
+        Optional<CuisineTypeBO> cuisineTypeBOOpt = cuisineTypesBusiness.getCuisineType(cuisineTypeId, LanguageEnumBO.fromValue(acceptLanguage));
         if (!cuisineTypeBOOpt.isPresent()) {
             throw new NotFoundException();
         }

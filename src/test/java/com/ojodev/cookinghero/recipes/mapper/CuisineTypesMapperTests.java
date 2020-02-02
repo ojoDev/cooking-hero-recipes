@@ -4,6 +4,7 @@ import com.ojodev.cookinghero.recipes.api.model.CuisineType;
 import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class CuisineTypesMapperTests {
 
 
     @Test
-    public void contertCuisineTypeBOToCuisineType() {
+    public void convertCuisineTypeBOToCuisineType() {
         CuisineType cuisineType = cuisineTypeMapper.toCuisineType(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH);
         assertNotNull(cuisineType);
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID,cuisineType.getId());
@@ -33,7 +34,7 @@ public class CuisineTypesMapperTests {
 
 
     @Test
-    public void contertCuisineTypeBOListToCuisineTypeList() {
+    public void convertCuisineTypeBOListToCuisineTypeList() {
         List<CuisineType> cuisineTypes = cuisineTypeMapper.toCuisineTypeList(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH,CuisineTypesExamples.CUISINE_TYPE_BO_02_ENGLISH));
         assertNotNull(cuisineTypes);
         assertEquals(2, cuisineTypes.size());
@@ -45,15 +46,17 @@ public class CuisineTypesMapperTests {
 
     @Test
     public void convertCuisineTypePOToCuisineTypeBO() {
-        CuisineTypeBO cuisineTypeEnBO = cuisineTypeMapper.toCuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_PO_01, LanguageEnum.EN);
+        CuisineTypeBO cuisineTypeEnBO = cuisineTypeMapper.toCuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_PO_01, LanguageEnumBO.EN);
         assertNotNull(cuisineTypeEnBO);
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID,cuisineTypeEnBO.getId());
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH,cuisineTypeEnBO.getName());
+        assertEquals(CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH,cuisineTypeEnBO.getLanguage());
 
-        CuisineTypeBO cuisineTypeEsBO = cuisineTypeMapper.toCuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_PO_01, LanguageEnum.ES);
+        CuisineTypeBO cuisineTypeEsBO = cuisineTypeMapper.toCuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_PO_01, LanguageEnumBO.ES);
         assertNotNull(cuisineTypeEsBO);
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID,cuisineTypeEsBO.getId());
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH,cuisineTypeEsBO.getName());
+        assertEquals(CuisineTypesExamples.LANGUAGE_ENUM_SPANISH,cuisineTypeEsBO.getLanguage());
     }
 
 }

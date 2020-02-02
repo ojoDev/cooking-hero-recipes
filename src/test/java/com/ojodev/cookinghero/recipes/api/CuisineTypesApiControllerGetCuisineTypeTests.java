@@ -5,6 +5,7 @@ import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +62,8 @@ public class CuisineTypesApiControllerGetCuisineTypeTests {
     @Test
     public void getCuisineTypeDifferentLanguages() throws Exception {
 
-        when(this.cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, LanguageEnum.EN)).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
-        when(this.cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, LanguageEnum.ES)).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_SPANISH));
+        when(this.cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, LanguageEnumBO.EN)).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
+        when(this.cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, LanguageEnumBO.ES)).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_SPANISH));
 
         this.mvc.perform(get("/cuisine-types/{cuisine-type}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)

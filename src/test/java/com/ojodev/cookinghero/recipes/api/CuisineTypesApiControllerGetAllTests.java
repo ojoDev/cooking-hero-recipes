@@ -5,6 +5,7 @@ import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,7 @@ public class CuisineTypesApiControllerGetAllTests {
     public void getAllCuisineTypesByName() throws Exception {
 
         when(this.cuisineTypesBusiness.getCuisineTypes(any(), any())).thenReturn(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH, CuisineTypesExamples.CUISINE_TYPE_BO_02_ENGLISH, CuisineTypesExamples.CUISINE_TYPE_BO_03_ENGLISH));
-        when(this.cuisineTypesBusiness.getCuisineTypes(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnum.EN)).thenReturn(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
+        when(this.cuisineTypesBusiness.getCuisineTypes(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN)).thenReturn(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
 
         this.mvc.perform(get("/cuisine-types")
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
@@ -85,8 +86,8 @@ public class CuisineTypesApiControllerGetAllTests {
     @Test
     public void getAllCuisineTypesDifferentLanguages() throws Exception {
 
-        when(this.cuisineTypesBusiness.getCuisineTypes(any(), eq(LanguageEnum.EN))).thenReturn(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
-        when(this.cuisineTypesBusiness.getCuisineTypes(any(), eq(LanguageEnum.ES))).thenReturn(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_BO_01_SPANISH));
+        when(this.cuisineTypesBusiness.getCuisineTypes(any(), eq(LanguageEnumBO.EN))).thenReturn(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
+        when(this.cuisineTypesBusiness.getCuisineTypes(any(), eq(LanguageEnumBO.ES))).thenReturn(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_BO_01_SPANISH));
 
         this.mvc.perform(get("/cuisine-types")
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_SPANISH)
@@ -140,7 +141,7 @@ public class CuisineTypesApiControllerGetAllTests {
     public void getAllCuisineTypesByNameNotFound() throws Exception {
 
         when(this.cuisineTypesBusiness.getCuisineTypes(any(), any())).thenReturn(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH, CuisineTypesExamples.CUISINE_TYPE_BO_02_ENGLISH, CuisineTypesExamples.CUISINE_TYPE_BO_03_ENGLISH));
-        when(this.cuisineTypesBusiness.getCuisineTypes(INVALID_NAME, LanguageEnum.EN)).thenReturn(new ArrayList<>());
+        when(this.cuisineTypesBusiness.getCuisineTypes(INVALID_NAME, LanguageEnumBO.EN)).thenReturn(new ArrayList<>());
 
         this.mvc.perform(get("/cuisine-types")
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)

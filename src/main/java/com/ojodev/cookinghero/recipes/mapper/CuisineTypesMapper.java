@@ -1,12 +1,12 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
-import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.api.model.CuisineType;
+import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNewName;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.IngredientPO;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public interface CuisineTypesMapper {
 
 	List<CuisineType> toCuisineTypeList(List<CuisineTypeBO> cuisineTypeBOList);
 
-	CuisineTypeBO toCuisineTypeBO(CuisineTypePO cuisineTypePO, LanguageEnum language);
+	CuisineTypeBO toCuisineTypeBO(CuisineTypePO cuisineTypePO, LanguageEnumBO language);
 
 	CuisineTypeBO toCuisineTypeBO(CuisineTypeNewName cuisineTypeNewName);
 

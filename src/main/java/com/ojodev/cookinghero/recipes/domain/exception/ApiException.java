@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @SuppressWarnings("serial")
 public class ApiException extends Exception {
 
-	public String code;
-	public String description;
+	private String code;
+	private String description;
 
 
 }
