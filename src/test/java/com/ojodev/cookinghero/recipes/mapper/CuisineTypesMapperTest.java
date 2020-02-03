@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CuisineTypesMapperTests {
+public class CuisineTypesMapperTest {
 
     @Autowired
     private CuisineTypesMapper cuisineTypeMapper;

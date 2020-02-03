@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RecipesControllerDeleteRecipeTests {
+public class RecipesControllerDeleteRecipeTest {
 
 	@Autowired
 	private MockMvc mvc;

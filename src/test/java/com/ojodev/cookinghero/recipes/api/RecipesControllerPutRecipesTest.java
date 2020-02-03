@@ -27,7 +27,7 @@ import com.ojodev.cookinghero.recipes.utils.TestUtils;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RecipesControllerPutRecipesTests {
+public class RecipesControllerPutRecipesTest {
 
 	@Autowired
 	private MockMvc mvc;

@@ -29,7 +29,7 @@ import com.ojodev.cookinghero.recipes.data.StepsExamples;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RecipesControllerGetRecipeTests {
+public class RecipesControllerGetRecipeTest {
 
 	@Autowired
 	private MockMvc mvc;
