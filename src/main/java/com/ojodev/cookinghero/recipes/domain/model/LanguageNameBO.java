@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
  * Name associated with a language.
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class LanguageNameBO {
 

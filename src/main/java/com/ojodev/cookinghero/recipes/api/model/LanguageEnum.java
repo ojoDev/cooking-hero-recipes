@@ -34,10 +34,10 @@ public enum LanguageEnum {
     }
 
     public static String getValueList() {
-        String valueStringList= "";
+        StringBuilder valueStringList= new StringBuilder();
         for (LanguageEnum language : LanguageEnum.values()) {
-            valueStringList = valueStringList + (valueStringList.length() > 0 ? ", " : "") + language.value;
+            valueStringList.append((valueStringList.length() > 0 ? ", " : "") + language.value);
         }
-        return valueStringList;
+        return valueStringList.toString();
     }
 }

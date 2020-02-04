@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Objects;
 
 /**
  * Define a name to describe a item associated with a quantity, in singular or plural form.

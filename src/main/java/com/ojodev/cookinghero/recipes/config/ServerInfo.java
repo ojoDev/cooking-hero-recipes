@@ -14,7 +14,7 @@ import javassist.bytecode.stackmap.TypeData.ClassName;
 @Controller
 public class ServerInfo {
 	
-	private static final Logger LOGGER = Logger.getLogger( ClassName.class.getName() );
+	private static final Logger LOGGER = Logger.getLogger( ServerInfo.class);
 	
 	private static final String PORT_SEPARATOR = ":";
 	private static final String RESOURCE_SEPARATOR = "/";

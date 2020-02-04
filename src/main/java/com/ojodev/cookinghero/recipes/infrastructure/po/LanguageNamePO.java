@@ -1,25 +1,29 @@
 package com.ojodev.cookinghero.recipes.infrastructure.po;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.annotation.RelationshipEntity;
 
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @NodeEntity(label="LanguageName")
 public class LanguageNamePO {
 
     @Id
-    public Long id;
+    private Long id;
 
-    public String language;
-    public String name;
+    private String language;
+    private String name;
+
+    public LanguageNamePO(Long id, String language, String name) {
+        this.id = id;
+        this.language = language;
+        this.name = name;
+    }
+
+    @Relationship(type="REPRESENTED_BY", direction = Relationship.INCOMING)
+    private List<CuisineTypePO> cuisineTypes;
 
 }

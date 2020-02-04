@@ -5,6 +5,7 @@ import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNewName;
 import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.LanguageNamePO;
 
@@ -33,6 +34,10 @@ public class CuisineTypesExamples {
     public static final CuisineTypeBO CUISINE_TYPE_BO_03_ENGLISH = new CuisineTypeBO(CUISINE_TYPE_03_ID, CUISINE_TYPE_03_NAME_ENGLISH, LANGUAGE_ENUM_ENGLISH);
     public static final CuisineTypeBO CUISINE_TYPE_BO_03_SPANISH = new CuisineTypeBO(CUISINE_TYPE_03_ID, CUISINE_TYPE_03_NAME_SPANISH, LANGUAGE_ENUM_SPANISH);
 
+    public static final LanguageNameBO LANGUAGE_NAME_BO_01_ENGLISH = new LanguageNameBO(CUISINE_TYPE_01_NAME_ENGLISH, LANGUAGE_ENUM_ENGLISH);
+    public static final LanguageNameBO LANGUAGE_NAME_BO_02_ENGLISH = new LanguageNameBO(CUISINE_TYPE_02_NAME_ENGLISH, LANGUAGE_ENUM_ENGLISH);
+    public static final LanguageNameBO LANGUAGE_NAME_BO_01_SPANISH = new LanguageNameBO(CUISINE_TYPE_01_NAME_SPANISH, LANGUAGE_ENUM_SPANISH);
+    public static final LanguageNameBO LANGUAGE_NAME_BO_02_SPANISH = new LanguageNameBO(CUISINE_TYPE_02_NAME_SPANISH, LANGUAGE_ENUM_SPANISH);
 
     public static final String LANGUAGE_EN = "en";
     public static final String LANGUAGE_ES = "es";
@@ -61,4 +66,5 @@ public class CuisineTypesExamples {
         return new  CuisineTypeNew(Arrays.asList(
                 new CuisineTypeNewName(CUISINE_TYPE_01_NAME_SPANISH, LanguageEnum.ES)));
     }
+
 }

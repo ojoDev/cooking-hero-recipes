@@ -18,7 +18,7 @@ public class CuisineTypePO {
     @Id
     public String id;
 
-    @Relationship(type = "REPRESENTED_BY", direction = Relationship.OUTGOING)
+    @Relationship(type = "REPRESENTED_BY")
     public List<LanguageNamePO> names;
 
 }

@@ -1,5 +1,7 @@
 package com.ojodev.cookinghero.recipes.domain.model;
 
+import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
+
 /**
  * Language type.
  */
@@ -14,6 +16,7 @@ public enum LanguageEnumBO {
         this.value = value;
     }
 
+    @Override
     public String toString() {
         return String.valueOf(value);
     }
@@ -28,10 +31,10 @@ public enum LanguageEnumBO {
     }
 
     public static String getValueList() {
-        String valueStringList = "";
+        StringBuilder valueStringList= new StringBuilder();
         for (LanguageEnumBO language : LanguageEnumBO.values()) {
-            valueStringList = valueStringList + (valueStringList.length() > 0 ? ", " : "") + language.value;
+            valueStringList.append((valueStringList.length() > 0 ? ", " : "") + language.value);
         }
-        return valueStringList;
+        return valueStringList.toString();
     }
 }
