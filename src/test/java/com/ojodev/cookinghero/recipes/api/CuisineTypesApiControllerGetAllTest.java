@@ -43,6 +43,8 @@ public class CuisineTypesApiControllerGetAllTest {
     private static final String LOCALE_ENGLISH = "en";
     private static final String LOCALE_SPANISH = "es";
 
+    private static final String LOCALE_MULTIPLE_LANGUAGES = "en,de";
+
     private static final String INVALID_LANGUAGE = "xx";
     private static final String INVALID_NAME = "xxxxx";
 
@@ -164,6 +166,19 @@ public class CuisineTypesApiControllerGetAllTest {
                 .andExpect(jsonPath("$.code", is(messages.get("error.server.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.server.desc"))));
     }
+
+    @Test
+    public void getMultipleLanguages() throws Exception {
+
+        when(this.cuisineTypesBusiness.getCuisineTypes(any(), any())).thenReturn(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH, CuisineTypesExamples.CUISINE_TYPE_BO_02_ENGLISH, CuisineTypesExamples.CUISINE_TYPE_BO_03_ENGLISH));
+
+        this.mvc.perform(get("/cuisine-types")
+                .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_MULTIPLE_LANGUAGES)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH));
+    }
+
 
 
 }

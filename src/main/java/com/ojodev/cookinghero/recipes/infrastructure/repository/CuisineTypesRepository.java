@@ -13,8 +13,8 @@ public interface CuisineTypesRepository  extends Neo4jRepository<CuisineTypePO, 
 
     List<CuisineTypePO> findAll();
 
-    @Query("MATCH (c:CuisineType)-[r:REPRESENTED_BY]->(ln:LanguageName) WHERE c.id = {id} RETURN c,r,ln ORDER BY ln.id DESC")
-    CuisineTypePO findById(String id);
+    @Query("MATCH (c:CuisineType)-[r:REPRESENTED_BY]->(ln:LanguageName) WHERE c.objectId = {id} RETURN c,r,ln ORDER BY ln.objectId DESC")
+    CuisineTypePO findById(@Param("id") String id);
 
     @Query("MATCH (c:CuisineType)-[r:REPRESENTED_BY]->(ln:LanguageName) WHERE ln.language={language} AND ln.name CONTAINS {name} RETURN c,r,ln ORDER BY ln.name DESC")
     List<CuisineTypePO> findByName(@Param("name") String name, @Param("language") String language);

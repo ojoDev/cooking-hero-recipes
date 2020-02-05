@@ -2,11 +2,13 @@ package com.ojodev.cookinghero.recipes.business;
 
 import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
+import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.CuisineTypesRepository;
 import com.ojodev.cookinghero.recipes.mapper.CuisineTypesMapper;
+import com.ojodev.cookinghero.recipes.mapper.CuisineTypesMultipleLanguageMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,9 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
 
     @Autowired
     private CuisineTypesMapper cuisineTypesMapper;
+
+    @Autowired
+    private CuisineTypesMultipleLanguageMapper cuisineTypesMultipleLanguageMapper;
 
     public List<CuisineTypeBO> getCuisineTypes(LanguageEnumBO language) {
         List<CuisineTypePO> cuisineTypePOList = cuisineTypesRepository.findAll();
@@ -47,8 +52,8 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
     }
 
     @Override
-    public void addCuisineType(List<LanguageNameBO> contentTypeNames) {
-        //TODO DMS Not implemented
+    public void addCuisineType(CuisineTypeMultiLanguageBO newCuisineType) {
+        cuisineTypesRepository.save(cuisineTypesMultipleLanguageMapper.toCuisineTypePO(newCuisineType));
     }
 
     @Override

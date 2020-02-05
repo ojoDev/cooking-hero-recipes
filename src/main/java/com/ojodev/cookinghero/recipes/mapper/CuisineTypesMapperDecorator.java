@@ -1,8 +1,12 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
+import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
+import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNewName;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
+import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.LanguageNamePO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +27,7 @@ public abstract class CuisineTypesMapperDecorator implements CuisineTypesMapper 
             return null;
         }
         CuisineTypeBO cuisineTypeBO = new CuisineTypeBO();
-        cuisineTypeBO.setId(cuisineTypePO.getId());
+        cuisineTypeBO.setId(cuisineTypePO.getObjectId());
         cuisineTypeBO.setName(selectNameByLanguage(cuisineTypePO.getNames(), setDefaultLanguageIfNull(language).toString()));
         cuisineTypeBO.setLanguage(language);
 

@@ -1,10 +1,13 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.CuisineType;
+import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
 import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
+import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
+import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +61,6 @@ public class CuisineTypesMapperTest {
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH,cuisineTypeEsBO.getName());
         assertEquals(CuisineTypesExamples.LANGUAGE_ENUM_SPANISH,cuisineTypeEsBO.getLanguage());
     }
+
 
 }

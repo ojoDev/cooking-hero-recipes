@@ -51,7 +51,7 @@ public class CuisineTypeMultiLanguageBOTest {
         @Test
         public void createCuisineTypeMultiLanguageBOMultipleLanguages() {
             List<LanguageNameBO> languageNameList = new ArrayList<>();
-            languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH);
+            languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH);
 
                 CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
                         languageNameList,
@@ -70,7 +70,7 @@ public class CuisineTypeMultiLanguageBOTest {
     @Test
     public void createCuisineTypeMultiLanguageBOMultipleLanguagesWithReplace() {
         List<LanguageNameBO> languageNameList = new ArrayList<>();
-        languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH);
+        languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH);
 
         CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
                 languageNameList,

@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -41,6 +42,8 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
 
     private static final String LOCALE_ENGLISH = "en";
     private static final String LOCALE_SPANISH = "es";
+
+    private static final String LOCALE_MULTIPLE_LANGUAGES = "en,de";
 
     private static final String INVALID_LANGUAGE = "xx";
     private static final String INVALID_ID = "xxxxx";
@@ -144,6 +147,18 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.code", is(messages.get("error.server.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.server.desc", LOCALE_ENGLISH))));
+    }
+
+    @Test
+    public void getMultipleLanguages() throws Exception {
+
+        when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
+
+        this.mvc.perform(get("/cuisine-types/{cuisine-type}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
+                .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_MULTIPLE_LANGUAGES)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH));
     }
 
 

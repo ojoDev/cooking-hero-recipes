@@ -3,6 +3,7 @@ package com.ojodev.cookinghero.recipes.business;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
+import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.CuisineTypesRepository;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -161,6 +163,13 @@ public class CuisineTypesBusinessTests {
         Optional<CuisineTypeBO> cuisineTypeEn = cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, LanguageEnumBO.EN);
         assertNotNull(cuisineTypeEn);
         assertFalse(cuisineTypeEn.isPresent());
+
+    }
+
+    @Test
+    public void addNewCuisineTypes() throws Exception {
+        when(this.cuisineTypesRepository.save(any())).thenReturn(null);
+        cuisineTypesBusiness.addCuisineType(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO);
 
     }
 

@@ -37,13 +37,13 @@ public class CuisineTypesRepositoryTest {
     @Autowired
     private CuisineTypesRepository cuisineTypesRepository;
 
-    @Before
-    public void setup() {
-        cuisineTypesRepository.save(CuisineTypesExamples.CUISINE_TYPE_PO_01);
-        cuisineTypesRepository.save(CuisineTypesExamples.CUISINE_TYPE_PO_02);
-        cuisineTypesRepository.save(CuisineTypesExamples.CUISINE_TYPE_PO_03);
+   // @Before
+   // public void setup() {
+   //     cuisineTypesRepository.save(CuisineTypesExamples.CUISINE_TYPE_PO_01);
+   //     cuisineTypesRepository.save(CuisineTypesExamples.CUISINE_TYPE_PO_02);
+   //     cuisineTypesRepository.save(CuisineTypesExamples.CUISINE_TYPE_PO_03);
 
-    }
+   // }
 
 /*    private static ServerControls embeddedDatabaseServer;
 
@@ -112,9 +112,14 @@ public class CuisineTypesRepositoryTest {
     }*/
 
     @Test
-    @Ignore
+    public void findAll() {
+        List<CuisineTypePO> cuisineType = cuisineTypesRepository.findAll();
+        assertNotNull(cuisineType);
+    }
+
+    @Test
     public void findById() {
-        CuisineTypePO cuisineType = cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_01_ID);
+        CuisineTypePO cuisineType = cuisineTypesRepository.findById("veggie");
         assertNotNull(cuisineType);
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID, cuisineType.getId());
         assertNotNull(cuisineType.getNames());
@@ -126,7 +131,6 @@ public class CuisineTypesRepositoryTest {
     }
 
     @Test
-    @Ignore
     public void findByName() {
         List<CuisineTypePO> cuisineTypesEn = cuisineTypesRepository.findByName(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, CuisineTypesExamples.LANGUAGE_EN);
         assertNotNull(cuisineTypesEn);

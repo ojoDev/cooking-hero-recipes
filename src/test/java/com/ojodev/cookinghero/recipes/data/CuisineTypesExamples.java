@@ -4,12 +4,14 @@ import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
 import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNewName;
 import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
+import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.LanguageNamePO;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class CuisineTypesExamples {
 
@@ -43,21 +45,22 @@ public class CuisineTypesExamples {
     public static final String LANGUAGE_ES = "es";
 
     public static final CuisineTypePO CUISINE_TYPE_PO_01 = new CuisineTypePO(CUISINE_TYPE_01_ID, Arrays.asList(
-            new LanguageNamePO(1l, LANGUAGE_EN, CUISINE_TYPE_01_NAME_ENGLISH),
-            new LanguageNamePO(2l, LANGUAGE_ES, CUISINE_TYPE_01_NAME_SPANISH)));
+            new LanguageNamePO(LANGUAGE_EN, CUISINE_TYPE_01_NAME_ENGLISH),
+            new LanguageNamePO(LANGUAGE_ES, CUISINE_TYPE_01_NAME_SPANISH)));
     public static final CuisineTypePO CUISINE_TYPE_PO_02 = new CuisineTypePO(CUISINE_TYPE_02_ID, Arrays.asList(
-            new LanguageNamePO(3l, LANGUAGE_EN, CUISINE_TYPE_02_NAME_ENGLISH),
-            new LanguageNamePO(4l, LANGUAGE_ES, CUISINE_TYPE_02_NAME_SPANISH)));
+            new LanguageNamePO(LANGUAGE_EN, CUISINE_TYPE_02_NAME_ENGLISH),
+            new LanguageNamePO(LANGUAGE_ES, CUISINE_TYPE_02_NAME_SPANISH)));
     public static final CuisineTypePO CUISINE_TYPE_PO_03 = new CuisineTypePO(CUISINE_TYPE_03_ID, Arrays.asList(
-            new LanguageNamePO(5l, LANGUAGE_EN, CUISINE_TYPE_03_NAME_ENGLISH),
-            new LanguageNamePO(6l, LANGUAGE_ES, CUISINE_TYPE_03_NAME_SPANISH)));
+            new LanguageNamePO(LANGUAGE_EN, CUISINE_TYPE_03_NAME_ENGLISH),
+            new LanguageNamePO(LANGUAGE_ES, CUISINE_TYPE_03_NAME_SPANISH)));
 
-    public static final CuisineTypeNew CUISINE_TYPE_NEW = initCuisineTypeNew() ;
+    public static final CuisineTypeNew CUISINE_TYPE_NEW = initCuisineTypeNew();
+    public static final CuisineTypeNew CUISINE_TYPE_NEW_NO_DEFAULT_LANGUAGE = initCuisineTypeNewNoDefaultLanguage();
 
-    public static final CuisineTypeNew CUISINE_TYPE_NEW_NO_DEFALT_LANGUAGE = initCuisineTypeNewNoDefaultLanguage() ;
+    public static final CuisineTypeMultiLanguageBO CUISINE_TYPE_MULTI_LANGUAGE_BO = initCuisineTypeMultiLanguageBO();
 
     private static CuisineTypeNew initCuisineTypeNew() {
-        return new  CuisineTypeNew(Arrays.asList(
+        return new CuisineTypeNew(Arrays.asList(
                 new CuisineTypeNewName(CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnum.EN),
                 new CuisineTypeNewName(CUISINE_TYPE_01_NAME_SPANISH, LanguageEnum.ES)));
     }
@@ -66,5 +69,12 @@ public class CuisineTypesExamples {
         return new  CuisineTypeNew(Arrays.asList(
                 new CuisineTypeNewName(CUISINE_TYPE_01_NAME_SPANISH, LanguageEnum.ES)));
     }
+
+    private static CuisineTypeMultiLanguageBO initCuisineTypeMultiLanguageBO() {
+        return new CuisineTypeMultiLanguageBO.Builder(Arrays.asList(
+                LANGUAGE_NAME_BO_01_ENGLISH,LANGUAGE_NAME_BO_01_SPANISH), LANGUAGE_ENUM_ENGLISH).build();
+    }
+
+
 
 }
