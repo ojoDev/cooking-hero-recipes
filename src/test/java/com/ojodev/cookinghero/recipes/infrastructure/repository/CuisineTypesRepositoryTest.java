@@ -119,9 +119,11 @@ public class CuisineTypesRepositoryTest {
 
     @Test
     public void findById() {
-        CuisineTypePO cuisineType = cuisineTypesRepository.findById("veggie");
+        //List<CuisineTypePO> cuisineTypes = cuisineTypesRepository.findByObjectId("veggie");
+        //CuisineTypePO cuisineType = cuisineTypes.get(0);
+        CuisineTypePO cuisineType = cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_01_ID);
         assertNotNull(cuisineType);
-        assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID, cuisineType.getId());
+        assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID, cuisineType.getObjectId());
         assertNotNull(cuisineType.getNames());
         assertEquals(2, cuisineType.getNames().size());
         assertEquals(CuisineTypesExamples.LANGUAGE_EN, cuisineType.getNames().get(0).getLanguage());
@@ -135,7 +137,7 @@ public class CuisineTypesRepositoryTest {
         List<CuisineTypePO> cuisineTypesEn = cuisineTypesRepository.findByName(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, CuisineTypesExamples.LANGUAGE_EN);
         assertNotNull(cuisineTypesEn);
         assertEquals(1, cuisineTypesEn.size());
-        assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID, cuisineTypesEn.get(0).getId());
+        assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID, cuisineTypesEn.get(0).getObjectId());
         assertNotNull(cuisineTypesEn.get(0).getNames());
         assertEquals(1, cuisineTypesEn.get(0).getNames().size());
         assertEquals(CuisineTypesExamples.LANGUAGE_EN, cuisineTypesEn.get(0).getNames().get(0).getLanguage());
@@ -144,7 +146,7 @@ public class CuisineTypesRepositoryTest {
         List<CuisineTypePO> cuisineTypesEs = cuisineTypesRepository.findByName(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, CuisineTypesExamples.LANGUAGE_ES);
         assertNotNull(cuisineTypesEs);
         assertEquals(1, cuisineTypesEs.size());
-        assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID, cuisineTypesEs.get(0).getId());
+        assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID, cuisineTypesEs.get(0).getObjectId());
         assertNotNull(cuisineTypesEs.get(0).getNames());
         assertEquals(1, cuisineTypesEs.get(0).getNames().size());
         assertEquals(CuisineTypesExamples.LANGUAGE_ES, cuisineTypesEs.get(0).getNames().get(0).getLanguage());
