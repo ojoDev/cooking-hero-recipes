@@ -10,8 +10,9 @@ import com.ojodev.cookinghero.recipes.api.model.ApiError;
 import com.ojodev.cookinghero.recipes.api.model.ApiFieldsError;
 import com.ojodev.cookinghero.recipes.api.model.CuisineType;
 import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiAcceptException;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
-import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import io.swagger.annotations.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public interface CuisineTypesApi {
             @ApiResponse(code = 500, message = "Internal server error.", response = ApiError.class) })
     @GetMapping(value = "/cuisine-types",
             produces = { MediaType.APPLICATION_JSON_VALUE })
-    ResponseEntity<List<CuisineType>> getCuisineTypes(@ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage, @ApiParam(value = "Cuisine type name. Partial searches allowed.") @Valid @RequestParam(value = "name", required = false) String name) throws ApiFieldsException, ApiException;
+    ResponseEntity<List<CuisineType>> getCuisineTypes(@ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage, @ApiParam(value = "Cuisine type name. Partial searches allowed.") @Valid @RequestParam(value = "name", required = false) String name) throws ApiException;
 
 
     @ApiOperation(value = "Add a cuisine type", nickname = "addCuisineType", notes = "Add a new cuisine type.   You can add multiple languages in a single request. English (en) is mandatory. ", tags={ "cuisine-types", })
@@ -83,7 +84,7 @@ public interface CuisineTypesApi {
         @ApiResponse(code = 500, message = "Internal server error.", response = ApiError.class) })
     @DeleteMapping(value = "/cuisine-types/{cuisine-type-id}",
         produces = { MediaType.APPLICATION_JSON_VALUE })
-    ResponseEntity<Void> deleteCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId);
+    ResponseEntity<Void> deleteCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId) throws NotFoundException, ApiAcceptException;
 
 
 }

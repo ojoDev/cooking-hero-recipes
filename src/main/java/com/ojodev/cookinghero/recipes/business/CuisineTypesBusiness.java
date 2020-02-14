@@ -1,6 +1,7 @@
 package com.ojodev.cookinghero.recipes.business;
 
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
@@ -21,4 +22,6 @@ public interface CuisineTypesBusiness {
     void addCuisineType(CuisineTypeMultiLanguageBO newCuisineType) throws ApiException;
 
     void addOrReplaceCuisineType(CuisineTypeBO cuisineType, LanguageEnumBO language);
+
+    void deleteCuisineType(String cuisineTypeId) throws NotFoundException;
 }

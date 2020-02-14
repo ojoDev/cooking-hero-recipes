@@ -15,13 +15,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -45,7 +43,6 @@ public class CuisineTypesApiControllerPostTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
-                .accept(MediaType.APPLICATION_JSON)
                 .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_NEW)))
                 .andExpect(status().isCreated());
         }
@@ -57,7 +54,6 @@ public class CuisineTypesApiControllerPostTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
-                .accept(MediaType.APPLICATION_JSON)
                 .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_NEW_NO_DEFAULT_LANGUAGE)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.mustcontaindefault.code"))))
@@ -84,7 +80,6 @@ public class CuisineTypesApiControllerPostTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
-                .accept(MediaType.APPLICATION_JSON)
                 .content(content))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.invalidlanguage.code"))))

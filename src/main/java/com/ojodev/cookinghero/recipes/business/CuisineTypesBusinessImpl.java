@@ -3,10 +3,10 @@ package com.ojodev.cookinghero.recipes.business;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
-import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.CuisineTypesRepository;
 import com.ojodev.cookinghero.recipes.mapper.CuisineTypesMapper;
@@ -58,19 +58,24 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
 
     @Override
     public void addCuisineType(CuisineTypeMultiLanguageBO newCuisineType) throws ApiException {
-        checkExistCuisineTypeId(newCuisineType);
-        cuisineTypesRepository.save(cuisineTypesMultipleLanguageMapper.toCuisineTypePO(newCuisineType));
-    }
-
-    private void checkExistCuisineTypeId(CuisineTypeMultiLanguageBO newCuisineType) throws ApiException {
         if (cuisineTypesRepository.findById(newCuisineType.getId()) != null) {
             throw new ApiException(messages.get("error.badrequest.duplicatedentityname.code"), messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"));
         }
+        cuisineTypesRepository.save(cuisineTypesMultipleLanguageMapper.toCuisineTypePO(newCuisineType));
     }
+
 
     @Override
     public void addOrReplaceCuisineType(CuisineTypeBO cuisineType, LanguageEnumBO language) {
         //TODO DMS Not implemented
+    }
+
+    @Override
+    public void deleteCuisineType(String cuisineTypeId) throws NotFoundException {
+        if (cuisineTypesRepository.findById(cuisineTypeId) == null) {
+            throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
+        }
+        cuisineTypesRepository.deleteById(cuisineTypeId);
     }
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {

@@ -114,16 +114,6 @@ public class CuisineTypesApiController implements CuisineTypesApi {
         cuisineTypesBusiness.addCuisineType(cuisineTypesMultipleLanguageMapper.toCuisineTypeMultiLanguageBO(cuisineTypeNew, config.getDefaultLanguage()));
     }
 
-    //TODO DMS Borrar si no se usa
-  /*  private void saveCuisineTypeDefaultLanguage(List<CuisineTypeNewName> names) {
-       names.stream().filter(name -> RecipeConstants.DEFAULT_LANGUAGE.equals(languageEnumMapper.toLanguageEnumBO(name.getLanguage()))).forEach(cuisineTypeName ->
-               cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeMapper.toCuisineTypeBO(cuisineTypeName), languageEnumMapper.toLanguageEnumBO(cuisineTypeName.getLanguage())));
-    }
-
-    private void saveCuisineTypesNoDefaultLanguage(List<CuisineTypeNewName> names) {
-        names.stream().filter(name -> !RecipeConstants.DEFAULT_LANGUAGE.equals(languageEnumMapper.toLanguageEnumBO(name.getLanguage()))).forEach(cuisineTypeName ->
-                cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeMapper.toCuisineTypeBO(cuisineTypeName),  languageEnumMapper.toLanguageEnumBO(cuisineTypeName.getLanguage())));
-    }*/
 
     public ResponseEntity<CuisineType> getCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId, @ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage) throws ApiException {
 
@@ -144,8 +134,10 @@ public class CuisineTypesApiController implements CuisineTypesApi {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> deleteCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<Void> deleteCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId) throws NotFoundException, ApiAcceptException {
+        checkAccept(request.getHeader(HttpHeaders.ACCEPT));
+        cuisineTypesBusiness.deleteCuisineType(cuisineTypeId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     private LanguageEnumBO checkAndExtractAcceptedLanguage(String acceptLanguage) throws ApiFieldsException {

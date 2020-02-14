@@ -23,7 +23,6 @@ public interface CuisineTypesMapper {
 
 	CuisineTypeBO toCuisineTypeBO(CuisineTypePO cuisineTypePO, LanguageEnumBO language);
 
-	//TODO DMS Ver si se usa
 	CuisineTypeBO toCuisineTypeBO(CuisineTypeNewName cuisineTypeNewName);
 
 

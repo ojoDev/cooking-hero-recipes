@@ -1,7 +1,5 @@
 package com.ojodev.cookinghero.recipes.domain.model;
 
-import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
-
 /**
  * Language type.
  */

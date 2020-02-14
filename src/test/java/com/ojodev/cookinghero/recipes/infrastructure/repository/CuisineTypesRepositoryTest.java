@@ -3,6 +3,7 @@ package com.ojodev.cookinghero.recipes.infrastructure.repository;
 import com.ojodev.cookinghero.recipes.RecipesApplication;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -31,6 +32,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestConfiguration.class })
 @SpringBootTest(classes = RecipesApplication.class)
+@Slf4j
 public class CuisineTypesRepositoryTest {
 
 
@@ -159,8 +161,9 @@ public class CuisineTypesRepositoryTest {
 
     @Test
     public void delete() {
-        cuisineTypesRepository.deleteById("veggiex");
-
+        String objectId = "italian";
+        cuisineTypesRepository.deleteById(objectId);
+        //TODO DMS: Poner un assertThrow con Junit 5, e ignorar test
     }
 
 }

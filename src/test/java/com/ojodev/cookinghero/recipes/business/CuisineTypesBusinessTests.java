@@ -3,6 +3,7 @@ package com.ojodev.cookinghero.recipes.business;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
@@ -184,6 +185,30 @@ public class CuisineTypesBusinessTests {
         } catch (ApiException e) {
             assertEquals( messages.get("error.badrequest.duplicatedentityname.code"), e.getCode());
             assertEquals( messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"), e.getDescription());
+        }
+
+    }
+
+    @Test
+    public void deleteCuisineType() {
+        when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO.getId())).thenReturn(CuisineTypesExamples.CUISINE_TYPE_PO_01);
+
+        try {
+            cuisineTypesBusiness.deleteCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID);
+        } catch (NotFoundException e) {
+            fail("Need to delete the resource");
+        }
+    }
+
+    @Test
+    public void deleteNotFoundCuisineType()  {
+        when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO.getId())).thenReturn(null);
+        try{
+            cuisineTypesBusiness.deleteCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID);
+            fail("Need throw an exception");
+        } catch (NotFoundException e) {
+            assertEquals( messages.get("error.notfound.code"), e.getCode());
+            assertEquals( messages.get("error.notfound.desc"), e.getDescription());
         }
 
     }

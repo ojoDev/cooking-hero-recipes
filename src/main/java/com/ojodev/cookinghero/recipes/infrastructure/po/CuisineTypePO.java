@@ -14,7 +14,7 @@ public class CuisineTypePO {
     @GeneratedValue
     private Long id;
 
-    public String objectId;
+    private String objectId;
 
 
     @Relationship(type = "REPRESENTED_BY")
