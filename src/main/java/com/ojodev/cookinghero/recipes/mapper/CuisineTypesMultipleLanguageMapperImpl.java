@@ -33,7 +33,7 @@ public class CuisineTypesMultipleLanguageMapperImpl implements CuisineTypesMulti
 
     @Override
     public CuisineTypePO toCuisineTypePO(CuisineTypeMultiLanguageBO cuisineTypeNew) {
-        List<LanguageNamePO> languageNames = cuisineTypeNew.getLanguageNames().stream().map(this::convertToLanguageNamePO).collect(Collectors.toList());
+        List<LanguageNamePO> languageNames = cuisineTypeNew.getLanguageNames().stream().map(n -> convertToLanguageNamePO(n)).collect(Collectors.toList());
        return new CuisineTypePO(cuisineTypeNew.getId(), languageNames);
     }
 

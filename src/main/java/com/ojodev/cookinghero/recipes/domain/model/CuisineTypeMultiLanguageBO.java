@@ -77,7 +77,6 @@ public class CuisineTypeMultiLanguageBO {
 
         public Builder languageNames(List<LanguageNameBO> languageNames) {
             languageNames.stream().forEach(ln -> languageName(ln));
-            // this.languageNames = languageNames;
             return this;
         }
 

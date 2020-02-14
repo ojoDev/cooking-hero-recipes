@@ -2,6 +2,7 @@ package com.ojodev.cookinghero.recipes.data;
 
 import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
 import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNewName;
+import com.ojodev.cookinghero.recipes.api.model.CuisineTypeUpdate;
 import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
@@ -57,6 +58,9 @@ public class CuisineTypesExamples {
     public static final CuisineTypeNew CUISINE_TYPE_NEW = initCuisineTypeNew();
     public static final CuisineTypeNew CUISINE_TYPE_NEW_NO_DEFAULT_LANGUAGE = initCuisineTypeNewNoDefaultLanguage();
 
+    public static final CuisineTypeUpdate CUISINE_TYPE_UPDATE_ES = new CuisineTypeUpdate(CUISINE_TYPE_01_NAME_SPANISH);
+    public static final CuisineTypeUpdate CUISINE_TYPE_UPDATE_EN = new CuisineTypeUpdate(CUISINE_TYPE_01_NAME_ENGLISH);
+
     public static final CuisineTypeMultiLanguageBO CUISINE_TYPE_MULTI_LANGUAGE_BO = initCuisineTypeMultiLanguageBO();
 
     private static CuisineTypeNew initCuisineTypeNew() {
@@ -74,6 +78,7 @@ public class CuisineTypesExamples {
         return new CuisineTypeMultiLanguageBO.Builder(Arrays.asList(
                 LANGUAGE_NAME_BO_01_ENGLISH,LANGUAGE_NAME_BO_01_SPANISH), LANGUAGE_ENUM_ENGLISH).build();
     }
+
 
 
 

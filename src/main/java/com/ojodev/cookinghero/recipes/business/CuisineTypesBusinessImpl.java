@@ -1,13 +1,17 @@
 package com.ojodev.cookinghero.recipes.business;
 
+import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
+import com.ojodev.cookinghero.recipes.domain.exception.FieldError;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
+import com.ojodev.cookinghero.recipes.infrastructure.po.LanguageNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.CuisineTypesRepository;
 import com.ojodev.cookinghero.recipes.mapper.CuisineTypesMapper;
 import com.ojodev.cookinghero.recipes.mapper.CuisineTypesMultipleLanguageMapper;
@@ -16,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,8 +71,44 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
 
 
     @Override
-    public void addOrReplaceCuisineType(CuisineTypeBO cuisineType, LanguageEnumBO language) {
-        //TODO DMS Not implemented
+    public void addOrReplaceCuisineType(CuisineTypeBO cuisineType) throws ApiException {
+        CuisineTypePO cuisineTypePO = cuisineTypesRepository.findById(cuisineType.getId());
+
+        checkIfExists(cuisineTypePO);
+        checkIfLanguageIsDefault(cuisineType);
+
+        if (existLanguageName(cuisineTypePO,cuisineType)) {
+            updateLanguageName(cuisineTypePO,cuisineType);
+        } else {
+            cuisineTypePO.getNames().add(new LanguageNamePO(cuisineType.getLanguage().toString(), cuisineType.getName()));
+        }
+        cuisineTypesRepository.save(cuisineTypePO);
+    }
+
+    private void checkIfExists(CuisineTypePO cuisineTypePO) throws NotFoundException {
+        if (cuisineTypePO == null) {
+            throw new NotFoundException();
+        }
+    }
+
+    private void checkIfLanguageIsDefault(CuisineTypeBO cuisineType) throws ApiFieldsException{
+        if (RecipeConstants.DEFAULT_LANGUAGE.equals(cuisineType.getLanguage())) {
+            throw new ApiFieldsException(
+                    messages.get("error.badrequest.invalidparams.code"),
+                    messages.get("error.badrequest.invalidparams.desc"),
+                    Arrays.asList(new FieldError(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"),
+                            HttpHeaders.ACCEPT_LANGUAGE,
+                            messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage")))
+            );
+        }
+    }
+
+    private boolean existLanguageName(CuisineTypePO cuisineTypePO, CuisineTypeBO cuisineType) {
+        return cuisineTypePO.getNames().stream().filter(n -> n.getLanguage().equals(cuisineType.getLanguage().toString())).findAny().isPresent();
+    }
+
+    private void updateLanguageName(CuisineTypePO cuisineTypePO, CuisineTypeBO cuisineType) {
+        cuisineTypePO.getNames().stream().filter(n -> n.getLanguage().equals(cuisineType.getLanguage().toString())).forEach(n -> n.setName(cuisineType.getName()));
     }
 
     @Override

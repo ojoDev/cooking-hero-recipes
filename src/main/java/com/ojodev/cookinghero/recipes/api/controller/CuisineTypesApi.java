@@ -6,10 +6,7 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
-import com.ojodev.cookinghero.recipes.api.model.ApiError;
-import com.ojodev.cookinghero.recipes.api.model.ApiFieldsError;
-import com.ojodev.cookinghero.recipes.api.model.CuisineType;
-import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
+import com.ojodev.cookinghero.recipes.api.model.*;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiAcceptException;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
@@ -69,10 +66,13 @@ public interface CuisineTypesApi {
             @ApiResponse(code = 403, message = "The server understood the request but refuses to authorize it.", response = ApiError.class),
             @ApiResponse(code = 404, message = "Not found.", response = ApiError.class),
             @ApiResponse(code = 500, message = "Internal server error.", response = ApiError.class) })
-    @PutMapping(value = "/cuisine-types/{cuisine-type-id}",
+    @PatchMapping(value = "/cuisine-types/{cuisine-type-id}",
             produces = { MediaType.APPLICATION_JSON_VALUE },
             consumes = { MediaType.APPLICATION_JSON_VALUE })
-    ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage, @ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId, @ApiParam(value = "CuisineType to update.") @Valid @RequestBody CuisineType body);
+    ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage,
+                                           @ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId,
+                                           @ApiParam(value = "CuisineType to update.") @Valid @RequestBody CuisineTypeUpdate body) throws ApiException;
+
 
 
     @ApiOperation(value = "Delete a cuisine type", nickname = "deleteCuisineType", notes = "Delete a cuisine type. ", tags={ "cuisine-types", })

@@ -3,6 +3,7 @@ package com.ojodev.cookinghero.recipes.business;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
@@ -186,7 +187,34 @@ public class CuisineTypesBusinessTests {
             assertEquals( messages.get("error.badrequest.duplicatedentityname.code"), e.getCode());
             assertEquals( messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"), e.getDescription());
         }
+    }
 
+    @Test
+    public void addOrReplaceCuisineTypeNoDefaultLanguage()  {
+        when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_PO_01.getObjectId())).thenReturn(CuisineTypesExamples.CUISINE_TYPE_PO_01);
+        try{
+            cuisineTypesBusiness.addOrReplaceCuisineType(CuisineTypesExamples.CUISINE_TYPE_BO_01_SPANISH);
+        } catch (ApiException e) {
+            fail("No need throw an exception");
+        }
+    }
+
+    @Test
+    public void addOrReplaceCuisineTypeDefaultLanguage()  {
+        when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_PO_01.getObjectId())).thenReturn(CuisineTypesExamples.CUISINE_TYPE_PO_01);
+        try{
+            cuisineTypesBusiness.addOrReplaceCuisineType(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH);
+            fail("Need throw an exception");
+        } catch (ApiFieldsException e) {
+            assertEquals( messages.get("error.badrequest.invalidparams.code"), e.getCode());
+            assertEquals( messages.get("error.badrequest.invalidparams.desc"), e.getDescription());
+            assertNotNull(e.getFields());
+            assertEquals(1, e.getFields().size());
+            assertEquals( messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"), e.getFields().get(0).getCode());
+            assertEquals( messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage"), e.getFields().get(0).getDescription());
+        } catch (ApiException e) {
+            fail("Need throw an ApiFieldsException");
+        }
     }
 
     @Test

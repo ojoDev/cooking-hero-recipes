@@ -31,10 +31,10 @@ public class CuisineTypesMultipleLanguageMapperTest {
     }
 
     @Test
-    public void convertCuisineTypeMultiLanguageBOToCuisineTypeBO() {
+    public void convertCuisineTypeMultiLanguageBOToCuisineTypePO() {
         CuisineTypePO cuisineTypePO = cuisineTypesMultipleLanguageMapper.toCuisineTypePO(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO);
         assertNotNull(cuisineTypePO);
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH.getName(),cuisineTypePO.getId());
+        assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH,cuisineTypePO.getObjectId());
         assertNotNull(cuisineTypePO.getNames());
         assertEquals(2, cuisineTypePO.getNames().size());
         assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH.getName(),cuisineTypePO.getNames().get(0).getName());

@@ -2,10 +2,7 @@ package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.net.HttpHeaders;
-import com.ojodev.cookinghero.recipes.api.model.CuisineType;
-import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
-import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNewName;
-import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
+import com.ojodev.cookinghero.recipes.api.model.*;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.config.RecipesConfig;
@@ -129,9 +126,14 @@ public class CuisineTypesApiController implements CuisineTypesApi {
                 .body(cuisineTypeMapper.toCuisineType(cuisineTypeBOOpt.get()));
     }
 
-    public ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage, @ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId, @ApiParam(value = "CuisineType to update.") @Valid @RequestBody CuisineType body) {
+    public ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage,
+                                                  @ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId,
+                                                  @ApiParam(value = "CuisineType to update.") @Valid @RequestBody CuisineTypeUpdate body) throws ApiException {
 
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        checkAccept(request.getHeader(HttpHeaders.ACCEPT));
+        LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
+        cuisineTypesBusiness.addOrReplaceCuisineType(new CuisineTypeBO(cuisineTypeId, body.getName(), language));
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity<Void> deleteCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId) throws NotFoundException, ApiAcceptException {

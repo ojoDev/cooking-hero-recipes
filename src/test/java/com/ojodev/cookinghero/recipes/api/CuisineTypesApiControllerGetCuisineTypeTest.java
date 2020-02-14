@@ -53,7 +53,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
 
         when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
 
-        this.mvc.perform(get("/cuisine-types/{cuisine-type}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
+        this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -68,7 +68,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
         when(this.cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, LanguageEnumBO.EN)).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
         when(this.cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, LanguageEnumBO.ES)).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_SPANISH));
 
-        this.mvc.perform(get("/cuisine-types/{cuisine-type}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
+        this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -76,7 +76,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
                 .andExpect(jsonPath("$.id", is(CuisineTypesExamples.CUISINE_TYPE_01_ID)))
                 .andExpect(jsonPath("$.name", is(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH)));
 
-        this.mvc.perform(get("/cuisine-types/{cuisine-type}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
+        this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_SPANISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -90,7 +90,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
 
         when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
 
-        this.mvc.perform(get("/cuisine-types/{cuisine-type}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
+        this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 //TODO DMS Meter interceptor general para que ponga las cabeceras correctas
@@ -108,7 +108,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
 
         when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
 
-        this.mvc.perform(get("/cuisine-types/{cuisine-type}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
+        this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, INVALID_LANGUAGE)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -128,7 +128,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
         when(this.cuisineTypesBusiness.getCuisineType(eq(CuisineTypesExamples.CUISINE_TYPE_01_ID), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
         when(this.cuisineTypesBusiness.getCuisineType(eq(INVALID_ID), any())).thenReturn(Optional.empty());
 
-        this.mvc.perform(get("/cuisine-types/{cuisine-type}", INVALID_ID)
+        this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", INVALID_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
@@ -141,7 +141,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
 
         when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenThrow(new OutOfMemoryError());
 
-        this.mvc.perform(get("/cuisine-types/{cuisine-type}", INVALID_ID)
+        this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", INVALID_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
@@ -154,7 +154,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
 
         when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
 
-        this.mvc.perform(get("/cuisine-types/{cuisine-type}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
+        this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_MULTIPLE_LANGUAGES)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
