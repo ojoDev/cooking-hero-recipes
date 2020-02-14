@@ -19,4 +19,7 @@ public interface CuisineTypesRepository  extends Neo4jRepository<CuisineTypePO, 
     @Query("MATCH (c:CuisineType)-[r:REPRESENTED_BY]->(ln:LanguageName) WHERE ln.language={language} AND ln.name CONTAINS {name} RETURN c,r,ln ORDER BY ln.name DESC")
     List<CuisineTypePO> findByName(@Param("name") String name, @Param("language") String language);
 
+    @Query("MATCH (c:CuisineType) WHERE c.objectId = {id} DETACH DELETE c")
+    void deleteById(@Param("id") String id, @Param("language") String language);
+
 }

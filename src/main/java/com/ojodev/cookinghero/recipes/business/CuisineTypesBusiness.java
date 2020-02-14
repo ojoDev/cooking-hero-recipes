@@ -1,9 +1,9 @@
 package com.ojodev.cookinghero.recipes.business;
 
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
-import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface CuisineTypesBusiness {
 
     Optional<CuisineTypeBO> getCuisineType(String id, LanguageEnumBO language);
 
-    void addCuisineType(CuisineTypeMultiLanguageBO newCuisineType);
+    void addCuisineType(CuisineTypeMultiLanguageBO newCuisineType) throws ApiException;
 
     void addOrReplaceCuisineType(CuisineTypeBO cuisineType, LanguageEnumBO language);
 }

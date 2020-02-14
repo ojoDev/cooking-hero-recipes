@@ -110,11 +110,8 @@ public class CuisineTypesApiController implements CuisineTypesApi {
     }
 
 
-    private void saveCuisineType(CuisineTypeNew cuisineTypeNew) {
+    private void saveCuisineType(CuisineTypeNew cuisineTypeNew) throws ApiException {
         cuisineTypesBusiness.addCuisineType(cuisineTypesMultipleLanguageMapper.toCuisineTypeMultiLanguageBO(cuisineTypeNew, config.getDefaultLanguage()));
-        //TODO DMS Borrar si no se usa
-        // saveCuisineTypeDefaultLanguage(cuisineTypeNew.getNames());
-        // saveCuisineTypesNoDefaultLanguage(cuisineTypeNew.getNames());
     }
 
     //TODO DMS Borrar si no se usa

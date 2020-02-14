@@ -38,11 +38,6 @@ public class CuisineTypesApiControllerPostTest {
     private CuisineTypesBusiness cuisineTypesBusiness;
 
     private static final String LOCALE_ENGLISH = "en";
-    private static final String LOCALE_SPANISH = "es";
-
-    private static final String INVALID_LANGUAGE = "xx";
-    private static final String INVALID_NAME = "xxxxx";
-
     @Test
     public void postCuisineType() throws Exception {
 

@@ -119,8 +119,6 @@ public class CuisineTypesRepositoryTest {
 
     @Test
     public void findById() {
-        //List<CuisineTypePO> cuisineTypes = cuisineTypesRepository.findByObjectId("veggie");
-        //CuisineTypePO cuisineType = cuisineTypes.get(0);
         CuisineTypePO cuisineType = cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_01_ID);
         assertNotNull(cuisineType);
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID, cuisineType.getObjectId());
@@ -152,4 +150,17 @@ public class CuisineTypesRepositoryTest {
         assertEquals(CuisineTypesExamples.LANGUAGE_ES, cuisineTypesEs.get(0).getNames().get(0).getLanguage());
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, cuisineTypesEs.get(0).getNames().get(0).getName());
     }
+
+    @Test
+    public void create() {
+        CuisineTypePO cuisineType = cuisineTypesRepository.save(CuisineTypesExamples.CUISINE_TYPE_PO_01);
+        assertNotNull(cuisineType);
+    }
+
+    @Test
+    public void delete() {
+        cuisineTypesRepository.deleteById("veggiex");
+
+    }
+
 }

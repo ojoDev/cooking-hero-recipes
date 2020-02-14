@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @RestControllerAdvice
-public class RestResponseEntityExceptionHandler{
+public class RestResponseEntityExceptionHandler {
 
     private static final Logger LOGGER = Logger.getLogger(RestResponseEntityExceptionHandler.class.getName());
 

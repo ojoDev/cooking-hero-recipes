@@ -2,6 +2,7 @@ package com.ojodev.cookinghero.recipes.business;
 
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
@@ -168,8 +169,22 @@ public class CuisineTypesBusinessTests {
 
     @Test
     public void addNewCuisineTypes() throws Exception {
+        when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO.getId())).thenReturn(null);
         when(this.cuisineTypesRepository.save(any())).thenReturn(null);
         cuisineTypesBusiness.addCuisineType(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO);
+
+    }
+
+    @Test
+    public void addExistentCuisineTypes()  {
+        when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO.getId())).thenReturn(CuisineTypesExamples.CUISINE_TYPE_PO_01);
+        try{
+            cuisineTypesBusiness.addCuisineType(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO);
+            fail("Need throw an exception");
+        } catch (ApiException e) {
+            assertEquals( messages.get("error.badrequest.duplicatedentityname.code"), e.getCode());
+            assertEquals( messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"), e.getDescription());
+        }
 
     }
 

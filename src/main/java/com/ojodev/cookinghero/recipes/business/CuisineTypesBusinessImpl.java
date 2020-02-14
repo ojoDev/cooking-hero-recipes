@@ -1,6 +1,8 @@
 package com.ojodev.cookinghero.recipes.business;
 
+import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
@@ -30,6 +32,9 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
     @Autowired
     private CuisineTypesMultipleLanguageMapper cuisineTypesMultipleLanguageMapper;
 
+    @Autowired
+    private Messages messages;
+
     public List<CuisineTypeBO> getCuisineTypes(LanguageEnumBO language) {
         List<CuisineTypePO> cuisineTypePOList = cuisineTypesRepository.findAll();
         return cuisineTypePOList.stream().map(cuisineType -> cuisineTypesMapper.toCuisineTypeBO(cuisineType, setDefaultLanguageIfNull(language))).collect(Collectors.toCollection(ArrayList::new));
@@ -52,8 +57,15 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
     }
 
     @Override
-    public void addCuisineType(CuisineTypeMultiLanguageBO newCuisineType) {
+    public void addCuisineType(CuisineTypeMultiLanguageBO newCuisineType) throws ApiException {
+        checkExistCuisineTypeId(newCuisineType);
         cuisineTypesRepository.save(cuisineTypesMultipleLanguageMapper.toCuisineTypePO(newCuisineType));
+    }
+
+    private void checkExistCuisineTypeId(CuisineTypeMultiLanguageBO newCuisineType) throws ApiException {
+        if (cuisineTypesRepository.findById(newCuisineType.getId()) != null) {
+            throw new ApiException(messages.get("error.badrequest.duplicatedentityname.code"), messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"));
+        }
     }
 
     @Override
