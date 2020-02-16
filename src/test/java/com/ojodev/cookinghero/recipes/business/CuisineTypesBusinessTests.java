@@ -6,10 +6,10 @@ import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
-import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.CuisineTypesRepository;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -117,7 +117,6 @@ public class CuisineTypesBusinessTests {
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_03_ID, cuisineTypesEn.get(2).getId());
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_03_NAME_ENGLISH, cuisineTypesEn.get(2).getName());
         assertEquals(CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH, cuisineTypesEn.get(2).getLanguage());
-
     }
 
     @Test
@@ -166,79 +165,65 @@ public class CuisineTypesBusinessTests {
         Optional<CuisineTypeBO> cuisineTypeEn = cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, LanguageEnumBO.EN);
         assertNotNull(cuisineTypeEn);
         assertFalse(cuisineTypeEn.isPresent());
-
     }
 
     @Test
     public void addNewCuisineTypes() throws Exception {
         when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO.getId())).thenReturn(null);
         when(this.cuisineTypesRepository.save(any())).thenReturn(null);
-        cuisineTypesBusiness.addCuisineType(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO);
 
+        cuisineTypesBusiness.addCuisineType(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO);
     }
 
     @Test
-    public void addExistentCuisineTypes()  {
+    public void addExistentCuisineTypes() {
         when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO.getId())).thenReturn(CuisineTypesExamples.CUISINE_TYPE_PO_01);
-        try{
+
+        ApiException e = Assertions.assertThrows(ApiException.class, () -> {
             cuisineTypesBusiness.addCuisineType(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO);
-            fail("Need throw an exception");
-        } catch (ApiException e) {
-            assertEquals( messages.get("error.badrequest.duplicatedentityname.code"), e.getCode());
-            assertEquals( messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"), e.getDescription());
-        }
+        });
+
+        assertEquals(messages.get("error.badrequest.duplicatedentityname.code"), e.getCode());
+        assertEquals(messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"), e.getDescription());
     }
 
     @Test
     public void addOrReplaceCuisineTypeNoDefaultLanguage()  {
         when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_PO_01.getObjectId())).thenReturn(CuisineTypesExamples.CUISINE_TYPE_PO_01);
-        try{
-            cuisineTypesBusiness.addOrReplaceCuisineType(CuisineTypesExamples.CUISINE_TYPE_BO_01_SPANISH);
-        } catch (ApiException e) {
-            fail("No need throw an exception");
-        }
+
+        Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.addOrReplaceCuisineType(CuisineTypesExamples.CUISINE_TYPE_BO_01_SPANISH));
+
     }
 
     @Test
     public void addOrReplaceCuisineTypeDefaultLanguage()  {
         when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_PO_01.getObjectId())).thenReturn(CuisineTypesExamples.CUISINE_TYPE_PO_01);
-        try{
+
+        ApiFieldsException e = Assertions.assertThrows(ApiFieldsException.class, () -> {
             cuisineTypesBusiness.addOrReplaceCuisineType(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH);
-            fail("Need throw an exception");
-        } catch (ApiFieldsException e) {
-            assertEquals( messages.get("error.badrequest.invalidparams.code"), e.getCode());
-            assertEquals( messages.get("error.badrequest.invalidparams.desc"), e.getDescription());
-            assertNotNull(e.getFields());
-            assertEquals(1, e.getFields().size());
-            assertEquals( messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"), e.getFields().get(0).getCode());
-            assertEquals( messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage"), e.getFields().get(0).getDescription());
-        } catch (ApiException e) {
-            fail("Need throw an ApiFieldsException");
-        }
+        });
+        assertEquals( messages.get("error.badrequest.invalidparams.code"), e.getCode());
+        assertEquals( messages.get("error.badrequest.invalidparams.desc"), e.getDescription());
+        assertNotNull(e.getFields());
+        assertEquals(1, e.getFields().size());
+        assertEquals( messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"), e.getFields().get(0).getCode());
+        assertEquals( messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage"), e.getFields().get(0).getDescription());
     }
 
     @Test
     public void deleteCuisineType() {
         when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO.getId())).thenReturn(CuisineTypesExamples.CUISINE_TYPE_PO_01);
 
-        try {
-            cuisineTypesBusiness.deleteCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID);
-        } catch (NotFoundException e) {
-            fail("Need to delete the resource");
-        }
+        Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.deleteCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID),"Need to delete the resource");
     }
 
     @Test
     public void deleteNotFoundCuisineType()  {
-        when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO.getId())).thenReturn(null);
-        try{
+        NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
             cuisineTypesBusiness.deleteCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID);
-            fail("Need throw an exception");
-        } catch (NotFoundException e) {
-            assertEquals( messages.get("error.notfound.code"), e.getCode());
-            assertEquals( messages.get("error.notfound.desc"), e.getDescription());
-        }
-
+        });
+        assertEquals( messages.get("error.notfound.code"), exception.getCode());
+        assertEquals( messages.get("error.notfound.desc"), exception.getDescription());
     }
 
 

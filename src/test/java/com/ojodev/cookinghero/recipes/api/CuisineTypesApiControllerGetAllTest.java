@@ -179,6 +179,4 @@ public class CuisineTypesApiControllerGetAllTest {
                 .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH));
     }
 
-
-
 }

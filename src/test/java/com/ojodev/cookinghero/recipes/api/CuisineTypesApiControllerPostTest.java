@@ -16,10 +16,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.io.File;
+import java.nio.file.Files;
+
+import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -44,6 +47,7 @@ public class CuisineTypesApiControllerPostTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_NEW)))
+                .andExpect(header().string(HttpHeaders.LOCATION, endsWith("/cuisine-types/" + CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH)))
                 .andExpect(status().isCreated());
         }
 
@@ -63,19 +67,9 @@ public class CuisineTypesApiControllerPostTest {
     @Test
     public void postInvalidLanguageInCuisineTypeName() throws Exception {
 
-        String content = "{\n" +
-                "  \"names\": [\n" +
-                "    {\n" +
-                "      \"name\": \"veggie\",\n" +
-                "      \"language\": \"en\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"name\": \"invalid\",\n" +
-                "      \"language\": \"xx\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
-
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("cuisine-type-invalid-language.json").getFile());
+        String content = new String(Files.readAllBytes(file.toPath()));
         this.mvc.perform(post("/cuisine-types")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)

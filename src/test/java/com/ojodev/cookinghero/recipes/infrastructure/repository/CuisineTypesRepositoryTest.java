@@ -4,22 +4,12 @@ import com.ojodev.cookinghero.recipes.RecipesApplication;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
-import org.neo4j.harness.ServerControls;
-import org.neo4j.harness.TestServerBuilders;
-import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.config.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.data.neo4j.DataNeo4jTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -38,6 +28,10 @@ public class CuisineTypesRepositoryTest {
 
     @Autowired
     private CuisineTypesRepository cuisineTypesRepository;
+
+
+  //  private ServerControls embeddedDatabaseServer;
+
 
    // @Before
    // public void setup() {

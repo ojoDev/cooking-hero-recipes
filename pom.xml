@@ -23,6 +23,8 @@
 		<java.version>1.11</java.version>
 		<docker.image.prefix>ojodev</docker.image.prefix>
 		<neo4j.version>3.5.11</neo4j.version>
+		<neo4j.harness.version>3.4.17</neo4j.harness.version>
+		<neo4j-java-driver.version>1.7.2</neo4j-java-driver.version>
 		<junit-jupiter.version>5.3.2</junit-jupiter.version>
 	</properties>
 
@@ -350,12 +352,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.neo4j.test</groupId>
-			<artifactId>neo4j-harness</artifactId>
-			<version>${neo4j.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.neo4j</groupId>
 			<artifactId>neo4j-ogm-embedded-driver</artifactId>
 			<version>3.2.8</version>
@@ -387,12 +383,33 @@
 			<type>test-jar</type>
 		</dependency>
 
+		<!-- Neo4j test-->
+
+		<!--	<dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.neo4j.test</groupId>
+                <artifactId>neo4j-harness</artifactId>
+                <version>${neo4j.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.neo4j.driver</groupId>
+                <artifactId>neo4j-java-driver</artifactId>
+                <version>${neo4j-java-driver.version}</version>
+                <scope>test</scope>
+            </dependency> -->
 
 
 
 
-
-		<!-- LIBS UTILS -->
+            <!-- LIBS UTILS -->
 
 		<!-- Lombok: annotations in beans for simple POJO definitions -->
 		<dependency>

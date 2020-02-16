@@ -31,7 +31,12 @@ public abstract class CuisineTypesMapperDecorator implements CuisineTypesMapper 
     }
 
    private String selectNameByLanguage(List<LanguageNamePO> names, String language) {
-       return names.stream().filter(n -> language.equals(n.getLanguage())).collect(Collectors.toList()).get(0).getName();
+        List<LanguageNamePO> languageNames = names.stream().filter(n -> language.equals(n.getLanguage())).collect(Collectors.toList());
+        if (languageNames.isEmpty()) {
+           return selectNameByLanguage(names, RecipeConstants.DEFAULT_LANGUAGE.toString());
+       } else {
+            return languageNames.get(0).getName();
+        }
    }
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {

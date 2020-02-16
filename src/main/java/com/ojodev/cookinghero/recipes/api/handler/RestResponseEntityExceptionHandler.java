@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -55,12 +56,12 @@ public class RestResponseEntityExceptionHandler {
                         e.getFields().stream().map(field -> new ApiFieldError(field.getCode(), field.getField(), field.getDescription())).collect(Collectors.toList())));
     }
 
-    @ExceptionHandler(ApiAcceptException.class)
-    public ResponseEntity<ApiError> handleApiAcceptException(ApiAcceptException e) {
-        LOGGER.error("ApiAcceptException: " + e);
+    @ExceptionHandler({HttpMediaTypeNotAcceptableException.class})
+    public ResponseEntity<ApiError> handleApiAcceptException(HttpMediaTypeNotAcceptableException e) {
+        LOGGER.error("HttpMediaTypeNotAcceptableException: " + e);
         return new ResponseEntity<>(new ApiError(
-                isEmpty(e.getCode()) ? messages.get("error.notacceptable.code") : e.getCode(),
-                isEmpty(e.getDescription()) ? messages.get("error.notacceptable.desc") : e.getDescription()),
+                messages.get("error.notacceptable.code"),
+                messages.get("error.notacceptable.desc")),
                 HttpStatus.NOT_ACCEPTABLE);
     }
 
@@ -100,7 +101,6 @@ public class RestResponseEntityExceptionHandler {
         LOGGER.info("MissingRequestHeaderException: " + e);
 
         return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-             //   .headers(genereateResponseHeaders(headers))
                 .body(new ApiFieldsError(
                         messages.get("error.badrequest.invalidparams.code"),
                         messages.get("error.badrequest.invalidparams.desc"),
