@@ -7,6 +7,8 @@ package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import io.swagger.annotations.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,7 @@ public interface MeasuresApi {
             @ApiResponse(code = 500, message = "Internal server error.", response = ApiError.class) })
     @GetMapping(value = "/measures",
             produces = { MediaType.APPLICATION_JSON_VALUE })
-    ResponseEntity<List<Measure>> getMeasures(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage);
+    ResponseEntity<List<Measure>> getMeasures(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage) throws ApiFieldsException;
 
 
     @ApiOperation(value = "Add a measure", nickname = "addMeasure", notes = "Add a new measure.\nYou can add multiple languages in a single request. English (en) is mandatory. ", tags = { "measures"})
@@ -55,7 +57,7 @@ public interface MeasuresApi {
         produces = { MediaType.APPLICATION_JSON_VALUE })
     ResponseEntity<Measure> getMeasure(@ApiParam(value = "Measure id.", required = true) @PathVariable("measure-id") String measureId,
                                        @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage
-    );
+    ) throws NotFoundException, ApiFieldsException;
 
 
     @ApiOperation(value = "Update a measure", nickname = "updateMeasure", notes = "Update a measure description.\nYou can add more languages to a exist cuisine type with Accept-Language header. ", tags={ "measures"})

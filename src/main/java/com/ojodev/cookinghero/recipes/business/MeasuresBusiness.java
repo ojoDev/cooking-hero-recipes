@@ -17,8 +17,6 @@ public interface MeasuresBusiness {
 
     List<MeasureBO> getMeasures(LanguageEnumBO language);
 
-    List<MeasureBO> getMeasures(String name, LanguageEnumBO language);
-
     Optional<MeasureBO> getMeasure(String measureId, LanguageEnumBO language);
 
   /*  void addMeasure(MeasureMultiLanguageBO newMeasure) throws ApiBadRequestException;

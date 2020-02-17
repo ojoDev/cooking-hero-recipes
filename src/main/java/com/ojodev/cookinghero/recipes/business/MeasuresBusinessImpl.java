@@ -1,30 +1,48 @@
 package com.ojodev.cookinghero.recipes.business;
 
+import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
+import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
+import com.ojodev.cookinghero.recipes.infrastructure.repository.MeasuresRepository;
+import com.ojodev.cookinghero.recipes.mapper.MeasuresMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
-public class MeasuresBusinessImpl implements MeasuresBusiness{
-    @Override
-    public List<MeasureBO> getMeasures(LanguageEnumBO language) {
-        return null;
-    }
+public class MeasuresBusinessImpl implements MeasuresBusiness {
+
+    @Autowired
+    private MeasuresRepository measuresRepository;
+
+    @Autowired
+    private MeasuresMapper measuresMapper;
 
     @Override
-    public List<MeasureBO> getMeasures(String name, LanguageEnumBO language) {
-        return null;
+    public List<MeasureBO> getMeasures(LanguageEnumBO language) {
+        List<MeasurePO> measurePOList = measuresRepository.findAll();
+        return measurePOList.stream().map(measure -> measuresMapper.toMeasureBO(measure, setDefaultLanguageIfNull(language))).collect(Collectors.toCollection(ArrayList::new));
+
     }
 
     @Override
     public Optional<MeasureBO> getMeasure(String measureId, LanguageEnumBO language) {
         return Optional.empty();
     }
+/*        MeasurePO measurePO = measuresRepository.findById(measureId);
+        return Optional.ofNullable(measuresMapper.toMeasureBO(measurePO, language));*/
 
+
+    private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
+        return language == null ? RecipeConstants.DEFAULT_LANGUAGE : language;
     }
+
+}
 
    /* @Autowired
     private  MeasuresRepository MeasuresRepository;

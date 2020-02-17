@@ -64,7 +64,7 @@ public class CuisineTypesBusinessTests {
 
         List<CuisineTypeBO> cuisineTypesEs = cuisineTypesBusiness.getCuisineTypes(LanguageEnumBO.ES);
 
-        assertEquals(3, cuisineTypesEn.size());
+        assertEquals(3, cuisineTypesEs.size());
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID, cuisineTypesEs.get(0).getId());
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, cuisineTypesEs.get(0).getName());
         assertEquals(CuisineTypesExamples.LANGUAGE_ENUM_SPANISH, cuisineTypesEs.get(0).getLanguage());

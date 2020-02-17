@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MeasuresApiControllerGetAllTest {
+public class MeasuresApiControllerGetMeasureTest {
 
     @Autowired
     private MockMvc mvc;
@@ -45,51 +45,54 @@ public class MeasuresApiControllerGetAllTest {
     private static final String LOCALE_MULTIPLE_LANGUAGES = "en,de";
 
     private static final String INVALID_LANGUAGE = "xx";
-
+    private static final String INVALID_ID = "xxxxx";
 
     @Test
-    public void getAllMeasures() throws Exception {
+    public void getMeasure() throws Exception {
 
-        when(this.measuresBusiness.getMeasures(any())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_BO_01_ENGLISH, MeasuresExamples.MEASURE_BO_02_ENGLISH));
+        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_ENGLISH));
 
-        this.mvc.perform(get("/measures")
+        this.mvc.perform(get("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH))
-                .andExpect(jsonPath("$.length()", is(2)))
-                .andExpect(jsonPath("$[0].id", is(MeasuresExamples.MEASURE_01_ID)))
-                .andExpect(jsonPath("$[0].name.singular", is(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR)))
-                .andExpect(jsonPath("$[0].name.plural", is(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL)))
-                .andExpect(jsonPath("$[1].id", is(MeasuresExamples.MEASURE_02_ID)))
-                .andExpect(jsonPath("$[1].name.singular", is(MeasuresExamples.MEASURE_02_NAME_ENGLISH_SINGULAR)))
-                .andExpect(jsonPath("$[1].name.plural", is(MeasuresExamples.MEASURE_02_NAME_ENGLISH_PLURAL)));
+                .andExpect(jsonPath("$.id", is(MeasuresExamples.MEASURE_01_ID)))
+                .andExpect(jsonPath("$.name.singular", is(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR)))
+                .andExpect(jsonPath("$.name.plural", is(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL)));
     }
 
-
     @Test
-    public void getAllMeasuresDifferentLanguages() throws Exception {
+    public void getMeasureDifferentLanguages() throws Exception {
 
-        when(this.measuresBusiness.getMeasures(eq(LanguageEnumBO.EN))).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_BO_01_ENGLISH));
-        when(this.measuresBusiness.getMeasures(eq(LanguageEnumBO.ES))).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_BO_01_SPANISH));
+        when(this.measuresBusiness.getMeasure(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.EN)).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_ENGLISH));
+        when(this.measuresBusiness.getMeasure(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.ES)).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_SPANISH));
 
-        this.mvc.perform(get("/measures")
+        this.mvc.perform(get("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
+                .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH))
+                .andExpect(jsonPath("$.id", is(MeasuresExamples.MEASURE_01_ID)))
+                .andExpect(jsonPath("$.name.singular", is(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR)))
+                .andExpect(jsonPath("$.name.plural", is(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL)));
+
+        this.mvc.perform(get("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_SPANISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_SPANISH))
-                .andExpect(jsonPath("$.length()", is(1)))
-                .andExpect(jsonPath("$[0].id", is(MeasuresExamples.MEASURE_01_ID)))
-                .andExpect(jsonPath("$[0].name.singular", is(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR)))
-                .andExpect(jsonPath("$[0].name.plural", is(MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL)));
+                .andExpect(jsonPath("$.id", is(MeasuresExamples.MEASURE_01_ID)))
+                .andExpect(jsonPath("$.name.singular", is(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR)))
+                .andExpect(jsonPath("$.name.plural", is(MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL)));
     }
 
     @Test
-    public void getAllMeasuresMultipleLanguages() throws Exception {
+    public void getMeasureMultipleLanguages() throws Exception {
 
-        when(this.measuresBusiness.getMeasures(any())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_BO_01_ENGLISH, MeasuresExamples.MEASURE_BO_02_ENGLISH));
+        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_ENGLISH));
 
-        this.mvc.perform(get("/measures")
+        this.mvc.perform(get("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_MULTIPLE_LANGUAGES)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -97,11 +100,11 @@ public class MeasuresApiControllerGetAllTest {
     }
 
     @Test
-    public void getAllMeasuresNoLanguage() throws Exception {
+    public void getMeasureNoLanguage() throws Exception {
 
-        when(this.measuresBusiness.getMeasures(any())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_BO_01_ENGLISH, MeasuresExamples.MEASURE_BO_02_ENGLISH));
+        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_ENGLISH));
 
-        this.mvc.perform(get("/measures")
+        this.mvc.perform(get("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 //TODO DMS Meter interceptor general para que ponga las cabeceras correctas
@@ -115,11 +118,11 @@ public class MeasuresApiControllerGetAllTest {
     }
 
     @Test
-    public void getAllMeasuresInvalidLanguage() throws Exception {
+    public void getMeasureInvalidLanguage() throws Exception {
 
-        when(this.measuresBusiness.getMeasures(any())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_BO_01_ENGLISH, MeasuresExamples.MEASURE_BO_02_ENGLISH));
+        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_ENGLISH));
 
-        this.mvc.perform(get("/measures")
+        this.mvc.perform(get("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, INVALID_LANGUAGE)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -134,17 +137,32 @@ public class MeasuresApiControllerGetAllTest {
     }
 
     @Test
-    public void getMeasuresOutOfMemoryException() throws Exception {
+    public void getMeasureByIdNotFound() throws Exception {
 
-        when(this.measuresBusiness.getMeasures(any())).thenThrow(new OutOfMemoryError());
+        when(this.measuresBusiness.getMeasure(eq(MeasuresExamples.MEASURE_01_ID), any())).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_ENGLISH));
+        when(this.measuresBusiness.getMeasure(eq(INVALID_ID), any())).thenReturn(Optional.empty());
 
-        this.mvc.perform(get("/measures")
+        this.mvc.perform(get("/measures/{measure-id}", INVALID_ID)
+                .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
+                .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
+    }
+
+    @Test
+    public void getMeasureOutOfMemoryException() throws Exception {
+
+        when(this.measuresBusiness.getMeasure(any(), any())).thenThrow(new OutOfMemoryError());
+
+        this.mvc.perform(get("/measures/{measure-id}", INVALID_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.code", is(messages.get("error.server.code"))))
-                .andExpect(jsonPath("$.description", is(messages.get("error.server.desc"))));
+                .andExpect(jsonPath("$.description", is(messages.get("error.server.desc", LOCALE_ENGLISH))));
     }
+
 
 
 

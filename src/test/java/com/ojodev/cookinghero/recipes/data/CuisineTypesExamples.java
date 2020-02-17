@@ -13,7 +13,6 @@ import com.ojodev.cookinghero.recipes.infrastructure.po.LanguageNamePO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class CuisineTypesExamples {
 

@@ -86,7 +86,19 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
     }
 
     @Test
-    public void getAllCuisineTypesNoLanguage() throws Exception {
+    public void getCuisineTypeMultipleLanguages() throws Exception {
+
+        when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
+
+        this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
+                .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_MULTIPLE_LANGUAGES)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH));
+    }
+
+    @Test
+    public void getCuisineTypeNoLanguage() throws Exception {
 
         when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
 
@@ -104,7 +116,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
     }
 
     @Test
-    public void getAllCuisineTypesInvalidLanguage() throws Exception {
+    public void getCuisineTypeInvalidLanguage() throws Exception {
 
         when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
 
@@ -123,7 +135,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
     }
 
     @Test
-    public void getAllCuisineTypesByIdNotFound() throws Exception {
+    public void getCuisineTypeByIdNotFound() throws Exception {
 
         when(this.cuisineTypesBusiness.getCuisineType(eq(CuisineTypesExamples.CUISINE_TYPE_01_ID), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
         when(this.cuisineTypesBusiness.getCuisineType(eq(INVALID_ID), any())).thenReturn(Optional.empty());
@@ -137,7 +149,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
     }
 
     @Test
-    public void getAllCuisineTypesTypesOutOfMemoryException() throws Exception {
+    public void getCuisineTypeOutOfMemoryException() throws Exception {
 
         when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenThrow(new OutOfMemoryError());
 
@@ -148,18 +160,5 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
                 .andExpect(jsonPath("$.code", is(messages.get("error.server.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.server.desc", LOCALE_ENGLISH))));
     }
-
-    @Test
-    public void getMultipleLanguages() throws Exception {
-
-        when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
-
-        this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
-                .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_MULTIPLE_LANGUAGES)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH));
-    }
-
 
 }

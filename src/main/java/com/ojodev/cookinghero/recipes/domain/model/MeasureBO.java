@@ -14,8 +14,6 @@ public class MeasureBO {
 
     private String id;
 
-    private String name;
-
-    private LanguageEnumBO language;
+    private DescriptiveNameBO name;
 
 }

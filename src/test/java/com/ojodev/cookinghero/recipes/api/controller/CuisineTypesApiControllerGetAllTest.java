@@ -155,7 +155,7 @@ public class CuisineTypesApiControllerGetAllTest {
     }
 
     @Test
-    public void getAllCuisineTypesTypesOutOfMemoryException() throws Exception {
+    public void getAllCuisineTypesOutOfMemoryException() throws Exception {
 
         when(this.cuisineTypesBusiness.getCuisineTypes(any(), any())).thenThrow(new OutOfMemoryError());
 
@@ -168,7 +168,7 @@ public class CuisineTypesApiControllerGetAllTest {
     }
 
     @Test
-    public void getMultipleLanguages() throws Exception {
+    public void getAllMeasuresMultipleLanguages() throws Exception {
 
         when(this.cuisineTypesBusiness.getCuisineTypes(any(), any())).thenReturn(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH, CuisineTypesExamples.CUISINE_TYPE_BO_02_ENGLISH, CuisineTypesExamples.CUISINE_TYPE_BO_03_ENGLISH));
 
