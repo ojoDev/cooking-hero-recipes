@@ -1,0 +1,12 @@
+{
+  "names": [
+    {
+      "name": "veggie",
+      "language": "en"
+    },
+    {
+      "name": "invalid",
+      "language": "xx"
+    }
+  ]
+}

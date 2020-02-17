@@ -2,8 +2,8 @@ package com.ojodev.cookinghero.recipes.data;
 
 import java.math.BigDecimal;
 
-import com.ojodev.cookinghero.recipes.bean.Ingredient;
-import com.ojodev.cookinghero.recipes.po.IngredientPO;
+import com.ojodev.cookinghero.recipes.api.model.Ingredient;
+import com.ojodev.cookinghero.recipes.infrastructure.po.IngredientPO;
 
 public class IngredientsExamples {
 

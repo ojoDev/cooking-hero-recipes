@@ -12,17 +12,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class Messages {
 
-	@Autowired
+    private static final Locale LOCALE = Locale.ENGLISH;
+
+    @Autowired
     private MessageSource messageSource;
 
     private MessageSourceAccessor accessor;
 
     @PostConstruct
     private void init() {
-        accessor = new MessageSourceAccessor(messageSource, Locale.ENGLISH);
+        accessor = new MessageSourceAccessor(messageSource, LOCALE);
     }
 
-    public String get(String code) {
-        return accessor.getMessage(code);
+    public String get(String code, Object... arguments) {
+        return accessor.getMessage(code, arguments, LOCALE);
     }
+
 }

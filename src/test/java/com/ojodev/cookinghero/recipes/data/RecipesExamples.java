@@ -1,10 +1,10 @@
 package com.ojodev.cookinghero.recipes.data;
 
-import com.ojodev.cookinghero.recipes.bean.PhotoRef;
-import com.ojodev.cookinghero.recipes.bean.Recipe;
-import com.ojodev.cookinghero.recipes.bean.RecipeRequest;
-import com.ojodev.cookinghero.recipes.constants.RecipeConstants;
-import com.ojodev.cookinghero.recipes.po.RecipePO;
+import com.ojodev.cookinghero.recipes.api.model.PhotoRef;
+import com.ojodev.cookinghero.recipes.api.model.Recipe;
+import com.ojodev.cookinghero.recipes.api.model.RecipeRequest;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.infrastructure.po.RecipePO;
 import org.bson.types.Decimal128;
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
