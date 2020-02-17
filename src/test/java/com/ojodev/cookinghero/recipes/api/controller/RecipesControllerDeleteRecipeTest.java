@@ -1,4 +1,4 @@
-package com.ojodev.cookinghero.recipes.api;
+package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.RecipesExamples;

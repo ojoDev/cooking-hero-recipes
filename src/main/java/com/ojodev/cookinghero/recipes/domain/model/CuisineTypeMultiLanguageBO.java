@@ -38,11 +38,6 @@ public class CuisineTypeMultiLanguageBO {
             this.languageNames(languageNames);
         }
 
-        public Builder id(String id) {
-            setId(id);
-            return this;
-        }
-
         public Builder languageName(LanguageNameBO newLanguageName) {
             validateLanguageName(newLanguageName);
             if (languageExists(newLanguageName)) {

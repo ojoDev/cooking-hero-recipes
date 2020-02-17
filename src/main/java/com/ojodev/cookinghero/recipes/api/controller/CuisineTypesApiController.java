@@ -1,7 +1,9 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.api.model.CuisineType;
+import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
+import com.ojodev.cookinghero.recipes.api.model.CuisineTypeUpdate;
+import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.config.RecipesConfig;
@@ -18,7 +20,6 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@Api(tags = "cuisine-types", description = "Cuisine types API")
+@Api(tags = "cuisine-types", value = "Cuisine types of recipes")
 public class CuisineTypesApiController implements CuisineTypesApi {
 
     private static final String ACCEPT_LANGUAGE_SEPARATOR = ",";
@@ -58,19 +58,10 @@ public class CuisineTypesApiController implements CuisineTypesApi {
     @Autowired
     private RecipesConfig config;
 
-    private final ObjectMapper objectMapper;
-
-    private final HttpServletRequest request;
-
-    @Autowired
-    public CuisineTypesApiController(ObjectMapper objectMapper, HttpServletRequest request) {
-        this.objectMapper = objectMapper;
-        this.request = request;
-    }
 
     public ResponseEntity<List<CuisineType>> getCuisineTypes(
-            @ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage,
-            @ApiParam(value = "Cuisine type name. Partial searches allowed.") @Valid @RequestParam(value = "name", required = false) String name) throws ApiException {
+            @ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage,
+            @ApiParam(value = "Cuisine type name. Partial searches allowed.", example = "veggie") @Valid @RequestParam(value = "name", required = false) String name) throws ApiException {
 
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
@@ -129,7 +120,8 @@ public class CuisineTypesApiController implements CuisineTypesApi {
     }
 
 
-    public ResponseEntity<CuisineType> getCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId, @ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage) throws ApiException {
+    public ResponseEntity<CuisineType> getCuisineType(@ApiParam(value = "Cuisine type id.", required = true, example = "veggie") @PathVariable("cuisine-type-id") String cuisineTypeId,
+                                                      @ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage) throws ApiException {
 
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
@@ -142,8 +134,8 @@ public class CuisineTypesApiController implements CuisineTypesApi {
                 .body(cuisineTypeMapper.toCuisineType(cuisineTypeBOOpt.get()));
     }
 
-    public ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage,
-                                                  @ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId,
+    public ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage,
+                                                  @ApiParam(value = "Cuisine type id.", required = true, example = "veggie") @PathVariable("cuisine-type-id") String cuisineTypeId,
                                                   @ApiParam(value = "CuisineType to update.") @Valid @RequestBody CuisineTypeUpdate body) throws ApiException {
 
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
@@ -151,7 +143,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<Void> deleteCuisineType(@ApiParam(value = "Cuisine type id.", required = true) @PathVariable("cuisine-type-id") String cuisineTypeId) throws NotFoundException, ApiAcceptException {
+    public ResponseEntity<Void> deleteCuisineType(@ApiParam(value = "Cuisine type id.", required = true, example = "veggie") @PathVariable("cuisine-type-id") String cuisineTypeId) throws NotFoundException {
         cuisineTypesBusiness.deleteCuisineType(cuisineTypeId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

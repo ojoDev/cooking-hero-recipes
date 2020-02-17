@@ -1,4 +1,4 @@
-package com.ojodev.cookinghero.recipes.api;
+package com.ojodev.cookinghero.recipes.api.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;

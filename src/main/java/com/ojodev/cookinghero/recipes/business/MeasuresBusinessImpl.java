@@ -1,32 +1,33 @@
 package com.ojodev.cookinghero.recipes.business;
 
-import com.google.common.net.HttpHeaders;
-import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
-import com.ojodev.cookinghero.recipes.domain.exception.*;
-import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
-import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.LanguageNamePO;
-import com.ojodev.cookinghero.recipes.infrastructure.repository.CuisineTypesRepository;
-import com.ojodev.cookinghero.recipes.mapper.CuisineTypesMapper;
-import com.ojodev.cookinghero.recipes.mapper.CuisineTypesMultipleLanguageMapper;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
-public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
+public class MeasuresBusinessImpl implements MeasuresBusiness{
+    @Override
+    public List<MeasureBO> getMeasures(LanguageEnumBO language) {
+        return null;
+    }
 
-    @Autowired
-    private CuisineTypesRepository cuisineTypesRepository;
+    @Override
+    public List<MeasureBO> getMeasures(String name, LanguageEnumBO language) {
+        return null;
+    }
+
+    @Override
+    public Optional<MeasureBO> getMeasure(String measureId, LanguageEnumBO language) {
+        return Optional.empty();
+    }
+
+    }
+
+   /* @Autowired
+    private  MeasuresRepository MeasuresRepository;
 
     @Autowired
     private CuisineTypesMapper cuisineTypesMapper;
@@ -118,6 +119,6 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
         return language == null ? RecipeConstants.DEFAULT_LANGUAGE : language;
-    }
+    }*/
 
-}
+

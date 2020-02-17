@@ -11,6 +11,7 @@ import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.LanguageNamePO;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,6 +55,16 @@ public class CuisineTypesExamples {
     public static final CuisineTypePO CUISINE_TYPE_PO_03 = new CuisineTypePO(CUISINE_TYPE_03_ID, Arrays.asList(
             new LanguageNamePO(LANGUAGE_EN, CUISINE_TYPE_03_NAME_ENGLISH),
             new LanguageNamePO(LANGUAGE_ES, CUISINE_TYPE_03_NAME_SPANISH)));
+    public static final CuisineTypePO CUISINE_TYPE_PO_01_ONLY_ENGLISH = initCuisineTypeNewOnlyEnglish();
+
+    private static CuisineTypePO initCuisineTypeNewOnlyEnglish() {
+        CuisineTypePO cuisineTypePO = new CuisineTypePO();
+        cuisineTypePO.setObjectId(CUISINE_TYPE_01_ID);
+        ArrayList<LanguageNamePO>  names = new ArrayList<>();
+        names.add(new LanguageNamePO(LANGUAGE_EN, CUISINE_TYPE_01_NAME_ENGLISH));
+        cuisineTypePO.setNames(names);
+        return cuisineTypePO;
+    }
 
     public static final CuisineTypeNew CUISINE_TYPE_NEW = initCuisineTypeNew();
     public static final CuisineTypeNew CUISINE_TYPE_NEW_NO_DEFAULT_LANGUAGE = initCuisineTypeNewNoDefaultLanguage();

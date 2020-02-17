@@ -1,4 +1,4 @@
-package com.ojodev.cookinghero.recipes.api;
+package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;

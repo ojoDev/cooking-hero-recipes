@@ -10,6 +10,7 @@ import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.CuisineTypesRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -120,6 +121,26 @@ public class CuisineTypesBusinessTests {
     }
 
     @Test
+    public void getAllCuisineTypesByNullName() throws Exception {
+        when(this.cuisineTypesRepository.findByName(any(), eq(CuisineTypesExamples.LANGUAGE_EN))).thenReturn(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_PO_03));
+        when(this.cuisineTypesRepository.findAll()).thenReturn(Arrays.asList(CuisineTypesExamples.CUISINE_TYPE_PO_01, CuisineTypesExamples.CUISINE_TYPE_PO_02, CuisineTypesExamples.CUISINE_TYPE_PO_03));
+
+        List<CuisineTypeBO> cuisineTypesNullName = cuisineTypesBusiness.getCuisineTypes(null, LanguageEnumBO.EN);
+        List<CuisineTypeBO> cuisineTypesNoName = cuisineTypesBusiness.getCuisineTypes(LanguageEnumBO.EN);
+
+        assertEquals(3, cuisineTypesNullName.size());
+        assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_ID, cuisineTypesNullName.get(0).getId());
+        assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, cuisineTypesNullName.get(0).getName());
+        assertEquals(CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH, cuisineTypesNullName.get(0).getLanguage());
+
+        assertEquals(3, cuisineTypesNoName.size());
+        assertEquals(cuisineTypesNoName.get(0).getId(), cuisineTypesNoName.get(0).getId());
+        assertEquals(cuisineTypesNoName.get(0).getName(), cuisineTypesNoName.get(0).getName());
+        assertEquals(cuisineTypesNoName.get(0).getLanguage(), cuisineTypesNoName.get(0).getLanguage());
+
+    }
+
+    @Test
     public void getCuisineTypeById() throws Exception {
         when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_01_ID)).thenReturn(CuisineTypesExamples.CUISINE_TYPE_PO_01);
         when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_02_ID)).thenReturn(CuisineTypesExamples.CUISINE_TYPE_PO_02);
@@ -187,9 +208,19 @@ public class CuisineTypesBusinessTests {
         assertEquals(messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"), e.getDescription());
     }
 
-    @Test
-    public void addOrReplaceCuisineTypeNoDefaultLanguage()  {
+    @Test()
+    @DisplayName("Replace cuisine type name if name exists")
+    public void addOrReplaceCuisineTypeReplaceNoDefaultLanguage()  {
         when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_PO_01.getObjectId())).thenReturn(CuisineTypesExamples.CUISINE_TYPE_PO_01);
+
+        Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.addOrReplaceCuisineType(CuisineTypesExamples.CUISINE_TYPE_BO_01_SPANISH));
+
+    }
+
+    @Test()
+    @DisplayName("Add cuisine type name if name exists")
+    public void addOrReplaceCuisineTypeAddNoDefaultLanguage()  {
+        when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_PO_01.getObjectId())).thenReturn(CuisineTypesExamples.CUISINE_TYPE_PO_01_ONLY_ENGLISH);
 
         Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.addOrReplaceCuisineType(CuisineTypesExamples.CUISINE_TYPE_BO_01_SPANISH));
 
@@ -208,6 +239,13 @@ public class CuisineTypesBusinessTests {
         assertEquals(1, e.getFields().size());
         assertEquals( messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"), e.getFields().get(0).getCode());
         assertEquals( messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage"), e.getFields().get(0).getDescription());
+    }
+
+    @Test
+    public void addOrReplaceCuisineTypeNoExists()  {
+        when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_PO_01.getObjectId())).thenReturn(null);
+
+        Assertions.assertThrows(NotFoundException.class, () -> cuisineTypesBusiness.addOrReplaceCuisineType(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
     }
 
     @Test

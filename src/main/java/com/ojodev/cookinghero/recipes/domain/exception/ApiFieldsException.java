@@ -8,7 +8,6 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class ApiFieldsException extends ApiException {
 
     public ApiFieldsException(String code, String description, List<FieldError> fields) {

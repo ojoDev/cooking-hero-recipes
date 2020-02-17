@@ -6,23 +6,24 @@ import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
+import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
 @Component
-public interface CuisineTypesBusiness {
+public interface MeasuresBusiness {
 
-    List<CuisineTypeBO> getCuisineTypes(LanguageEnumBO language);
+    List<MeasureBO> getMeasures(LanguageEnumBO language);
 
-    List<CuisineTypeBO> getCuisineTypes(String name, LanguageEnumBO language);
+    List<MeasureBO> getMeasures(String name, LanguageEnumBO language);
 
-    Optional<CuisineTypeBO> getCuisineType(String id, LanguageEnumBO language);
+    Optional<MeasureBO> getMeasure(String measureId, LanguageEnumBO language);
 
-    void addCuisineType(CuisineTypeMultiLanguageBO newCuisineType) throws ApiBadRequestException;
+  /*  void addMeasure(MeasureMultiLanguageBO newMeasure) throws ApiBadRequestException;
 
-    void addOrReplaceCuisineType(CuisineTypeBO cuisineType) throws ApiException;
+    void addOrReplaceMeasure(MeasureBO cuisineType) throws ApiException;
 
-    void deleteCuisineType(String cuisineTypeId) throws NotFoundException;
+    void deleteMeasure(String measureId) throws NotFoundException;*/
 }

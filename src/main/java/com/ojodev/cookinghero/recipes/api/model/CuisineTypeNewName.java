@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Cuisine type name in a specific language.
  */
@@ -19,11 +21,11 @@ import org.springframework.validation.annotation.Validated;
 public class CuisineTypeNewName {
 
     @JsonProperty("name")
-    @ApiModelProperty(example = "veggie", value = "Descriptive cuisine type name.")
+    @ApiModelProperty(example = "veggie", value = "Descriptive cuisine type name.", required = true)
     private String name;
 
     @JsonProperty("language")
-    @ApiModelProperty(value = "Language type.")
+    @ApiModelProperty(value = "Language type.", required = true)
     private LanguageEnum language;
 
 }

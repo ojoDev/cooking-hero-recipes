@@ -1,4 +1,4 @@
-package com.ojodev.cookinghero.recipes.api;
+package com.ojodev.cookinghero.recipes.api.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;

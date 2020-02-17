@@ -26,6 +26,7 @@
 		<neo4j.harness.version>3.4.17</neo4j.harness.version>
 		<neo4j-java-driver.version>1.7.2</neo4j-java-driver.version>
 		<junit-jupiter.version>5.3.2</junit-jupiter.version>
+		<junit.platform.version>1.5.2</junit.platform.version>
 	</properties>
 
 
@@ -66,6 +67,7 @@
                     <target>9</target>
                 </configuration>
 			</plugin>
+
 			<!-- Mapstruct & Lombok support for mapstruct -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -282,14 +284,28 @@
 
 		<!-- TESTING -->
 
-		<!-- test dependencies -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Mockito -->
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-runner</artifactId>
+			<version>${junit.platform.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- test dependencies -->
+		<!--<dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+    </dependency>-->
+    <!-- Mockito -->
 		<!-- <dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -367,13 +383,6 @@
 			<groupId>org.neo4j</groupId>
 			<artifactId>neo4j</artifactId>
 			<version>4.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>${junit-jupiter.version}</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>

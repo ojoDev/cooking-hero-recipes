@@ -2,6 +2,7 @@ package com.ojodev.cookinghero.recipes.domain.model;
 
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -37,15 +38,13 @@ public class CuisineTypeMultiLanguageBOTest {
         List<LanguageNameBO> languageNameList = new ArrayList<>();
         languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH);
 
-        try {
-            CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
-                    languageNameList,
-                    CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
-                    .build();
-            fail("Need to be throw an exception");
-        } catch (IllegalArgumentException e) {
-            // Ok, needs to include default language
-        }
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> {
+                    CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
+                            languageNameList,
+                            CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
+                            .build();
+                }, "Need to be throw an exception");
     }
 
         @Test
@@ -88,5 +87,33 @@ public class CuisineTypeMultiLanguageBOTest {
         assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_02_SPANISH.getName(), cuisineType.getLanguageNames().get(1).getName());
     }
 
+    @Test
+    public void createCuisineTypeMultiLanguageBOWithInvalidLanguageName() {
+        List<LanguageNameBO> languageNameList = new ArrayList<>();
+        languageNameList.add(new LanguageNameBO(null,null));
+
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> {
+                    new CuisineTypeMultiLanguageBO.Builder(
+                            languageNameList,
+                            CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
+                            .build();
+                }, "Need to be throw an exception");
+        assertEquals("Language name needs to include at least name and language fields", exception.getMessage());
+    }
+
+    @Test
+    public void createCuisineTypeMultiLanguageBONoNames() {
+        List<LanguageNameBO> languageNameList = new ArrayList<>();
+
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> {
+                    new CuisineTypeMultiLanguageBO.Builder(
+                            languageNameList,
+                            CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
+                            .build();
+                }, "Need to be throw an exception");
+        assertEquals("CuisineType needs to include at least one name", exception.getMessage());
+    }
 
 }
