@@ -16,10 +16,8 @@ public class CuisineTypePO {
 
     private String objectId;
 
-
     @Relationship(type = "REPRESENTED_BY")
     private List<LanguageNamePO> names;
-
 
     public CuisineTypePO() {
     }

@@ -1,5 +1,6 @@
 package com.ojodev.cookinghero.recipes.business;
 
+import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
@@ -7,6 +8,7 @@ import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.CuisineTypesRepository;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.MeasuresRepository;
@@ -55,7 +57,7 @@ public class MeasuresBusinessTests {
         List<MeasureBO> measuresEn = measuresBusiness.getMeasures(LanguageEnumBO.EN);
 
         assertNotNull(measuresEn);
-        assertEquals(3, measuresEn.size());
+        assertEquals(2, measuresEn.size());
         assertEquals(MeasuresExamples.MEASURE_01_ID, measuresEn.get(0).getId());
         assertNotNull(measuresEn.get(0).getName());
         assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, measuresEn.get(0).getName().getSingular());
@@ -70,133 +72,88 @@ public class MeasuresBusinessTests {
         List<MeasureBO> measuresEs = measuresBusiness.getMeasures(LanguageEnumBO.ES);
 
         assertNotNull(measuresEs);
-        assertEquals(3, measuresEs.size());
+        assertEquals(2, measuresEs.size());
         assertEquals(MeasuresExamples.MEASURE_01_ID, measuresEs.get(0).getId());
         assertNotNull(measuresEs.get(0).getName());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, measuresEs.get(0).getName().getSingular());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, measuresEs.get(0).getName().getPlural());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, measuresEs.get(0).getName().getLanguage());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, measuresEs.get(0).getName().getSingular());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, measuresEs.get(0).getName().getPlural());
+        assertEquals(MeasuresExamples.LANGUAGE_ENUM_SPANISH, measuresEs.get(0).getName().getLanguage());
         assertEquals(MeasuresExamples.MEASURE_02_ID, measuresEs.get(1).getId());
         assertNotNull(measuresEs.get(1).getName());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH_SINGULAR, measuresEs.get(1).getName().getSingular());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH_PLURAL, measuresEs.get(1).getName().getPlural());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, measuresEs.get(1).getName().getLanguage());
-    }
-
-/*
-    @Test
-    public void getAllCuisineTypesByNameAndLanguage() throws Exception {
-        when(this.cuisineTypesRepository.findByName(MeasuresExamples.MEASURE_01_NAME_ENGLISH, MeasuresExamples.LANGUAGE_EN)).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_01));
-        when(this.cuisineTypesRepository.findByName(MeasuresExamples.MEASURE_02_NAME_ENGLISH, MeasuresExamples.LANGUAGE_EN)).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_02));
-        when(this.cuisineTypesRepository.findByName(MeasuresExamples.MEASURE_01_NAME_SPANISH, MeasuresExamples.LANGUAGE_ES)).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_01));
-
-        List<CuisineTypeBO> cuisineTypes01English = cuisineTypesBusiness.getCuisineTypes(MeasuresExamples.MEASURE_01_NAME_ENGLISH, LanguageEnumBO.EN);
-        assertEquals(1, cuisineTypes01English.size());
-        assertEquals(MeasuresExamples.MEASURE_01_ID, cuisineTypes01English.get(0).getId());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH, cuisineTypes01English.get(0).getName());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, cuisineTypes01English.get(0).getLanguage());
-
-        List<CuisineTypeBO> cuisineTypes02English = cuisineTypesBusiness.getCuisineTypes(MeasuresExamples.MEASURE_02_NAME_ENGLISH, LanguageEnumBO.EN);
-        assertEquals(1, cuisineTypes02English.size());
-        assertEquals(MeasuresExamples.MEASURE_02_ID, cuisineTypes02English.get(0).getId());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH, cuisineTypes02English.get(0).getName());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, cuisineTypes02English.get(0).getLanguage());
-
-        List<CuisineTypeBO> cuisineTypes01Spanish = cuisineTypesBusiness.getCuisineTypes(MeasuresExamples.MEASURE_01_NAME_SPANISH, LanguageEnumBO.ES);
-        assertEquals(1, cuisineTypes01Spanish.size());
-        assertEquals(MeasuresExamples.MEASURE_01_ID, cuisineTypes01Spanish.get(0).getId());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH, cuisineTypes01Spanish.get(0).getName());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_SPANISH, cuisineTypes01Spanish.get(0).getLanguage());
-    }
-
-
-    @Test
-    public void getAllCuisineTypesWithDefaultLanguage() throws Exception {
-        when(this.cuisineTypesRepository.findAll()).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_01, MeasuresExamples.MEASURE_PO_02, MeasuresExamples.MEASURE_PO_03));
-
-        List<CuisineTypeBO> cuisineTypesEn = cuisineTypesBusiness.getCuisineTypes(null);
-
-        assertEquals(3, cuisineTypesEn.size());
-        assertEquals(MeasuresExamples.MEASURE_01_ID, cuisineTypesEn.get(0).getId());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH, cuisineTypesEn.get(0).getName());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, cuisineTypesEn.get(0).getLanguage());
-        assertEquals(MeasuresExamples.MEASURE_02_ID, cuisineTypesEn.get(1).getId());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH, cuisineTypesEn.get(1).getName());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, cuisineTypesEn.get(1).getLanguage());
-        assertEquals(MeasuresExamples.MEASURE_03_ID, cuisineTypesEn.get(2).getId());
-        assertEquals(MeasuresExamples.MEASURE_03_NAME_ENGLISH, cuisineTypesEn.get(2).getName());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, cuisineTypesEn.get(2).getLanguage());
+        assertEquals(MeasuresExamples.MEASURE_02_NAME_SPANISH_SINGULAR, measuresEs.get(1).getName().getSingular());
+        assertEquals(MeasuresExamples.MEASURE_02_NAME_SPANISH_PLURAL, measuresEs.get(1).getName().getPlural());
+        assertEquals(MeasuresExamples.LANGUAGE_ENUM_SPANISH, measuresEs.get(1).getName().getLanguage());
     }
 
     @Test
-    public void getAllCuisineTypesByNullName() throws Exception {
-        when(this.cuisineTypesRepository.findByName(any(), eq(MeasuresExamples.LANGUAGE_EN))).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_03));
-        when(this.cuisineTypesRepository.findAll()).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_01, MeasuresExamples.MEASURE_PO_02, MeasuresExamples.MEASURE_PO_03));
+    public void getAllMeasuresWithDefaultLanguage() throws Exception {
 
-        List<CuisineTypeBO> cuisineTypesNullName = cuisineTypesBusiness.getCuisineTypes(null, LanguageEnumBO.EN);
-        List<CuisineTypeBO> cuisineTypesNoName = cuisineTypesBusiness.getCuisineTypes(LanguageEnumBO.EN);
+        when(this.measuresRepository.findAll()).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_01, MeasuresExamples.MEASURE_PO_02));
 
-        assertEquals(3, cuisineTypesNullName.size());
-        assertEquals(MeasuresExamples.MEASURE_01_ID, cuisineTypesNullName.get(0).getId());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH, cuisineTypesNullName.get(0).getName());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, cuisineTypesNullName.get(0).getLanguage());
+        List<MeasureBO> measuresEn = measuresBusiness.getMeasures(null);
 
-        assertEquals(3, cuisineTypesNoName.size());
-        assertEquals(cuisineTypesNoName.get(0).getId(), cuisineTypesNoName.get(0).getId());
-        assertEquals(cuisineTypesNoName.get(0).getName(), cuisineTypesNoName.get(0).getName());
-        assertEquals(cuisineTypesNoName.get(0).getLanguage(), cuisineTypesNoName.get(0).getLanguage());
-
+        assertNotNull(measuresEn);
+        assertEquals(2, measuresEn.size());
+        assertEquals(MeasuresExamples.MEASURE_01_ID, measuresEn.get(0).getId());
+        assertNotNull(measuresEn.get(0).getName());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, measuresEn.get(0).getName().getSingular());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, measuresEn.get(0).getName().getPlural());
+        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, measuresEn.get(0).getName().getLanguage());
+        assertEquals(MeasuresExamples.MEASURE_02_ID, measuresEn.get(1).getId());
+        assertNotNull(measuresEn.get(1).getName());
+        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH_SINGULAR, measuresEn.get(1).getName().getSingular());
+        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH_PLURAL, measuresEn.get(1).getName().getPlural());
+        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, measuresEn.get(1).getName().getLanguage());
     }
 
     @Test
-    public void getCuisineTypeById() throws Exception {
-        when(this.cuisineTypesRepository.findById(MeasuresExamples.MEASURE_01_ID)).thenReturn(MeasuresExamples.MEASURE_PO_01);
-        when(this.cuisineTypesRepository.findById(MeasuresExamples.MEASURE_02_ID)).thenReturn(MeasuresExamples.MEASURE_PO_02);
+    public void getMeasureById() throws Exception {
+        when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_01_ID)).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_01));
 
-        Optional<CuisineTypeBO> cuisineType01 = cuisineTypesBusiness.getCuisineType(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.EN);
-        assertNotNull(cuisineType01);
-        assertTrue(cuisineType01.isPresent());
-        assertEquals(MeasuresExamples.MEASURE_01_ID, cuisineType01.get().getId());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH, cuisineType01.get().getName());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, cuisineType01.get().getLanguage());
+        Optional<MeasureBO> measureEn = measuresBusiness.getMeasure(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.EN);
 
-        Optional<CuisineTypeBO> cuisineType02 = cuisineTypesBusiness.getCuisineType(MeasuresExamples.MEASURE_02_ID, LanguageEnumBO.EN);
-        assertNotNull(cuisineType02);
-        assertTrue(cuisineType02.isPresent());
-        assertEquals(MeasuresExamples.MEASURE_02_ID, cuisineType02.get().getId());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH, cuisineType02.get().getName());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, cuisineType02.get().getLanguage());
+        assertNotNull(measureEn);
+        assertTrue(measureEn.isPresent());
+        assertEquals(MeasuresExamples.MEASURE_01_ID, measureEn.get().getId());
+        assertNotNull(measureEn.get().getName());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, measureEn.get().getName().getSingular());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, measureEn.get().getName().getPlural());
+        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, measureEn.get().getName().getLanguage());
     }
 
     @Test
-    public void getCuisineTypeByIdDifferentLanguages() throws Exception {
-        when(this.cuisineTypesRepository.findById(MeasuresExamples.MEASURE_01_ID)).thenReturn(MeasuresExamples.MEASURE_PO_01);
+    public void getMeasureDifferentLanguages() throws Exception {
+        when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_01_ID)).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_01));
 
-        Optional<CuisineTypeBO> cuisineTypeEn = cuisineTypesBusiness.getCuisineType(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.EN);
-        assertNotNull(cuisineTypeEn);
-        assertTrue(cuisineTypeEn.isPresent());
-        assertEquals(MeasuresExamples.MEASURE_01_ID, cuisineTypeEn.get().getId());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH, cuisineTypeEn.get().getName());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, cuisineTypeEn.get().getLanguage());
+        Optional<MeasureBO> measureEn = measuresBusiness.getMeasure(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.EN);
+        assertNotNull(measureEn);
+        assertTrue(measureEn.isPresent());
+        assertEquals(MeasuresExamples.MEASURE_01_ID, measureEn.get().getId());
+        assertNotNull(measureEn.get().getName());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, measureEn.get().getName().getSingular());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, measureEn.get().getName().getPlural());
+        assertEquals(MeasuresExamples.LANGUAGE_ENUM_ENGLISH, measureEn.get().getName().getLanguage());
 
-        Optional<CuisineTypeBO> cuisineTypeEs = cuisineTypesBusiness.getCuisineType(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.ES);
-        assertNotNull(cuisineTypeEs);
-        assertTrue(cuisineTypeEs.isPresent());
-        assertEquals(MeasuresExamples.MEASURE_01_ID, cuisineTypeEs.get().getId());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH, cuisineTypeEs.get().getName());
-        assertEquals(MeasuresExamples.LANGUAGE_ENUM_SPANISH, cuisineTypeEs.get().getLanguage());
+        Optional<MeasureBO> measureEs = measuresBusiness.getMeasure(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.ES);
+        assertNotNull(measureEs);
+        assertTrue(measureEs.isPresent());
+        assertEquals(MeasuresExamples.MEASURE_01_ID, measureEs.get().getId());
+        assertNotNull(measureEs.get().getName());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, measureEs.get().getName().getSingular());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, measureEs.get().getName().getPlural());
+        assertEquals(MeasuresExamples.LANGUAGE_ENUM_SPANISH, measureEs.get().getName().getLanguage());
     }
 
     @Test
     public void getCuisineTypeByIdNotFound() throws Exception {
-        when(this.cuisineTypesRepository.findById(MeasuresExamples.MEASURE_01_ID)).thenReturn(null);
+        when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_01_ID)).thenReturn(null);
 
-        Optional<CuisineTypeBO> cuisineTypeEn = cuisineTypesBusiness.getCuisineType(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.EN);
+        Optional<MeasureBO> cuisineTypeEn = measuresBusiness.getMeasure(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.EN);
         assertNotNull(cuisineTypeEn);
         assertFalse(cuisineTypeEn.isPresent());
     }
 
-    @Test
+  /*  @Test
     public void addNewCuisineTypes() throws Exception {
         when(this.cuisineTypesRepository.findById(MeasuresExamples.MEASURE_MULTI_LANGUAGE_BO.getId())).thenReturn(null);
         when(this.cuisineTypesRepository.save(any())).thenReturn(null);

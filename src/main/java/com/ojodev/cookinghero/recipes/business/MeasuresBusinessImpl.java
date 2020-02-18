@@ -32,10 +32,10 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
 
     @Override
     public Optional<MeasureBO> getMeasure(String measureId, LanguageEnumBO language) {
-        return Optional.empty();
+        List<MeasurePO> measurePOList = measuresRepository.findByObjectId(measureId);
+        return measurePOList == null || measurePOList.isEmpty() ? Optional.empty() : Optional.ofNullable(measuresMapper.toMeasureBO(measurePOList.get(0), language));
     }
-/*        MeasurePO measurePO = measuresRepository.findById(measureId);
-        return Optional.ofNullable(measuresMapper.toMeasureBO(measurePO, language));*/
+
 
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {

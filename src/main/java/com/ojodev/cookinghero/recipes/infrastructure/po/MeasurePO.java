@@ -7,7 +7,7 @@ import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.List;
 
-@NodeEntity(label="CuisineType")
+@NodeEntity(label="Measure")
 public class MeasurePO {
 
     @Id
@@ -16,10 +16,8 @@ public class MeasurePO {
 
     private String objectId;
 
-
     @Relationship(type = "REPRESENTED_BY")
     private List<DescriptiveNamePO> names;
-
 
     public MeasurePO() {
     }

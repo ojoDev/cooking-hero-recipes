@@ -1,8 +1,6 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
-import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.data.DescriptiveNamesExamples;
-import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import org.junit.Test;
 import org.junit.runner.RunWith;

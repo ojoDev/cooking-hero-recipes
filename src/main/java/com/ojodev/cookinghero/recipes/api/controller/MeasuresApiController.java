@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@Api(tags = "measures", value = "Measures used with ingredients")
+@Api(tags = "measures", description = "Measures used with ingredients")
 public class MeasuresApiController implements MeasuresApi {
 
     private static final String ACCEPT_LANGUAGE_SEPARATOR = ",";
@@ -52,7 +52,7 @@ public class MeasuresApiController implements MeasuresApi {
     @Autowired
     private RecipesConfig config;
 
-    public ResponseEntity<List<Measure>> getMeasures(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage) throws ApiFieldsException {
+    public ResponseEntity<List<Measure>> getMeasures(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws ApiFieldsException {
 
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
@@ -65,27 +65,25 @@ public class MeasuresApiController implements MeasuresApi {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Measure> getMeasure(@ApiParam(value = "Measure id.", required = true) @PathVariable("measure-id") String measureId,
-                                              @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws NotFoundException, ApiFieldsException {
+    public ResponseEntity<Measure> getMeasure(@ApiParam(value = "Measure id.", required = true, example = "tablespoon") @PathVariable("measure-id") String measureId,
+                                              @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws NotFoundException, ApiFieldsException {
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
-        Optional<MeasureBO> measureBOOpt = measuresBusiness.getMeasure(measureId, language);
-        if (!measureBOOpt.isPresent()) {
-            throw new NotFoundException();
-        }
+        MeasureBO measureBO = measuresBusiness.getMeasure(measureId, language).orElseThrow(NotFoundException::new);
+
         return ResponseEntity.status(HttpStatus.OK)
                 .header(org.springframework.http.HttpHeaders.CONTENT_LANGUAGE, acceptLanguage)
-                .body(measuresMapper.toMeasure(measureBOOpt.get()));
+                .body(measuresMapper.toMeasure(measureBO));
     }
 
-    public ResponseEntity<Void> updateMeasure(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
-                                              @ApiParam(value = "Measure id.", required = true) @PathVariable("measure-id") String measureId,
+    public ResponseEntity<Void> updateMeasure(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
+                                              @ApiParam(value = "Measure id.", required = true, example = "tablespoon") @PathVariable("measure-id") String measureId,
                                               @ApiParam(value = "Measure to update.") @Valid @RequestBody MeasureUpdate body) {
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> deleteMeasure(@ApiParam(value = "Measure id.", required = true) @PathVariable("measure-id") String measureId) {
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<Void> deleteMeasure(@ApiParam(value = "Measure id.", required = true, example = "tablespoon") @PathVariable("measure-id") String measureId) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     private LanguageEnumBO checkAndExtractAcceptedLanguage(String acceptLanguage) throws ApiFieldsException {

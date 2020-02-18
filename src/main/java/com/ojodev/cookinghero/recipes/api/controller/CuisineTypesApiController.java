@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@Api(tags = "cuisine-types", value = "Cuisine types of recipes")
+@Api(tags = "cuisine-types", description = "Cuisine types of recipes")
 public class CuisineTypesApiController implements CuisineTypesApi {
 
     private static final String ACCEPT_LANGUAGE_SEPARATOR = ",";
@@ -125,13 +125,11 @@ public class CuisineTypesApiController implements CuisineTypesApi {
 
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
-        Optional<CuisineTypeBO> cuisineTypeBOOpt = cuisineTypesBusiness.getCuisineType(cuisineTypeId, language);
-        if (!cuisineTypeBOOpt.isPresent()) {
-            throw new NotFoundException();
-        }
+        CuisineTypeBO cuisineTypeBO = cuisineTypesBusiness.getCuisineType(cuisineTypeId, language).orElseThrow(NotFoundException::new);;
+
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_LANGUAGE, acceptLanguage)
-                .body(cuisineTypeMapper.toCuisineType(cuisineTypeBOOpt.get()));
+                .body(cuisineTypeMapper.toCuisineType(cuisineTypeBO));
     }
 
     public ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage,

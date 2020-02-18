@@ -61,15 +61,15 @@ public class MeasuresMapperTest {
         assertNotNull(measureEnBO.getName());
         assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, measureEnBO.getName().getSingular());
         assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, measureEnBO.getName().getPlural());
-        assertEquals(MeasuresExamples.LANGUAGE_EN, measureEnBO.getName().getLanguage());
+        assertEquals(MeasuresExamples.LANGUAGE_EN, measureEnBO.getName().getLanguage().toString());
 
         MeasureBO measureEsBO = measuresMapper.toMeasureBO(MeasuresExamples.MEASURE_PO_01, LanguageEnumBO.ES);
         assertNotNull(measureEsBO);
         assertEquals(MeasuresExamples.MEASURE_01_ID,measureEsBO.getId());
         assertNotNull(measureEsBO.getName());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, measureEsBO.getName().getSingular());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, measureEsBO.getName().getPlural());
-        assertEquals(MeasuresExamples.LANGUAGE_EN, measureEsBO.getName().getLanguage());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, measureEsBO.getName().getSingular());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, measureEsBO.getName().getPlural());
+        assertEquals(MeasuresExamples.LANGUAGE_ES, measureEsBO.getName().getLanguage().toString());
 
     }
   

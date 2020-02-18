@@ -6,6 +6,7 @@ import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -108,14 +109,14 @@ public class CuisineTypesRepositoryTest {
     }*/
 
     @Test
-    @Ignore
+    @Disabled
     public void findAll() {
         List<CuisineTypePO> cuisineType = cuisineTypesRepository.findAll();
         assertNotNull(cuisineType);
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void findById() {
         CuisineTypePO cuisineType = cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_01_ID);
         assertNotNull(cuisineType);
@@ -129,7 +130,7 @@ public class CuisineTypesRepositoryTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void findByName() {
         List<CuisineTypePO> cuisineTypesEn = cuisineTypesRepository.findByName(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, CuisineTypesExamples.LANGUAGE_EN);
         assertNotNull(cuisineTypesEn);
@@ -151,14 +152,14 @@ public class CuisineTypesRepositoryTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void create() {
         CuisineTypePO cuisineType = cuisineTypesRepository.save(CuisineTypesExamples.CUISINE_TYPE_PO_01);
         assertNotNull(cuisineType);
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void delete() {
         String objectId = "italian";
         cuisineTypesRepository.deleteById(objectId);

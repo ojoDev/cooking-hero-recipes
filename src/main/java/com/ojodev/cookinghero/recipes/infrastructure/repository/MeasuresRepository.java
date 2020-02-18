@@ -11,4 +11,5 @@ public interface MeasuresRepository extends Neo4jRepository<MeasurePO, Long> {
 
     List<MeasurePO> findAll();
 
+    List<MeasurePO> findByObjectId(String objectId);
 }
