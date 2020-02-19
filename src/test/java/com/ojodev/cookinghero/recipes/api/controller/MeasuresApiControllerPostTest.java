@@ -1,13 +1,11 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
-import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
+import com.ojodev.cookinghero.recipes.business.MeasuresBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.data.FileNameEnum;
+import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiBadRequestException;
-import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
-import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.utils.FileUtils;
 import com.ojodev.cookinghero.recipes.utils.TestUtils;
@@ -34,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CuisineTypesApiControllerPostTest {
+public class MeasuresApiControllerPostTest {
 
     @Autowired
     private MockMvc mvc;
@@ -46,57 +44,60 @@ public class CuisineTypesApiControllerPostTest {
     private FileUtils fileUtils;
 
     @MockBean
-    private CuisineTypesBusiness cuisineTypesBusiness;
+    private MeasuresBusiness measuresBusiness;
+
 
     private static final String LOCALE_ENGLISH = "en";
-    @Test
-    public void postCuisineType() throws Exception {
 
-        this.mvc.perform(post("/cuisine-types")
+
+    @Test
+    public void postMeasure() throws Exception {
+
+        this.mvc.perform(post("/measures")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
-                .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_NEW)))
-                .andExpect(header().string(HttpHeaders.LOCATION, endsWith("/cuisine-types/" + CuisineTypesExamples.CUISINE_TYPE_01_ID)))
+                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_NEW)))
+                .andExpect(header().string(HttpHeaders.LOCATION, endsWith("/measures/" + MeasuresExamples.MEASURE_01_ID)))
                 .andExpect(status().isCreated());
         }
 
     @Test
-    public void postNotDefaultCuisineType() throws Exception {
+    public void postNotDefaultMeasure() throws Exception {
 
-        this.mvc.perform(post("/cuisine-types")
+        this.mvc.perform(post("/measures")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
-                .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_NEW_NO_DEFAULT_LANGUAGE)))
+                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_NEW_NO_DEFAULT_LANGUAGE)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.mustcontaindefault.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.mustcontaindefault.desc", LOCALE_ENGLISH))));
     }
 
     @Test
-    public void postInvalidLanguageInCuisineTypeName() throws Exception {
+    public void postInvalidLanguageInMeasureName() throws Exception {
 
-        this.mvc.perform(post("/cuisine-types")
+        this.mvc.perform(post("/measures")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
-                .content(fileUtils.fileAsJsonString(FileNameEnum.CUISINE_TYPE_INVALID_LANGUAGE)))
+                .content(fileUtils.fileAsJsonString(FileNameEnum.MEASURE_INVALID_LANGUAGE)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.invalidlanguage.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidlanguage.desc", LanguageEnumBO.getValueList()))));
     }
 
     @Test
-    public void postDuplicateCuisineType() throws Exception {
+    public void postDuplicateMeasure() throws Exception {
 
-        doThrow(new ApiBadRequestException(messages.get("error.badrequest.duplicatedentityname.code"), messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"))).when(cuisineTypesBusiness).addCuisineType(any());
+        doThrow(new ApiBadRequestException(messages.get("error.badrequest.duplicatedentityname.code"), messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"))).when(measuresBusiness).addMeasure(any());
 
-        this.mvc.perform(post("/cuisine-types")
+        this.mvc.perform(post("/measures")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
-                .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_NEW)))
+                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_NEW)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.duplicatedentityname.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"))));

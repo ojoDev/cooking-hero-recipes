@@ -1,6 +1,6 @@
 package com.ojodev.cookinghero.recipes.domain.model;
 
-import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
+import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -19,102 +19,110 @@ public class MeasureMultiLanguageBOTest {
 
 
     @Test
-    public void createCuisineTypeMultiLanguageBOWithDefaultLanguage() {
-        List<LanguageNameBO> languageNameList = new ArrayList<>();
-        languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH);
-        CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
-                languageNameList,
-                CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
+    public void createMeasureMultiLanguageBOWithDefaultLanguage() {
+        List<DescriptiveNameBO> names = new ArrayList<>();
+        names.add(MeasuresExamples.MEASURE_01_NAME_ENGLISH);
+        MeasureMultiLanguageBO measure = new MeasureMultiLanguageBO.Builder(
+                names,
+                MeasuresExamples.LANGUAGE_ENUM_ENGLISH)
                 .build();
 
-        assertNotNull(cuisineType);
-        assertEquals(1, cuisineType.getLanguageNames().size());
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH.getLanguage(), cuisineType.getLanguageNames().get(0).getLanguage());
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH.getName(), cuisineType.getLanguageNames().get(0).getName());
+        assertNotNull(measure);
+        assertNotNull(measure.getNames());
+        assertEquals(1, measure.getNames().size());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH.getLanguage(), measure.getNames().get(0).getLanguage());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH.getSingular(), measure.getNames().get(0).getSingular());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH.getPlural(), measure.getNames().get(0).getPlural());
 
     }
 
     @Test
-    public void createCuisineTypeMultiLanguageBOWithNoDefaultLanguage() {
-        List<LanguageNameBO> languageNameList = new ArrayList<>();
-        languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH);
+    public void createMeasureMultiLanguageBOMultipleLanguages() {
+        List<DescriptiveNameBO> names = new ArrayList<>();
+        names.add(MeasuresExamples.MEASURE_01_NAME_ENGLISH);
 
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> {
-                    CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
-                            languageNameList,
-                            CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
-                            .build();
-                }, "Need to be throw an exception");
-    }
-
-        @Test
-        public void createCuisineTypeMultiLanguageBOMultipleLanguages() {
-            List<LanguageNameBO> languageNameList = new ArrayList<>();
-            languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH);
-
-                CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
-                        languageNameList,
-                        CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
-                        .languageName(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH)
-                        .build();
-
-            assertNotNull(cuisineType);
-            assertEquals(2, cuisineType.getLanguageNames().size());
-            assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH.getLanguage(), cuisineType.getLanguageNames().get(0).getLanguage());
-            assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH.getName(), cuisineType.getLanguageNames().get(0).getName());
-            assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH.getLanguage(), cuisineType.getLanguageNames().get(1).getLanguage());
-            assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH.getName(), cuisineType.getLanguageNames().get(1).getName());
-    }
-
-    @Test
-    public void createCuisineTypeMultiLanguageBOMultipleLanguagesWithReplace() {
-        List<LanguageNameBO> languageNameList = new ArrayList<>();
-        languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH);
-
-        CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
-                languageNameList,
-                CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
-                .languageName(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH)
-                .languageName(CuisineTypesExamples.LANGUAGE_NAME_BO_02_ENGLISH)
-                .languageName(CuisineTypesExamples.LANGUAGE_NAME_BO_02_SPANISH)
+        MeasureMultiLanguageBO measure = new MeasureMultiLanguageBO.Builder(
+                names,
+                MeasuresExamples.LANGUAGE_ENUM_ENGLISH)
+                .name(MeasuresExamples.MEASURE_01_NAME_SPANISH)
                 .build();
 
-        assertNotNull(cuisineType);
-        assertEquals(2, cuisineType.getLanguageNames().size());
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_02_ENGLISH.getLanguage(), cuisineType.getLanguageNames().get(0).getLanguage());
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_02_ENGLISH.getName(), cuisineType.getLanguageNames().get(0).getName());
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_02_SPANISH.getLanguage(), cuisineType.getLanguageNames().get(1).getLanguage());
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_02_SPANISH.getName(), cuisineType.getLanguageNames().get(1).getName());
+        assertNotNull(measure);
+        assertEquals(2, measure.getNames().size());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH.getLanguage(), measure.getNames().get(0).getLanguage());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH.getSingular(), measure.getNames().get(0).getSingular());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH.getPlural(), measure.getNames().get(0).getPlural());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH.getLanguage(), measure.getNames().get(1).getLanguage());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH.getSingular(), measure.getNames().get(1).getSingular());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH.getPlural(), measure.getNames().get(1).getPlural());
     }
 
     @Test
-    public void createCuisineTypeMultiLanguageBOWithInvalidLanguageName() {
-        List<LanguageNameBO> languageNameList = new ArrayList<>();
-        languageNameList.add(new LanguageNameBO(null,null));
+    public void createMeasureMultiLanguageBOMultipleLanguagesWithReplace() {
+        List<DescriptiveNameBO> names = new ArrayList<>();
+        names.add(MeasuresExamples.MEASURE_01_NAME_ENGLISH);
+
+        MeasureMultiLanguageBO measure = new MeasureMultiLanguageBO.Builder(
+                names,
+                MeasuresExamples.LANGUAGE_ENUM_ENGLISH)
+                .name(MeasuresExamples.MEASURE_01_NAME_SPANISH)
+                .name(MeasuresExamples.MEASURE_02_NAME_ENGLISH)
+                .name(MeasuresExamples.MEASURE_02_NAME_SPANISH)
+                .build();
+
+        assertNotNull(measure);
+        assertEquals(2, measure.getNames().size());
+        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH.getLanguage(), measure.getNames().get(0).getLanguage());
+        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH.getSingular(), measure.getNames().get(0).getSingular());
+        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH.getPlural(), measure.getNames().get(0).getPlural());
+        assertEquals(MeasuresExamples.MEASURE_02_NAME_SPANISH.getLanguage(), measure.getNames().get(1).getLanguage());
+        assertEquals(MeasuresExamples.MEASURE_02_NAME_SPANISH.getSingular(), measure.getNames().get(1).getSingular());
+        assertEquals(MeasuresExamples.MEASURE_02_NAME_SPANISH.getPlural(), measure.getNames().get(1).getPlural());
+    }
+
+
+    @Test
+    public void createMeasureMultiLanguageBOWithNoDefaultLanguage() {
+        List<DescriptiveNameBO> names = new ArrayList<>();
+        names.add(MeasuresExamples.MEASURE_01_NAME_SPANISH);
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
-                    new CuisineTypeMultiLanguageBO.Builder(
-                            languageNameList,
-                            CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
+                    new MeasureMultiLanguageBO.Builder(
+                            names,
+                            MeasuresExamples.LANGUAGE_ENUM_ENGLISH)
                             .build();
                 }, "Need to be throw an exception");
-        assertEquals("Language name needs to include at least name and language fields", exception.getMessage());
+        assertEquals("Measure needs to include default language name: en", exception.getMessage());
     }
 
     @Test
-    public void createCuisineTypeMultiLanguageBONoNames() {
-        List<LanguageNameBO> languageNameList = new ArrayList<>();
+    public void createMeasureMultiLanguageBOWithInvalidFields() {
+        List<DescriptiveNameBO> names = new ArrayList<>();
+        names.add(new DescriptiveNameBO(null,null,null));
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
-                    new CuisineTypeMultiLanguageBO.Builder(
-                            languageNameList,
-                            CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
+                    new MeasureMultiLanguageBO.Builder(
+                            names,
+                            MeasuresExamples.LANGUAGE_ENUM_ENGLISH)
                             .build();
                 }, "Need to be throw an exception");
-        assertEquals("CuisineType needs to include at least one name", exception.getMessage());
+        assertEquals("Names needs to include singular and plural fields", exception.getMessage());
+    }
+
+    @Test
+    public void createMeasureMultiLanguageBONoNames() {
+        List<DescriptiveNameBO> names = new ArrayList<>();
+
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> {
+                    new MeasureMultiLanguageBO.Builder(
+                            names,
+                            MeasuresExamples.LANGUAGE_ENUM_ENGLISH)
+                            .build();
+                }, "Need to be throw an exception");
+        assertEquals("Measure needs to include at least one name and language fields", exception.getMessage());
     }
 
 }

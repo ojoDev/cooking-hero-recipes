@@ -1,16 +1,12 @@
 package com.ojodev.cookinghero.recipes.business;
 
-import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
-import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
-import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
-import com.ojodev.cookinghero.recipes.infrastructure.repository.CuisineTypesRepository;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.MeasuresRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -29,7 +25,6 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -145,58 +140,54 @@ public class MeasuresBusinessTests {
     }
 
     @Test
-    public void getCuisineTypeByIdNotFound() throws Exception {
+    public void getMeasureByIdNotFound() throws Exception {
         when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_01_ID)).thenReturn(null);
 
-        Optional<MeasureBO> cuisineTypeEn = measuresBusiness.getMeasure(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.EN);
-        assertNotNull(cuisineTypeEn);
-        assertFalse(cuisineTypeEn.isPresent());
-    }
-
-  /*  @Test
-    public void addNewCuisineTypes() throws Exception {
-        when(this.cuisineTypesRepository.findById(MeasuresExamples.MEASURE_MULTI_LANGUAGE_BO.getId())).thenReturn(null);
-        when(this.cuisineTypesRepository.save(any())).thenReturn(null);
-
-        cuisineTypesBusiness.addCuisineType(MeasuresExamples.MEASURE_MULTI_LANGUAGE_BO);
+        Optional<MeasureBO> MeasureEn = measuresBusiness.getMeasure(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.EN);
+        assertNotNull(MeasureEn);
+        assertFalse(MeasureEn.isPresent());
     }
 
     @Test
-    public void addExistentCuisineTypes() {
-        when(this.cuisineTypesRepository.findById(MeasuresExamples.MEASURE_MULTI_LANGUAGE_BO.getId())).thenReturn(MeasuresExamples.MEASURE_PO_01);
+    public void addNewMeasures() throws Exception {
+        when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_MULTI_LANGUAGE_BO.getId())).thenReturn(null);
+        when(this.measuresRepository.save(any())).thenReturn(null);
+
+        Assertions.assertDoesNotThrow(() -> measuresBusiness.addMeasure(MeasuresExamples.MEASURE_MULTI_LANGUAGE_BO));
+    }
+
+    @Test
+    public void addExistentMeasures() {
+        when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_MULTI_LANGUAGE_BO.getId())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_01));
 
         ApiException e = Assertions.assertThrows(ApiException.class, () -> {
-            cuisineTypesBusiness.addCuisineType(MeasuresExamples.MEASURE_MULTI_LANGUAGE_BO);
+            measuresBusiness.addMeasure(MeasuresExamples.MEASURE_MULTI_LANGUAGE_BO);
         });
 
         assertEquals(messages.get("error.badrequest.duplicatedentityname.code"), e.getCode());
-        assertEquals(messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"), e.getDescription());
+        assertEquals(messages.get("error.badrequest.duplicatedentityname.desc", "measure"), e.getDescription());
     }
 
     @Test()
-    @DisplayName("Replace cuisine type name if name exists")
-    public void addOrReplaceCuisineTypeReplaceNoDefaultLanguage()  {
-        when(this.cuisineTypesRepository.findById(MeasuresExamples.MEASURE_PO_01.getObjectId())).thenReturn(MeasuresExamples.MEASURE_PO_01);
+    public void addOrReplaceMeasureReplaceNoDefaultLanguage()  {
+        when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_PO_01.getObjectId())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_01));
 
-        Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.addOrReplaceCuisineType(MeasuresExamples.MEASURE_BO_01_SPANISH));
-
+        Assertions.assertDoesNotThrow(() -> measuresBusiness.addOrReplaceMeasure(MeasuresExamples.MEASURE_BO_01_SPANISH));
     }
 
     @Test()
-    @DisplayName("Add cuisine type name if name exists")
-    public void addOrReplaceCuisineTypeAddNoDefaultLanguage()  {
-        when(this.cuisineTypesRepository.findById(MeasuresExamples.MEASURE_PO_01.getObjectId())).thenReturn(MeasuresExamples.MEASURE_PO_01_ONLY_ENGLISH);
+    public void addOrReplaceMeasureAddNoDefaultLanguage()  {
+        when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_PO_01.getObjectId())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_01_ONLY_ENGLISH));
 
-        Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.addOrReplaceCuisineType(MeasuresExamples.MEASURE_BO_01_SPANISH));
-
+        Assertions.assertDoesNotThrow(() -> measuresBusiness.addOrReplaceMeasure(MeasuresExamples.MEASURE_BO_01_SPANISH));
     }
 
     @Test
-    public void addOrReplaceCuisineTypeDefaultLanguage()  {
-        when(this.cuisineTypesRepository.findById(MeasuresExamples.MEASURE_PO_01.getObjectId())).thenReturn(MeasuresExamples.MEASURE_PO_01);
+    public void addOrReplaceMeasureDefaultLanguage()  {
+        when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_PO_01.getObjectId())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_01));
 
         ApiFieldsException e = Assertions.assertThrows(ApiFieldsException.class, () -> {
-            cuisineTypesBusiness.addOrReplaceCuisineType(MeasuresExamples.MEASURE_BO_01_ENGLISH);
+            measuresBusiness.addOrReplaceMeasure(MeasuresExamples.MEASURE_BO_01_ENGLISH);
         });
         assertEquals( messages.get("error.badrequest.invalidparams.code"), e.getCode());
         assertEquals( messages.get("error.badrequest.invalidparams.desc"), e.getDescription());
@@ -207,28 +198,28 @@ public class MeasuresBusinessTests {
     }
 
     @Test
-    public void addOrReplaceCuisineTypeNoExists()  {
-        when(this.cuisineTypesRepository.findById(MeasuresExamples.MEASURE_PO_01.getObjectId())).thenReturn(null);
+    public void addOrReplaceMeasureNoExists()  {
+        when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_PO_01.getObjectId())).thenReturn(null);
 
-        Assertions.assertThrows(NotFoundException.class, () -> cuisineTypesBusiness.addOrReplaceCuisineType(MeasuresExamples.MEASURE_BO_01_ENGLISH));
+        NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> measuresBusiness.addOrReplaceMeasure(MeasuresExamples.MEASURE_BO_01_ENGLISH));
+        assertEquals( messages.get("error.notfound.code"), exception.getCode());
+        assertEquals( messages.get("error.notfound.desc"), exception.getDescription());
     }
 
     @Test
-    public void deleteCuisineType() {
-        when(this.cuisineTypesRepository.findById(MeasuresExamples.MEASURE_MULTI_LANGUAGE_BO.getId())).thenReturn(MeasuresExamples.MEASURE_PO_01);
+    public void deleteMeasure() {
+        when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_MULTI_LANGUAGE_BO.getId())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_PO_01));
 
-        Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.deleteCuisineType(MeasuresExamples.MEASURE_01_ID),"Need to delete the resource");
+        Assertions.assertDoesNotThrow(() -> measuresBusiness.deleteMeasure(MeasuresExamples.MEASURE_01_ID),"Need to delete the resource");
     }
 
     @Test
-    public void deleteNotFoundCuisineType()  {
+    public void deleteNotFoundMeasure()  {
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            cuisineTypesBusiness.deleteCuisineType(MeasuresExamples.MEASURE_01_ID);
+            measuresBusiness.deleteMeasure(MeasuresExamples.MEASURE_01_ID);
         });
         assertEquals( messages.get("error.notfound.code"), exception.getCode());
         assertEquals( messages.get("error.notfound.desc"), exception.getDescription());
     }
-*/
-
 
 }

@@ -40,7 +40,7 @@ public class CuisineTypeMultiLanguageBOTest {
 
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
-                    CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
+                    new CuisineTypeMultiLanguageBO.Builder(
                             languageNameList,
                             CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
                             .build();
@@ -88,7 +88,7 @@ public class CuisineTypeMultiLanguageBOTest {
     }
 
     @Test
-    public void createCuisineTypeMultiLanguageBOWithInvalidLanguageName() {
+    public void createCuisineTypeMultiLanguageBOWithInvalidFields() {
         List<LanguageNameBO> languageNameList = new ArrayList<>();
         languageNameList.add(new LanguageNameBO(null,null));
 

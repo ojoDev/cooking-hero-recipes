@@ -9,6 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper(componentModel = "spring")
 @DecoratedWith(MeasuresMapperDecorator.class)
@@ -22,4 +23,5 @@ public interface MeasuresMapper {
 
 	MeasureBO toMeasureBO(MeasurePO measure, LanguageEnumBO language);
 
+    MeasureBO patch(MeasureBO origin, Map<String, Object> content);
 }

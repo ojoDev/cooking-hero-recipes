@@ -193,7 +193,7 @@ public class CuisineTypesBusinessTests {
         when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO.getId())).thenReturn(null);
         when(this.cuisineTypesRepository.save(any())).thenReturn(null);
 
-        cuisineTypesBusiness.addCuisineType(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO);
+        Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.addCuisineType(CuisineTypesExamples.CUISINE_TYPE_MULTI_LANGUAGE_BO));
     }
 
     @Test

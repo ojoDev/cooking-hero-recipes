@@ -4,6 +4,7 @@ import com.ojodev.cookinghero.recipes.RecipesApplication;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
@@ -32,20 +33,20 @@ public class MeasuresRepositoryTest {
     private MeasuresRepository measuresRepository;
 
     @Test
-    @Disabled
+    @Ignore
     public void saveMeasure ()  {
         measuresRepository.save(MeasuresExamples.MEASURE_PO_01);
     }
 
     @Test
-    @Disabled
+    @Ignore
     public void findAll()  {
        List<MeasurePO> measureList = measuresRepository.findAll();
         assertNotNull(measureList);
     }
 
     @Test
-    @Disabled
+    @Ignore
     public void findById()  {
         List<MeasurePO> measureList = measuresRepository.findByObjectId(MeasuresExamples.MEASURE_01_ID);
         assertNotNull(measureList);
@@ -53,10 +54,11 @@ public class MeasuresRepositoryTest {
     }
 
     @Test
-    @Disabled
+    @Ignore
     public void findByIdNotFound()  {
         List<MeasurePO> measureList = measuresRepository.findByObjectId("xxx");
         assertNotNull(measureList);
         assertEquals(0, measureList.size());
     }
+
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public abstract class MeasuresMapperDecorator implements MeasuresMapper {
@@ -30,6 +31,14 @@ public abstract class MeasuresMapperDecorator implements MeasuresMapper {
         DescriptiveNamePO descriptiveNamePO = selectNameByLanguage(measurePO.getNames(), setDefaultLanguageIfNull(language).toString());
         measureBO.setName(descriptiveNameMapper.toDescriptiveNameBO(descriptiveNamePO));
         return measureBO;
+    }
+
+    @Override
+    public MeasureBO patchMeasure(MeasureBO origin, Map<String, Object> patch) {
+        UserBean newObject = new UserBean();
+        BeanUtils.copyProperties(newObject, oldObject);
+        if patch.get("name")
+
     }
 
    private DescriptiveNamePO selectNameByLanguage(List<DescriptiveNamePO> names, String language) {

@@ -1,15 +1,26 @@
 package com.ojodev.cookinghero.recipes.business;
 
+import com.google.common.net.HttpHeaders;
+import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.exception.*;
+import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
+import com.ojodev.cookinghero.recipes.domain.model.MeasureMultiLanguageBO;
+import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
+import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
+import com.ojodev.cookinghero.recipes.infrastructure.po.LanguageNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.MeasuresRepository;
+import com.ojodev.cookinghero.recipes.mapper.DescriptiveNameMapper;
 import com.ojodev.cookinghero.recipes.mapper.MeasuresMapper;
+import com.ojodev.cookinghero.recipes.mapper.MeasuresMultipleLanguageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,6 +33,15 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
 
     @Autowired
     private MeasuresMapper measuresMapper;
+
+    @Autowired
+    private MeasuresMultipleLanguageMapper measuresMultipleLanguageMapper;
+
+    @Autowired
+    private DescriptiveNameMapper descriptiveNameMapper;
+
+    @Autowired
+    private Messages messages;
 
     @Override
     public List<MeasureBO> getMeasures(LanguageEnumBO language) {
@@ -36,79 +56,53 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
         return measurePOList == null || measurePOList.isEmpty() ? Optional.empty() : Optional.ofNullable(measuresMapper.toMeasureBO(measurePOList.get(0), language));
     }
 
+    @Override
+    public void addMeasure(MeasureMultiLanguageBO newMeasure) throws ApiBadRequestException {
+        List<MeasurePO> existentMeasures = measuresRepository.findByObjectId(newMeasure.getId());
+        if (existentMeasures != null && existentMeasures.size() > 0) {
+            throw new ApiBadRequestException(messages.get("error.badrequest.duplicatedentityname.code"), messages.get("error.badrequest.duplicatedentityname.desc", "measure"));
+        }
+        measuresRepository.save(measuresMultipleLanguageMapper.toMeasurePO(newMeasure));
+    }
+
+    @Override
+    public void addOrReplaceMeasure(MeasureBO measureBO) throws ApiException {
+        List<MeasurePO> existentMeasures = measuresRepository.findByObjectId(measureBO.getId());
+
+        throwErrorIfNotExists(existentMeasures);
+        checkIfLanguageIsDefault(measureBO);
+
+        MeasurePO measurePO = existentMeasures.get(0);
+
+        if (existLanguageName(measurePO, measureBO)) {
+            updateLanguageName(measurePO, measureBO);
+        } else {
+            measurePO.getNames().add(descriptiveNameMapper.toDescriptiveNamePO(measureBO.getName()));
+        }
+        measuresRepository.save(measurePO);
+    }
+
+    @Override
+    public void deleteMeasure(String measureId) throws NotFoundException {
+
+        throwErrorIfNotExists(measuresRepository.findByObjectId(measureId));
+
+        measuresRepository.deleteById(measureId);
+    }
 
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
         return language == null ? RecipeConstants.DEFAULT_LANGUAGE : language;
     }
 
-}
-
-   /* @Autowired
-    private  MeasuresRepository MeasuresRepository;
-
-    @Autowired
-    private CuisineTypesMapper cuisineTypesMapper;
-
-    @Autowired
-    private CuisineTypesMultipleLanguageMapper cuisineTypesMultipleLanguageMapper;
-
-    @Autowired
-    private Messages messages;
-
-    public List<CuisineTypeBO> getCuisineTypes(LanguageEnumBO language) {
-        List<CuisineTypePO> cuisineTypePOList = cuisineTypesRepository.findAll();
-        return cuisineTypePOList.stream().map(cuisineType -> cuisineTypesMapper.toCuisineTypeBO(cuisineType, setDefaultLanguageIfNull(language))).collect(Collectors.toCollection(ArrayList::new));
-    }
-
-    public List<CuisineTypeBO> getCuisineTypes(String name, LanguageEnumBO language) {
-        List<CuisineTypePO> cuisineTypesPO;
-        if (StringUtils.isEmpty(name)) {
-            return getCuisineTypes(language);
-        } else {
-            cuisineTypesPO = cuisineTypesRepository.findByName(name, language.toString());
-        }
-        return cuisineTypesPO.stream().map(cuisineType -> cuisineTypesMapper.toCuisineTypeBO(cuisineType, language)).collect(Collectors.toCollection(ArrayList::new));
-    }
-
-    @Override
-    public Optional<CuisineTypeBO> getCuisineType(String id, LanguageEnumBO language) {
-        CuisineTypePO cuisineTypePO = cuisineTypesRepository.findById(id);
-        return Optional.ofNullable(cuisineTypesMapper.toCuisineTypeBO(cuisineTypePO, language));
-    }
-
-    @Override
-    public void addCuisineType(CuisineTypeMultiLanguageBO newCuisineType) throws ApiBadRequestException {
-        if (cuisineTypesRepository.findById(newCuisineType.getId()) != null) {
-            throw new ApiBadRequestException(messages.get("error.badrequest.duplicatedentityname.code"), messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"));
-        }
-        cuisineTypesRepository.save(cuisineTypesMultipleLanguageMapper.toCuisineTypePO(newCuisineType));
-    }
-
-
-    @Override
-    public void addOrReplaceCuisineType(CuisineTypeBO cuisineType) throws ApiException {
-        CuisineTypePO cuisineTypePO = cuisineTypesRepository.findById(cuisineType.getId());
-
-        checkIfExists(cuisineTypePO);
-        checkIfLanguageIsDefault(cuisineType);
-
-        if (existLanguageName(cuisineTypePO,cuisineType)) {
-            updateLanguageName(cuisineTypePO,cuisineType);
-        } else {
-            cuisineTypePO.getNames().add(new LanguageNamePO(cuisineType.getLanguage().toString(), cuisineType.getName()));
-        }
-        cuisineTypesRepository.save(cuisineTypePO);
-    }
-
-    private void checkIfExists(CuisineTypePO cuisineTypePO) throws NotFoundException {
-        if (cuisineTypePO == null) {
-            throw new NotFoundException();
+    private void throwErrorIfNotExists(List<MeasurePO> measures) throws NotFoundException {
+        if (measures == null || measures.isEmpty()) {
+            throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
         }
     }
 
-    private void checkIfLanguageIsDefault(CuisineTypeBO cuisineType) throws ApiFieldsException{
-        if (RecipeConstants.DEFAULT_LANGUAGE.equals(cuisineType.getLanguage())) {
+    private void checkIfLanguageIsDefault(MeasureBO measure) throws ApiFieldsException {
+        if (RecipeConstants.DEFAULT_LANGUAGE == measure.getName().getLanguage()) {
             throw new ApiFieldsException(
                     messages.get("error.badrequest.invalidparams.code"),
                     messages.get("error.badrequest.invalidparams.desc"),
@@ -119,24 +113,16 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
         }
     }
 
-    private boolean existLanguageName(CuisineTypePO cuisineTypePO, CuisineTypeBO cuisineType) {
-        return cuisineTypePO.getNames().stream().filter(n -> n.getLanguage().equals(cuisineType.getLanguage().toString())).findAny().isPresent();
+    private boolean existLanguageName(MeasurePO measurePO, MeasureBO measureBO) {
+        return measurePO.getNames().stream().filter(n -> n.getLanguage().equals(measureBO.getName().getLanguage().toString())).findAny().isPresent();
     }
 
-    private void updateLanguageName(CuisineTypePO cuisineTypePO, CuisineTypeBO cuisineType) {
-        cuisineTypePO.getNames().stream().filter(n -> n.getLanguage().equals(cuisineType.getLanguage().toString())).forEach(n -> n.setName(cuisineType.getName()));
+    private void updateLanguageName(MeasurePO measurePO, MeasureBO measureBO) {
+        measurePO.getNames().stream().filter(n -> n.getLanguage().equals(measureBO.getName().getLanguage().toString())).forEach(n -> n = descriptiveNameMapper.toDescriptiveNamePO(measureBO.getName()));
     }
 
-    @Override
-    public void deleteCuisineType(String cuisineTypeId) throws NotFoundException {
-        if (cuisineTypesRepository.findById(cuisineTypeId) == null) {
-            throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
-        }
-        cuisineTypesRepository.deleteById(cuisineTypeId);
-    }
 
-    private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
-        return language == null ? RecipeConstants.DEFAULT_LANGUAGE : language;
-    }*/
+}
+
 
 

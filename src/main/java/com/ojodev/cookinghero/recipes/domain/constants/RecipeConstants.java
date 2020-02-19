@@ -10,6 +10,8 @@ public class RecipeConstants {
 
     public static final LanguageEnumBO DEFAULT_LANGUAGE = LanguageEnumBO.EN;
 
+     public static final String APPLICATION_JSON_PATCH = "application/json-patch+json";
+
     // TODO DMS: Ver donde centralizamos esto
     public static final String MEDIA_PHOTO_URI = "media/photos";
 

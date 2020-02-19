@@ -29,14 +29,14 @@ public class MeasureMultiLanguageBO {
 
     public static class Builder extends IdentifiableBO{
 
-       private List<DescriptiveNameBO> names;
+       private List<DescriptiveNameBO> names = new ArrayList<>();
 
         private LanguageEnumBO defaultLanguage;
 
         public Builder(List<DescriptiveNameBO> names, LanguageEnumBO defaultLanguage ) {
             super("");
             this.defaultLanguage = defaultLanguage;
-            this.names = names;
+            this.names(names);
         }
 
         public Builder name(DescriptiveNameBO newName) {
@@ -53,7 +53,7 @@ public class MeasureMultiLanguageBO {
         }
 
         private boolean languageExists(DescriptiveNameBO newName) {
-            return this.names.stream().filter(n -> n.getLanguage() == newName.getLanguage()).findAny().isPresent();
+            return this.names.stream().filter(n ->  n.getLanguage() == newName.getLanguage()).findAny().isPresent();
         }
 
         private Builder replaceName(DescriptiveNameBO newName) {
@@ -88,14 +88,14 @@ public class MeasureMultiLanguageBO {
 
         private void validateName(DescriptiveNameBO name) {
             if (name == null || StringUtils.isEmpty(name.getSingular()) || StringUtils.isEmpty(name.getPlural())) {
-                throw new IllegalArgumentException("Needs to include singular and plural fields");
+                throw new IllegalArgumentException("Names needs to include singular and plural fields");
             }
         }
 
 
         private void validateMeasureObject(MeasureMultiLanguageBO measureMultiLanguageBO) {
             if (measureMultiLanguageBO.getNames() == null || measureMultiLanguageBO.getNames().size() == 0) {
-                throw new IllegalArgumentException("Measure needs to include at least one name");
+                throw new IllegalArgumentException("Measure needs to include at least one name and language fields");
             }
             if (measureMultiLanguageBO.getNames().stream().filter(ln -> defaultLanguage.equals(ln.getLanguage())).count() == 0) {
                 throw new IllegalArgumentException("Measure needs to include default language name: " + defaultLanguage);

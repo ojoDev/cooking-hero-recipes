@@ -35,7 +35,6 @@ public class MeasuresExamples {
     public static final MeasureBO MEASURE_BO_02_ENGLISH = new MeasureBO(MEASURE_02_ID, MEASURE_02_NAME_ENGLISH);
     public static final MeasureBO MEASURE_BO_02_SPANISH = new MeasureBO(MEASURE_02_ID, MEASURE_02_NAME_SPANISH);
 
-
     public static final String LANGUAGE_EN = "en";
     public static final String LANGUAGE_ES = "es";
 
@@ -47,42 +46,40 @@ public class MeasuresExamples {
             new DescriptiveNamePO(MEASURE_02_NAME_ENGLISH_SINGULAR, MEASURE_02_NAME_ENGLISH_PLURAL, LANGUAGE_EN),
             new DescriptiveNamePO(MEASURE_02_NAME_SPANISH_SINGULAR, MEASURE_02_NAME_SPANISH_PLURAL, LANGUAGE_ES)));
 
- /*   public static final MeasurePO MEASURE_PO_01_ONLY_ENGLISH = initMeNewOnlyEnglish();
+    public static final MeasurePO MEASURE_PO_01_ONLY_ENGLISH = initMeasureOnlyEnglish();
 
-    private static MeasurePO initCuisineTypeNewOnlyEnglish() {
-        CuisineTypePO cuisineTypePO = new CuisineTypePO();
-        cuisineTypePO.setObjectId(MEASURE_01_ID);
-        ArrayList<LanguageNamePO>  names = new ArrayList<>();
-        names.add(new LanguageNamePO(LANGUAGE_EN, MEASURE_01_NAME_ENGLISH));
-        cuisineTypePO.setNames(names);
-        return cuisineTypePO;
+    public static final MeasureNew MEASURE_NEW = initMeasureNew();
+    public static final MeasureNew MEASURE_NEW_NO_DEFAULT_LANGUAGE = initMeasureNewNoDefaultLanguage();
+
+    public static final MeasureUpdate MEASURE_UPDATE_EN = new MeasureUpdate(new DescriptiveName(MEASURE_01_NAME_ENGLISH_SINGULAR, MEASURE_01_NAME_ENGLISH_PLURAL));
+    public static final MeasureUpdate MEASURE_UPDATE_ES = new MeasureUpdate(new DescriptiveName(MEASURE_01_NAME_SPANISH_SINGULAR, MEASURE_01_NAME_SPANISH_PLURAL));
+
+    public static final MeasureMultiLanguageBO MEASURE_MULTI_LANGUAGE_BO = initMeasureMultiLanguageBO();
+
+    private static MeasurePO initMeasureOnlyEnglish() {
+        MeasurePO measurePO = new MeasurePO();
+        measurePO.setObjectId(MEASURE_01_ID);
+        ArrayList<DescriptiveNamePO> names = new ArrayList<>();
+        names.add(new DescriptiveNamePO(MEASURE_01_NAME_ENGLISH_SINGULAR, MEASURE_01_NAME_ENGLISH_PLURAL, LANGUAGE_EN));
+        measurePO.setNames(names);
+        return measurePO;
     }
 
-    public static final CuisineTypeNew MEASURE_NEW = initCuisineTypeNew();
-    public static final CuisineTypeNew MEASURE_NEW_NO_DEFAULT_LANGUAGE = initCuisineTypeNewNoDefaultLanguage();
-
-    public static final CuisineTypeUpdate MEASURE_UPDATE_ES = new CuisineTypeUpdate(MEASURE_01_NAME_SPANISH);
-    public static final CuisineTypeUpdate MEASURE_UPDATE_EN = new CuisineTypeUpdate(MEASURE_01_NAME_ENGLISH);
-
-    public static final CuisineTypeMultiLanguageBO MEASURE_MULTI_LANGUAGE_BO = initCuisineTypeMultiLanguageBO();
-
-    private static CuisineTypeNew initCuisineTypeNew() {
-        return new CuisineTypeNew(Arrays.asList(
-                new CuisineTypeNewName(MEASURE_01_NAME_ENGLISH, LanguageEnum.EN),
-                new CuisineTypeNewName(MEASURE_01_NAME_SPANISH, LanguageEnum.ES)));
+    private static MeasureNew initMeasureNew() {
+        return new MeasureNew(Arrays.asList(
+                new MeasureNewName(new DescriptiveName(MEASURE_01_NAME_ENGLISH_SINGULAR, MEASURE_01_NAME_ENGLISH_PLURAL), LanguageEnum.EN),
+                new MeasureNewName(new DescriptiveName(MEASURE_01_NAME_SPANISH_SINGULAR, MEASURE_01_NAME_SPANISH_PLURAL), LanguageEnum.ES)));
     }
 
-    private static CuisineTypeNew initCuisineTypeNewNoDefaultLanguage() {
-        return new  CuisineTypeNew(Arrays.asList(
-                new CuisineTypeNewName(MEASURE_01_NAME_SPANISH, LanguageEnum.ES)));
+    private static MeasureNew initMeasureNewNoDefaultLanguage() {
+        return new MeasureNew(Arrays.asList(
+                new MeasureNewName(new DescriptiveName(MEASURE_01_NAME_SPANISH_SINGULAR, MEASURE_01_NAME_SPANISH_PLURAL), LanguageEnum.ES)));
     }
 
-    private static CuisineTypeMultiLanguageBO initCuisineTypeMultiLanguageBO() {
-        return new CuisineTypeMultiLanguageBO.Builder(Arrays.asList(
-                LANGUAGE_NAME_BO_01_ENGLISH,LANGUAGE_NAME_BO_01_SPANISH), LANGUAGE_ENUM_ENGLISH).build();
+    private static MeasureMultiLanguageBO initMeasureMultiLanguageBO() {
+        return new MeasureMultiLanguageBO.Builder(Arrays.asList(
+                MEASURE_01_NAME_ENGLISH, MEASURE_01_NAME_SPANISH), LANGUAGE_ENUM_ENGLISH).build();
     }
-*/
-
 
 
 }
