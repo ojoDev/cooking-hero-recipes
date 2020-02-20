@@ -2,7 +2,6 @@ package com.ojodev.cookinghero.recipes.domain.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 

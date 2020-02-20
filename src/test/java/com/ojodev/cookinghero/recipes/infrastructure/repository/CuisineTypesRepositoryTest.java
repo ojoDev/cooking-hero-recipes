@@ -3,9 +3,11 @@ package com.ojodev.cookinghero.recipes.infrastructure.repository;
 import com.ojodev.cookinghero.recipes.RecipesApplication;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
+import com.ojodev.cookinghero.recipes.infrastructure.po.LanguageNamePO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +15,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -153,7 +156,10 @@ public class CuisineTypesRepositoryTest {
     @Test
     @Ignore
     public void create() {
-        CuisineTypePO cuisineType = cuisineTypesRepository.save(CuisineTypesExamples.CUISINE_TYPE_PO_01);
+        CuisineTypePO cuisineTypePO = new CuisineTypePO(CuisineTypesExamples.CUISINE_TYPE_01_ID, Arrays.asList(
+                new LanguageNamePO(CuisineTypesExamples.LANGUAGE_EN, CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH),
+                new LanguageNamePO(CuisineTypesExamples.LANGUAGE_ES, CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH)));
+        CuisineTypePO cuisineType = cuisineTypesRepository.save(cuisineTypePO);
         assertNotNull(cuisineType);
     }
 

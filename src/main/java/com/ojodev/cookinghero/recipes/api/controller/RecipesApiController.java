@@ -26,7 +26,7 @@ import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import io.swagger.annotations.ApiParam;
 
 @Controller
-@Api(tags = "recipes", value = "Recipes")
+@Api(tags = "recipes", description = "Hero recipes")
 public class RecipesApiController implements RecipesApi {
 
     @Autowired

@@ -44,8 +44,7 @@ public class CuisineTypesApiControllerDeleteTest {
         this.mvc.perform(delete("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
-                .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_NEW)))
+                .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH))
                 .andExpect(status().isNoContent());
     }
 

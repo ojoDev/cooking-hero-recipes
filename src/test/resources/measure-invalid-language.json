@@ -1,0 +1,18 @@
+{
+  "names": [
+    {
+      "name": {
+        "singular": "g",
+        "plural": "g"
+      },
+      "language": "en"
+    },
+    {
+      "name": {
+        "singular": "invalid",
+        "plural": "invalids"
+      },
+      "language": "xx"
+    }
+  ]
+}

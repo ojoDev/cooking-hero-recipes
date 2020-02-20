@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class RecipePOTest {
 
     @Test
-    public void testCustomConstructor(){
+    public void testCustomConstructor() {
         RecipePO recipe = new RecipePO(new ObjectId(RecipesExamples.RECIPE_ID_01),
                 RecipesExamples.RECIPE_NAME_01,
                 RecipesExamples.RECIPE_DESCRIPTION_01,

@@ -27,7 +27,7 @@ public class ApiFieldError {
     private String field;
 
     @JsonProperty("description")
-    @ApiModelProperty(example = "username is not valid. Minimun length is 3.", value = "Error description associated with the field")
+    @ApiModelProperty(example = "username is not valid. Minimum length is 3.", value = "Error description associated with the field")
     private String description;
 
 }

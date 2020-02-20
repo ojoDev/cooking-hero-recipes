@@ -1,6 +1,7 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
+import com.ojodev.cookinghero.recipes.api.model.CuisineTypeUpdate;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
@@ -45,16 +46,21 @@ public class CuisineTypesApiControllerPatchTest {
     @Test
     public void patchCuisineTypeNoDefaultLanguage() throws Exception {
 
+        CuisineTypeUpdate cuisineTypeUpdate = new CuisineTypeUpdate(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH);
+
         this.mvc.perform(patch("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, CuisineTypesExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_UPDATE_ES)))
+                .content(TestUtils.asJsonString(cuisineTypeUpdate)))
                 .andExpect(status().isNoContent());
         }
 
     @Test
     public void patchCuisineTypeDefaultLanguage() throws Exception {
+
+        CuisineTypeUpdate cuisineTypeUpdateEn = new CuisineTypeUpdate(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH);
+
         ApiFieldsException exception = new ApiFieldsException(
                 messages.get("error.badrequest.invalidparams.code"),
                 messages.get("error.badrequest.invalidparams.desc"),
@@ -69,7 +75,7 @@ public class CuisineTypesApiControllerPatchTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, CuisineTypesExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_UPDATE_EN)))
+                .content(TestUtils.asJsonString(cuisineTypeUpdateEn)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.invalidparams.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidparams.desc"))))
@@ -82,13 +88,15 @@ public class CuisineTypesApiControllerPatchTest {
     @Test
     public void patchCuisineTypeNotFound() throws Exception {
 
+        CuisineTypeUpdate cuisineTypeUpdate = new CuisineTypeUpdate(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH);
+
         doThrow(new NotFoundException()).when(cuisineTypesBusiness).addOrReplaceCuisineType(any());
 
         this.mvc.perform(patch("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, CuisineTypesExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_UPDATE_ES)))
+                .content(TestUtils.asJsonString(cuisineTypeUpdate)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
