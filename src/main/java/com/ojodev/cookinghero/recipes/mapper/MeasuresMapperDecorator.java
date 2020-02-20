@@ -5,6 +5,7 @@ import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -33,12 +34,16 @@ public abstract class MeasuresMapperDecorator implements MeasuresMapper {
         return measureBO;
     }
 
+    //TODO DMS: Hacer un mapper genérico para PATCH, con reflections
     @Override
-    public MeasureBO patchMeasure(MeasureBO origin, Map<String, Object> patch) {
-        UserBean newObject = new UserBean();
-        BeanUtils.copyProperties(newObject, oldObject);
-        if patch.get("name")
+    public MeasureBO patch(MeasureBO origin, Map<String, Object> patch) {
+        MeasureBO result = new MeasureBO();
+        BeanUtils.copyProperties(result, origin);
+        Object name = patch.get("name");
+        if (name != null) {
 
+        }
+        return result;
     }
 
    private DescriptiveNamePO selectNameByLanguage(List<DescriptiveNamePO> names, String language) {

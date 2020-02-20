@@ -6,13 +6,13 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
-import com.ojodev.cookinghero.recipes.api.model.ApiError;
-import com.ojodev.cookinghero.recipes.api.model.ApiFieldsError;
-import com.ojodev.cookinghero.recipes.api.model.Measure;
-import com.ojodev.cookinghero.recipes.api.model.MeasureNew;
+import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.config.patch.json.Patch;
+import com.ojodev.cookinghero.recipes.config.patch.json.PatchRequestBody;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
+import com.ojodev.cookinghero.recipes.infrastructure.repository.MeasuresRepository;
 import io.swagger.annotations.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -76,9 +76,10 @@ public interface MeasuresApi {
     @PatchMapping(value = "/measures/{measure-id}",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = { MediaType.APPLICATION_JSON_VALUE })
+    @Patch(service = MeasuresRepository.class, id = String.class)
     ResponseEntity<Void> updateMeasure(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
                                        @ApiParam(value = "Measure id.", required = true) @PathVariable("measure-id") String measureId,
-                                       @ApiParam(value = "Measure to update.") @Valid @RequestBody Map<Object, Object> body
+                                       @ApiParam(value = "Measure to update.") @PatchRequestBody MeasureUpdate body
     ) throws ApiFieldsException;
 
 

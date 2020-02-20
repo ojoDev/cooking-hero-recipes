@@ -9,6 +9,7 @@ import com.ojodev.cookinghero.recipes.api.model.*;
 import com.ojodev.cookinghero.recipes.business.MeasuresBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.config.RecipesConfig;
+import com.ojodev.cookinghero.recipes.config.patch.json.PatchRequestBody;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.*;
 import com.ojodev.cookinghero.recipes.domain.model.*;
@@ -84,7 +85,8 @@ public class MeasuresApiController implements MeasuresApi {
 
     public ResponseEntity<Void> updateMeasure(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
                                               @ApiParam(value = "Measure id.", required = true, example = "tablespoon") @PathVariable("measure-id") String measureId,
-                                              @ApiParam(value = "Measure to update.") @Valid @RequestBody Map<Object, Object> body) throws ApiFieldsException {
+                                          //    @ApiParam(value = "Measure to update.") @Valid @RequestBody Map<Object, Object> body) throws ApiFieldsException {
+                                              @ApiParam(value = "Measure to update.") @PatchRequestBody MeasureUpdate body) throws ApiFieldsException {
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
         //TODO DMS: Esta mal, hacer patrón para PATCH
         //((HashMap<String, String>)body.get("name")).get("singular")
