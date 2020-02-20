@@ -4,13 +4,10 @@ import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.*;
-import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureMultiLanguageBO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.LanguageNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.MeasuresRepository;
 import com.ojodev.cookinghero.recipes.mapper.DescriptiveNameMapper;
@@ -59,7 +56,7 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
     @Override
     public void addMeasure(MeasureMultiLanguageBO newMeasure) throws ApiBadRequestException {
         List<MeasurePO> existentMeasures = measuresRepository.findByObjectId(newMeasure.getId());
-        if (existentMeasures != null && existentMeasures.size() > 0) {
+        if (existentMeasures != null && !existentMeasures.isEmpty()) {
             throw new ApiBadRequestException(messages.get("error.badrequest.duplicatedentityname.code"), messages.get("error.badrequest.duplicatedentityname.desc", "measure"));
         }
         measuresRepository.save(measuresMultipleLanguageMapper.toMeasurePO(newMeasure));
@@ -67,6 +64,7 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
 
     @Override
     public void addOrReplaceMeasure(MeasureBO measureBO) throws ApiException {
+
         List<MeasurePO> existentMeasures = measuresRepository.findByObjectId(measureBO.getId());
 
         throwErrorIfNotExists(existentMeasures);
@@ -118,7 +116,15 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
     }
 
     private void updateLanguageName(MeasurePO measurePO, MeasureBO measureBO) {
-        measurePO.getNames().stream().filter(n -> n.getLanguage().equals(measureBO.getName().getLanguage().toString())).forEach(n -> n = descriptiveNameMapper.toDescriptiveNamePO(measureBO.getName()));
+        List<DescriptiveNamePO> newNames = new ArrayList<>();
+        for (DescriptiveNamePO name : measurePO.getNames()) {
+            if (name.getLanguage().equals(measureBO.getName().getLanguage().toString())) {
+                newNames.add(descriptiveNameMapper.toDescriptiveNamePO(measureBO.getName()));
+            } else {
+                newNames.add(name);
+            }
+        }
+        measurePO.setNames(newNames);
     }
 
 

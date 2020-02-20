@@ -1,25 +1,25 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.net.HttpHeaders;
-import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
+import com.ojodev.cookinghero.recipes.api.model.Measure;
+import com.ojodev.cookinghero.recipes.api.model.MeasureNew;
+import com.ojodev.cookinghero.recipes.api.model.MeasureUpdate;
 import com.ojodev.cookinghero.recipes.business.MeasuresBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.config.RecipesConfig;
-import com.ojodev.cookinghero.recipes.config.patch.json.PatchRequestBody;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.*;
-import com.ojodev.cookinghero.recipes.domain.model.*;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
+import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
+import com.ojodev.cookinghero.recipes.domain.model.MeasureMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.mapper.LanguageEnumMapper;
 import com.ojodev.cookinghero.recipes.mapper.MeasuresMapper;
 import com.ojodev.cookinghero.recipes.mapper.MeasuresMultipleLanguageMapper;
+import com.ojodev.cookinghero.recipes.mapper.MeasuresPatchMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @Api(tags = "measures", description = "Measures used with ingredients")
@@ -47,6 +49,9 @@ public class MeasuresApiController implements MeasuresApi {
 
     @Autowired
     private MeasuresMultipleLanguageMapper measuresMultiLanguageMapper;
+
+    @Autowired
+    private MeasuresPatchMapper measuresPatchMapper;
 
     @Autowired
     private LanguageEnumMapper languageEnumMapper;
@@ -85,15 +90,22 @@ public class MeasuresApiController implements MeasuresApi {
 
     public ResponseEntity<Void> updateMeasure(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
                                               @ApiParam(value = "Measure id.", required = true, example = "tablespoon") @PathVariable("measure-id") String measureId,
-                                          //    @ApiParam(value = "Measure to update.") @Valid @RequestBody Map<Object, Object> body) throws ApiFieldsException {
-                                              @ApiParam(value = "Measure to update.") @PatchRequestBody MeasureUpdate body) throws ApiFieldsException {
+                                              @ApiParam(value = "Measure to update.") @Valid @RequestBody MeasureUpdate body) throws ApiException {
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
-        //TODO DMS: Esta mal, hacer patrón para PATCH
-        //((HashMap<String, String>)body.get("name")).get("singular")
 
-
-        // measuresBusiness.addOrReplaceMeasure(new MeasureBO(measureId, body.getName(), language));
+        throwErrorIfMeasureNotExists(measureId);
+        Optional<MeasureBO> measureOrigin = measuresBusiness.getMeasure(measureId, language);
+        if (measureOrigin.isPresent() && measureOrigin.get().getName().getLanguage() == language) {
+            MeasureBO measurePatched = measuresPatchMapper.patch(measureOrigin.get(), body);
+            measuresBusiness.addOrReplaceMeasure(measurePatched);
+        } else {
+            measuresBusiness.addOrReplaceMeasure(measuresMapper.toMeasureBO(body, measureId, language));
+        }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    private void throwErrorIfMeasureNotExists(@PathVariable("measure-id") @ApiParam(value = "Measure id.", required = true, example = "tablespoon") String measureId) throws NotFoundException {
+        measuresBusiness.getMeasure(measureId, RecipeConstants.DEFAULT_LANGUAGE).orElseThrow(NotFoundException::new);
     }
 
     public ResponseEntity<Void> deleteMeasure(@ApiParam(value = "Measure id.", required = true, example = "tablespoon") @PathVariable("measure-id") String measureId) throws NotFoundException {

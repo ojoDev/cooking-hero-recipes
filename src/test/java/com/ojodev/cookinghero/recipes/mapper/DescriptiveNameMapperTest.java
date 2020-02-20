@@ -50,5 +50,15 @@ public class DescriptiveNameMapperTest {
         assertEquals(DescriptiveNamesExamples.LANGUAGE_ENGLISH, descriptiveNamePO.getLanguage());
     }
 
+    @Test
+    public void fromDescriptiveNameUpdateToDescriptiveNameBO() {
+        DescriptiveNameBO descriptiveNameBO = descriptiveNameMapper.toDescriptiveNameBO(DescriptiveNamesExamples.DESCRIPTIVE_NAME_UPDATE, DescriptiveNamesExamples.LANGUAGE_ENGLISH_ENUM);
+
+        assertNotNull(descriptiveNameBO);
+        assertEquals(DescriptiveNamesExamples.DESCRIPTIVE_NAME_01_SINGULAR, descriptiveNameBO.getSingular());
+        assertEquals(DescriptiveNamesExamples.DESCRIPTIVE_NAME_01_PLURAL, descriptiveNameBO.getPlural());
+        assertEquals(DescriptiveNamesExamples.LANGUAGE_ENGLISH_ENUM, descriptiveNameBO.getLanguage());
+    }
+
 
 }

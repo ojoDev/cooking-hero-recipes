@@ -20,10 +20,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,20 +46,39 @@ public class MeasuresApiControllerPatchTest {
 
 
     @Test
-    @Disabled
-    public void patchMeasureNoDefaultLanguage() throws Exception {
+    public void patchMeasureNoDefaultLanguageComplete() throws Exception {
+
+        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_SPANISH));
 
         this.mvc.perform(patch("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, MeasuresExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_UPDATE_ES)))
+                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_UPDATE_COMPLETE)))
                 .andExpect(status().isNoContent());
-        }
+    }
+
+    @Test
+    @Disabled
+    public void patchMeasureNoDefaultLanguagePartial() throws Exception {
+
+        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_SPANISH));
+
+        this.mvc.perform(patch("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.ACCEPT_LANGUAGE, MeasuresExamples.LANGUAGE_ES)
+                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_UPDATE_PARTIAL)))
+                .andExpect(status().isNoContent());
+    }
+
 
     @Test
     @Disabled
     public void patchMeasureDefaultLanguage() throws Exception {
+
+        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_ENGLISH));
+
         ApiFieldsException exception = new ApiFieldsException(
                 messages.get("error.badrequest.invalidparams.code"),
                 messages.get("error.badrequest.invalidparams.desc"),
@@ -72,13 +93,13 @@ public class MeasuresApiControllerPatchTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, MeasuresExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_UPDATE_EN)))
+                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_UPDATE_COMPLETE)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.invalidparams.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidparams.desc"))))
                 .andExpect(jsonPath("$.fields[0].code", is(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"))))
                 .andExpect(jsonPath("$.fields[0].field", is(HttpHeaders.ACCEPT_LANGUAGE)))
-                .andExpect(jsonPath("$.fields[0].description", is( messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage"))));
+                .andExpect(jsonPath("$.fields[0].description", is(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage"))));
     }
 
 
@@ -86,16 +107,18 @@ public class MeasuresApiControllerPatchTest {
     @Disabled
     public void patchMeasureNotFound() throws Exception {
 
-        doThrow(new NotFoundException()).when(measuresBusiness).addOrReplaceMeasure(any());
+        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.empty());
 
         this.mvc.perform(patch("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, MeasuresExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_UPDATE_ES)))
+                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_UPDATE_COMPLETE)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
     }
+
+
 
 }

@@ -51,10 +51,17 @@ public class MeasuresExamples {
     public static final MeasureNew MEASURE_NEW = initMeasureNew();
     public static final MeasureNew MEASURE_NEW_NO_DEFAULT_LANGUAGE = initMeasureNewNoDefaultLanguage();
 
-    public static final MeasureUpdate MEASURE_UPDATE_EN = new MeasureUpdate(new DescriptiveName(MEASURE_01_NAME_ENGLISH_SINGULAR, MEASURE_01_NAME_ENGLISH_PLURAL));
-    public static final MeasureUpdate MEASURE_UPDATE_ES = new MeasureUpdate(new DescriptiveName(MEASURE_01_NAME_SPANISH_SINGULAR, MEASURE_01_NAME_SPANISH_PLURAL));
-
     public static final MeasureMultiLanguageBO MEASURE_MULTI_LANGUAGE_BO = initMeasureMultiLanguageBO();
+
+    public static final String MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED = "tablespoon_xxx";
+    public static final String MEASURE_01_NAME_ENGLISH_PLURAL_CHANGED = "tablespoons_xxx";
+    public static final String MEASURE_01_NAME_SPANISH_SINGULAR_CHANGED = "cucharada_xxx";
+    public static final String MEASURE_01_NAME_SPANISH_PLURAL_CHANGED = "cucharadas_xxx";
+
+    public static final MeasureUpdate MEASURE_UPDATE_COMPLETE = new MeasureUpdate(new DescriptiveNameUpdate(MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, MEASURE_01_NAME_ENGLISH_PLURAL_CHANGED));
+    public static final MeasureUpdate MEASURE_UPDATE_PARTIAL = initPartialMeasureUpdate();
+    public static final MeasureUpdate MEASURE_UPDATE_PARTIAL_AND_NULL = initPartialAndNullMeasureUpdate();
+
 
     private static MeasurePO initMeasureOnlyEnglish() {
         MeasurePO measurePO = new MeasurePO();
@@ -81,5 +88,17 @@ public class MeasuresExamples {
                 MEASURE_01_NAME_ENGLISH, MEASURE_01_NAME_SPANISH), LANGUAGE_ENUM_ENGLISH).build();
     }
 
+    private static MeasureUpdate initPartialMeasureUpdate() {
+        DescriptiveNameUpdate descriptiveNameUpdate = new DescriptiveNameUpdate();
+        descriptiveNameUpdate.setSingular(MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED);
+        return new MeasureUpdate(descriptiveNameUpdate);
+    }
+
+    private static MeasureUpdate initPartialAndNullMeasureUpdate() {
+        DescriptiveNameUpdate descriptiveNameUpdate = new DescriptiveNameUpdate();
+        descriptiveNameUpdate.setSingular(MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED);
+        descriptiveNameUpdate.setPlural(null);
+        return new MeasureUpdate(descriptiveNameUpdate);
+    }
 
 }

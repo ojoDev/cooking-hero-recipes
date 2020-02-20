@@ -14,12 +14,12 @@ import org.springframework.validation.annotation.Validated;
 @ApiModel(description = "Measure used by ingredients.")
 @Validated
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class MeasureUpdate   {
 
   @JsonProperty("name")
   @ApiModelProperty(example = "{\"singular\":\"g\",\"plural\":\"g\"}", value = "Measure description.")
-  private DescriptiveName name;
+  private DescriptiveNameUpdate name;
 
 }

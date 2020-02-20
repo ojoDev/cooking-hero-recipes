@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 @ApiModel(description = "Measure name in a specific language.")
 @Validated
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class MeasureNewName   {
 

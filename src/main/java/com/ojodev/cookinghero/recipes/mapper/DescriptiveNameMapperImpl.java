@@ -1,6 +1,7 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.DescriptiveName;
+import com.ojodev.cookinghero.recipes.api.model.DescriptiveNameUpdate;
 import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
@@ -40,8 +41,17 @@ public class DescriptiveNameMapperImpl implements DescriptiveNameMapper {
         return descriptiveNameBO;
     }
 
+    //TODO DMS: Se podría hacer con anotaciones mapstructs
+    @Override
+    public  DescriptiveNameBO toDescriptiveNameBO(DescriptiveNameUpdate descriptiveNameUpdate, LanguageEnumBO languageEnum) {
+        return new DescriptiveNameBO(descriptiveNameUpdate.getSingular(), descriptiveNameUpdate.getPlural(), languageEnum);
+    }
+
+    //TODO DMS: Se podría hacer con anotaciones mapstructs
     @Override
     public DescriptiveNamePO toDescriptiveNamePO(DescriptiveNameBO descriptiveNameBO) {
         return new DescriptiveNamePO(descriptiveNameBO.getSingular(), descriptiveNameBO.getPlural(), descriptiveNameBO.getLanguage().toString());
     }
+
+
 }

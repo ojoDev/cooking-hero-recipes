@@ -4,7 +4,9 @@ public enum FileNameEnum {
 
     CUISINE_TYPE_INVALID_LANGUAGE("cuisine-type-invalid-language.json"),
     MEASURE_INVALID_LANGUAGE("measure-invalid-language.json"),
-    MEASURE_PATCH_PARTIAL("measure-patch-partial");
+    MEASURE_PATCH_COMPLETE("measure-patch-complete.json"),
+    MEASURE_PATCH_PARTIAL("measure-patch-partial.json"),
+    MEASURE_PATCH_PARTIAL_AND_NULL("measure-patch-partial-null.json");
 
     private String value;
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ojodev.cookinghero.recipes.api.model.Measure;
+import com.ojodev.cookinghero.recipes.api.model.MeasureUpdate;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.data.FileNameEnum;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
@@ -84,15 +85,40 @@ public class MeasuresMapperTest {
 
     }
 
+  /*  @Test
+    public void convertPatchBodyComplete() throws ApiException {
+        MeasureBO origin = MeasuresExamples.MEASURE_BO_01_ENGLISH;
+        Map<String, Object> content = fileUtils.fileAsMap(FileNameEnum.MEASURE_PATCH_COMPLETE);
+        MeasureBO result = measuresMapper.patch(origin, content);
+
+        assertNotNull(result);
+        assertNotNull(result.getName());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, result.getName().getSingular(), "Patch change singular field");
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL_CHANGED, result.getName().getPlural(), "Patch change plural field");
+    }
+
     @Test
-    public void convertPatchBody() throws ApiException {
+    public void convertPatchBodyPartial() throws ApiException {
         MeasureBO origin = MeasuresExamples.MEASURE_BO_01_ENGLISH;
         Map<String, Object> content = fileUtils.fileAsMap(FileNameEnum.MEASURE_PATCH_PARTIAL);
         MeasureBO result = measuresMapper.patch(origin, content);
 
         assertNotNull(result);
-        assertEquals("tablespOO", result.getName().getSingular(), "Patch change singular field");
-        assertEquals(MeasuresExamples.MEASURE_BO_01_ENGLISH.getName().getPlural(), result.getName().getPlural(), "Patch change singular field");
+        assertNotNull(result.getName());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, result.getName().getSingular(), "Patch change singular field");
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, result.getName().getPlural(), "Patch not change plural field");
     }
 
+    @Test
+    public void convertPatchBodyPartialAndNull() throws ApiException {
+        MeasureBO origin = MeasuresExamples.MEASURE_BO_01_ENGLISH;
+        MeasureUpdate content = fileUtils.fileAsBean(MeasureUpdate.class, FileNameEnum.MEASURE_PATCH_PARTIAL_AND_NULL);
+        MeasureBO result = measuresMapper.patch(origin, content);
+
+        assertNotNull(result);
+        assertNotNull(result.getName());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, result.getName().getSingular(), "Patch change singular field");
+        assertEquals(null, result.getName().getPlural(), "Patch change plural to null");
+    }
+*/
 }

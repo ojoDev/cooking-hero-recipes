@@ -1,10 +1,10 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.MeasureNew;
-import com.ojodev.cookinghero.recipes.domain.model.*;
-import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
+import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
+import com.ojodev.cookinghero.recipes.domain.model.MeasureMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.LanguageNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
