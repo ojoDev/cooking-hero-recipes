@@ -1,6 +1,9 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
+import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
+import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNewName;
+import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
@@ -23,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
@@ -52,11 +56,15 @@ public class CuisineTypesApiControllerPostTest {
     @Test
     public void postCuisineType() throws Exception {
 
+        CuisineTypeNew cuisineTypeNew = new CuisineTypeNew(Arrays.asList(
+                new CuisineTypeNewName(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnum.EN),
+                new CuisineTypeNewName(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, LanguageEnum.ES)));
+
         this.mvc.perform(post("/cuisine-types")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
-                .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_NEW)))
+                .content(TestUtils.asJsonString(cuisineTypeNew)))
                 .andExpect(header().string(HttpHeaders.LOCATION, endsWith("/cuisine-types/" + CuisineTypesExamples.CUISINE_TYPE_01_ID)))
                 .andExpect(status().isCreated());
         }
@@ -64,11 +72,14 @@ public class CuisineTypesApiControllerPostTest {
     @Test
     public void postNotDefaultCuisineType() throws Exception {
 
+        CuisineTypeNew cuisineTypeNewNoDefaultLanguage = new  CuisineTypeNew(Arrays.asList(
+                new CuisineTypeNewName(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, LanguageEnum.ES)));
+
         this.mvc.perform(post("/cuisine-types")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
-                .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_NEW_NO_DEFAULT_LANGUAGE)))
+                .content(TestUtils.asJsonString(cuisineTypeNewNoDefaultLanguage)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.mustcontaindefault.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.mustcontaindefault.desc", LOCALE_ENGLISH))));
@@ -90,13 +101,17 @@ public class CuisineTypesApiControllerPostTest {
     @Test
     public void postDuplicateCuisineType() throws Exception {
 
+        CuisineTypeNew cuisineTypeNew = new CuisineTypeNew(Arrays.asList(
+                new CuisineTypeNewName(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnum.EN),
+                new CuisineTypeNewName(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, LanguageEnum.ES)));
+
         doThrow(new ApiBadRequestException(messages.get("error.badrequest.duplicatedentityname.code"), messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"))).when(cuisineTypesBusiness).addCuisineType(any());
 
         this.mvc.perform(post("/cuisine-types")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
-                .content(TestUtils.asJsonString(CuisineTypesExamples.CUISINE_TYPE_NEW)))
+                .content(TestUtils.asJsonString(cuisineTypeNew)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.duplicatedentityname.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"))));

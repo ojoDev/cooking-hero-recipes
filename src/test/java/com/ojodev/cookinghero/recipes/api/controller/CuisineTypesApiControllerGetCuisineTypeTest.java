@@ -5,6 +5,7 @@ import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
+import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,7 +52,9 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
     @Test
     public void getCuisineType() throws Exception {
 
-        when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
+        CuisineTypeBO cuisineTypeBO = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_01_ID, CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN);
+
+        when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(cuisineTypeBO));
 
         this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
@@ -65,8 +68,11 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
     @Test
     public void getCuisineTypeDifferentLanguages() throws Exception {
 
-        when(this.cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, LanguageEnumBO.EN)).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
-        when(this.cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, LanguageEnumBO.ES)).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_SPANISH));
+        CuisineTypeBO cuisineTypeBOEn = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_01_ID, CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN);
+        CuisineTypeBO cuisineTypeBOEs = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_01_ID, CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, LanguageEnumBO.ES);
+
+        when(this.cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, LanguageEnumBO.EN)).thenReturn(Optional.of(cuisineTypeBOEn));
+        when(this.cuisineTypesBusiness.getCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID, LanguageEnumBO.ES)).thenReturn(Optional.of(cuisineTypeBOEs));
 
         this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
@@ -88,7 +94,9 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
     @Test
     public void getCuisineTypeMultipleLanguages() throws Exception {
 
-        when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
+        CuisineTypeBO cuisineTypeBOEn = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_01_ID, CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN);
+
+        when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(cuisineTypeBOEn));
 
         this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_MULTIPLE_LANGUAGES)
@@ -100,7 +108,9 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
     @Test
     public void getCuisineTypeNoLanguage() throws Exception {
 
-        when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
+        CuisineTypeBO cuisineTypeBO = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_01_ID, CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN);
+
+        when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(cuisineTypeBO));
 
         this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .accept(MediaType.APPLICATION_JSON))
@@ -118,7 +128,9 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
     @Test
     public void getCuisineTypeInvalidLanguage() throws Exception {
 
-        when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
+        CuisineTypeBO cuisineTypeBO = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_01_ID, CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN);
+
+        when(this.cuisineTypesBusiness.getCuisineType(any(), any())).thenReturn(Optional.of(cuisineTypeBO));
 
         this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, INVALID_LANGUAGE)
@@ -137,7 +149,9 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
     @Test
     public void getCuisineTypeByIdNotFound() throws Exception {
 
-        when(this.cuisineTypesBusiness.getCuisineType(eq(CuisineTypesExamples.CUISINE_TYPE_01_ID), any())).thenReturn(Optional.of(CuisineTypesExamples.CUISINE_TYPE_BO_01_ENGLISH));
+        CuisineTypeBO cuisineTypeBO = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_01_ID, CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN);
+
+        when(this.cuisineTypesBusiness.getCuisineType(eq(CuisineTypesExamples.CUISINE_TYPE_01_ID), any())).thenReturn(Optional.of(cuisineTypeBO));
         when(this.cuisineTypesBusiness.getCuisineType(eq(INVALID_ID), any())).thenReturn(Optional.empty());
 
         this.mvc.perform(get("/cuisine-types/{cuisine-type-id}", INVALID_ID)

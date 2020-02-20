@@ -19,84 +19,99 @@ public class CuisineTypeMultiLanguageBOTest {
 
     @Test
     public void createCuisineTypeMultiLanguageBOWithDefaultLanguage() {
+        LanguageNameBO languageNameBOEn = new LanguageNameBO(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN);
+
         List<LanguageNameBO> languageNameList = new ArrayList<>();
-        languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH);
+        languageNameList.add(languageNameBOEn);
         CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
                 languageNameList,
-                CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
+                LanguageEnumBO.EN)
                 .build();
 
         assertNotNull(cuisineType);
         assertEquals(1, cuisineType.getLanguageNames().size());
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH.getLanguage(), cuisineType.getLanguageNames().get(0).getLanguage());
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH.getName(), cuisineType.getLanguageNames().get(0).getName());
+        assertEquals(LanguageEnumBO.EN, cuisineType.getLanguageNames().get(0).getLanguage());
+        assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, cuisineType.getLanguageNames().get(0).getName());
 
     }
 
     @Test
     public void createCuisineTypeMultiLanguageBOWithNoDefaultLanguage() {
+
+        LanguageNameBO languageNameBOEs = new LanguageNameBO(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, LanguageEnumBO.ES);
+
         List<LanguageNameBO> languageNameList = new ArrayList<>();
-        languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH);
+        languageNameList.add(languageNameBOEs);
 
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
                     new CuisineTypeMultiLanguageBO.Builder(
                             languageNameList,
-                            CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
+                            LanguageEnumBO.EN)
                             .build();
                 }, "Need to be throw an exception");
     }
 
-        @Test
-        public void createCuisineTypeMultiLanguageBOMultipleLanguages() {
-            List<LanguageNameBO> languageNameList = new ArrayList<>();
-            languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH);
-
-                CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
-                        languageNameList,
-                        CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
-                        .languageName(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH)
-                        .build();
-
-            assertNotNull(cuisineType);
-            assertEquals(2, cuisineType.getLanguageNames().size());
-            assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH.getLanguage(), cuisineType.getLanguageNames().get(0).getLanguage());
-            assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH.getName(), cuisineType.getLanguageNames().get(0).getName());
-            assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH.getLanguage(), cuisineType.getLanguageNames().get(1).getLanguage());
-            assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH.getName(), cuisineType.getLanguageNames().get(1).getName());
-    }
-
     @Test
-    public void createCuisineTypeMultiLanguageBOMultipleLanguagesWithReplace() {
+    public void createCuisineTypeMultiLanguageBOMultipleLanguages() {
+
+        LanguageNameBO languageNameBOEn = new LanguageNameBO(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN);
+        LanguageNameBO languageNameBOEs = new LanguageNameBO(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, LanguageEnumBO.ES);
+
         List<LanguageNameBO> languageNameList = new ArrayList<>();
-        languageNameList.add(CuisineTypesExamples.LANGUAGE_NAME_BO_01_ENGLISH);
+        languageNameList.add(languageNameBOEn);
 
         CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
                 languageNameList,
-                CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
-                .languageName(CuisineTypesExamples.LANGUAGE_NAME_BO_01_SPANISH)
-                .languageName(CuisineTypesExamples.LANGUAGE_NAME_BO_02_ENGLISH)
-                .languageName(CuisineTypesExamples.LANGUAGE_NAME_BO_02_SPANISH)
+                LanguageEnumBO.EN)
+                .languageName(languageNameBOEs)
                 .build();
 
         assertNotNull(cuisineType);
         assertEquals(2, cuisineType.getLanguageNames().size());
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_02_ENGLISH.getLanguage(), cuisineType.getLanguageNames().get(0).getLanguage());
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_02_ENGLISH.getName(), cuisineType.getLanguageNames().get(0).getName());
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_02_SPANISH.getLanguage(), cuisineType.getLanguageNames().get(1).getLanguage());
-        assertEquals(CuisineTypesExamples.LANGUAGE_NAME_BO_02_SPANISH.getName(), cuisineType.getLanguageNames().get(1).getName());
+        assertEquals(LanguageEnumBO.EN, cuisineType.getLanguageNames().get(0).getLanguage());
+        assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, cuisineType.getLanguageNames().get(0).getName());
+        assertEquals(LanguageEnumBO.ES, cuisineType.getLanguageNames().get(1).getLanguage());
+        assertEquals(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, cuisineType.getLanguageNames().get(1).getName());
+    }
+
+    @Test
+    public void createCuisineTypeMultiLanguageBOMultipleLanguagesWithReplace() {
+
+        LanguageNameBO languageNameBOEn01 = new LanguageNameBO(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN);
+        LanguageNameBO languageNameBOEn02 = new LanguageNameBO(CuisineTypesExamples.CUISINE_TYPE_02_NAME_ENGLISH, LanguageEnumBO.EN);
+        LanguageNameBO languageNameBOEs01 = new LanguageNameBO(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, LanguageEnumBO.ES);
+        LanguageNameBO languageNameBOEs02 = new LanguageNameBO(CuisineTypesExamples.CUISINE_TYPE_02_NAME_SPANISH, LanguageEnumBO.ES);
+
+        List<LanguageNameBO> languageNameList = new ArrayList<>();
+        languageNameList.add(languageNameBOEn01);
+
+        CuisineTypeMultiLanguageBO cuisineType = new CuisineTypeMultiLanguageBO.Builder(
+                languageNameList,
+                LanguageEnumBO.EN)
+                .languageName(languageNameBOEs01)
+                .languageName(languageNameBOEn02)
+                .languageName(languageNameBOEs02)
+                .build();
+
+        assertNotNull(cuisineType);
+        assertEquals(2, cuisineType.getLanguageNames().size());
+        assertEquals(LanguageEnumBO.EN, cuisineType.getLanguageNames().get(0).getLanguage());
+        assertEquals(CuisineTypesExamples.CUISINE_TYPE_02_NAME_ENGLISH, cuisineType.getLanguageNames().get(0).getName());
+        assertEquals(LanguageEnumBO.ES, cuisineType.getLanguageNames().get(1).getLanguage());
+        assertEquals(CuisineTypesExamples.CUISINE_TYPE_02_NAME_SPANISH, cuisineType.getLanguageNames().get(1).getName());
     }
 
     @Test
     public void createCuisineTypeMultiLanguageBOWithInvalidFields() {
         List<LanguageNameBO> languageNameList = new ArrayList<>();
-        languageNameList.add(new LanguageNameBO(null,null));
+        languageNameList.add(new LanguageNameBO(null, null));
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
                     new CuisineTypeMultiLanguageBO.Builder(
                             languageNameList,
-                            CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
+                            LanguageEnumBO.EN)
                             .build();
                 }, "Need to be throw an exception");
         assertEquals("Language name needs to include at least name and language fields", exception.getMessage());
@@ -110,7 +125,7 @@ public class CuisineTypeMultiLanguageBOTest {
                 () -> {
                     new CuisineTypeMultiLanguageBO.Builder(
                             languageNameList,
-                            CuisineTypesExamples.LANGUAGE_ENUM_ENGLISH)
+                            LanguageEnumBO.EN)
                             .build();
                 }, "Need to be throw an exception");
         assertEquals("CuisineType needs to include at least one name", exception.getMessage());
