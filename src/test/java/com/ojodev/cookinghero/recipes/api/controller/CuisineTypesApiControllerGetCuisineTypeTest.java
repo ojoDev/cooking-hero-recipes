@@ -111,7 +111,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidparams.desc"))))
                 .andExpect(jsonPath("$.fields[0].code", is(messages.get("error.badrequest.invalidparams.fields.headerparamrequired.code"))))
                 .andExpect(jsonPath("$.fields[0].field", is(HttpHeaders.ACCEPT_LANGUAGE)))
-                .andExpect(jsonPath("$.fields[0].description", is(HttpHeaders.ACCEPT_LANGUAGE + " " + messages.get("error.badrequest.invalidparams.fields.headerparamrequired.desc"))));
+                .andExpect(jsonPath("$.fields[0].description", is(messages.get("error.badrequest.invalidparams.fields.headerparamrequired.desc", HttpHeaders.ACCEPT_LANGUAGE))));
 
     }
 
@@ -130,7 +130,7 @@ public class CuisineTypesApiControllerGetCuisineTypeTest {
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidparams.desc"))))
                 .andExpect(jsonPath("$.fields[0].code", is(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"))))
                 .andExpect(jsonPath("$.fields[0].field", is(HttpHeaders.ACCEPT_LANGUAGE)))
-                .andExpect(jsonPath("$.fields[0].description", is(HttpHeaders.ACCEPT_LANGUAGE + " " + messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.enum") + " " + LanguageEnum.getValueList())));
+                .andExpect(jsonPath("$.fields[0].description", is(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.enum", HttpHeaders.ACCEPT_LANGUAGE, LanguageEnum.getValueList()))));
 
     }
 

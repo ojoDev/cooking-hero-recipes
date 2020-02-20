@@ -89,7 +89,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
         validateInvalidLanguage(body);
     }
 
-    private void validateDefaultLanguage(CuisineTypeNew body) throws ApiException{
+    private void validateDefaultLanguage(CuisineTypeNew body) throws ApiException {
         boolean existsDefaultLanguage = body.getNames().stream().filter(name -> RecipeConstants.DEFAULT_LANGUAGE.equals(languageEnumMapper.toLanguageEnumBO(name.getLanguage()))).count() > 0;
         if (!existsDefaultLanguage) {
             throw new ApiBadRequestException(messages.get("error.badrequest.mustcontaindefault.code"), messages.get("error.badrequest.mustcontaindefault.desc", RecipeConstants.DEFAULT_LANGUAGE));
@@ -124,7 +124,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
 
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
-        CuisineTypeBO cuisineTypeBO = cuisineTypesBusiness.getCuisineType(cuisineTypeId, language).orElseThrow(NotFoundException::new);;
+        CuisineTypeBO cuisineTypeBO = cuisineTypesBusiness.getCuisineType(cuisineTypeId, language).orElseThrow(NotFoundException::new);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_LANGUAGE, acceptLanguage)
@@ -148,12 +148,12 @@ public class CuisineTypesApiController implements CuisineTypesApi {
     private LanguageEnumBO checkAndExtractAcceptedLanguage(String acceptLanguage) throws ApiFieldsException {
 
         for (String language : acceptLanguage.split(ACCEPT_LANGUAGE_SEPARATOR)) {
-            if (LanguageEnum.fromValue(language) != null){
+            if (LanguageEnum.fromValue(language) != null) {
                 return LanguageEnumBO.fromValue(language);
             }
         }
         throw new ApiFieldsException(messages.get("error.badrequest.invalidparams.code"), messages.get("error.badrequest.invalidparams.desc"),
-                Arrays.asList(new FieldError(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"), HttpHeaders.ACCEPT_LANGUAGE, HttpHeaders.ACCEPT_LANGUAGE + " " + messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.enum") + " " + LanguageEnum.getValueList())));
+                Arrays.asList(new FieldError(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"), HttpHeaders.ACCEPT_LANGUAGE, messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.enum", HttpHeaders.ACCEPT_LANGUAGE, LanguageEnum.getValueList()))));
     }
 
 

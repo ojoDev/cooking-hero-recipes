@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -20,77 +21,84 @@ public class MeasureMultiLanguageBOTest {
 
     @Test
     public void createMeasureMultiLanguageBOWithDefaultLanguage() {
-        List<DescriptiveNameBO> names = new ArrayList<>();
-        names.add(MeasuresExamples.MEASURE_01_NAME_ENGLISH);
+        DescriptiveNameBO measureNameEnglish = new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN);
+        List<DescriptiveNameBO> initialNames = Arrays.asList(measureNameEnglish);
+
         MeasureMultiLanguageBO measure = new MeasureMultiLanguageBO.Builder(
-                names,
-                MeasuresExamples.LANGUAGE_ENUM_ENGLISH)
+                initialNames,
+                LanguageEnumBO.EN)
                 .build();
 
         assertNotNull(measure);
         assertNotNull(measure.getNames());
         assertEquals(1, measure.getNames().size());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH.getLanguage(), measure.getNames().get(0).getLanguage());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH.getSingular(), measure.getNames().get(0).getSingular());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH.getPlural(), measure.getNames().get(0).getPlural());
+        assertEquals(measureNameEnglish.getLanguage(), measure.getNames().get(0).getLanguage());
+        assertEquals(measureNameEnglish.getSingular(), measure.getNames().get(0).getSingular());
+        assertEquals(measureNameEnglish.getPlural(), measure.getNames().get(0).getPlural());
 
     }
 
     @Test
     public void createMeasureMultiLanguageBOMultipleLanguages() {
-        List<DescriptiveNameBO> names = new ArrayList<>();
-        names.add(MeasuresExamples.MEASURE_01_NAME_ENGLISH);
+        DescriptiveNameBO measureNameEnglish = new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN);
+        DescriptiveNameBO measureNameSpanish = new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES);
+
+        List<DescriptiveNameBO> initialNames = Arrays.asList(measureNameEnglish);
 
         MeasureMultiLanguageBO measure = new MeasureMultiLanguageBO.Builder(
-                names,
-                MeasuresExamples.LANGUAGE_ENUM_ENGLISH)
-                .name(MeasuresExamples.MEASURE_01_NAME_SPANISH)
+                initialNames,
+                LanguageEnumBO.EN)
+                .name(measureNameSpanish)
                 .build();
 
         assertNotNull(measure);
         assertEquals(2, measure.getNames().size());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH.getLanguage(), measure.getNames().get(0).getLanguage());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH.getSingular(), measure.getNames().get(0).getSingular());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH.getPlural(), measure.getNames().get(0).getPlural());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH.getLanguage(), measure.getNames().get(1).getLanguage());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH.getSingular(), measure.getNames().get(1).getSingular());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_SPANISH.getPlural(), measure.getNames().get(1).getPlural());
+        assertEquals(measureNameEnglish.getLanguage(), measure.getNames().get(0).getLanguage());
+        assertEquals(measureNameEnglish.getSingular(), measure.getNames().get(0).getSingular());
+        assertEquals(measureNameEnglish.getPlural(), measure.getNames().get(0).getPlural());
+        assertEquals(measureNameSpanish.getLanguage(), measure.getNames().get(1).getLanguage());
+        assertEquals(measureNameSpanish.getSingular(), measure.getNames().get(1).getSingular());
+        assertEquals(measureNameSpanish.getPlural(), measure.getNames().get(1).getPlural());
     }
 
     @Test
     public void createMeasureMultiLanguageBOMultipleLanguagesWithReplace() {
-        List<DescriptiveNameBO> names = new ArrayList<>();
-        names.add(MeasuresExamples.MEASURE_01_NAME_ENGLISH);
+        DescriptiveNameBO measureNameEnglish01 = new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN);
+        DescriptiveNameBO measureNameSpanish01 = new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES);
+        DescriptiveNameBO measureNameEnglish02 = new DescriptiveNameBO(MeasuresExamples.MEASURE_02_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_02_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN);
+        DescriptiveNameBO measureNameSpanish02 = new DescriptiveNameBO(MeasuresExamples.MEASURE_02_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_02_NAME_SPANISH_PLURAL, LanguageEnumBO.ES);
+
+        List<DescriptiveNameBO> initialNames = Arrays.asList(measureNameEnglish01);
 
         MeasureMultiLanguageBO measure = new MeasureMultiLanguageBO.Builder(
-                names,
-                MeasuresExamples.LANGUAGE_ENUM_ENGLISH)
-                .name(MeasuresExamples.MEASURE_01_NAME_SPANISH)
-                .name(MeasuresExamples.MEASURE_02_NAME_ENGLISH)
-                .name(MeasuresExamples.MEASURE_02_NAME_SPANISH)
+                initialNames,
+                LanguageEnumBO.EN)
+                .name(measureNameSpanish01)
+                .name(measureNameEnglish02)
+                .name(measureNameSpanish02)
                 .build();
 
         assertNotNull(measure);
         assertEquals(2, measure.getNames().size());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH.getLanguage(), measure.getNames().get(0).getLanguage());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH.getSingular(), measure.getNames().get(0).getSingular());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH.getPlural(), measure.getNames().get(0).getPlural());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_SPANISH.getLanguage(), measure.getNames().get(1).getLanguage());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_SPANISH.getSingular(), measure.getNames().get(1).getSingular());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_SPANISH.getPlural(), measure.getNames().get(1).getPlural());
+        assertEquals(measureNameEnglish02.getLanguage(), measure.getNames().get(0).getLanguage());
+        assertEquals(measureNameEnglish02.getSingular(), measure.getNames().get(0).getSingular());
+        assertEquals(measureNameEnglish02.getPlural(), measure.getNames().get(0).getPlural());
+        assertEquals(measureNameSpanish02.getLanguage(), measure.getNames().get(1).getLanguage());
+        assertEquals(measureNameSpanish02.getSingular(), measure.getNames().get(1).getSingular());
+        assertEquals(measureNameSpanish02.getPlural(), measure.getNames().get(1).getPlural());
     }
 
 
     @Test
     public void createMeasureMultiLanguageBOWithNoDefaultLanguage() {
-        List<DescriptiveNameBO> names = new ArrayList<>();
-        names.add(MeasuresExamples.MEASURE_01_NAME_SPANISH);
+        DescriptiveNameBO measureNameSpanish = new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES);
+        List<DescriptiveNameBO> initialNames = Arrays.asList(measureNameSpanish);
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
                     new MeasureMultiLanguageBO.Builder(
-                            names,
-                            MeasuresExamples.LANGUAGE_ENUM_ENGLISH)
+                            initialNames,
+                            LanguageEnumBO.EN)
                             .build();
                 }, "Need to be throw an exception");
         assertEquals("Measure needs to include default language name: en", exception.getMessage());
@@ -105,7 +113,7 @@ public class MeasureMultiLanguageBOTest {
                 () -> {
                     new MeasureMultiLanguageBO.Builder(
                             names,
-                            MeasuresExamples.LANGUAGE_ENUM_ENGLISH)
+                            LanguageEnumBO.EN)
                             .build();
                 }, "Need to be throw an exception");
         assertEquals("Names needs to include singular and plural fields", exception.getMessage());
@@ -119,7 +127,7 @@ public class MeasureMultiLanguageBOTest {
                 () -> {
                     new MeasureMultiLanguageBO.Builder(
                             names,
-                            MeasuresExamples.LANGUAGE_ENUM_ENGLISH)
+                            LanguageEnumBO.EN)
                             .build();
                 }, "Need to be throw an exception");
         assertEquals("Measure needs to include at least one name and language fields", exception.getMessage());

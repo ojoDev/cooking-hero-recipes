@@ -1,8 +1,5 @@
 package com.ojodev.cookinghero.recipes.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import java.util.regex.Pattern;
 
 
@@ -10,8 +7,8 @@ public class IdentifiableBO {
 
     private String id;
 
-    private static final Pattern ACCEPTED_CHARS =  Pattern.compile("^[a-zA-Z0-9\\-\\s]+$");
-    private static final String ID_WORD_SEPARATOR =  "-";
+    private static final Pattern ACCEPTED_CHARS = Pattern.compile("^[a-zA-Z0-9\\-\\s]+$");
+    private static final String ID_WORD_SEPARATOR = "-";
 
     public IdentifiableBO(String id) {
         this.id = normalizeId(id);

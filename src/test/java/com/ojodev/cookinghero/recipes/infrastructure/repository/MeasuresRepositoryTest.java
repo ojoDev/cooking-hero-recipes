@@ -2,6 +2,7 @@ package com.ojodev.cookinghero.recipes.infrastructure.repository;
 
 import com.ojodev.cookinghero.recipes.RecipesApplication;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
+import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -35,7 +37,12 @@ public class MeasuresRepositoryTest {
     @Test
     @Ignore
     public void saveMeasure ()  {
-        measuresRepository.save(MeasuresExamples.MEASURE_PO_01);
+
+        MeasurePO measurePO = new MeasurePO(MeasuresExamples.MEASURE_01_ID, Arrays.asList(
+                new DescriptiveNamePO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, MeasuresExamples.LANGUAGE_EN),
+                new DescriptiveNamePO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, MeasuresExamples.LANGUAGE_ES)));
+
+        measuresRepository.save(measurePO);
     }
 
     @Test

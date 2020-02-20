@@ -29,13 +29,14 @@ public class MeasureMultiLanguageBO {
 
     public static class Builder extends IdentifiableBO{
 
-       private List<DescriptiveNameBO> names = new ArrayList<>();
+       private List<DescriptiveNameBO> names;
 
         private LanguageEnumBO defaultLanguage;
 
         public Builder(List<DescriptiveNameBO> names, LanguageEnumBO defaultLanguage ) {
             super("");
             this.defaultLanguage = defaultLanguage;
+            this.names = new ArrayList<>();
             this.names(names);
         }
 

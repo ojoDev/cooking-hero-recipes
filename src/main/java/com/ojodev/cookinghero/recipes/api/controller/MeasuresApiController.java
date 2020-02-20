@@ -121,7 +121,7 @@ public class MeasuresApiController implements MeasuresApi {
             }
         }
         throw new ApiFieldsException(messages.get("error.badrequest.invalidparams.code"), messages.get("error.badrequest.invalidparams.desc"),
-                Arrays.asList(new FieldError(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"), org.springframework.http.HttpHeaders.ACCEPT_LANGUAGE, org.springframework.http.HttpHeaders.ACCEPT_LANGUAGE + " " + messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.enum") + " " + LanguageEnum.getValueList())));
+                Arrays.asList(new FieldError(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"), org.springframework.http.HttpHeaders.ACCEPT_LANGUAGE, messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.enum", org.springframework.http.HttpHeaders.ACCEPT_LANGUAGE, LanguageEnum.getValueList()))));
     }
 
     private void validateBody(MeasureNew body) throws ApiException {

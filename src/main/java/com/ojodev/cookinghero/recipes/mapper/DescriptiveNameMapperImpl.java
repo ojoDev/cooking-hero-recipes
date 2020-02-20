@@ -5,9 +5,7 @@ import com.ojodev.cookinghero.recipes.api.model.DescriptiveNameUpdate;
 import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
-import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.LanguageNamePO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -43,7 +41,7 @@ public class DescriptiveNameMapperImpl implements DescriptiveNameMapper {
 
     //TODO DMS: Se podría hacer con anotaciones mapstructs
     @Override
-    public  DescriptiveNameBO toDescriptiveNameBO(DescriptiveNameUpdate descriptiveNameUpdate, LanguageEnumBO languageEnum) {
+    public DescriptiveNameBO toDescriptiveNameBO(DescriptiveNameUpdate descriptiveNameUpdate, LanguageEnumBO languageEnum) {
         return new DescriptiveNameBO(descriptiveNameUpdate.getSingular(), descriptiveNameUpdate.getPlural(), languageEnum);
     }
 

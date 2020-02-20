@@ -1,12 +1,17 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
+import com.ojodev.cookinghero.recipes.api.model.DescriptiveNameUpdate;
+import com.ojodev.cookinghero.recipes.api.model.MeasureUpdate;
 import com.ojodev.cookinghero.recipes.business.MeasuresBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
 import com.ojodev.cookinghero.recipes.domain.exception.FieldError;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
+import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
+import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import com.ojodev.cookinghero.recipes.utils.TestUtils;
 import org.junit.Test;
 import org.junit.jupiter.api.Disabled;
@@ -48,13 +53,16 @@ public class MeasuresApiControllerPatchTest {
     @Test
     public void patchMeasureNoDefaultLanguageComplete() throws Exception {
 
-        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_SPANISH));
+        MeasureBO measureBOEs = new MeasureBO(MeasuresExamples.MEASURE_02_ID, new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, LanguageEnumBO.EN));
+        MeasureUpdate measureUpdateComplete = new MeasureUpdate(new DescriptiveNameUpdate(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL_CHANGED));
+
+        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(measureBOEs));
 
         this.mvc.perform(patch("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, MeasuresExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_UPDATE_COMPLETE)))
+                .content(TestUtils.asJsonString(measureUpdateComplete)))
                 .andExpect(status().isNoContent());
     }
 
@@ -62,13 +70,16 @@ public class MeasuresApiControllerPatchTest {
     @Disabled
     public void patchMeasureNoDefaultLanguagePartial() throws Exception {
 
-        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_SPANISH));
+        MeasureBO measureBOEs = new MeasureBO(MeasuresExamples.MEASURE_01_ID, new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES));
+        MeasureUpdate measureUpdate = initPartialMeasureUpdate();
+
+        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(measureBOEs));
 
         this.mvc.perform(patch("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, MeasuresExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_UPDATE_PARTIAL)))
+                .content(TestUtils.asJsonString(measureUpdate)))
                 .andExpect(status().isNoContent());
     }
 
@@ -77,7 +88,10 @@ public class MeasuresApiControllerPatchTest {
     @Disabled
     public void patchMeasureDefaultLanguage() throws Exception {
 
-        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(MeasuresExamples.MEASURE_BO_01_ENGLISH));
+        MeasureBO measureBOEn = new MeasureBO(MeasuresExamples.MEASURE_01_ID, new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        MeasureUpdate measureUpdateComplete = new MeasureUpdate(new DescriptiveNameUpdate(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL_CHANGED));
+
+        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(measureBOEn));
 
         ApiFieldsException exception = new ApiFieldsException(
                 messages.get("error.badrequest.invalidparams.code"),
@@ -93,7 +107,7 @@ public class MeasuresApiControllerPatchTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, MeasuresExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_UPDATE_COMPLETE)))
+                .content(TestUtils.asJsonString(measureUpdateComplete)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.invalidparams.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidparams.desc"))))
@@ -107,18 +121,26 @@ public class MeasuresApiControllerPatchTest {
     @Disabled
     public void patchMeasureNotFound() throws Exception {
 
+        MeasureUpdate measureUpdateComplete = new MeasureUpdate(new DescriptiveNameUpdate(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL_CHANGED));
+
         when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.empty());
 
         this.mvc.perform(patch("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, MeasuresExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(MeasuresExamples.MEASURE_UPDATE_COMPLETE)))
+                .content(TestUtils.asJsonString(measureUpdateComplete)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
     }
 
+
+    private static MeasureUpdate initPartialMeasureUpdate() {
+        DescriptiveNameUpdate descriptiveNameUpdate = new DescriptiveNameUpdate();
+        descriptiveNameUpdate.setSingular(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED);
+        return new MeasureUpdate(descriptiveNameUpdate);
+    }
 
 
 }

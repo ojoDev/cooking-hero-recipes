@@ -5,7 +5,9 @@ import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.business.MeasuresBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
+import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
+import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +52,10 @@ public class MeasuresApiControllerGetAllTest {
     @Test
     public void getAllMeasures() throws Exception {
 
-        when(this.measuresBusiness.getMeasures(any())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_BO_01_ENGLISH, MeasuresExamples.MEASURE_BO_02_ENGLISH));
+        MeasureBO measureBO01 = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        MeasureBO measureBO02 = new MeasureBO(MeasuresExamples.MEASURE_02_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_02_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_02_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+
+        when(this.measuresBusiness.getMeasures(any())).thenReturn(Arrays.asList(measureBO01, measureBO02));
 
         this.mvc.perform(get("/measures")
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
@@ -70,8 +75,11 @@ public class MeasuresApiControllerGetAllTest {
     @Test
     public void getAllMeasuresDifferentLanguages() throws Exception {
 
-        when(this.measuresBusiness.getMeasures(eq(LanguageEnumBO.EN))).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_BO_01_ENGLISH));
-        when(this.measuresBusiness.getMeasures(eq(LanguageEnumBO.ES))).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_BO_01_SPANISH));
+        MeasureBO measureBOEn = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        MeasureBO measureBOEs = new MeasureBO(MeasuresExamples.MEASURE_02_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_02_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_02_NAME_SPANISH_PLURAL, LanguageEnumBO.EN));
+
+        when(this.measuresBusiness.getMeasures(eq(LanguageEnumBO.EN))).thenReturn(Arrays.asList(measureBOEn));
+        when(this.measuresBusiness.getMeasures(eq(LanguageEnumBO.ES))).thenReturn(Arrays.asList(measureBOEs));
 
         this.mvc.perform(get("/measures")
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_SPANISH)
@@ -79,15 +87,18 @@ public class MeasuresApiControllerGetAllTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_SPANISH))
                 .andExpect(jsonPath("$.length()", is(1)))
-                .andExpect(jsonPath("$[0].id", is(MeasuresExamples.MEASURE_01_ID)))
-                .andExpect(jsonPath("$[0].name.singular", is(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR)))
-                .andExpect(jsonPath("$[0].name.plural", is(MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL)));
+                .andExpect(jsonPath("$[0].id", is(MeasuresExamples.MEASURE_02_ID)))
+                .andExpect(jsonPath("$[0].name.singular", is(MeasuresExamples.MEASURE_02_NAME_SPANISH_SINGULAR)))
+                .andExpect(jsonPath("$[0].name.plural", is(MeasuresExamples.MEASURE_02_NAME_SPANISH_PLURAL)));
     }
 
     @Test
     public void getAllMeasuresMultipleLanguages() throws Exception {
 
-        when(this.measuresBusiness.getMeasures(any())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_BO_01_ENGLISH, MeasuresExamples.MEASURE_BO_02_ENGLISH));
+        MeasureBO measureBO01 = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        MeasureBO measureBO02 = new MeasureBO(MeasuresExamples.MEASURE_02_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_02_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_02_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+
+        when(this.measuresBusiness.getMeasures(any())).thenReturn(Arrays.asList(measureBO01, measureBO02));
 
         this.mvc.perform(get("/measures")
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_MULTIPLE_LANGUAGES)
@@ -99,7 +110,10 @@ public class MeasuresApiControllerGetAllTest {
     @Test
     public void getAllMeasuresNoLanguage() throws Exception {
 
-        when(this.measuresBusiness.getMeasures(any())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_BO_01_ENGLISH, MeasuresExamples.MEASURE_BO_02_ENGLISH));
+        MeasureBO measureBO01 = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        MeasureBO measureBO02 = new MeasureBO(MeasuresExamples.MEASURE_02_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_02_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_02_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+
+        when(this.measuresBusiness.getMeasures(any())).thenReturn(Arrays.asList(measureBO01, measureBO02));
 
         this.mvc.perform(get("/measures")
                 .accept(MediaType.APPLICATION_JSON))
@@ -110,14 +124,17 @@ public class MeasuresApiControllerGetAllTest {
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidparams.desc"))))
                 .andExpect(jsonPath("$.fields[0].code", is(messages.get("error.badrequest.invalidparams.fields.headerparamrequired.code"))))
                 .andExpect(jsonPath("$.fields[0].field", is(HttpHeaders.ACCEPT_LANGUAGE)))
-                .andExpect(jsonPath("$.fields[0].description", is(HttpHeaders.ACCEPT_LANGUAGE + " " + messages.get("error.badrequest.invalidparams.fields.headerparamrequired.desc"))));
+                .andExpect(jsonPath("$.fields[0].description", is(messages.get("error.badrequest.invalidparams.fields.headerparamrequired.desc", HttpHeaders.ACCEPT_LANGUAGE))));
 
     }
 
     @Test
     public void getAllMeasuresInvalidLanguage() throws Exception {
 
-        when(this.measuresBusiness.getMeasures(any())).thenReturn(Arrays.asList(MeasuresExamples.MEASURE_BO_01_ENGLISH, MeasuresExamples.MEASURE_BO_02_ENGLISH));
+        MeasureBO measureBO01 = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        MeasureBO measureBO02 = new MeasureBO(MeasuresExamples.MEASURE_02_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_02_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_02_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+
+        when(this.measuresBusiness.getMeasures(any())).thenReturn(Arrays.asList(measureBO01, measureBO02));
 
         this.mvc.perform(get("/measures")
                 .header(HttpHeaders.ACCEPT_LANGUAGE, INVALID_LANGUAGE)
@@ -129,7 +146,7 @@ public class MeasuresApiControllerGetAllTest {
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidparams.desc"))))
                 .andExpect(jsonPath("$.fields[0].code", is(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"))))
                 .andExpect(jsonPath("$.fields[0].field", is(HttpHeaders.ACCEPT_LANGUAGE)))
-                .andExpect(jsonPath("$.fields[0].description", is(HttpHeaders.ACCEPT_LANGUAGE + " " + messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.enum") + " " + LanguageEnum.getValueList())));
+                .andExpect(jsonPath("$.fields[0].description", is( messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.enum", HttpHeaders.ACCEPT_LANGUAGE, LanguageEnum.getValueList()))));
 
     }
 

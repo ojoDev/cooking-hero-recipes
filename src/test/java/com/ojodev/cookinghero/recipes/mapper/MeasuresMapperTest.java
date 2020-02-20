@@ -10,8 +10,10 @@ import com.ojodev.cookinghero.recipes.data.FileNameEnum;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
+import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
+import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
 import com.ojodev.cookinghero.recipes.utils.FileUtils;
 import org.junit.Test;
@@ -41,41 +43,53 @@ public class MeasuresMapperTest {
 
     @Test
     public void convertMeasureBOToMeasure() {
-        Measure measure = measuresMapper.toMeasure(MeasuresExamples.MEASURE_BO_01_ENGLISH);
-        assertNotNull(measure);
-        assertEquals(MeasuresExamples.MEASURE_01_ID, measure.getId());
-        assertNotNull(measure.getName());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, measure.getName().getSingular());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, measure.getName().getPlural());
+
+        MeasureBO originMeasure = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+
+        Measure resultMeasure = measuresMapper.toMeasure(originMeasure);
+        assertNotNull(resultMeasure);
+        assertEquals(MeasuresExamples.MEASURE_01_ID, resultMeasure.getId());
+        assertNotNull(resultMeasure.getName());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, resultMeasure.getName().getSingular());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, resultMeasure.getName().getPlural());
     }
 
 
     @Test
     public void convertMeasuresBOListToMeasuresList() {
-        List<Measure> measures = measuresMapper.toMeasuresList(Arrays.asList(MeasuresExamples.MEASURE_BO_01_ENGLISH, MeasuresExamples.MEASURE_BO_02_ENGLISH));
-        assertNotNull(measures);
-        assertEquals(2, measures.size());
-        assertEquals(MeasuresExamples.MEASURE_01_ID, measures.get(0).getId());
-        assertNotNull(measures.get(0).getName());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, measures.get(0).getName().getSingular());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, measures.get(0).getName().getPlural());
-        assertEquals(MeasuresExamples.MEASURE_02_ID, measures.get(1).getId());
-        assertNotNull(measures.get(1).getName());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH_SINGULAR, measures.get(1).getName().getSingular());
-        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH_PLURAL, measures.get(1).getName().getPlural());
+
+        MeasureBO originMeasure01 = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        MeasureBO originMeasure02 = new MeasureBO(MeasuresExamples.MEASURE_02_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_02_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_02_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+
+        List<Measure> resultMeasure = measuresMapper.toMeasuresList(Arrays.asList(originMeasure01, originMeasure02));
+        assertNotNull(resultMeasure);
+        assertEquals(2, resultMeasure.size());
+        assertEquals(MeasuresExamples.MEASURE_01_ID, resultMeasure.get(0).getId());
+        assertNotNull(resultMeasure.get(0).getName());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, resultMeasure.get(0).getName().getSingular());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, resultMeasure.get(0).getName().getPlural());
+        assertEquals(MeasuresExamples.MEASURE_02_ID, resultMeasure.get(1).getId());
+        assertNotNull(resultMeasure.get(1).getName());
+        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH_SINGULAR, resultMeasure.get(1).getName().getSingular());
+        assertEquals(MeasuresExamples.MEASURE_02_NAME_ENGLISH_PLURAL, resultMeasure.get(1).getName().getPlural());
     }
 
     @Test
     public void convertMeasurePOToMeasureBO() {
-        MeasureBO measureEnBO = measuresMapper.toMeasureBO(MeasuresExamples.MEASURE_PO_01, LanguageEnumBO.EN);
-        assertNotNull(measureEnBO);
-        assertEquals(MeasuresExamples.MEASURE_01_ID,measureEnBO.getId());
-        assertNotNull(measureEnBO.getName());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, measureEnBO.getName().getSingular());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, measureEnBO.getName().getPlural());
-        assertEquals(MeasuresExamples.LANGUAGE_EN, measureEnBO.getName().getLanguage().toString());
 
-        MeasureBO measureEsBO = measuresMapper.toMeasureBO(MeasuresExamples.MEASURE_PO_01, LanguageEnumBO.ES);
+        MeasurePO originMeasurePO = new MeasurePO(MeasuresExamples.MEASURE_01_ID, Arrays.asList(
+                new DescriptiveNamePO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, MeasuresExamples.LANGUAGE_EN),
+                new DescriptiveNamePO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, MeasuresExamples.LANGUAGE_ES)));
+
+        MeasureBO resultMeasure = measuresMapper.toMeasureBO(originMeasurePO, LanguageEnumBO.EN);
+        assertNotNull(resultMeasure);
+        assertEquals(MeasuresExamples.MEASURE_01_ID,resultMeasure.getId());
+        assertNotNull(resultMeasure.getName());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, resultMeasure.getName().getSingular());
+        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, resultMeasure.getName().getPlural());
+        assertEquals(MeasuresExamples.LANGUAGE_EN, resultMeasure.getName().getLanguage().toString());
+
+        MeasureBO measureEsBO = measuresMapper.toMeasureBO(originMeasurePO, LanguageEnumBO.ES);
         assertNotNull(measureEsBO);
         assertEquals(MeasuresExamples.MEASURE_01_ID,measureEsBO.getId());
         assertNotNull(measureEsBO.getName());
@@ -84,41 +98,4 @@ public class MeasuresMapperTest {
         assertEquals(MeasuresExamples.LANGUAGE_ES, measureEsBO.getName().getLanguage().toString());
 
     }
-
-  /*  @Test
-    public void convertPatchBodyComplete() throws ApiException {
-        MeasureBO origin = MeasuresExamples.MEASURE_BO_01_ENGLISH;
-        Map<String, Object> content = fileUtils.fileAsMap(FileNameEnum.MEASURE_PATCH_COMPLETE);
-        MeasureBO result = measuresMapper.patch(origin, content);
-
-        assertNotNull(result);
-        assertNotNull(result.getName());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, result.getName().getSingular(), "Patch change singular field");
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL_CHANGED, result.getName().getPlural(), "Patch change plural field");
-    }
-
-    @Test
-    public void convertPatchBodyPartial() throws ApiException {
-        MeasureBO origin = MeasuresExamples.MEASURE_BO_01_ENGLISH;
-        Map<String, Object> content = fileUtils.fileAsMap(FileNameEnum.MEASURE_PATCH_PARTIAL);
-        MeasureBO result = measuresMapper.patch(origin, content);
-
-        assertNotNull(result);
-        assertNotNull(result.getName());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, result.getName().getSingular(), "Patch change singular field");
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, result.getName().getPlural(), "Patch not change plural field");
-    }
-
-    @Test
-    public void convertPatchBodyPartialAndNull() throws ApiException {
-        MeasureBO origin = MeasuresExamples.MEASURE_BO_01_ENGLISH;
-        MeasureUpdate content = fileUtils.fileAsBean(MeasureUpdate.class, FileNameEnum.MEASURE_PATCH_PARTIAL_AND_NULL);
-        MeasureBO result = measuresMapper.patch(origin, content);
-
-        assertNotNull(result);
-        assertNotNull(result.getName());
-        assertEquals(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, result.getName().getSingular(), "Patch change singular field");
-        assertEquals(null, result.getName().getPlural(), "Patch change plural to null");
-    }
-*/
 }

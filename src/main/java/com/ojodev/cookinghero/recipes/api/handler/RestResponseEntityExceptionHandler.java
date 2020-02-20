@@ -67,7 +67,7 @@ public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiError> handleNotFound(NotFoundException e) {
-        LOGGER.info("NotFoundException: " + e);
+        LOGGER.error("NotFoundException: " + e);
         return new ResponseEntity<>(new ApiError(
                 isEmpty(e.getCode()) ? messages.get("error.notfound.code") : e.getCode(),
                 isEmpty(e.getDescription()) ? messages.get("error.notfound.desc") : e.getDescription()),
@@ -85,7 +85,7 @@ public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleMethodNotValidException(MethodArgumentNotValidException e) {
-        LOGGER.info("MethodArgumentNotValidException: " + e);
+        LOGGER.error("MethodArgumentNotValidException: " + e);
         StringBuilder errors = new StringBuilder();
         for (FieldError error : e.getBindingResult().getFieldErrors()) {
             errors.append(error.getField()).append(" ").append(error.getDefaultMessage()).append(FIELD_ERROR_SEPARATOR);
@@ -98,7 +98,7 @@ public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler({MissingRequestHeaderException.class})
     public ResponseEntity<ApiFieldsError> handleMissingRequestHeaderException(MissingRequestHeaderException e) {
-        LOGGER.info("MissingRequestHeaderException: " + e);
+        LOGGER.error("MissingRequestHeaderException: " + e);
 
         return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiFieldsError(
@@ -106,8 +106,7 @@ public class RestResponseEntityExceptionHandler {
                         messages.get("error.badrequest.invalidparams.desc"),
                         Arrays.asList(new ApiFieldError(
                                 messages.get("error.badrequest.invalidparams.fields.headerparamrequired.code"),
-                                e.getHeaderName(),
-                                e.getHeaderName() + " " + messages.get("error.badrequest.invalidparams.fields.headerparamrequired.desc")))));
+                                e.getHeaderName(), messages.get("error.badrequest.invalidparams.fields.headerparamrequired.desc", e.getHeaderName())))));
         
     }
 
@@ -119,13 +118,13 @@ public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public ResponseEntity<ApiError> handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
-        LOGGER.info("MissingServletRequestParameterException: " + e);
+        LOGGER.error("MissingServletRequestParameterException: " + e);
         return new ResponseEntity<>(new ApiError(e.getLocalizedMessage(), e.getParameterName() + " " + messages.get("error.badrequest.parammissing")), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiError> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        LOGGER.info("HttpMessageNotReadableException: " + e);
+        LOGGER.error("HttpMessageNotReadableException: " + e);
         return new ResponseEntity<>(new ApiError(messages.get("error.badrequest.code"), messages.get("error.badrequest.malformed")), HttpStatus.BAD_REQUEST);
     }
 
