@@ -7,7 +7,7 @@ import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.config.RecipesConfig;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.*;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
@@ -36,8 +36,6 @@ import java.util.List;
 @Controller
 @Api(tags = "cuisine-types", description = "Cuisine types of recipes")
 public class CuisineTypesApiController implements CuisineTypesApi {
-
-    private static final String ACCEPT_LANGUAGE_SEPARATOR = ",";
 
     @Autowired
     private CuisineTypesBusiness cuisineTypesBusiness;
@@ -90,9 +88,9 @@ public class CuisineTypesApiController implements CuisineTypesApi {
     }
 
     private void validateDefaultLanguage(CuisineTypeNew body) throws ApiException {
-        boolean existsDefaultLanguage = body.getNames().stream().filter(name -> RecipeConstants.DEFAULT_LANGUAGE.equals(languageEnumMapper.toLanguageEnumBO(name.getLanguage()))).count() > 0;
+        boolean existsDefaultLanguage = body.getNames().stream().filter(name -> RecipesConstants.DEFAULT_LANGUAGE.equals(languageEnumMapper.toLanguageEnumBO(name.getLanguage()))).count() > 0;
         if (!existsDefaultLanguage) {
-            throw new ApiBadRequestException(messages.get("error.badrequest.mustcontaindefault.code"), messages.get("error.badrequest.mustcontaindefault.desc", RecipeConstants.DEFAULT_LANGUAGE));
+            throw new ApiBadRequestException(messages.get("error.badrequest.mustcontaindefault.code"), messages.get("error.badrequest.mustcontaindefault.desc", RecipesConstants.DEFAULT_LANGUAGE));
         }
     }
 
@@ -146,8 +144,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
     }
 
     private LanguageEnumBO checkAndExtractAcceptedLanguage(String acceptLanguage) throws ApiFieldsException {
-
-        for (String language : acceptLanguage.split(ACCEPT_LANGUAGE_SEPARATOR)) {
+        for (String language : acceptLanguage.split(RecipesConstants.ACCEPT_LANGUAGE_SEPARATOR)) {
             if (LanguageEnum.fromValue(language) != null) {
                 return LanguageEnumBO.fromValue(language);
             }

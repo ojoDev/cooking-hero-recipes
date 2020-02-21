@@ -1,6 +1,6 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
@@ -33,14 +33,14 @@ public abstract class CuisineTypesMapperDecorator implements CuisineTypesMapper 
    private String selectNameByLanguage(List<LanguageNamePO> names, String language) {
         List<LanguageNamePO> languageNames = names.stream().filter(n -> language.equals(n.getLanguage())).collect(Collectors.toList());
         if (languageNames.isEmpty()) {
-           return selectNameByLanguage(names, RecipeConstants.DEFAULT_LANGUAGE.toString());
+           return selectNameByLanguage(names, RecipesConstants.DEFAULT_LANGUAGE.toString());
        } else {
             return languageNames.get(0).getName();
         }
    }
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
-        return language == null ? RecipeConstants.DEFAULT_LANGUAGE : language;
+        return language == null ? RecipesConstants.DEFAULT_LANGUAGE : language;
     }
 
 

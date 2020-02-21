@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * Product status.   An **Hero** can be freely define a new product as CREATED_BY_USER.   An **Admin** can create a new product as APPROVED_BY_ADMIN, or change (approve) a user product status. This products are show to all users to select in this recipes.
+ * Product status.
+ * An **Hero** can be freely define a new product as CREATED_BY_USER.
+ * An **Admin** can create a new product as APPROVED_BY_ADMIN, or change (approve) a user product status. This products are show to all users to select in this recipes.
  */
 public enum ProductStatusEnum {
     CREATED_BY_USER("CREATED_BY_USER"),

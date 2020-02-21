@@ -8,7 +8,7 @@ import com.ojodev.cookinghero.recipes.api.model.MeasureUpdate;
 import com.ojodev.cookinghero.recipes.business.MeasuresBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.config.RecipesConfig;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.*;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
@@ -37,9 +37,6 @@ import java.util.Optional;
 @Controller
 @Api(tags = "measures", description = "Measures used with ingredients")
 public class MeasuresApiController implements MeasuresApi {
-
-    private static final String ACCEPT_LANGUAGE_SEPARATOR = ",";
-
 
     @Autowired
     private MeasuresBusiness measuresBusiness;
@@ -104,8 +101,8 @@ public class MeasuresApiController implements MeasuresApi {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private void throwErrorIfMeasureNotExists(@PathVariable("measure-id") @ApiParam(value = "Measure id.", required = true, example = "tablespoon") String measureId) throws NotFoundException {
-        measuresBusiness.getMeasure(measureId, RecipeConstants.DEFAULT_LANGUAGE).orElseThrow(NotFoundException::new);
+    private void throwErrorIfMeasureNotExists(String measureId) throws NotFoundException {
+        measuresBusiness.getMeasure(measureId, RecipesConstants.DEFAULT_LANGUAGE).orElseThrow(NotFoundException::new);
     }
 
     public ResponseEntity<Void> deleteMeasure(@ApiParam(value = "Measure id.", required = true, example = "tablespoon") @PathVariable("measure-id") String measureId) throws NotFoundException {
@@ -115,7 +112,7 @@ public class MeasuresApiController implements MeasuresApi {
 
     private LanguageEnumBO checkAndExtractAcceptedLanguage(String acceptLanguage) throws ApiFieldsException {
 
-        for (String language : acceptLanguage.split(ACCEPT_LANGUAGE_SEPARATOR)) {
+        for (String language : acceptLanguage.split(RecipesConstants.ACCEPT_LANGUAGE_SEPARATOR)) {
             if (LanguageEnum.fromValue(language) != null) {
                 return LanguageEnumBO.fromValue(language);
             }
@@ -130,9 +127,9 @@ public class MeasuresApiController implements MeasuresApi {
     }
 
     private void validateDefaultLanguage(MeasureNew body) throws ApiException {
-        boolean existsDefaultLanguage = body.getNames().stream().filter(name -> RecipeConstants.DEFAULT_LANGUAGE.equals(languageEnumMapper.toLanguageEnumBO(name.getLanguage()))).count() > 0;
+        boolean existsDefaultLanguage = body.getNames().stream().filter(name -> RecipesConstants.DEFAULT_LANGUAGE.equals(languageEnumMapper.toLanguageEnumBO(name.getLanguage()))).count() > 0;
         if (!existsDefaultLanguage) {
-            throw new ApiBadRequestException(messages.get("error.badrequest.mustcontaindefault.code"), messages.get("error.badrequest.mustcontaindefault.desc", RecipeConstants.DEFAULT_LANGUAGE));
+            throw new ApiBadRequestException(messages.get("error.badrequest.mustcontaindefault.code"), messages.get("error.badrequest.mustcontaindefault.desc", RecipesConstants.DEFAULT_LANGUAGE));
         }
     }
 

@@ -1,0 +1,19 @@
+{
+  "names": [
+    {
+      "name": {
+        "singular": "tomato",
+        "plural": "tomatoes"
+      },
+      "language": "en"
+    },
+    {
+      "name": {
+        "singular": "invalid",
+        "plural": "invalids"
+      },
+      "language": "xx"
+    }
+  ],
+  "status": "CREATED_BY_USER"
+}

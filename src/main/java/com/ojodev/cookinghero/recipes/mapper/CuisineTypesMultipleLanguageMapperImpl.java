@@ -2,7 +2,7 @@ package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
 import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNewName;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
@@ -28,7 +28,7 @@ public class CuisineTypesMultipleLanguageMapperImpl implements CuisineTypesMulti
     }
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
-        return language == null ? RecipeConstants.DEFAULT_LANGUAGE : language;
+        return language == null ? RecipesConstants.DEFAULT_LANGUAGE : language;
     }
 
     @Override

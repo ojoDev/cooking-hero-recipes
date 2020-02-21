@@ -2,12 +2,13 @@ package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
-import com.ojodev.cookinghero.recipes.business.MeasuresBusiness;
+import com.ojodev.cookinghero.recipes.business.ProductsBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
+import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
-import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
+import com.ojodev.cookinghero.recipes.domain.model.ProductBO;
+import com.ojodev.cookinghero.recipes.domain.model.ProductStatusEnumBO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MeasuresApiControllerGetMeasureTest {
+public class ProductsApiControllerGetProductTest {
 
     @Autowired
     private MockMvc mvc;
@@ -39,7 +40,7 @@ public class MeasuresApiControllerGetMeasureTest {
     private Messages messages;
 
     @MockBean
-    private MeasuresBusiness measuresBusiness;
+    private ProductsBusiness productsBusiness;
 
     private static final String LOCALE_ENGLISH = "en";
     private static final String LOCALE_SPANISH = "es";
@@ -50,58 +51,58 @@ public class MeasuresApiControllerGetMeasureTest {
     private static final String INVALID_ID = "xxxxx";
 
     @Test
-    public void getMeasure() throws Exception {
+    public void getProduct() throws Exception {
 
-        MeasureBO measureBO = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        ProductBO productBO = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.CREATED_BY_USER);
 
-        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(measureBO));
+        when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.of(productBO));
 
-        this.mvc.perform(get("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
+        this.mvc.perform(get("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH))
-                .andExpect(jsonPath("$.id", is(MeasuresExamples.MEASURE_01_ID)))
-                .andExpect(jsonPath("$.name.singular", is(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR)))
-                .andExpect(jsonPath("$.name.plural", is(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL)));
+                .andExpect(jsonPath("$.id", is(ProductsExamples.PRODUCT_01_ID)))
+                .andExpect(jsonPath("$.name.singular", is(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR)))
+                .andExpect(jsonPath("$.name.plural", is(ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL)));
     }
 
     @Test
-    public void getMeasureDifferentLanguages() throws Exception {
+    public void getProductDifferentLanguages() throws Exception {
 
-        MeasureBO measureBOEn = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
-        MeasureBO measureBOEs = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES));
+        ProductBO productBOEn = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.CREATED_BY_USER);
+        ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES), ProductStatusEnumBO.CREATED_BY_USER);
 
-        when(this.measuresBusiness.getMeasure(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.EN)).thenReturn(Optional.of(measureBOEn));
-        when(this.measuresBusiness.getMeasure(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.ES)).thenReturn(Optional.of(measureBOEs));
+        when(this.productsBusiness.getProduct(ProductsExamples.PRODUCT_01_ID, LanguageEnumBO.EN)).thenReturn(Optional.of(productBOEn));
+        when(this.productsBusiness.getProduct(ProductsExamples.PRODUCT_01_ID, LanguageEnumBO.ES)).thenReturn(Optional.of(productBOEs));
 
-        this.mvc.perform(get("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
+        this.mvc.perform(get("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH))
-                .andExpect(jsonPath("$.id", is(MeasuresExamples.MEASURE_01_ID)))
-                .andExpect(jsonPath("$.name.singular", is(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR)))
-                .andExpect(jsonPath("$.name.plural", is(MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL)));
+                .andExpect(jsonPath("$.id", is(ProductsExamples.PRODUCT_01_ID)))
+                .andExpect(jsonPath("$.name.singular", is(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR)))
+                .andExpect(jsonPath("$.name.plural", is(ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL)));
 
-        this.mvc.perform(get("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
+        this.mvc.perform(get("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_SPANISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_SPANISH))
-                .andExpect(jsonPath("$.id", is(MeasuresExamples.MEASURE_01_ID)))
-                .andExpect(jsonPath("$.name.singular", is(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR)))
-                .andExpect(jsonPath("$.name.plural", is(MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL)));
+                .andExpect(jsonPath("$.id", is(ProductsExamples.PRODUCT_01_ID)))
+                .andExpect(jsonPath("$.name.singular", is(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR)))
+                .andExpect(jsonPath("$.name.plural", is(ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL)));
     }
 
     @Test
-    public void getMeasureMultipleLanguages() throws Exception {
+    public void getProductMultipleLanguages() throws Exception {
 
-        MeasureBO measureBO = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        ProductBO productBO = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.CREATED_BY_USER);
 
-        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(measureBO));
+        when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.of(productBO));
 
-        this.mvc.perform(get("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
+        this.mvc.perform(get("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_MULTIPLE_LANGUAGES)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -109,13 +110,13 @@ public class MeasuresApiControllerGetMeasureTest {
     }
 
     @Test
-    public void getMeasureNoLanguage() throws Exception {
+    public void getProductNoLanguage() throws Exception {
 
-        MeasureBO measureBO = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        ProductBO productBO = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.CREATED_BY_USER);
 
-        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(measureBO));
+        when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.of(productBO));
 
-        this.mvc.perform(get("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
+        this.mvc.perform(get("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 //TODO DMS Meter interceptor general para que ponga las cabeceras correctas
@@ -129,13 +130,13 @@ public class MeasuresApiControllerGetMeasureTest {
     }
 
     @Test
-    public void getMeasureInvalidLanguage() throws Exception {
+    public void getProductInvalidLanguage() throws Exception {
 
-        MeasureBO measureBO = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        ProductBO productBO = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.CREATED_BY_USER);
 
-        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(measureBO));
+        when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.of(productBO));
 
-        this.mvc.perform(get("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
+        this.mvc.perform(get("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, INVALID_LANGUAGE)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -150,14 +151,14 @@ public class MeasuresApiControllerGetMeasureTest {
     }
 
     @Test
-    public void getMeasureByIdNotFound() throws Exception {
+    public void getProductByIdNotFound() throws Exception {
 
-        MeasureBO measureBO = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        ProductBO productBO = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.CREATED_BY_USER);
 
-        when(this.measuresBusiness.getMeasure(eq(MeasuresExamples.MEASURE_01_ID), any())).thenReturn(Optional.of(measureBO));
-        when(this.measuresBusiness.getMeasure(eq(INVALID_ID), any())).thenReturn(Optional.empty());
+        when(this.productsBusiness.getProduct(eq(ProductsExamples.PRODUCT_01_ID), any())).thenReturn(Optional.of(productBO));
+        when(this.productsBusiness.getProduct(eq(INVALID_ID), any())).thenReturn(Optional.empty());
 
-        this.mvc.perform(get("/measures/{measure-id}", INVALID_ID)
+        this.mvc.perform(get("/products/{product-id}", INVALID_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
@@ -166,11 +167,11 @@ public class MeasuresApiControllerGetMeasureTest {
     }
 
     @Test
-    public void getMeasureOutOfMemoryException() throws Exception {
+    public void getProductOutOfMemoryException() throws Exception {
 
-        when(this.measuresBusiness.getMeasure(any(), any())).thenThrow(new OutOfMemoryError());
+        when(this.productsBusiness.getProduct(any(), any())).thenThrow(new OutOfMemoryError());
 
-        this.mvc.perform(get("/measures/{measure-id}", INVALID_ID)
+        this.mvc.perform(get("/products/{product-id}", INVALID_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())

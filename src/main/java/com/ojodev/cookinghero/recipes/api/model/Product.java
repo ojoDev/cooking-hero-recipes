@@ -29,7 +29,7 @@ public class Product {
     @JsonProperty("name")
     @ApiModelProperty(example = "{\"singular\":\"potato\",\"plural\":\"potatoes\"}", required = true, value = "Product name.")
     @NotNull
-    private Object name;
+    private DescriptiveName name;
 
     @ApiModelProperty(value = "Product status")
     @Valid

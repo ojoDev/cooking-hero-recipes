@@ -3,7 +3,7 @@ package com.ojodev.cookinghero.recipes.data;
 import com.ojodev.cookinghero.recipes.api.model.PhotoRef;
 import com.ojodev.cookinghero.recipes.api.model.Recipe;
 import com.ojodev.cookinghero.recipes.api.model.RecipeRequest;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.infrastructure.po.RecipePO;
 import org.bson.types.Decimal128;
 import org.bson.types.ObjectId;
@@ -32,7 +32,7 @@ public class RecipesExamples {
 	
 	public static final String RECIPE_PHOTO_ID_01 = "21344123123";
 	//TODO DMS Add local server
-	public static final String RECIPE_PHOTO_HREF_01 = RecipeConstants.MEDIA_PHOTO_URI+"/"+RECIPE_PHOTO_ID_01;
+	public static final String RECIPE_PHOTO_HREF_01 = RecipesConstants.MEDIA_PHOTO_URI+"/"+RECIPE_PHOTO_ID_01;
 	
 	public static final String RECIPE_01_PHOTO_REF = "0123456789ab01234111111aa";
 	public static final String RECIPE_USER_01 = "admin";

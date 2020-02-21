@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.ojodev.cookinghero.recipes.api.model.PhotoRef;
 import com.ojodev.cookinghero.recipes.config.ServerInfo;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 
 @Component
 public class Formatter {
@@ -44,7 +44,7 @@ public class Formatter {
     }
 
     public PhotoRef toPhotoRef(String photoId) {
-        return photoId == null ? null : new PhotoRef(serverInfo.getServerResourceURI(new StringBuffer(RecipeConstants.MEDIA_PHOTO_URI).append(RESOURCE_SEPARATOR).append(photoId).toString()));
+        return photoId == null ? null : new PhotoRef(serverInfo.getServerResourceURI(new StringBuffer(RecipesConstants.MEDIA_PHOTO_URI).append(RESOURCE_SEPARATOR).append(photoId).toString()));
     }
 
     public String toPhotoId(PhotoRef photoRef) {

@@ -2,7 +2,7 @@ package com.ojodev.cookinghero.recipes.business;
 
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.*;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
@@ -89,7 +89,7 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
     }
 
     private void checkIfLanguageIsDefault(CuisineTypeBO cuisineType) throws ApiFieldsException{
-        if (RecipeConstants.DEFAULT_LANGUAGE.equals(cuisineType.getLanguage())) {
+        if (RecipesConstants.DEFAULT_LANGUAGE.equals(cuisineType.getLanguage())) {
             throw new ApiFieldsException(
                     messages.get("error.badrequest.invalidparams.code"),
                     messages.get("error.badrequest.invalidparams.desc"),
@@ -117,7 +117,7 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
     }
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
-        return language == null ? RecipeConstants.DEFAULT_LANGUAGE : language;
+        return language == null ? RecipesConstants.DEFAULT_LANGUAGE : language;
     }
 
 }

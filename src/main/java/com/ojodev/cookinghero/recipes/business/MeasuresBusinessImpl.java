@@ -2,7 +2,7 @@ package com.ojodev.cookinghero.recipes.business;
 
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.*;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
@@ -82,15 +82,13 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
 
     @Override
     public void deleteMeasure(String measureId) throws NotFoundException {
-
         throwErrorIfNotExists(measuresRepository.findByObjectId(measureId));
-
         measuresRepository.deleteById(measureId);
     }
 
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
-        return language == null ? RecipeConstants.DEFAULT_LANGUAGE : language;
+        return language == null ? RecipesConstants.DEFAULT_LANGUAGE : language;
     }
 
     private void throwErrorIfNotExists(List<MeasurePO> measures) throws NotFoundException {
@@ -100,7 +98,7 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
     }
 
     private void checkIfLanguageIsDefault(MeasureBO measure) throws ApiFieldsException {
-        if (RecipeConstants.DEFAULT_LANGUAGE == measure.getName().getLanguage()) {
+        if (RecipesConstants.DEFAULT_LANGUAGE == measure.getName().getLanguage()) {
             throw new ApiFieldsException(
                     messages.get("error.badrequest.invalidparams.code"),
                     messages.get("error.badrequest.invalidparams.desc"),

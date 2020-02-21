@@ -3,6 +3,9 @@ package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import io.swagger.annotations.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +43,7 @@ public interface ProductsApi {
     @PostMapping(value = "/products",
             produces = {MediaType.APPLICATION_JSON_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE})
-    ResponseEntity<Void> addProduct(@ApiParam(value = "Product info") @Valid @RequestBody ProductNew body);
+    ResponseEntity<Void> addProduct(@ApiParam(value = "Product info") @Valid @RequestBody ProductNew body) throws ApiException;
 
 
     @ApiOperation(value = "Get a product", nickname = "getProduct", notes = "Search for a product in a specific language. ", response = Product.class, tags = {"products"})
@@ -54,7 +57,7 @@ public interface ProductsApi {
     @GetMapping(value = "/products/{product-id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<Product> getProduct(@ApiParam(value = "Product id.", required = true) @PathVariable("product-id") String productId,
-                                       @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage);
+                                       @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws ApiException;
 
 
     @ApiOperation(value = "Update a product", nickname = "updateProduct", notes = "Update a product.    You can add more languages to a exist product with Accept-Language header.   Only an **Admin** can change the status. ", tags = {"products"})
@@ -71,7 +74,7 @@ public interface ProductsApi {
             method = RequestMethod.PATCH)
     ResponseEntity<Void> updateProduct(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage,
                                        @ApiParam(value = "Product id.", required = true) @PathVariable("product-id") String productId,
-                                       @ApiParam(value = "Product to update.") @Valid @RequestBody ProductUpdate body);
+                                       @ApiParam(value = "Product to update.") @Valid @RequestBody ProductUpdate body) throws ApiException;
 
     @ApiOperation(value = "Delete a product", nickname = "deleteProduct", notes = "Delete a product. ", tags = {"products"})
     @ApiResponses(value = {
@@ -82,6 +85,6 @@ public interface ProductsApi {
             @ApiResponse(code = 500, message = "Internal server error.", response = ApiError.class)})
     @DeleteMapping(value = "/products/{product-id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    ResponseEntity<Void> deleteProduct(@ApiParam(value = "Product id.", required = true) @PathVariable("product-id") String productId);
+    ResponseEntity<Void> deleteProduct(@ApiParam(value = "Product id.", required = true) @PathVariable("product-id") String productId) throws NotFoundException;
 
 }

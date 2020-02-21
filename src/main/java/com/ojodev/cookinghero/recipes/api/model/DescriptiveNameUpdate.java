@@ -34,25 +34,35 @@ public class DescriptiveNameUpdate {
         this.plural = Optional.of(plural);
     }
 
+    /**
+     * singular
+     **/
+
     public String getSingular() {
         return (singular.isPresent() ? singular.get() : null );
     }
+
     @ApiModelProperty(hidden = true)
     public Optional<String> getSingularOpt() {
         return singular;
-    }
-
-    @ApiModelProperty(hidden = true)
-    public Optional<String> getPluralOpt() {
-        return plural;
     }
 
     public void setSingular(String singular) {
         this.singular = singular == null ? null : Optional.of(singular);
     }
 
+
+    /**
+     * plural
+     **/
+
     public String getPlural() {
         return (plural.isPresent() ? plural.get() : null);
+    }
+
+    @ApiModelProperty(hidden = true)
+    public Optional<String> getPluralOpt() {
+        return plural;
     }
 
     public void setPlural(String plural) {

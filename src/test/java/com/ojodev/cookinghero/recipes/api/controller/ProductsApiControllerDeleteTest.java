@@ -1,9 +1,9 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
-import com.ojodev.cookinghero.recipes.business.MeasuresBusiness;
+import com.ojodev.cookinghero.recipes.business.ProductsBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
+import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MeasuresApiControllerDeleteTest {
+public class ProductsApiControllerDeleteTest {
 
     @Autowired
     private MockMvc mvc;
@@ -33,14 +33,14 @@ public class MeasuresApiControllerDeleteTest {
     private Messages messages;
 
     @MockBean
-    private MeasuresBusiness measuresBusiness;
+    private ProductsBusiness productsBusiness;
 
     private static final String LOCALE_ENGLISH = "en";
 
     @Test
-    public void deleteMeasure() throws Exception {
+    public void deleteProduct() throws Exception {
 
-        this.mvc.perform(delete("/measures/{measures-id}", MeasuresExamples.MEASURE_01_ID)
+        this.mvc.perform(delete("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH))
@@ -48,11 +48,11 @@ public class MeasuresApiControllerDeleteTest {
     }
 
     @Test
-    public void deleteNotFoundMeasure() throws Exception {
+    public void deleteNotFoundProduct() throws Exception {
 
-        doThrow(new NotFoundException()).when(measuresBusiness).deleteMeasure(MeasuresExamples.MEASURE_01_ID);
+        doThrow(new NotFoundException()).when(productsBusiness).deleteProduct(ProductsExamples.PRODUCT_01_ID);
 
-        this.mvc.perform(delete("/measures/{measures-id}", MeasuresExamples.MEASURE_01_ID)
+        this.mvc.perform(delete("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH))
