@@ -6,6 +6,7 @@ import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import com.ojodev.cookinghero.recipes.domain.model.ProductBO;
 import com.ojodev.cookinghero.recipes.domain.model.ProductStatusEnumBO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -13,6 +14,8 @@ import java.util.Optional;
 @Component
 public class ProductsPatchMapperImpl implements ProductsPatchMapper {
 
+    @Autowired
+    private ProductStatusEnumMapper productStatusEnumMapper;
 
     //TODO DMS: Hacer un mapper genérico para PATCH, con reflections
     @Override
@@ -27,10 +30,10 @@ public class ProductsPatchMapperImpl implements ProductsPatchMapper {
         } else {
             nameBO.setSingular(getNullOrValue(patch.getName().getSingularOpt(), origin.getName().getSingular()));
             nameBO.setPlural(getNullOrValue(patch.getName().getPluralOpt(), origin.getName().getPlural()));
-            nameBO.setLanguage(origin.getName().getLanguage());
-            result.setName(nameBO);
         }
-        result.setStatus(patch.getStatusOpt().isPresent() ? ProductStatusEnumBO.valueOf(patch.getStatus().toString()) : origin.getStatus());
+        nameBO.setLanguage(origin.getName().getLanguage());
+        result.setName(nameBO);
+        result.setStatus(patch.getStatusOpt() != null && patch.getStatusOpt().isPresent() ? productStatusEnumMapper.toProductStatusEnumBO(patch.getStatus()) : origin.getStatus());
         return result;
     }
 

@@ -3,9 +3,6 @@ package com.ojodev.cookinghero.recipes.api.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Optional;
@@ -29,8 +26,8 @@ public class ProductUpdate {
     }
 
     public ProductUpdate(DescriptiveNameUpdate name, ProductStatusEnum status) {
-        this.name = Optional.of(name);
-        this.status = Optional.of(status);
+        this.name = Optional.ofNullable(name);
+        this.status = Optional.ofNullable(status);
     }
 
 
@@ -48,7 +45,7 @@ public class ProductUpdate {
     }
 
     public void setName(DescriptiveNameUpdate name) {
-        this.name = name == null ? null : Optional.of(name);
+        this.name = name == null ? null : Optional.ofNullable(name);
     }
 
     /**
@@ -65,6 +62,6 @@ public class ProductUpdate {
     }
 
     public void setStatus(ProductStatusEnum status) {
-        this.status = status == null ? null : Optional.of(status);
+        this.status = status == null ? null : Optional.ofNullable(status);
     }
 }

@@ -1,21 +1,12 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.ojodev.cookinghero.recipes.api.model.Measure;
-import com.ojodev.cookinghero.recipes.api.model.MeasureUpdate;
-import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
-import com.ojodev.cookinghero.recipes.data.FileNameEnum;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
-import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
-import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
-import com.ojodev.cookinghero.recipes.utils.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -36,10 +25,6 @@ public class MeasuresMapperTest {
 
     @Autowired
     private MeasuresMapper measuresMapper;
-
-    @Autowired
-    private FileUtils fileUtils;
-
 
     @Test
     public void convertMeasureBOToMeasure() {

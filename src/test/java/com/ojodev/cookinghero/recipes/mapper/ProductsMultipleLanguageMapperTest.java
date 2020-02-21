@@ -45,7 +45,7 @@ public class ProductsMultipleLanguageMapperTest {
         assertEquals(LanguageEnumBO.ES, productMultiLanguageBO.getNames().get(1).getLanguage());
         assertEquals(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, productMultiLanguageBO.getNames().get(1).getSingular());
         assertEquals(ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, productMultiLanguageBO.getNames().get(1).getPlural());
-        assertEquals(ProductStatusEnumBO.APPROVED_BY_ADMIN.toString(), productMultiLanguageBO.getStatus());
+        assertEquals(ProductStatusEnumBO.APPROVED_BY_ADMIN, productMultiLanguageBO.getStatus());
     }
 
     @Test

@@ -84,7 +84,7 @@ public class RecipesExamples {
 		recipeRequest.setName(RECIPE_NAME_01);
 		recipeRequest.setDescription(RECIPE_DESCRIPTION_01);
 		recipeRequest.setCuisineType(Arrays.asList(RECIPE_01_CUISINE_TYPE_01, RECIPE_01_CUISINE_TYPE_02));
-		recipeRequest.setPreparationTime(RECIPE_REQUEST_PREPARATION_TIME);;
+		recipeRequest.setPreparationTime(RECIPE_REQUEST_PREPARATION_TIME);
 		recipeRequest.setDifficulty(RECIPE_REQUEST_DIFFICULTY);
 		recipeRequest.setPhoto(RECIPE_REQUEST_PHOTO);
 		recipeRequest.setSteps(Arrays.asList(StepsExamples.STEP_REQUEST_01, StepsExamples.STEP_REQUEST_02));

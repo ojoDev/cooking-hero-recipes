@@ -1,11 +1,14 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.MeasureUpdate;
+import com.ojodev.cookinghero.recipes.api.model.ProductStatusEnum;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.ProductBO;
+import com.ojodev.cookinghero.recipes.domain.model.ProductStatusEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.ProductPO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -30,6 +33,7 @@ public abstract class ProductsMapperDecorator implements ProductsMapper {
         productBO.setId(productPO.getObjectId());
         DescriptiveNamePO descriptiveNamePO = selectNameByLanguage(productPO.getNames(), setDefaultLanguageIfNull(language).toString());
         productBO.setName(descriptiveNameMapper.toDescriptiveNameBO(descriptiveNamePO));
+        productBO.setStatus(StringUtils.isEmpty(productPO.getStatus()) ? null : ProductStatusEnumBO.valueOf(productPO.getStatus()));
         return productBO;
     }
 

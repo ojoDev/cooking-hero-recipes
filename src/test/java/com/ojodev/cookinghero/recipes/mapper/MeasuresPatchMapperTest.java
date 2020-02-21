@@ -30,7 +30,7 @@ public class MeasuresPatchMapperTest {
 
 
     @Test
-    public void convertPatchBodyComplete() throws ApiException, FileNotFoundException {
+    public void convertPatchBodyComplete() {
         MeasureBO originMeasure = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
         MeasureUpdate patchContent = new MeasureUpdate(new DescriptiveNameUpdate(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL_CHANGED));
 
@@ -44,7 +44,7 @@ public class MeasuresPatchMapperTest {
     }
 
     @Test
-    public void convertPatchBodyPartial() throws ApiException {
+    public void convertPatchBodyPartial() {
 
         MeasureBO originMeasure = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
         MeasureUpdate patchContent = initPartialMeasureUpdate();
@@ -59,7 +59,7 @@ public class MeasuresPatchMapperTest {
     }
 
     @Test
-    public void convertPatchBodyPartialAndNull() throws ApiException {
+    public void convertPatchBodyPartialAndNull() {
 
         MeasureBO originMeasure = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
         MeasureUpdate patchContent = initPartialAndNullMeasureUpdate();

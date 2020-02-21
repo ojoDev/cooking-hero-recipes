@@ -37,7 +37,7 @@ public class ServerInfo {
 	}
 	
 	private boolean isValidPort(String port) {
-		return port!=null && NumberUtils.isNumber(port) && Integer.valueOf(port) > -1;
+		return NumberUtils.isNumber(port) && Integer.valueOf(port) > -1;
 	}
 
 

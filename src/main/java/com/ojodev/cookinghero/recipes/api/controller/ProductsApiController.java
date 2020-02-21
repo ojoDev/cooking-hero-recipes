@@ -13,6 +13,7 @@ import com.ojodev.cookinghero.recipes.domain.model.ProductMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.mapper.LanguageEnumMapper;
 import com.ojodev.cookinghero.recipes.mapper.ProductsMapper;
 import com.ojodev.cookinghero.recipes.mapper.ProductsMultipleLanguageMapper;
+import com.ojodev.cookinghero.recipes.mapper.ProductsPatchMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,9 @@ public class ProductsApiController implements ProductsApi {
 
     @Autowired
     private ProductsMultipleLanguageMapper productsMultiLanguageMapper;
+
+    @Autowired
+    private ProductsPatchMapper productsPatchMapper;
 
     @Autowired
     private LanguageEnumMapper languageEnumMapper;
@@ -92,7 +96,7 @@ public class ProductsApiController implements ProductsApi {
         throwErrorIfProductNotExists(productId);
         Optional<ProductBO> measureOrigin = productsBusiness.getProduct(productId, language);
         if (measureOrigin.isPresent() && measureOrigin.get().getName().getLanguage() == language) {
-            ProductBO productPatched = measuresPatchMapper.patch(measureOrigin.get(), body);
+            ProductBO productPatched = productsPatchMapper.patch(measureOrigin.get(), body);
             productsBusiness.addOrReplaceProduct(productPatched);
         } else {
             productsBusiness.addOrReplaceProduct(productsMapper.toProductBO(body, productId, language));

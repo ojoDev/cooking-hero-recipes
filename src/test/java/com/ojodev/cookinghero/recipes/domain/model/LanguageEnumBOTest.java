@@ -28,7 +28,7 @@ public class LanguageEnumBOTest {
     public void initFromInvalidValue(){
         LanguageEnumBO languageEnumBO = LanguageEnumBO.fromValue(INVALID);
 
-        assertEquals(null, languageEnumBO);
+        assertNull(languageEnumBO);
     }
 
     @Test

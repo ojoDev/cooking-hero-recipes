@@ -28,7 +28,7 @@ public interface MeasuresApi {
             @ApiResponse(code = 500, message = "Internal server error.", response = ApiError.class)})
     @GetMapping(value = "/measures",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    ResponseEntity<List<Measure>> getMeasures(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage) throws ApiFieldsException;
+    ResponseEntity<List<Measure>> getMeasures(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws ApiFieldsException;
 
 
     @ApiOperation(value = "Add a measure", nickname = "addMeasure", notes = "Add a new measure.\nYou can add multiple languages in a single request. English (en) is mandatory. ", tags = {"measures"})

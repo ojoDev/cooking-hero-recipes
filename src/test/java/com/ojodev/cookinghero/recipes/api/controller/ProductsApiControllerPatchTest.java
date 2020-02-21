@@ -56,7 +56,7 @@ public class ProductsApiControllerPatchTest {
     public void patchMeasureNoDefaultLanguageComplete() throws Exception {
 
         ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_02_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, LanguageEnumBO.EN));
-        ProductUpdate productUpdateComplete = new ProductUpdate(new DescriptiveName(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED), ProductStatusEnum.APPROVED_BY_ADMIN);
+        ProductUpdate productUpdateComplete = new ProductUpdate(new DescriptiveNameUpdate(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED), ProductStatusEnum.APPROVED_BY_ADMIN);
 
         when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.of(productBOEs));
 
@@ -91,7 +91,7 @@ public class ProductsApiControllerPatchTest {
     public void patchMeasureDefaultLanguage() throws Exception {
 
         ProductBO productBOEn = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
-        ProductUpdate ProductUpdateComplete = new ProductUpdate(new DescriptiveNameUpdate(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED));
+        ProductUpdate ProductUpdateComplete = new ProductUpdate(new DescriptiveNameUpdate(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED), ProductStatusEnum.APPROVED_BY_ADMIN);
 
         when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.of(productBOEn));
 
@@ -103,7 +103,7 @@ public class ProductsApiControllerPatchTest {
                         messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage")))
         );
 
-        doThrow(exception).when(productsBusiness).addOrReplaceMeasure(any());
+        doThrow(exception).when(productsBusiness).addOrReplaceProduct(any());
 
         this.mvc.perform(patch("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -123,7 +123,7 @@ public class ProductsApiControllerPatchTest {
     @Disabled
     public void patchMeasureNotFound() throws Exception {
 
-        ProductUpdate ProductUpdateComplete = new ProductUpdate(new DescriptiveNameUpdate(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED));
+        ProductUpdate ProductUpdateComplete = new ProductUpdate(new DescriptiveNameUpdate(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED), ProductStatusEnum.APPROVED_BY_ADMIN);
 
         when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.empty());
 

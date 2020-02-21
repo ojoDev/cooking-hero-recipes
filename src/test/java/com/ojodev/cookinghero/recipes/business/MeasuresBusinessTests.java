@@ -50,7 +50,7 @@ public class MeasuresBusinessTests {
     private MeasuresRepository measuresRepository;
 
     @Test
-    public void getAllMeasuresByLanguage() throws Exception {
+    public void getAllMeasuresByLanguage() {
 
         MeasurePO measurePO01 = new MeasurePO(MeasuresExamples.MEASURE_01_ID, Arrays.asList(
                 new DescriptiveNamePO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, MeasuresExamples.LANGUAGE_EN),
@@ -93,7 +93,7 @@ public class MeasuresBusinessTests {
     }
 
     @Test
-    public void getAllMeasuresWithDefaultLanguage() throws Exception {
+    public void getAllMeasuresWithDefaultLanguage() {
 
         MeasurePO measurePO01 = new MeasurePO(MeasuresExamples.MEASURE_01_ID, Arrays.asList(
                 new DescriptiveNamePO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, MeasuresExamples.LANGUAGE_EN),
@@ -121,7 +121,7 @@ public class MeasuresBusinessTests {
     }
 
     @Test
-    public void getMeasureById() throws Exception {
+    public void getMeasureById() {
 
         MeasurePO measurePO = new MeasurePO(MeasuresExamples.MEASURE_01_ID, Arrays.asList(
                 new DescriptiveNamePO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, MeasuresExamples.LANGUAGE_EN),
@@ -141,7 +141,7 @@ public class MeasuresBusinessTests {
     }
 
     @Test
-    public void getMeasureDifferentLanguages() throws Exception {
+    public void getMeasureDifferentLanguages() {
 
         MeasurePO measurePO = new MeasurePO(MeasuresExamples.MEASURE_01_ID, Arrays.asList(
                 new DescriptiveNamePO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, MeasuresExamples.LANGUAGE_EN),
@@ -169,7 +169,7 @@ public class MeasuresBusinessTests {
     }
 
     @Test
-    public void getMeasureByIdNotFound() throws Exception {
+    public void getMeasureByIdNotFound() {
         when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_01_ID)).thenReturn(null);
 
         Optional<MeasureBO> MeasureEn = measuresBusiness.getMeasure(MeasuresExamples.MEASURE_01_ID, LanguageEnumBO.EN);

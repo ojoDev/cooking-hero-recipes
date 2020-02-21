@@ -118,7 +118,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
 
 
     public ResponseEntity<CuisineType> getCuisineType(@ApiParam(value = "Cuisine type id.", required = true, example = "veggie") @PathVariable("cuisine-type-id") String cuisineTypeId,
-                                                      @ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage) throws ApiException {
+                                                      @ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws ApiException {
 
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
@@ -129,7 +129,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
                 .body(cuisineTypeMapper.toCuisineType(cuisineTypeBO));
     }
 
-    public ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage,
+    public ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
                                                   @ApiParam(value = "Cuisine type id.", required = true, example = "veggie") @PathVariable("cuisine-type-id") String cuisineTypeId,
                                                   @ApiParam(value = "CuisineType to update.") @Valid @RequestBody CuisineTypeUpdate body) throws ApiException {
 

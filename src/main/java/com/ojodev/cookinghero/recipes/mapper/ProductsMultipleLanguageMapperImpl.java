@@ -20,10 +20,13 @@ public class ProductsMultipleLanguageMapperImpl implements ProductsMultipleLangu
     @Autowired
     private DescriptiveNameMapper descriptiveNameMapper;
 
+    @Autowired
+    private ProductStatusEnumMapper productStatusEnumMapper;
+
     @Override
     public ProductMultiLanguageBO toProductMultiLanguageBO(ProductNew newProduct, LanguageEnumBO defaultLanguage) {
         List<DescriptiveNameBO> names = newProduct.getNames().stream().map(n -> descriptiveNameMapper.toDescriptiveNameBO(n.getName(), n.getLanguage())).collect(Collectors.toList());
-        ProductStatusEnumBO productStatusEnumBO = ProductStatusEnumBO.valueOf(newProduct.getStatus().toString());
+        ProductStatusEnumBO productStatusEnumBO = productStatusEnumMapper.toProductStatusEnumBO(newProduct.getStatus());
         return new ProductMultiLanguageBO.Builder(names, defaultLanguage, productStatusEnumBO).build();
     }
 

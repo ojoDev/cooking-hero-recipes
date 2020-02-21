@@ -52,7 +52,7 @@ public class PartialUpdateArgumentResolver implements HandlerMethodArgumentResol
     public Object resolveArgument(MethodParameter parameter,
                                   ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest,
-                                  WebDataBinderFactory binderFactory) throws Exception {
+                                  WebDataBinderFactory binderFactory) {
 
         ServletServerHttpRequest req = createInputMessage(webRequest);
 
