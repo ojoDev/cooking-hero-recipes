@@ -59,7 +59,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
 
 
     public ResponseEntity<List<CuisineType>> getCuisineTypes(
-            @ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage,
+            @ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
             @ApiParam(value = "Cuisine type name. Partial searches allowed.", example = "veggie") @Valid @RequestParam(value = "name", required = false) String name) throws ApiException {
 
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
