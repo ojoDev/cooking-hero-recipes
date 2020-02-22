@@ -44,7 +44,7 @@ public class CuisineTypesApiControllerPatchTest {
 
 
     @Test
-    public void patchCuisineTypeNoDefaultLanguage() throws Exception {
+    public void patchCuisineType() throws Exception {
 
         CuisineTypeUpdate cuisineTypeUpdate = new CuisineTypeUpdate(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH);
 
@@ -55,35 +55,6 @@ public class CuisineTypesApiControllerPatchTest {
                 .content(TestUtils.asJsonString(cuisineTypeUpdate)))
                 .andExpect(status().isNoContent());
         }
-
-    @Test
-    public void patchCuisineTypeDefaultLanguage() throws Exception {
-
-        CuisineTypeUpdate cuisineTypeUpdateEn = new CuisineTypeUpdate(CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH);
-
-        ApiFieldsException exception = new ApiFieldsException(
-                messages.get("error.badrequest.invalidparams.code"),
-                messages.get("error.badrequest.invalidparams.desc"),
-                Arrays.asList(new FieldError(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"),
-                        HttpHeaders.ACCEPT_LANGUAGE,
-                        messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage")))
-        );
-
-        doThrow(exception).when(cuisineTypesBusiness).addOrReplaceCuisineType(any());
-
-        this.mvc.perform(patch("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.ACCEPT_LANGUAGE, CuisineTypesExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(cuisineTypeUpdateEn)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.invalidparams.code"))))
-                .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidparams.desc"))))
-                .andExpect(jsonPath("$.fields[0].code", is(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"))))
-                .andExpect(jsonPath("$.fields[0].field", is(HttpHeaders.ACCEPT_LANGUAGE)))
-                .andExpect(jsonPath("$.fields[0].description", is( messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage"))));
-    }
-
 
     @Test
     public void patchCuisineTypeNotFound() throws Exception {

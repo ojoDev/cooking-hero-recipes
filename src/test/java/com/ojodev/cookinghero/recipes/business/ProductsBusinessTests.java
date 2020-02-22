@@ -218,7 +218,7 @@ public class ProductsBusinessTests {
     }
 
     @Test()
-    public void addOrReplaceProductReplaceNoDefaultLanguage() {
+    public void addOrReplaceProductReplace() {
 
         ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES));
         ProductPO productPO = new ProductPO(ProductsExamples.PRODUCT_01_ID, Arrays.asList(
@@ -232,7 +232,7 @@ public class ProductsBusinessTests {
     }
 
     @Test()
-    public void addOrReplaceProductAddNoDefaultLanguage() {
+    public void addOrReplaceProductAddLanguage() {
 
         ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES));
         ProductPO productPOOnlyEnglish = initMeasureOnlyEnglish();
@@ -240,29 +240,6 @@ public class ProductsBusinessTests {
         when(this.productsRepository.findByObjectId(productPOOnlyEnglish.getObjectId())).thenReturn(Arrays.asList(productPOOnlyEnglish));
 
         Assertions.assertDoesNotThrow(() -> productsBusiness.addOrReplaceProduct(productBOEs));
-    }
-
-    @Test
-    public void addOrReplaceProductDefaultLanguage() {
-
-        ProductPO ProductPO = new ProductPO(ProductsExamples.PRODUCT_01_ID, Arrays.asList(
-                new DescriptiveNamePO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, ProductsExamples.LANGUAGE_EN),
-                new DescriptiveNamePO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, ProductsExamples.LANGUAGE_ES)),
-                ProductStatusEnumBO.APPROVED_BY_ADMIN.toString());
-
-        ProductBO productBOEn = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
-
-        when(this.productsRepository.findByObjectId(ProductPO.getObjectId())).thenReturn(Arrays.asList(ProductPO));
-
-        ApiFieldsException e = Assertions.assertThrows(ApiFieldsException.class, () -> {
-            productsBusiness.addOrReplaceProduct(productBOEn);
-        });
-        assertEquals(messages.get("error.badrequest.invalidparams.code"), e.getCode());
-        assertEquals(messages.get("error.badrequest.invalidparams.desc"), e.getDescription());
-        assertNotNull(e.getFields());
-        assertEquals(1, e.getFields().size());
-        assertEquals(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"), e.getFields().get(0).getCode());
-        assertEquals(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage"), e.getFields().get(0).getDescription());
     }
 
     @Test

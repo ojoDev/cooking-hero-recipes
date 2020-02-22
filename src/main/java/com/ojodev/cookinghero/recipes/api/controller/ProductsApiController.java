@@ -77,7 +77,7 @@ public class ProductsApiController implements ProductsApi {
     }
 
     public ResponseEntity<Product> getProduct(@ApiParam(value = "Product id.", required = true, example = "potato") @PathVariable("product-id") String productId,
-                                              @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "es") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws ApiException {
+                                              @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws ApiException {
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
         ProductBO productBO = productsBusiness.getProduct(productId, language).orElseThrow(NotFoundException::new);

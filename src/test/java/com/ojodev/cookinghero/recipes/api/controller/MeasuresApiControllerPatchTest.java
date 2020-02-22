@@ -51,9 +51,9 @@ public class MeasuresApiControllerPatchTest {
 
 
     @Test
-    public void patchMeasureNoDefaultLanguageComplete() throws Exception {
+    public void patchMeasureComplete() throws Exception {
 
-        MeasureBO measureBOEs = new MeasureBO(MeasuresExamples.MEASURE_02_ID, new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, LanguageEnumBO.EN));
+        MeasureBO measureBOEs = new MeasureBO(MeasuresExamples.MEASURE_02_ID, new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
         MeasureUpdate measureUpdateComplete = new MeasureUpdate(new DescriptiveNameUpdate(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL_CHANGED));
 
         when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(measureBOEs));
@@ -68,7 +68,7 @@ public class MeasuresApiControllerPatchTest {
 
     @Test
     @Disabled
-    public void patchMeasureNoDefaultLanguagePartial() throws Exception {
+    public void patchMeasurePartial() throws Exception {
 
         MeasureBO measureBOEs = new MeasureBO(MeasuresExamples.MEASURE_01_ID, new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES));
         MeasureUpdate measureUpdate = initPartialMeasureUpdate();
@@ -82,40 +82,6 @@ public class MeasuresApiControllerPatchTest {
                 .content(TestUtils.asJsonString(measureUpdate)))
                 .andExpect(status().isNoContent());
     }
-
-
-    @Test
-    @Disabled
-    public void patchMeasureDefaultLanguage() throws Exception {
-
-        MeasureBO measureBOEn = new MeasureBO(MeasuresExamples.MEASURE_01_ID, new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
-        MeasureUpdate measureUpdateComplete = new MeasureUpdate(new DescriptiveNameUpdate(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR_CHANGED, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL_CHANGED));
-
-        when(this.measuresBusiness.getMeasure(any(), any())).thenReturn(Optional.of(measureBOEn));
-
-        ApiFieldsException exception = new ApiFieldsException(
-                messages.get("error.badrequest.invalidparams.code"),
-                messages.get("error.badrequest.invalidparams.desc"),
-                Arrays.asList(new FieldError(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"),
-                        HttpHeaders.ACCEPT_LANGUAGE,
-                        messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage")))
-        );
-
-        doThrow(exception).when(measuresBusiness).addOrReplaceMeasure(any());
-
-        this.mvc.perform(patch("/measures/{measure-id}", MeasuresExamples.MEASURE_01_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.ACCEPT_LANGUAGE, MeasuresExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(measureUpdateComplete)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.invalidparams.code"))))
-                .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidparams.desc"))))
-                .andExpect(jsonPath("$.fields[0].code", is(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"))))
-                .andExpect(jsonPath("$.fields[0].field", is(HttpHeaders.ACCEPT_LANGUAGE)))
-                .andExpect(jsonPath("$.fields[0].description", is(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage"))));
-    }
-
 
     @Test
     @Disabled

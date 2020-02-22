@@ -214,7 +214,7 @@ public class MeasuresBusinessTests {
     }
 
     @Test()
-    public void addOrReplaceMeasureReplaceNoDefaultLanguage() {
+    public void addOrReplaceMeasureReplace() {
 
         MeasureBO measureBOEs = new MeasureBO(MeasuresExamples.MEASURE_01_ID, new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES));
         MeasurePO measurePO = new MeasurePO(MeasuresExamples.MEASURE_01_ID, Arrays.asList(
@@ -227,7 +227,7 @@ public class MeasuresBusinessTests {
     }
 
     @Test()
-    public void addOrReplaceMeasureAddNoDefaultLanguage() {
+    public void addOrReplaceMeasureAddLanguage() {
 
         MeasureBO measureBOEs = new MeasureBO(MeasuresExamples.MEASURE_01_ID, new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES));
         MeasurePO measurePOOnlyEnglish = initMeasureOnlyEnglish();
@@ -235,28 +235,6 @@ public class MeasuresBusinessTests {
         when(this.measuresRepository.findByObjectId(measurePOOnlyEnglish.getObjectId())).thenReturn(Arrays.asList(measurePOOnlyEnglish));
 
         Assertions.assertDoesNotThrow(() -> measuresBusiness.addOrReplaceMeasure(measureBOEs));
-    }
-
-    @Test
-    public void addOrReplaceMeasureDefaultLanguage() {
-
-        MeasurePO measurePO = new MeasurePO(MeasuresExamples.MEASURE_01_ID, Arrays.asList(
-                new DescriptiveNamePO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, MeasuresExamples.LANGUAGE_EN),
-                new DescriptiveNamePO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, MeasuresExamples.LANGUAGE_ES)));
-
-        MeasureBO measureBOEn = new MeasureBO(MeasuresExamples.MEASURE_01_ID, new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
-
-        when(this.measuresRepository.findByObjectId(measurePO.getObjectId())).thenReturn(Arrays.asList(measurePO));
-
-        ApiFieldsException e = Assertions.assertThrows(ApiFieldsException.class, () -> {
-            measuresBusiness.addOrReplaceMeasure(measureBOEn);
-        });
-        assertEquals(messages.get("error.badrequest.invalidparams.code"), e.getCode());
-        assertEquals(messages.get("error.badrequest.invalidparams.desc"), e.getDescription());
-        assertNotNull(e.getFields());
-        assertEquals(1, e.getFields().size());
-        assertEquals(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"), e.getFields().get(0).getCode());
-        assertEquals(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage"), e.getFields().get(0).getDescription());
     }
 
     @Test

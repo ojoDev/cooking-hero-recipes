@@ -68,7 +68,6 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
         List<MeasurePO> existentMeasures = measuresRepository.findByObjectId(measureBO.getId());
 
         throwErrorIfNotExists(existentMeasures);
-        checkIfLanguageIsDefault(measureBO);
 
         MeasurePO measurePO = existentMeasures.get(0);
 
@@ -94,18 +93,6 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
     private void throwErrorIfNotExists(List<MeasurePO> measures) throws NotFoundException {
         if (measures == null || measures.isEmpty()) {
             throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
-        }
-    }
-
-    private void checkIfLanguageIsDefault(MeasureBO measure) throws ApiFieldsException {
-        if (RecipesConstants.DEFAULT_LANGUAGE == measure.getName().getLanguage()) {
-            throw new ApiFieldsException(
-                    messages.get("error.badrequest.invalidparams.code"),
-                    messages.get("error.badrequest.invalidparams.desc"),
-                    Arrays.asList(new FieldError(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"),
-                            HttpHeaders.ACCEPT_LANGUAGE,
-                            messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage")))
-            );
         }
     }
 

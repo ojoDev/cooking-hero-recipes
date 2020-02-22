@@ -72,7 +72,6 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
         CuisineTypePO cuisineTypePO = cuisineTypesRepository.findById(cuisineType.getId());
 
         checkIfExists(cuisineTypePO);
-        checkIfLanguageIsDefault(cuisineType);
 
         if (existLanguageName(cuisineTypePO,cuisineType)) {
             updateLanguageName(cuisineTypePO,cuisineType);
@@ -85,18 +84,6 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
     private void checkIfExists(CuisineTypePO cuisineTypePO) throws NotFoundException {
         if (cuisineTypePO == null) {
             throw new NotFoundException();
-        }
-    }
-
-    private void checkIfLanguageIsDefault(CuisineTypeBO cuisineType) throws ApiFieldsException{
-        if (RecipesConstants.DEFAULT_LANGUAGE.equals(cuisineType.getLanguage())) {
-            throw new ApiFieldsException(
-                    messages.get("error.badrequest.invalidparams.code"),
-                    messages.get("error.badrequest.invalidparams.desc"),
-                    Arrays.asList(new FieldError(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"),
-                            HttpHeaders.ACCEPT_LANGUAGE,
-                            messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage")))
-            );
         }
     }
 

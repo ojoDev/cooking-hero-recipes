@@ -59,7 +59,6 @@ public class ProductsBusinessImpl implements ProductsBusiness {
         List<ProductPO> existentProducts = productsRepository.findByObjectId(productBO.getId());
 
         throwErrorIfNotExists(existentProducts);
-        checkIfLanguageIsDefault(productBO);
 
         ProductPO productPO = existentProducts.get(0);
 
@@ -68,6 +67,7 @@ public class ProductsBusinessImpl implements ProductsBusiness {
         } else {
             productPO.getNames().add(descriptiveNameMapper.toDescriptiveNamePO(productBO.getName()));
         }
+        productPO.setStatus(productBO.getStatus().toString());
         productsRepository.save(productPO);
     }
 
@@ -85,18 +85,6 @@ public class ProductsBusinessImpl implements ProductsBusiness {
     private void throwErrorIfNotExists(List<ProductPO> products) throws NotFoundException {
         if (products == null || products.isEmpty()) {
             throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
-        }
-    }
-
-    private void checkIfLanguageIsDefault(ProductBO product) throws ApiFieldsException {
-        if (RecipesConstants.DEFAULT_LANGUAGE == product.getName().getLanguage()) {
-            throw new ApiFieldsException(
-                    messages.get("error.badrequest.invalidparams.code"),
-                    messages.get("error.badrequest.invalidparams.desc"),
-                    Arrays.asList(new FieldError(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"),
-                            HttpHeaders.ACCEPT_LANGUAGE,
-                            messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage")))
-            );
         }
     }
 

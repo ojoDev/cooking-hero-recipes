@@ -53,9 +53,9 @@ public class ProductsApiControllerPatchTest {
 
 
     @Test
-    public void patchMeasureNoDefaultLanguageComplete() throws Exception {
+    public void patchProductComplete() throws Exception {
 
-        ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_02_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, LanguageEnumBO.EN));
+        ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_02_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
         ProductUpdate productUpdateComplete = new ProductUpdate(new DescriptiveNameUpdate(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED), ProductStatusEnum.APPROVED_BY_ADMIN);
 
         when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.of(productBOEs));
@@ -69,8 +69,7 @@ public class ProductsApiControllerPatchTest {
     }
 
     @Test
-    @Disabled
-    public void patchMeasureNoDefaultLanguagePartial() throws Exception {
+    public void patchProductPartial() throws Exception {
 
         ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES));
         ProductUpdate ProductUpdate = initPartialProductUpdate();
@@ -87,41 +86,7 @@ public class ProductsApiControllerPatchTest {
 
 
     @Test
-    @Disabled
-    public void patchMeasureDefaultLanguage() throws Exception {
-
-        ProductBO productBOEn = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
-        ProductUpdate ProductUpdateComplete = new ProductUpdate(new DescriptiveNameUpdate(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED), ProductStatusEnum.APPROVED_BY_ADMIN);
-
-        when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.of(productBOEn));
-
-        ApiFieldsException exception = new ApiFieldsException(
-                messages.get("error.badrequest.invalidparams.code"),
-                messages.get("error.badrequest.invalidparams.desc"),
-                Arrays.asList(new FieldError(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"),
-                        HttpHeaders.ACCEPT_LANGUAGE,
-                        messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage")))
-        );
-
-        doThrow(exception).when(productsBusiness).addOrReplaceProduct(any());
-
-        this.mvc.perform(patch("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.ACCEPT_LANGUAGE, ProductsExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(ProductUpdateComplete)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.invalidparams.code"))))
-                .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidparams.desc"))))
-                .andExpect(jsonPath("$.fields[0].code", is(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"))))
-                .andExpect(jsonPath("$.fields[0].field", is(HttpHeaders.ACCEPT_LANGUAGE)))
-                .andExpect(jsonPath("$.fields[0].description", is(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage"))));
-    }
-
-
-    @Test
-    @Disabled
-    public void patchMeasureNotFound() throws Exception {
+    public void patchProductNotFound() throws Exception {
 
         ProductUpdate ProductUpdateComplete = new ProductUpdate(new DescriptiveNameUpdate(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED), ProductStatusEnum.APPROVED_BY_ADMIN);
 
