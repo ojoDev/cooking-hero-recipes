@@ -71,7 +71,7 @@ public class ProductsApiControllerGetProductTest {
     public void getProductDifferentLanguages() throws Exception {
 
         ProductBO productBOEn = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.CREATED_BY_USER);
-        ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES), ProductStatusEnumBO.CREATED_BY_USER);
+        ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES), ProductStatusEnumBO.APPROVED_BY_ADMIN);
 
         when(this.productsBusiness.getProduct(ProductsExamples.PRODUCT_01_ID, LanguageEnumBO.EN)).thenReturn(Optional.of(productBOEn));
         when(this.productsBusiness.getProduct(ProductsExamples.PRODUCT_01_ID, LanguageEnumBO.ES)).thenReturn(Optional.of(productBOEs));
@@ -83,7 +83,8 @@ public class ProductsApiControllerGetProductTest {
                 .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_ENGLISH))
                 .andExpect(jsonPath("$.id", is(ProductsExamples.PRODUCT_01_ID)))
                 .andExpect(jsonPath("$.name.singular", is(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR)))
-                .andExpect(jsonPath("$.name.plural", is(ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL)));
+                .andExpect(jsonPath("$.name.plural", is(ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL)))
+                .andExpect(jsonPath("$.status", is(ProductStatusEnumBO.CREATED_BY_USER.toString())));
 
         this.mvc.perform(get("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_SPANISH)
@@ -92,7 +93,8 @@ public class ProductsApiControllerGetProductTest {
                 .andExpect(header().string(HttpHeaders.CONTENT_LANGUAGE, LOCALE_SPANISH))
                 .andExpect(jsonPath("$.id", is(ProductsExamples.PRODUCT_01_ID)))
                 .andExpect(jsonPath("$.name.singular", is(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR)))
-                .andExpect(jsonPath("$.name.plural", is(ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL)));
+                .andExpect(jsonPath("$.name.plural", is(ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL)))
+                .andExpect(jsonPath("$.status", is(ProductStatusEnumBO.APPROVED_BY_ADMIN.toString())));
     }
 
     @Test

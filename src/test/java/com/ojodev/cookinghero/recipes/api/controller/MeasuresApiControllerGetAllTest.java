@@ -76,7 +76,7 @@ public class MeasuresApiControllerGetAllTest {
     public void getAllMeasuresDifferentLanguages() throws Exception {
 
         MeasureBO measureBOEn = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
-        MeasureBO measureBOEs = new MeasureBO(MeasuresExamples.MEASURE_02_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_02_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_02_NAME_SPANISH_PLURAL, LanguageEnumBO.EN));
+        MeasureBO measureBOEs = new MeasureBO(MeasuresExamples.MEASURE_02_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_02_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_02_NAME_SPANISH_PLURAL, LanguageEnumBO.ES));
 
         when(this.measuresBusiness.getMeasures(eq(LanguageEnumBO.EN))).thenReturn(Arrays.asList(measureBOEn));
         when(this.measuresBusiness.getMeasures(eq(LanguageEnumBO.ES))).thenReturn(Arrays.asList(measureBOEs));
