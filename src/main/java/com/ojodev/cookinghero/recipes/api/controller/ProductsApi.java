@@ -1,6 +1,7 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.api.model.*;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
@@ -27,6 +28,7 @@ public interface ProductsApi {
             @ApiResponse(code = 500, message = "Internal server error.", response = ApiError.class)})
     @GetMapping(value = "/products",
             produces = {MediaType.APPLICATION_JSON_VALUE})
+    @JsonPropertyOrder(value = {"acceptLanguage", "name", "limit", "offset"})
     ResponseEntity<ProductsSearch> getProducts(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
                                                @ApiParam(value = "Product name, singular or plural.") @Valid @RequestParam(value = "name", required = false) String name,
                                                @Min(1) @Max(100) @ApiParam(value = "Maximum number of records returned, by default 10.") @Valid @RequestParam(value = "limit", required = false) Integer limit,

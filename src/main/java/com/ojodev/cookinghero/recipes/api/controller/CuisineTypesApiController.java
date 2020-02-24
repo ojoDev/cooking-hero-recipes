@@ -1,5 +1,6 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.ojodev.cookinghero.recipes.api.model.CuisineType;
 import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
 import com.ojodev.cookinghero.recipes.api.model.CuisineTypeUpdate;

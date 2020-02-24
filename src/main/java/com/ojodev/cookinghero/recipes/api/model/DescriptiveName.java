@@ -21,11 +21,11 @@ import org.springframework.validation.annotation.Validated;
 public class DescriptiveName   {
 
     @JsonProperty("singular")
-    @ApiModelProperty(example = "potato", value = "Singular name.")
+    @ApiModelProperty(example = "potato", value = "Singular name.", position = 1)
     private String singular;
 
     @JsonProperty("plural")
-    @ApiModelProperty(example = "potatoes", value = "Plural name.")
+    @ApiModelProperty(example = "potatoes", value = "Plural name.", position = 2)
     private String plural;
 
 

@@ -12,8 +12,11 @@ import java.util.Optional;
 @Component
 public interface ProductsBusiness {
 
-    List<ProductBO> getProducts(LanguageEnumBO language, int skip, int limit);
-    List<ProductBO> getProducts(String name, LanguageEnumBO language, int skip, int limit);
+    List<ProductBO> getProducts(LanguageEnumBO language, int limit, int offset);
+
+    List<ProductBO> getProducts(String name,  LanguageEnumBO language, int limit, int offset);
+
+    Long countProducts(String name,  LanguageEnumBO language, int limit, int offset);
 
     Optional<ProductBO> getProduct(String productId, LanguageEnumBO language);
 

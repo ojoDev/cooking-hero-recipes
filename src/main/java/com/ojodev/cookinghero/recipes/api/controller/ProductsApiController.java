@@ -1,5 +1,6 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.ojodev.cookinghero.recipes.api.model.*;
 import com.ojodev.cookinghero.recipes.business.ProductsBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
@@ -63,18 +64,22 @@ public class ProductsApiController implements ProductsApi {
 
 
     //TODO DMS: Implementar params order
+    @JsonPropertyOrder(value = {"acceptLanguage", "name", "limit", "offset"})
     public ResponseEntity<ProductsSearch> getProducts(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
                                                       @ApiParam(value = "Product name, singular or plural.", example = "potato") @Valid @RequestParam(value = "name", required = false) String name,
                                                       @Min(1) @Max(100) @ApiParam(value = "Maximum number of records returned, by default 10.", example = "10") @Valid @RequestParam(value = "limit", required = false) Integer limit,
-                                                      @Min(0) @ApiParam(value = "Number of page for skip (pagination).", example = "0") @Valid @RequestParam(value = "offset", required = false) Integer offset) throws ApiException {
+                                                      @Min(0) @ApiParam(value = "Number of page for skip (pagination).", example = "0") @Valid @RequestParam(value = "offset", required = false) Integer offset) throws ApiFieldsException {
+        //TODO DMS: Por hacer
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
+        List<ProductBO> productList = productsBusiness.getProducts(name, language, limit, offset);
+        Long productNumber = productsBusiness.countProducts(name, language, limit, offset);
 
-        List<ProductBO> productsBO = productsBusiness.getProducts(name, language, offset, limit);
+
+
 
       /*  return ResponseEntity.status(HttpStatus.OK)
                 .header(org.springframework.http.HttpHeaders.CONTENT_LANGUAGE, acceptLanguage)
-                .body(productsMapper.toProductsSearch(productsBO, ));
-*/
+                .body(productsMapper.toProductsSearch());*/
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 

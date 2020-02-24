@@ -20,11 +20,11 @@ import io.swagger.annotations.ApiModelProperty;
 public class ApiError {
 
 	@JsonProperty("code")
-	@ApiModelProperty(example = "NAME_NOT_VALID", value = "Error code id")
+	@ApiModelProperty(example = "NAME_NOT_VALID", value = "Error code id", position = 0)
 	private String code;
 
 	@JsonProperty("description")
-	@ApiModelProperty(example = "Ingredient name is not valid", value = "Error description")
+	@ApiModelProperty(example = "Ingredient name is not valid", value = "Error description", position = 1)
 	private String description;
 
 }

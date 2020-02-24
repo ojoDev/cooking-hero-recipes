@@ -22,17 +22,17 @@ import lombok.Data;
 public class Ingredient {
 
 	@JsonProperty("product")
-	@ApiModelProperty(example = "potatoes", required = true, value = "product name")
+	@ApiModelProperty(example = "potatoes", required = true, value = "product name", position = 0)
 	@NotNull
 	private String product = "";
 
 	@JsonProperty("quantity")
-	@ApiModelProperty(example = "2", value = "number of product units or quantity")
+	@ApiModelProperty(example = "2", value = "number of product units or quantity", position = 1)
 	@Valid
 	private BigDecimal quantity;
 
 	@JsonProperty("measure")
-	@ApiModelProperty(example = "gr", value = "type of measure")
+	@ApiModelProperty(example = "gr", value = "type of measure", position = 2)
 	private String measure;
 
 	public Ingredient() {

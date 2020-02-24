@@ -40,17 +40,18 @@ public class ProductsBusinessImpl implements ProductsBusiness {
     private Messages messages;
 
     @Override
-    public List<ProductBO> getProducts(LanguageEnumBO language, int skip, int limit) {
-        return getProducts("", language, skip, limit);
+    public List<ProductBO> getProducts(LanguageEnumBO language, int limit, int offset) {
+        return getProducts("", language, limit, offset);
     }
 
     @Override
-    public List<ProductBO> getProducts(String name, LanguageEnumBO language, int skip, int limit) {
-        List<ProductBO> products = new ArrayList<>();
-        if (name == null) {
-            name = "";
-        }
-        return products;
+    public List<ProductBO> getProducts(String name, LanguageEnumBO language, int limit, int offset) {
+       return null;
+    }
+
+    @Override
+    public Long countProducts(String name, LanguageEnumBO language, int limit, int offset) {
+        return null;
     }
 
     @Override

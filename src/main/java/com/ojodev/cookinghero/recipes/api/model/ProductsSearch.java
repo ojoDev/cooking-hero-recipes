@@ -22,12 +22,12 @@ import java.util.List;
 public class ProductsSearch {
 
     @JsonProperty("content")
-    @ApiModelProperty(value = "Products returned list.")
+    @ApiModelProperty(value = "Products returned list.", position = 0)
     @Valid
     private List<Product> content;
 
     @JsonProperty("pagination")
-    @ApiModelProperty(value = "Pagination info")
+    @ApiModelProperty(value = "Pagination info", position = 1)
     private PaginationInfo pagination;
 
 }
