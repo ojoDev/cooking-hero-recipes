@@ -18,11 +18,11 @@ import java.util.Optional;
 public class DescriptiveNameUpdate {
 
     @JsonProperty("singular")
-    @ApiModelProperty(example = "potato", value = "Singular name.")
+    @ApiModelProperty(example = "potato", value = "Singular name.", position = 0)
     private Optional<String> singular = Optional.empty();
 
     @JsonProperty("plural")
-    @ApiModelProperty(example = "potatoes", value = "Plural name.")
+    @ApiModelProperty(example = "potatoes", value = "Plural name.", position = 1)
     private Optional<String> plural = Optional.empty();
 
 

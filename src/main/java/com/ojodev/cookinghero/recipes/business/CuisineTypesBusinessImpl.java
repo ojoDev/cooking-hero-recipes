@@ -1,9 +1,10 @@
 package com.ojodev.cookinghero.recipes.business;
 
-import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
-import com.ojodev.cookinghero.recipes.domain.exception.*;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiBadRequestException;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

@@ -17,12 +17,12 @@ import javax.validation.constraints.NotNull;
 public class Measure   {
 
   @JsonProperty("id")
-  @ApiModelProperty(example = "g", required = true, value = "Measure id.")
+  @ApiModelProperty(example = "g", required = true, value = "Measure id.", position = 0)
   @NotNull
   private String id;
 
   @JsonProperty("name")
-  @ApiModelProperty(example = "{\"singular\":\"g\",\"plural\":\"g\"}", required = true, value = "Measure description.")
+  @ApiModelProperty(example = "{\"singular\":\"g\",\"plural\":\"g\"}", required = true, value = "Measure description.", position = 1)
   @NotNull
   private DescriptiveName name;
 

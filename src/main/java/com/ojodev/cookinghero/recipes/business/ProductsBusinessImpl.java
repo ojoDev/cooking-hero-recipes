@@ -40,6 +40,21 @@ public class ProductsBusinessImpl implements ProductsBusiness {
     private Messages messages;
 
     @Override
+    public List<ProductBO> getProducts(LanguageEnumBO language, int limit, int offset) {
+        return getProducts("", language, limit, offset);
+    }
+
+    @Override
+    public List<ProductBO> getProducts(String name, LanguageEnumBO language, int limit, int offset) {
+       return null;
+    }
+
+    @Override
+    public Long countProducts(String name, LanguageEnumBO language, int limit, int offset) {
+        return null;
+    }
+
+    @Override
     public Optional<ProductBO> getProduct(String productId, LanguageEnumBO language) {
         List<ProductPO> productPOList = productsRepository.findByObjectId(productId);
         return productPOList == null || productPOList.isEmpty() ? Optional.empty() : Optional.ofNullable(productsMapper.toProductBO(productPOList.get(0), language));

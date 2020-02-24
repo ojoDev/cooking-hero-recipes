@@ -15,11 +15,11 @@ import java.util.Optional;
 public class ProductUpdate {
 
     @JsonProperty("name")
-    @ApiModelProperty(example = "{\"singular\":\"potato\",\"plural\":\"potatoes\"}", value = "Measure description.")
+    @ApiModelProperty(example = "{\"singular\":\"potato\",\"plural\":\"potatoes\"}", value = "Measure description.", position = 0)
     private Optional<DescriptiveNameUpdate> name = Optional.empty();
 
     @JsonProperty("status")
-    @ApiModelProperty(value = "Product status")
+    @ApiModelProperty(value = "Product status", position = 1)
     private Optional<ProductStatusEnum> status = Optional.empty();
 
     public ProductUpdate() {

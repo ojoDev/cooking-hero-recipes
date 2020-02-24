@@ -22,16 +22,16 @@ import javax.validation.constraints.NotNull;
 public class Product {
 
     @JsonProperty("id")
-    @ApiModelProperty(example = "53", required = true, value = "Product id.")
+    @ApiModelProperty(example = "53", required = true, value = "Product id.", position = 0)
     @NotNull
     private String id;
 
     @JsonProperty("name")
-    @ApiModelProperty(example = "{\"singular\":\"potato\",\"plural\":\"potatoes\"}", required = true, value = "Product name.")
+    @ApiModelProperty(example = "{\"singular\":\"potato\",\"plural\":\"potatoes\"}", required = true, value = "Product name.", position = 1)
     @NotNull
     private DescriptiveName name;
 
-    @ApiModelProperty(value = "Product status")
+    @ApiModelProperty(value = "Product status", position = 2)
     @Valid
     @JsonProperty("status")
     private ProductStatusEnum status;
