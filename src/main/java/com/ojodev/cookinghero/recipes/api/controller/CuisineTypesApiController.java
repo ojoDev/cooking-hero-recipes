@@ -123,7 +123,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
 
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
-        CuisineTypeBO cuisineTypeBO = cuisineTypesBusiness.getCuisineType(cuisineTypeId, language).orElseThrow(NotFoundException::new);
+        CuisineTypeBO cuisineTypeBO = cuisineTypesBusiness.getCuisineType(cuisineTypeId, language).orElseThrow(() -> new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc")));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_LANGUAGE, acceptLanguage)

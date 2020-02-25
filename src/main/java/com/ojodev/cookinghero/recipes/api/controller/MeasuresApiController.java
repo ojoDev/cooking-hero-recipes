@@ -78,7 +78,7 @@ public class MeasuresApiController implements MeasuresApi {
                                               @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws NotFoundException, ApiFieldsException {
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
-        MeasureBO measureBO = measuresBusiness.getMeasure(measureId, language).orElseThrow(NotFoundException::new);
+        MeasureBO measureBO = measuresBusiness.getMeasure(measureId, language).orElseThrow(() -> new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc")));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .header(org.springframework.http.HttpHeaders.CONTENT_LANGUAGE, acceptLanguage)
@@ -102,7 +102,7 @@ public class MeasuresApiController implements MeasuresApi {
     }
 
     private void throwErrorIfMeasureNotExists(String measureId) throws NotFoundException {
-        measuresBusiness.getMeasure(measureId, RecipesConstants.DEFAULT_LANGUAGE).orElseThrow(NotFoundException::new);
+        measuresBusiness.getMeasure(measureId, RecipesConstants.DEFAULT_LANGUAGE).orElseThrow(() -> new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc")));
     }
 
     public ResponseEntity<Void> deleteMeasure(@ApiParam(value = "Measure id.", required = true, example = "tablespoon") @PathVariable("measure-id") String measureId) throws NotFoundException {

@@ -50,7 +50,7 @@ public class MeasuresApiControllerDeleteTest {
     @Test
     public void deleteNotFoundMeasure() throws Exception {
 
-        doThrow(new NotFoundException()).when(measuresBusiness).deleteMeasure(MeasuresExamples.MEASURE_01_ID);
+        doThrow(new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc"))).when(measuresBusiness).deleteMeasure(MeasuresExamples.MEASURE_01_ID);
 
         this.mvc.perform(delete("/measures/{measures-id}", MeasuresExamples.MEASURE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)

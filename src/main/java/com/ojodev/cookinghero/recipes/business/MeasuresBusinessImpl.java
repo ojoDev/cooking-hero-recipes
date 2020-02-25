@@ -1,9 +1,10 @@
 package com.ojodev.cookinghero.recipes.business;
 
-import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
-import com.ojodev.cookinghero.recipes.domain.exception.*;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiBadRequestException;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureMultiLanguageBO;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -97,7 +97,7 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
     }
 
     private boolean existLanguageName(MeasurePO measurePO, MeasureBO measureBO) {
-        return measurePO.getNames().stream().filter(n -> n.getLanguage().equals(measureBO.getName().getLanguage().toString())).findAny().isPresent();
+        return measurePO.getNames().stream().anyMatch(n -> n.getLanguage().equals(measureBO.getName().getLanguage().toString()));
     }
 
     private void updateLanguageName(MeasurePO measurePO, MeasureBO measureBO) {

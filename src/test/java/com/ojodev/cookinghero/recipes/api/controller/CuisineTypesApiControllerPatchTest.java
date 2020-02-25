@@ -61,7 +61,7 @@ public class CuisineTypesApiControllerPatchTest {
 
         CuisineTypeUpdate cuisineTypeUpdate = new CuisineTypeUpdate(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH);
 
-        doThrow(new NotFoundException()).when(cuisineTypesBusiness).addOrReplaceCuisineType(any());
+        doThrow(new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc"))).when(cuisineTypesBusiness).addOrReplaceCuisineType(any());
 
         this.mvc.perform(patch("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)

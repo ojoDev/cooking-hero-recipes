@@ -50,7 +50,7 @@ public class ProductsApiControllerDeleteTest {
     @Test
     public void deleteNotFoundProduct() throws Exception {
 
-        doThrow(new NotFoundException()).when(productsBusiness).deleteProduct(ProductsExamples.PRODUCT_01_ID);
+        doThrow(new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc"))).when(productsBusiness).deleteProduct(ProductsExamples.PRODUCT_01_ID);
 
         this.mvc.perform(delete("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)

@@ -83,7 +83,7 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
 
     private void checkIfExists(CuisineTypePO cuisineTypePO) throws NotFoundException {
         if (cuisineTypePO == null) {
-            throw new NotFoundException();
+            throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
         }
     }
 

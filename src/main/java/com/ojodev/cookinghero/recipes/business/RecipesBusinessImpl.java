@@ -42,7 +42,7 @@ public class RecipesBusinessImpl implements RecipesBusiness{
 	public Recipe getRecipe(String recipeId) throws NotFoundException {
 		RecipePO recipePO = recipesRepository.findRecipeById(recipeId);
        if (recipePO==null || recipePO.getId() == null) {
-        	throw new NotFoundException();
+		   throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
         }
 		return recipeMapper.toRecipe(recipePO);
 	}
@@ -59,7 +59,7 @@ public class RecipesBusinessImpl implements RecipesBusiness{
 	public void deleteRecipe(String recipeId) throws NotFoundException {
 		RecipePO recipe = recipesRepository.deleteRecipe(recipeId);
 		if (recipe == null) {
-			throw new NotFoundException();
+			throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
 		}
 	}
 	

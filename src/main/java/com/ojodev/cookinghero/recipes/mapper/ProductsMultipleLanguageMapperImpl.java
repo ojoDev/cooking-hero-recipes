@@ -1,7 +1,6 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.ProductNew;
-import com.ojodev.cookinghero.recipes.api.model.ProductStatusEnum;
 import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.ProductMultiLanguageBO;
