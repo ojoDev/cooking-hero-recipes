@@ -20,7 +20,7 @@ public interface MeasuresBusiness {
 
      void addMeasure(MeasureMultiLanguageBO newMeasure) throws ApiBadRequestException;
 
-    void addOrReplaceMeasure(MeasureBO cuisineType) throws ApiException;
+    void addOrReplaceMeasure(MeasureBO measureBO) throws ApiException;
 
     void deleteMeasure(String measureId) throws NotFoundException;
 }

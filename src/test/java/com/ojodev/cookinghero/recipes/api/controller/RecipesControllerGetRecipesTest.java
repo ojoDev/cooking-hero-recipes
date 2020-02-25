@@ -47,7 +47,7 @@ public class RecipesControllerGetRecipesTest {
 		initTwoMongoRecipes();
 		this.mvc.perform(get("/recipes").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 		.andExpect(jsonPath("$.length()", is(2)))
-				.andExpect(jsonPath("$[0].id", is(RecipesExamples.RECIPE_ID_01.toString())))
+				.andExpect(jsonPath("$[0].id", is(RecipesExamples.RECIPE_ID_01)))
 				.andExpect(jsonPath("$[0].name", is(RecipesExamples.RECIPE_NAME_01)))
 				.andExpect(jsonPath("$[0].description", is(RecipesExamples.RECIPE_DESCRIPTION_01)))
 				.andExpect(jsonPath("$[0].cuisine-type[0]", is(RecipesExamples.RECIPE_01_CUISINE_TYPE_01)))
@@ -78,7 +78,7 @@ public class RecipesControllerGetRecipesTest {
 				.andExpect(jsonPath("$[0].ingredients[4].measure").doesNotExist())
 				.andExpect(jsonPath("$[0].user", is(RecipesExamples.RECIPE_USER_01)))
 				.andExpect(jsonPath("$[0].creationDate", is(RecipesExamples.RECIPE_CREATION_DATE_01_STRING)))
-				.andExpect(jsonPath("$[1].id", is(RecipesExamples.RECIPE_ID_02.toString())))
+				.andExpect(jsonPath("$[1].id", is(RecipesExamples.RECIPE_ID_02)))
 				.andExpect(jsonPath("$[1].name", is(RecipesExamples.RECIPE_NAME_02)))
 				.andExpect(jsonPath("$[1].description", is(RecipesExamples.RECIPE_DESCRIPTION_02)));
 	}
@@ -125,7 +125,7 @@ public class RecipesControllerGetRecipesTest {
 	}
 
 	private void initNoMongoRecipes() {
-		when(this.mongoTemplate.find(any(), eq(RecipePO.class))).thenReturn(new ArrayList<RecipePO>());
+		when(this.mongoTemplate.find(any(), eq(RecipePO.class))).thenReturn(new ArrayList<>());
 	}
 
 	private void initOutOfMemoryException() {

@@ -1,7 +1,7 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.MeasureUpdate;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
@@ -16,7 +16,7 @@ public abstract class MeasuresMapperDecorator implements MeasuresMapper {
 
     @Autowired
     @Qualifier("delegate")
-    private CuisineTypesMapper delegate;
+    private MeasuresMapper delegate;
 
     @Autowired
     private DescriptiveNameMapper descriptiveNameMapper;
@@ -38,14 +38,14 @@ public abstract class MeasuresMapperDecorator implements MeasuresMapper {
     private DescriptiveNamePO selectNameByLanguage(List<DescriptiveNamePO> names, String language) {
         List<DescriptiveNamePO> filteredNames = names.stream().filter(n -> language.equals(n.getLanguage())).collect(Collectors.toList());
         if (filteredNames.isEmpty()) {
-           return selectNameByLanguage(names, RecipeConstants.DEFAULT_LANGUAGE.toString());
+           return selectNameByLanguage(names, RecipesConstants.DEFAULT_LANGUAGE.toString());
        } else {
             return filteredNames.get(0);
         }
    }
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
-        return language == null ? RecipeConstants.DEFAULT_LANGUAGE : language;
+        return language == null ? RecipesConstants.DEFAULT_LANGUAGE : language;
     }
 
     public MeasureBO toMeasureBO(MeasureUpdate measureUpdate, String id, LanguageEnumBO language) {

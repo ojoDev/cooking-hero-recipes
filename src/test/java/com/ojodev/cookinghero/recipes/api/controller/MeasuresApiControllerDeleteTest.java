@@ -38,7 +38,7 @@ public class MeasuresApiControllerDeleteTest {
     private static final String LOCALE_ENGLISH = "en";
 
     @Test
-    public void deleteCuisineType() throws Exception {
+    public void deleteMeasure() throws Exception {
 
         this.mvc.perform(delete("/measures/{measures-id}", MeasuresExamples.MEASURE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -48,9 +48,9 @@ public class MeasuresApiControllerDeleteTest {
     }
 
     @Test
-    public void deleteNotFoundCuisineType() throws Exception {
+    public void deleteNotFoundMeasure() throws Exception {
 
-        doThrow(new NotFoundException()).when(measuresBusiness).deleteMeasure(MeasuresExamples.MEASURE_01_ID);
+        doThrow(new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc"))).when(measuresBusiness).deleteMeasure(MeasuresExamples.MEASURE_01_ID);
 
         this.mvc.perform(delete("/measures/{measures-id}", MeasuresExamples.MEASURE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)

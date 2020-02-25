@@ -1,9 +1,10 @@
 package com.ojodev.cookinghero.recipes.business;
 
-import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
-import com.ojodev.cookinghero.recipes.domain.exception.*;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiBadRequestException;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -72,7 +72,6 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
         CuisineTypePO cuisineTypePO = cuisineTypesRepository.findById(cuisineType.getId());
 
         checkIfExists(cuisineTypePO);
-        checkIfLanguageIsDefault(cuisineType);
 
         if (existLanguageName(cuisineTypePO,cuisineType)) {
             updateLanguageName(cuisineTypePO,cuisineType);
@@ -84,19 +83,7 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
 
     private void checkIfExists(CuisineTypePO cuisineTypePO) throws NotFoundException {
         if (cuisineTypePO == null) {
-            throw new NotFoundException();
-        }
-    }
-
-    private void checkIfLanguageIsDefault(CuisineTypeBO cuisineType) throws ApiFieldsException{
-        if (RecipeConstants.DEFAULT_LANGUAGE.equals(cuisineType.getLanguage())) {
-            throw new ApiFieldsException(
-                    messages.get("error.badrequest.invalidparams.code"),
-                    messages.get("error.badrequest.invalidparams.desc"),
-                    Arrays.asList(new FieldError(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"),
-                            HttpHeaders.ACCEPT_LANGUAGE,
-                            messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage")))
-            );
+            throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
         }
     }
 
@@ -117,7 +104,7 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
     }
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
-        return language == null ? RecipeConstants.DEFAULT_LANGUAGE : language;
+        return language == null ? RecipesConstants.DEFAULT_LANGUAGE : language;
     }
 
 }

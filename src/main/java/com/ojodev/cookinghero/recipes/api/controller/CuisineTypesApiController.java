@@ -1,5 +1,6 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.ojodev.cookinghero.recipes.api.model.CuisineType;
 import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
 import com.ojodev.cookinghero.recipes.api.model.CuisineTypeUpdate;
@@ -7,7 +8,7 @@ import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.config.RecipesConfig;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.*;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
@@ -36,8 +37,6 @@ import java.util.List;
 @Controller
 @Api(tags = "cuisine-types", description = "Cuisine types of recipes")
 public class CuisineTypesApiController implements CuisineTypesApi {
-
-    private static final String ACCEPT_LANGUAGE_SEPARATOR = ",";
 
     @Autowired
     private CuisineTypesBusiness cuisineTypesBusiness;
@@ -90,9 +89,9 @@ public class CuisineTypesApiController implements CuisineTypesApi {
     }
 
     private void validateDefaultLanguage(CuisineTypeNew body) throws ApiException {
-        boolean existsDefaultLanguage = body.getNames().stream().filter(name -> RecipeConstants.DEFAULT_LANGUAGE.equals(languageEnumMapper.toLanguageEnumBO(name.getLanguage()))).count() > 0;
+        boolean existsDefaultLanguage = body.getNames().stream().filter(name -> RecipesConstants.DEFAULT_LANGUAGE.equals(languageEnumMapper.toLanguageEnumBO(name.getLanguage()))).count() > 0;
         if (!existsDefaultLanguage) {
-            throw new ApiBadRequestException(messages.get("error.badrequest.mustcontaindefault.code"), messages.get("error.badrequest.mustcontaindefault.desc", RecipeConstants.DEFAULT_LANGUAGE));
+            throw new ApiBadRequestException(messages.get("error.badrequest.mustcontaindefault.code"), messages.get("error.badrequest.mustcontaindefault.desc", RecipesConstants.DEFAULT_LANGUAGE));
         }
     }
 
@@ -120,18 +119,18 @@ public class CuisineTypesApiController implements CuisineTypesApi {
 
 
     public ResponseEntity<CuisineType> getCuisineType(@ApiParam(value = "Cuisine type id.", required = true, example = "veggie") @PathVariable("cuisine-type-id") String cuisineTypeId,
-                                                      @ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage) throws ApiException {
+                                                      @ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws ApiException {
 
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
-        CuisineTypeBO cuisineTypeBO = cuisineTypesBusiness.getCuisineType(cuisineTypeId, language).orElseThrow(NotFoundException::new);
+        CuisineTypeBO cuisineTypeBO = cuisineTypesBusiness.getCuisineType(cuisineTypeId, language).orElseThrow(() -> new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc")));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_LANGUAGE, acceptLanguage)
                 .body(cuisineTypeMapper.toCuisineType(cuisineTypeBO));
     }
 
-    public ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage,
+    public ResponseEntity<Void> updateCuisineType(@ApiParam(value = "User need to choose a language to receive data.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
                                                   @ApiParam(value = "Cuisine type id.", required = true, example = "veggie") @PathVariable("cuisine-type-id") String cuisineTypeId,
                                                   @ApiParam(value = "CuisineType to update.") @Valid @RequestBody CuisineTypeUpdate body) throws ApiException {
 
@@ -146,8 +145,7 @@ public class CuisineTypesApiController implements CuisineTypesApi {
     }
 
     private LanguageEnumBO checkAndExtractAcceptedLanguage(String acceptLanguage) throws ApiFieldsException {
-
-        for (String language : acceptLanguage.split(ACCEPT_LANGUAGE_SEPARATOR)) {
+        for (String language : acceptLanguage.split(RecipesConstants.ACCEPT_LANGUAGE_SEPARATOR)) {
             if (LanguageEnum.fromValue(language) != null) {
                 return LanguageEnumBO.fromValue(language);
             }

@@ -25,8 +25,8 @@ public class MeasuresPatchMapperImpl implements MeasuresPatchMapper {
             nameBO.setSingular(getNullOrValue(patch.getName().getSingularOpt(), origin.getName().getSingular()));
             nameBO.setPlural(getNullOrValue(patch.getName().getPluralOpt(), origin.getName().getPlural()));
             nameBO.setLanguage(origin.getName().getLanguage());
-            result.setName(nameBO);
         }
+        result.setName(nameBO);
         return result;
     }
 

@@ -19,11 +19,11 @@ import org.springframework.validation.annotation.Validated;
 public class MeasureNewName   {
 
   @JsonProperty("name")
-  @ApiModelProperty(example = "{\"singular\":\"g\",\"plural\":\"g\"}", value = "Descriptive measure name.", required = true)
+  @ApiModelProperty(example = "{\"singular\":\"g\",\"plural\":\"g\"}", value = "Descriptive measure name.", required = true, position = 0)
   private DescriptiveName name;
 
   @JsonProperty("language")
-  @ApiModelProperty(value = "Language type.", required = true)
+  @ApiModelProperty(value = "Language type.", required = true, position = 1)
   private LanguageEnum language;
 
 }

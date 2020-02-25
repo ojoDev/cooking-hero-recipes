@@ -21,12 +21,12 @@ import javax.validation.constraints.NotNull;
 public class CuisineType {
 
     @JsonProperty("id")
-    @ApiModelProperty(example = "15", required = true, value = "Cuisine type id.")
+    @ApiModelProperty(example = "15", required = true, value = "Cuisine type id.", position = 0)
     @NotNull
     private String id;
 
     @JsonProperty("name")
-    @ApiModelProperty(example = "veggie", required = true, value = "Cuisine type name.")
+    @ApiModelProperty(example = "veggie", required = true, value = "Cuisine type name.", position = 1)
     @NotNull
     private String name;
 

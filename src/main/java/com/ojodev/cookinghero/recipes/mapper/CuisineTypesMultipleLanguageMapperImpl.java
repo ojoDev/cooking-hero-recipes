@@ -2,7 +2,7 @@ package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNew;
 import com.ojodev.cookinghero.recipes.api.model.CuisineTypeNewName;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipeConstants;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageNameBO;
@@ -18,7 +18,7 @@ public class CuisineTypesMultipleLanguageMapperImpl implements CuisineTypesMulti
 
     @Override
     public CuisineTypeMultiLanguageBO toCuisineTypeMultiLanguageBO(CuisineTypeNew cuisineTypeNew, LanguageEnumBO defaultLanguage){
-        List<LanguageNameBO> languageNames = cuisineTypeNew.getNames().stream().map(n -> convertToLanguageNameBO(n)).collect(Collectors.toList());
+        List<LanguageNameBO> languageNames = cuisineTypeNew.getNames().stream().map(this::convertToLanguageNameBO).collect(Collectors.toList());
         return new CuisineTypeMultiLanguageBO.Builder(languageNames, defaultLanguage).build();
     }
 
@@ -28,12 +28,12 @@ public class CuisineTypesMultipleLanguageMapperImpl implements CuisineTypesMulti
     }
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
-        return language == null ? RecipeConstants.DEFAULT_LANGUAGE : language;
+        return language == null ? RecipesConstants.DEFAULT_LANGUAGE : language;
     }
 
     @Override
     public CuisineTypePO toCuisineTypePO(CuisineTypeMultiLanguageBO cuisineTypeNew) {
-        List<LanguageNamePO> languageNames = cuisineTypeNew.getLanguageNames().stream().map(n -> convertToLanguageNamePO(n)).collect(Collectors.toList());
+        List<LanguageNamePO> languageNames = cuisineTypeNew.getLanguageNames().stream().map(this::convertToLanguageNamePO).collect(Collectors.toList());
        return new CuisineTypePO(cuisineTypeNew.getId(), languageNames);
     }
 

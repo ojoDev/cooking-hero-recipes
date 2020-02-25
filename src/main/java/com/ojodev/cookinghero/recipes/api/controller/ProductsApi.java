@@ -1,8 +1,11 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import io.swagger.annotations.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +27,12 @@ public interface ProductsApi {
             @ApiResponse(code = 500, message = "Internal server error.", response = ApiError.class)})
     @GetMapping(value = "/products",
             produces = {MediaType.APPLICATION_JSON_VALUE})
+    @JsonPropertyOrder(value = {"acceptLanguage", "name", "limit", "offset"})
     ResponseEntity<ProductsSearch> getProducts(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
-                                               @ApiParam(value = "Product name, singular or plural.") @Valid @RequestParam(value = "name", required = false) String name,
-                                               @Min(1) @Max(100) @ApiParam(value = "Maximum number of records returned, by default 10.", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit,
-                                               @Min(0) @ApiParam(value = "Number of page for skip (pagination).", allowableValues = "") @Valid @RequestParam(value = "offset", required = false) Integer offset);
+                                               @ApiParam(value = "Product name, singular or plural.", example = "potato") @Valid @RequestParam(value = "name", required = false) String name,
+                                               @ApiParam(value = "Product status.", example = "APPROVED_BY_ADMIN") @Valid @RequestParam(value = "status", required = false) ProductStatusEnum status,
+                                               @Min(1) @Max(100) @ApiParam(value = "Maximum number of records returned, by default 10.", example = "10", allowableValues = "", defaultValue = "10") @Valid @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+                                               @Min(0) @ApiParam(value = "Number of page for skip (pagination).", example = "0", allowableValues = "", defaultValue = "0" ) @Valid @RequestParam(value = "offset", required = false, defaultValue = "0" ) Integer offset) throws ApiException;
 
 
     @ApiOperation(value = "Add a product", nickname = "addProduct", notes = "Add a new product.\nYou can add multiple languages in a single request. English (en) is mandatory.\nAn **Hero** can be freely define a new product as CREATED_BY_USER.\nAn **Admin** can create a new product as APPROVED_BY_ADMIN, or change (approve) a user product status. This products are show to all users to select in this recipes. ", tags = {"products"})
@@ -40,7 +45,7 @@ public interface ProductsApi {
     @PostMapping(value = "/products",
             produces = {MediaType.APPLICATION_JSON_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE})
-    ResponseEntity<Void> addProduct(@ApiParam(value = "Product info") @Valid @RequestBody ProductNew body);
+    ResponseEntity<Void> addProduct(@ApiParam(value = "Product info") @Valid @RequestBody ProductNew body) throws ApiException;
 
 
     @ApiOperation(value = "Get a product", nickname = "getProduct", notes = "Search for a product in a specific language. ", response = Product.class, tags = {"products"})
@@ -54,7 +59,7 @@ public interface ProductsApi {
     @GetMapping(value = "/products/{product-id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<Product> getProduct(@ApiParam(value = "Product id.", required = true) @PathVariable("product-id") String productId,
-                                       @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage);
+                                       @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws ApiException;
 
 
     @ApiOperation(value = "Update a product", nickname = "updateProduct", notes = "Update a product.    You can add more languages to a exist product with Accept-Language header.   Only an **Admin** can change the status. ", tags = {"products"})
@@ -65,13 +70,12 @@ public interface ProductsApi {
             @ApiResponse(code = 403, message = "The server understood the request but refuses to authorize it.", response = ApiError.class),
             @ApiResponse(code = 404, message = "Not found.", response = ApiError.class),
             @ApiResponse(code = 500, message = "Internal server error.", response = ApiError.class)})
-    @RequestMapping(value = "/products/{product-id}",
+    @PatchMapping(value = "/products/{product-id}",
             produces = {MediaType.APPLICATION_JSON_VALUE},
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.PATCH)
-    ResponseEntity<Void> updateProduct(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = true) String acceptLanguage,
+            consumes = {MediaType.APPLICATION_JSON_VALUE})
+    ResponseEntity<Void> updateProduct(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
                                        @ApiParam(value = "Product id.", required = true) @PathVariable("product-id") String productId,
-                                       @ApiParam(value = "Product to update.") @Valid @RequestBody ProductUpdate body);
+                                       @ApiParam(value = "Product to update.") @Valid @RequestBody ProductUpdate body) throws ApiException;
 
     @ApiOperation(value = "Delete a product", nickname = "deleteProduct", notes = "Delete a product. ", tags = {"products"})
     @ApiResponses(value = {
@@ -82,6 +86,6 @@ public interface ProductsApi {
             @ApiResponse(code = 500, message = "Internal server error.", response = ApiError.class)})
     @DeleteMapping(value = "/products/{product-id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    ResponseEntity<Void> deleteProduct(@ApiParam(value = "Product id.", required = true) @PathVariable("product-id") String productId);
+    ResponseEntity<Void> deleteProduct(@ApiParam(value = "Product id.", required = true) @PathVariable("product-id") String productId) throws NotFoundException;
 
 }

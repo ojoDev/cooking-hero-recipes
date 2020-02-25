@@ -17,7 +17,7 @@ public class RecipeConstantsTest {
 
     @Test
     public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Constructor<RecipeConstants> constructor = RecipeConstants.class.getDeclaredConstructor();
+        Constructor<RecipesConstants> constructor = RecipesConstants.class.getDeclaredConstructor();
         assertTrue(Modifier.isPrivate(constructor.getModifiers()));
         constructor.setAccessible(true);
         constructor.newInstance();

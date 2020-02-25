@@ -125,7 +125,7 @@ public class RestResponseEntityExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiError> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         LOGGER.error("HttpMessageNotReadableException: " + e);
-        return new ResponseEntity<>(new ApiError(messages.get("error.badrequest.code"), messages.get("error.badrequest.malformed")), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ApiError(messages.get("error.badrequest.malformed.code"), messages.get("error.badrequest.malformed.desc")), HttpStatus.BAD_REQUEST);
     }
 
 

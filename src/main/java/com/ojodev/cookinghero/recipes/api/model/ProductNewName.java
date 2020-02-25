@@ -19,11 +19,11 @@ import org.springframework.validation.annotation.Validated;
 public class ProductNewName {
 
     @JsonProperty("name")
-    @ApiModelProperty(example = "{\"singular\":\"potato\",\"plural\":\"potatoes\"}", value = "Descriptive product name.")
+    @ApiModelProperty(example = "{\"singular\":\"potato\",\"plural\":\"potatoes\"}", value = "Descriptive product name.", position = 0)
     private DescriptiveName name;
 
     @JsonProperty("language")
-    @ApiModelProperty(value = "Product language")
+    @ApiModelProperty(value = "Product language", position = 1)
     private LanguageEnum language;
 
 }

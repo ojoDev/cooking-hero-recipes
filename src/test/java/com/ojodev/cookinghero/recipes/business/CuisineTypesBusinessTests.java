@@ -283,7 +283,7 @@ public class CuisineTypesBusinessTests {
 
     @Test()
     @DisplayName("Replace cuisine type name if name exists")
-    public void addOrReplaceCuisineTypeReplaceNoDefaultLanguage() {
+    public void addOrReplaceCuisineTypeReplace() {
 
         CuisineTypePO cuisineTypePO = new CuisineTypePO(CuisineTypesExamples.CUISINE_TYPE_01_ID, Arrays.asList(
                 new LanguageNamePO(CuisineTypesExamples.LANGUAGE_EN, CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH),
@@ -298,7 +298,7 @@ public class CuisineTypesBusinessTests {
 
     @Test()
     @DisplayName("Add cuisine type name if name exists")
-    public void addOrReplaceCuisineTypeAddNoDefaultLanguage() {
+    public void addOrReplaceCuisineTypeAddLanguage() {
 
         CuisineTypePO cuisineTypeOnlyEnglish = initCuisineTypeNewOnlyEnglish();
         CuisineTypeBO cuisineTypeEs = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_01_ID, CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, LanguageEnumBO.ES);
@@ -307,27 +307,6 @@ public class CuisineTypesBusinessTests {
 
         Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeEs));
 
-    }
-
-    @Test
-    public void addOrReplaceCuisineTypeDefaultLanguage() {
-
-        CuisineTypeBO cuisineTypeBO = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_01_ID, CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN);
-        CuisineTypePO cuisineTypePO = new CuisineTypePO(CuisineTypesExamples.CUISINE_TYPE_01_ID, Arrays.asList(
-                new LanguageNamePO(CuisineTypesExamples.LANGUAGE_EN, CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH),
-                new LanguageNamePO(CuisineTypesExamples.LANGUAGE_ES, CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH)));
-
-        when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_01_ID)).thenReturn(cuisineTypePO);
-
-        ApiFieldsException e = Assertions.assertThrows(ApiFieldsException.class, () -> {
-            cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeBO);
-        });
-        assertEquals(messages.get("error.badrequest.invalidparams.code"), e.getCode());
-        assertEquals(messages.get("error.badrequest.invalidparams.desc"), e.getDescription());
-        assertNotNull(e.getFields());
-        assertEquals(1, e.getFields().size());
-        assertEquals(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.code"), e.getFields().get(0).getCode());
-        assertEquals(messages.get("error.badrequest.invalidparams.fields.headerparaminvalid.desc.nodefaultlanguage"), e.getFields().get(0).getDescription());
     }
 
     @Test

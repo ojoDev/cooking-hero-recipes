@@ -19,11 +19,11 @@ import org.springframework.validation.annotation.Validated;
 public class CuisineTypeNewName {
 
     @JsonProperty("name")
-    @ApiModelProperty(example = "veggie", value = "Descriptive cuisine type name.", required = true)
+    @ApiModelProperty(example = "veggie", value = "Descriptive cuisine type name.", required = true, position = 0)
     private String name;
 
     @JsonProperty("language")
-    @ApiModelProperty(value = "Language type.", required = true)
+    @ApiModelProperty(value = "Language type.", required = true, position = 1)
     private LanguageEnum language;
 
 }

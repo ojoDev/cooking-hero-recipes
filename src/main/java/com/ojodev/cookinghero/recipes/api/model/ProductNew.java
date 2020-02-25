@@ -23,11 +23,11 @@ import java.util.List;
 public class ProductNew {
 
     @JsonProperty("names")
-    @ApiModelProperty(value = "List of product names and his languages.")
+    @ApiModelProperty(value = "List of product names and his languages.", position = 0)
     @Valid
     private List<ProductNewName> names;
 
-    @ApiModelProperty(required = true, value = "Product status")
+    @ApiModelProperty(required = true, value = "Product status", position = 1)
     @NotNull
     @JsonProperty("status")
     private ProductStatusEnum status;
