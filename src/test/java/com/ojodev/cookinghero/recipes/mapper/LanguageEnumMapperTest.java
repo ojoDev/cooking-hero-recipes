@@ -1,8 +1,6 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
-import com.ojodev.cookinghero.recipes.api.model.CuisineType;
 import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
-import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -141,6 +141,15 @@ public class ProductsBusinessTests {
     }
 
     @Test
+    public void countProductsWithParams() {
+        when(this.productsRepository.countProducts(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductStatusEnumBO.APPROVED_BY_ADMIN.toString(), ProductsExamples.LANGUAGE_EN)).thenReturn(Long.valueOf(1L));
+
+        Long totalProducts = productsBusiness.countProducts(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductStatusEnumBO.APPROVED_BY_ADMIN, LanguageEnumBO.EN);
+
+        assertEquals(1L, totalProducts.longValue());
+    }
+
+    @Test
     public void getProductById() {
 
         ProductPO productPO = new ProductPO(ProductsExamples.PRODUCT_01_ID, Arrays.asList(

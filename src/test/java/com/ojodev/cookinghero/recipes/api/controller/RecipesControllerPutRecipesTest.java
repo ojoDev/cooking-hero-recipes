@@ -1,13 +1,9 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import com.mongodb.client.result.UpdateResult;
+import com.ojodev.cookinghero.recipes.data.RecipesExamples;
 import com.ojodev.cookinghero.recipes.infrastructure.po.RecipePO;
+import com.ojodev.cookinghero.recipes.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -20,9 +16,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.mongodb.client.result.UpdateResult;
-import com.ojodev.cookinghero.recipes.data.RecipesExamples;
-import com.ojodev.cookinghero.recipes.utils.TestUtils;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

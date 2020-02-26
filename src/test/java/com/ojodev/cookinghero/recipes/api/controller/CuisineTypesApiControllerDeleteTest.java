@@ -5,7 +5,6 @@ import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
-import com.ojodev.cookinghero.recipes.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -17,5 +17,8 @@ public class DescriptiveNamesExamples {
     public static final DescriptiveNameBO DESCRIPTIVE_NAME_BO = new DescriptiveNameBO(DESCRIPTIVE_NAME_01_SINGULAR, DESCRIPTIVE_NAME_01_PLURAL, LanguageEnumBO.EN);
     public static final DescriptiveNamePO DESCRIPTIVE_NAME_PO = new DescriptiveNamePO(DESCRIPTIVE_NAME_01_SINGULAR, DESCRIPTIVE_NAME_01_PLURAL, LANGUAGE_ENGLISH);
 
+    public static final String DESCRIPTIVE_NAME_02_SINGULAR= "unit";
+    public static final String DESCRIPTIVE_NAME_02_PLURAL = "units";
+
 
 }

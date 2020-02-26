@@ -6,9 +6,6 @@ import com.ojodev.cookinghero.recipes.api.model.MeasureUpdate;
 import com.ojodev.cookinghero.recipes.business.MeasuresBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
-import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
-import com.ojodev.cookinghero.recipes.domain.exception.FieldError;
-import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
@@ -24,12 +21,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

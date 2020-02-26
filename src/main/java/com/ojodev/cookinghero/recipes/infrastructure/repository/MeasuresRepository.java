@@ -15,6 +15,8 @@ public interface MeasuresRepository extends Neo4jRepository<MeasurePO, Long> {
 
     List<MeasurePO> findByObjectId(String objectId);
 
-    @Query("MATCH (m:Measure)-[r:REPRESENTED_BY]->(ln:LanguageName) WHERE m.objectId={id} DETACH DELETE m,r,ln")
+    @Query("MATCH (m:Measure)-[r:REPRESENTED_BY]->(ln:LanguageName) " +
+            "WHERE m.objectId={id} " +
+            "DETACH DELETE m,r,ln")
     void deleteById(@Param("id") String id);
 }

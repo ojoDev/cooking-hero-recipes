@@ -16,8 +16,8 @@ import java.util.List;
 @ApiModel(description = "Measure used by ingredients.")
 @Validated
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class MeasureNew   {
 
   @JsonProperty("names")
