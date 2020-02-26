@@ -39,7 +39,7 @@ mvn spring-boot:run
 
 You can access to the swagger-api in this url:
 
-[http://localhost:8080/api] (http://localhost:8080/api)
+http://localhost:8080/api
 
 ## Authors
 
