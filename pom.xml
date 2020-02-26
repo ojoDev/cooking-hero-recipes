@@ -293,7 +293,21 @@
 			<version>1.0.0</version>
 		</dependency>
 
-    	<!-- Mockito -->
+		<dependency>
+			<groupId>org.meanbean</groupId>
+			<artifactId>meanbean</artifactId>
+			<version>2.0.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>nl.jqno.equalsverifier</groupId>
+			<artifactId>equalsverifier</artifactId>
+			<version>3.1.12</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- Mockito -->
 		<!-- <dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>

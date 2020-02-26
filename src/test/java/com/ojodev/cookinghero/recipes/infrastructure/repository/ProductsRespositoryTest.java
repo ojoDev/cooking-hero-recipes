@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestConfiguration.class })
@@ -42,4 +43,22 @@ public class ProductsRespositoryTest {
         List<ProductPO> productList =  productsRepository.findProducts(null, null, null, 0, 10);
         assertNotNull(productList);
     }
+
+    @Test
+    @Ignore
+    public void countProducts() {
+        Long num=  productsRepository.countProducts("p", "CREATED_BY_USER", "en");
+        log.info("[TEST] countProducts - num = " + num);
+        assertTrue(num > 0);
+    }
+
+    @Test
+    @Ignore
+    public void countProductsNoParams() {
+        Long num=  productsRepository.countProducts(null, null, null);
+        log.info("[TEST] countProductsNoParams - num = " + num);
+        assertTrue(num > 0);
+    }
+
+
 }

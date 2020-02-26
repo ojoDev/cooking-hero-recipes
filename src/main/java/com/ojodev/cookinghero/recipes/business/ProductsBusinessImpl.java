@@ -61,7 +61,7 @@ public class ProductsBusinessImpl implements ProductsBusiness {
 
     @Override
     public Long countProducts(String name, ProductStatusEnumBO status, LanguageEnumBO language) {
-        return null;
+        return productsRepository.countProducts(name, status.toString(), language.toString());
     }
 
     @Override

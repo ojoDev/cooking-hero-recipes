@@ -20,8 +20,20 @@ public interface ProductsRepository extends Neo4jRepository<ProductPO, Long> {
             "ORDER BY ln.singular")
     List<ProductPO> findProducts(@Param("name") String name, @Param("status") String status, @Param("language") String language, @Param("offset") int offset, @Param("limit") int limit);
 
+
+    @Query("MATCH (p:Product)-[r:REPRESENTED_BY]->(ln:LanguageName) " +
+            "WHERE ({name} IS NULL OR ln.singular CONTAINS {name} OR ln.plural CONTAINS {name}) " +
+            "AND ({language} IS NULL OR ln.language={language}) " +
+            "AND ({status} IS NULL OR p.status = {status}) " +
+            "RETURN count(distinct p)")
+    Long countProducts(@Param("name") String name, @Param("status") String status, @Param("language") String language);
+
+
     List<ProductPO> findByObjectId(String objectId);
 
-    @Query("MATCH (p:Product)-[r:REPRESENTED_BY]->(ln:LanguageName) WHERE p.objectId={id} DETACH DELETE p,r,ln")
+
+    @Query("MATCH (p:Product)-[r:REPRESENTED_BY]->(ln:LanguageName) " +
+            "WHERE p.objectId={id} " +
+            "DETACH DELETE p,r,ln")
     void deleteById(@Param("id") String id);
 }

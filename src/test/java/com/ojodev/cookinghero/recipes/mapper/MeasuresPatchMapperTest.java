@@ -3,7 +3,6 @@ package com.ojodev.cookinghero.recipes.mapper;
 import com.ojodev.cookinghero.recipes.api.model.DescriptiveNameUpdate;
 import com.ojodev.cookinghero.recipes.api.model.MeasureUpdate;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
-import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
@@ -13,8 +12,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.io.FileNotFoundException;
 
 import static org.junit.Assert.*;
 

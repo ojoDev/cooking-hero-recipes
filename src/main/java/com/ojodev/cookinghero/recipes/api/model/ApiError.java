@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
 @Validated
 @ToString
 @EqualsAndHashCode
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApiError {

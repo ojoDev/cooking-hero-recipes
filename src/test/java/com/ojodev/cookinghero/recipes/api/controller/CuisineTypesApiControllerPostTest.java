@@ -9,8 +9,6 @@ import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.data.FileNameEnum;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiBadRequestException;
-import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
-import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.utils.FileUtils;
 import com.ojodev.cookinghero.recipes.utils.TestUtils;
@@ -24,8 +22,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.endsWith;

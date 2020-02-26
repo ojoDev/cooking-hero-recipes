@@ -32,4 +32,5 @@ public class RecipePOTest {
         Assert.assertEquals(RecipesExamples.RECIPE_DIFFICULTY_01, recipe.getDifficulty());
     }
 
+
 }

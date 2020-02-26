@@ -50,15 +50,4 @@ public abstract class ProductsMapperDecorator implements ProductsMapper {
         return language == null ? RecipesConstants.DEFAULT_LANGUAGE : language;
     }
 
-    public ProductBO toProductBO(MeasureUpdate measureUpdate, String id, LanguageEnumBO language) {
-        if (measureUpdate == null) {
-            return null;
-        }
-        ProductBO productBO = new ProductBO();
-        productBO.setName(descriptiveNameMapper.toDescriptiveNameBO(measureUpdate.getName(), language));
-        productBO.setId(id);
-        return productBO;
-    }
-
-
 }
