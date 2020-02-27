@@ -3,13 +3,11 @@ package com.ojodev.cookinghero.recipes.api.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.net.URL;
 
 /**
@@ -53,7 +51,6 @@ public class PaginationInfo {
         this.page =  offset / limit + 1;
         this.totalPages = Integer.valueOf((int) Math.ceil(totalElements.doubleValue() /  limit.doubleValue()));
         this.totalElements = totalElements;
-        double x = totalElements.doubleValue() /  limit.doubleValue();
         this.links = new PaginationLinks(offset, limit, totalElements, url);
     }
 

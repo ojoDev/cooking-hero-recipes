@@ -5,7 +5,6 @@ import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
-import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.*;
 import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
@@ -28,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -48,58 +47,110 @@ public class ProductsBusinessTests {
     @MockBean
     private ProductsRepository productsRepository;
 
+
     @Test
-    public void getAllProductsByLanguageLimitSkip() {
+    public void getProductsAllParams() {
 
         ProductPO productPO01 = new ProductPO(ProductsExamples.PRODUCT_01_ID, Arrays.asList(
                 new DescriptiveNamePO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, ProductsExamples.LANGUAGE_EN),
                 new DescriptiveNamePO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, ProductsExamples.LANGUAGE_ES)),
-                ProductStatusEnumBO.CREATED_BY_USER.toString());
+                ProductStatusEnumBO.APPROVED_BY_ADMIN.toString());
         ProductPO productPO02 = new ProductPO(ProductsExamples.PRODUCT_02_ID, Arrays.asList(
                 new DescriptiveNamePO(ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_02_NAME_ENGLISH_PLURAL, ProductsExamples.LANGUAGE_EN),
                 new DescriptiveNamePO(ProductsExamples.PRODUCT_02_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_02_NAME_SPANISH_PLURAL, ProductsExamples.LANGUAGE_ES)),
                 ProductStatusEnumBO.APPROVED_BY_ADMIN.toString());
+        String name = "to";
+        ProductStatusEnumBO status = ProductStatusEnumBO.APPROVED_BY_ADMIN;
+        int offset = 0;
+        int limit = 10;
 
-        when(this.productsRepository.findByName("", "en", 0, 10)).thenReturn(Arrays.asList(productPO01, productPO02));
+        when(this.productsRepository.findProducts(eq(name), eq(status.toString()), any(), eq(offset), eq(limit))).thenReturn(Arrays.asList(productPO01, productPO02));
 
-        List<ProductBO> productEn = productsBusiness.getProducts(LanguageEnumBO.EN, 0, 10) ;
+        List<ProductBO> productsEn = productsBusiness.getProducts(name, status, LanguageEnumBO.EN, offset, limit);
 
-        assertNotNull(productEn);
-        assertEquals(2, productEn.size());
-        assertEquals(ProductsExamples.PRODUCT_01_ID, productEn.get(0).getId());
-        assertNotNull(productEn.get(0).getName());
-        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, productEn.get(0).getName().getSingular());
-        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, productEn.get(0).getName().getPlural());
-        assertEquals(LanguageEnumBO.EN, productEn.get(0).getName().getLanguage());
-        assertEquals(ProductStatusEnum.CREATED_BY_USER, productEn.get(0).getStatus());
+        assertNotNull(productsEn);
+        assertEquals(2, productsEn.size());
+        assertEquals(ProductsExamples.PRODUCT_01_ID, productsEn.get(0).getId());
+        assertNotNull(productsEn.get(0).getName());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, productsEn.get(0).getName().getSingular());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, productsEn.get(0).getName().getPlural());
+        assertEquals(LanguageEnumBO.EN, productsEn.get(0).getName().getLanguage());
+        assertEquals(ProductStatusEnumBO.APPROVED_BY_ADMIN, productsEn.get(0).getStatus());
+        assertEquals(ProductsExamples.PRODUCT_02_ID, productsEn.get(1).getId());
+        assertNotNull(productsEn.get(1).getName());
+        assertEquals(ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR, productsEn.get(1).getName().getSingular());
+        assertEquals(ProductsExamples.PRODUCT_02_NAME_ENGLISH_PLURAL, productsEn.get(1).getName().getPlural());
+        assertEquals(LanguageEnumBO.EN, productsEn.get(1).getName().getLanguage());
+        assertEquals(ProductStatusEnumBO.APPROVED_BY_ADMIN, productsEn.get(1).getStatus());
 
-        assertEquals(ProductsExamples.PRODUCT_02_ID, productEn.get(1).getId());
-        assertNotNull(productEn.get(1).getName());
-        assertEquals(ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR, productEn.get(1).getName().getSingular());
-        assertEquals(ProductsExamples.PRODUCT_02_NAME_ENGLISH_PLURAL, productEn.get(1).getName().getPlural());
-        assertEquals(LanguageEnumBO.EN, productEn.get(1).getName().getLanguage());
-        assertEquals(ProductStatusEnum.APPROVED_BY_ADMIN, productEn.get(0).getStatus());
+        List<ProductBO> productsEs = productsBusiness.getProducts(name, status, LanguageEnumBO.ES, offset, limit);
 
-
-        List<ProductBO> productEs = productsBusiness.getProducts(LanguageEnumBO.EN, 0, 10) ;
-
-        assertNotNull(productEs);
-        assertEquals(2, productEs.size());
-        assertEquals(ProductsExamples.PRODUCT_01_ID, productEs.get(0).getId());
-        assertNotNull(productEs.get(0).getName());
-        assertEquals(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, productEs.get(0).getName().getSingular());
-        assertEquals(ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, productEs.get(0).getName().getPlural());
-        assertEquals(LanguageEnumBO.ES, productEs.get(0).getName().getLanguage());
-        assertEquals(ProductStatusEnum.CREATED_BY_USER, productEs.get(0).getStatus());
-
-        assertEquals(ProductsExamples.PRODUCT_02_ID, productEs.get(1).getId());
-        assertNotNull(productEs.get(1).getName());
-        assertEquals(ProductsExamples.PRODUCT_02_NAME_SPANISH_SINGULAR, productEs.get(1).getName().getSingular());
-        assertEquals(ProductsExamples.PRODUCT_02_NAME_SPANISH_PLURAL, productEs.get(1).getName().getPlural());
-        assertEquals(LanguageEnumBO.ES, productEs.get(1).getName().getLanguage());
-        assertEquals(ProductStatusEnum.APPROVED_BY_ADMIN, productEs.get(0).getStatus());
+        assertNotNull(productsEs);
+        assertEquals(2, productsEs.size());
+        assertEquals(ProductsExamples.PRODUCT_01_ID, productsEs.get(0).getId());
+        assertNotNull(productsEs.get(0).getName());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, productsEs.get(0).getName().getSingular());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, productsEs.get(0).getName().getPlural());
+        assertEquals(LanguageEnumBO.ES, productsEs.get(0).getName().getLanguage());
+        assertEquals(ProductStatusEnumBO.APPROVED_BY_ADMIN, productsEn.get(0).getStatus());
+        assertEquals(ProductsExamples.PRODUCT_02_ID, productsEs.get(1).getId());
+        assertNotNull(productsEs.get(1).getName());
+        assertEquals(ProductsExamples.PRODUCT_02_NAME_SPANISH_SINGULAR, productsEs.get(1).getName().getSingular());
+        assertEquals(ProductsExamples.PRODUCT_02_NAME_SPANISH_PLURAL, productsEs.get(1).getName().getPlural());
+        assertEquals(LanguageEnumBO.ES, productsEs.get(1).getName().getLanguage());
+        assertEquals(ProductStatusEnumBO.APPROVED_BY_ADMIN, productsEn.get(1).getStatus());
     }
 
+    @Test
+    public void getProductsNoParams() {
+
+        ProductPO productPO01 = new ProductPO(ProductsExamples.PRODUCT_01_ID, Arrays.asList(
+                new DescriptiveNamePO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, ProductsExamples.LANGUAGE_EN),
+                new DescriptiveNamePO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, ProductsExamples.LANGUAGE_ES)),
+                ProductStatusEnumBO.APPROVED_BY_ADMIN.toString());
+        ProductPO productPO02 = new ProductPO(ProductsExamples.PRODUCT_02_ID, Arrays.asList(
+                new DescriptiveNamePO(ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_02_NAME_ENGLISH_PLURAL, ProductsExamples.LANGUAGE_EN),
+                new DescriptiveNamePO(ProductsExamples.PRODUCT_02_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_02_NAME_SPANISH_PLURAL, ProductsExamples.LANGUAGE_ES)),
+                ProductStatusEnumBO.APPROVED_BY_ADMIN.toString());
+        int offset = 0;
+        int limit = 10;
+
+        when(this.productsRepository.findProducts(null, null, LanguageEnumBO.EN.toString(), offset, limit)).thenReturn(Arrays.asList(productPO01, productPO02));
+
+        List<ProductBO> productList = productsBusiness.getProducts(LanguageEnumBO.EN, offset, limit);
+
+        assertNotNull(productList);
+        assertEquals(2, productList.size());
+        assertEquals(ProductsExamples.PRODUCT_01_ID, productList.get(0).getId());
+        assertNotNull(productList.get(0).getName());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, productList.get(0).getName().getSingular());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, productList.get(0).getName().getPlural());
+        assertEquals(LanguageEnumBO.EN, productList.get(0).getName().getLanguage());
+        assertEquals(ProductsExamples.PRODUCT_02_ID, productList.get(1).getId());
+        assertNotNull(productList.get(1).getName());
+        assertEquals(ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR, productList.get(1).getName().getSingular());
+        assertEquals(ProductsExamples.PRODUCT_02_NAME_ENGLISH_PLURAL, productList.get(1).getName().getPlural());
+        assertEquals(LanguageEnumBO.EN, productList.get(1).getName().getLanguage());
+    }
+
+    @Test
+    public void getProductsNoResults() {
+        when(this.productsRepository.findProducts(any(), any(), any(), anyInt(), anyInt())).thenReturn(new ArrayList<>());
+
+        List<ProductBO> productList = productsBusiness.getProducts(LanguageEnumBO.EN, 0, 10);
+
+        assertNotNull(productList);
+        assertEquals(0, productList.size());
+    }
+
+    @Test
+    public void countProductsWithParams() {
+        when(this.productsRepository.countProducts(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductStatusEnumBO.APPROVED_BY_ADMIN.toString(), ProductsExamples.LANGUAGE_EN)).thenReturn(Long.valueOf(1L));
+
+        Long totalProducts = productsBusiness.countProducts(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductStatusEnumBO.APPROVED_BY_ADMIN, LanguageEnumBO.EN);
+
+        assertEquals(1L, totalProducts.longValue());
+    }
 
     @Test
     public void getProductById() {
@@ -220,7 +271,7 @@ public class ProductsBusinessTests {
     public void addOrReplaceProductAddLanguage() {
 
         ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES));
-        ProductPO productPOOnlyEnglish = initMeasureOnlyEnglish();
+        ProductPO productPOOnlyEnglish = initProductOnlyEnglish();
 
         when(this.productsRepository.findByObjectId(productPOOnlyEnglish.getObjectId())).thenReturn(Arrays.asList(productPOOnlyEnglish));
 
@@ -259,7 +310,7 @@ public class ProductsBusinessTests {
         assertEquals(messages.get("error.notfound.desc"), exception.getDescription());
     }
 
-    private static ProductPO initMeasureOnlyEnglish() {
+    private static ProductPO initProductOnlyEnglish() {
         ProductPO ProductPO = new ProductPO();
         ProductPO.setObjectId(ProductsExamples.PRODUCT_01_ID);
         ArrayList<DescriptiveNamePO> names = new ArrayList<>();

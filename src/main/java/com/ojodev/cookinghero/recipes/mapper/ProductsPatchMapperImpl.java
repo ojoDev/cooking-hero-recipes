@@ -1,11 +1,8 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
-import com.ojodev.cookinghero.recipes.api.model.MeasureUpdate;
 import com.ojodev.cookinghero.recipes.api.model.ProductUpdate;
 import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
-import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import com.ojodev.cookinghero.recipes.domain.model.ProductBO;
-import com.ojodev.cookinghero.recipes.domain.model.ProductStatusEnumBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

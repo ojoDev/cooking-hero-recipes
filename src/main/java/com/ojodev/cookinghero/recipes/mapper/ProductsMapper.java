@@ -24,4 +24,5 @@ public interface ProductsMapper {
     ProductBO toProductBO(ProductPO productPO, LanguageEnumBO language);
 
     ProductBO toProductBO(ProductUpdate productUpdate, String productId, LanguageEnumBO language);
+
 }

@@ -92,4 +92,6 @@ public class ProductsMapperTest {
         assertEquals(ProductStatusEnumBO.APPROVED_BY_ADMIN, productEsBO.getStatus());
 
     }
+
+
 }

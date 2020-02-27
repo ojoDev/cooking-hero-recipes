@@ -1,12 +1,14 @@
 package com.ojodev.cookinghero.recipes.business;
 
-import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
-import com.ojodev.cookinghero.recipes.domain.exception.*;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiBadRequestException;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.ProductBO;
 import com.ojodev.cookinghero.recipes.domain.model.ProductMultiLanguageBO;
+import com.ojodev.cookinghero.recipes.domain.model.ProductStatusEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.ProductPO;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.ProductsRepository;
@@ -17,12 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class ProductsBusinessImpl implements ProductsBusiness {
+
+    private static final int MAX_LIMIT = 100;
 
     @Autowired
     private ProductsRepository productsRepository;
@@ -40,18 +44,24 @@ public class ProductsBusinessImpl implements ProductsBusiness {
     private Messages messages;
 
     @Override
-    public List<ProductBO> getProducts(LanguageEnumBO language, int limit, int offset) {
-        return getProducts("", language, limit, offset);
+    public List<ProductBO> getProducts(LanguageEnumBO language, int offset, int limit) {
+        return getProducts(null, null, language, offset, limit);
     }
 
     @Override
-    public List<ProductBO> getProducts(String name, LanguageEnumBO language, int limit, int offset) {
-       return null;
+    public List<ProductBO> getProducts(String name, ProductStatusEnumBO status, LanguageEnumBO language, int offset, int limit) {
+
+        List<ProductPO> productList = productsRepository.findProducts(
+                name, status == null ? null : status.toString(),
+                language == null ? null : language.toString(),
+                offset > limit ? limit : offset,
+                limit > MAX_LIMIT ? MAX_LIMIT : limit);
+        return productList.stream().map(product -> productsMapper.toProductBO(product, setDefaultLanguageIfNull(language))).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
-    public Long countProducts(String name, LanguageEnumBO language, int limit, int offset) {
-        return null;
+    public Long countProducts(String name, ProductStatusEnumBO status, LanguageEnumBO language) {
+        return productsRepository.countProducts(name, status.toString(), language.toString());
     }
 
     @Override

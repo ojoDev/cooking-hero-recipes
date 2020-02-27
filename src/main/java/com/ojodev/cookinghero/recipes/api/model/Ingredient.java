@@ -3,9 +3,12 @@ package com.ojodev.cookinghero.recipes.api.model;
 import java.math.BigDecimal;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,39 +19,28 @@ import lombok.Data;
 /**
  * Ingredient
  */
-@ApiModel(description = "ingredient and its quantity used in a recipe")
+@ApiModel(description = "Ingredient and its quantity used in a recipe.")
 @Validated
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Ingredient {
 
 	@JsonProperty("product")
-	@ApiModelProperty(example = "potatoes", required = true, value = "product name", position = 0)
+	@ApiModelProperty(required = true, value = "Product.", position = 0)
 	@NotNull
-	private String product = "";
+	@Valid
+	private Product product;
 
 	@JsonProperty("quantity")
-	@ApiModelProperty(example = "2", value = "number of product units or quantity", position = 1)
+	@ApiModelProperty(example = "2", value = "Number of product units or quantity.", position = 1)
 	@Valid
+	@Min(1)
 	private BigDecimal quantity;
 
 	@JsonProperty("measure")
-	@ApiModelProperty(example = "gr", value = "type of measure", position = 2)
-	private String measure;
-
-	public Ingredient() {
-		super();
-	}
-
-	public Ingredient(@NotNull String product) {
-		super();
-		this.product = product;
-	}
-
-	public Ingredient(@NotNull String product, @Valid BigDecimal quantity, String measure) {
-		super();
-		this.product = product;
-		this.quantity = quantity;
-		this.measure = measure;
-	}
+	@ApiModelProperty(example = "gr", value = "Type of measure.", position = 2)
+	private Measure measure;
 
 }
+

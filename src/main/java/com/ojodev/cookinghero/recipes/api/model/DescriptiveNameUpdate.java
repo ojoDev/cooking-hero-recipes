@@ -30,8 +30,8 @@ public class DescriptiveNameUpdate {
     }
 
     public DescriptiveNameUpdate(String singular, String plural) {
-        this.singular = Optional.of(singular);
-        this.plural = Optional.of(plural);
+        this.singular = Optional.ofNullable(singular);
+        this.plural = Optional.ofNullable(plural);
     }
 
     /**

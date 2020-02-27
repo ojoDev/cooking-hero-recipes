@@ -5,7 +5,6 @@ import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
-import com.ojodev.cookinghero.recipes.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,7 @@ public class CuisineTypesApiControllerDeleteTest {
     @Test
     public void deleteNotFoundCuisineType() throws Exception {
 
-        doThrow(new NotFoundException()).when(cuisineTypesBusiness).deleteCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID);
+        doThrow(new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc"))).when(cuisineTypesBusiness).deleteCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID);
 
         this.mvc.perform(delete("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)

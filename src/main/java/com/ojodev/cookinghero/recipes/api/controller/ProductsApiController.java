@@ -5,18 +5,17 @@ import com.ojodev.cookinghero.recipes.api.model.*;
 import com.ojodev.cookinghero.recipes.business.ProductsBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.config.RecipesConfig;
+import com.ojodev.cookinghero.recipes.config.ServerInfo;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.*;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
-import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import com.ojodev.cookinghero.recipes.domain.model.ProductBO;
 import com.ojodev.cookinghero.recipes.domain.model.ProductMultiLanguageBO;
-import com.ojodev.cookinghero.recipes.mapper.LanguageEnumMapper;
-import com.ojodev.cookinghero.recipes.mapper.ProductsMapper;
-import com.ojodev.cookinghero.recipes.mapper.ProductsMultipleLanguageMapper;
-import com.ojodev.cookinghero.recipes.mapper.ProductsPatchMapper;
+import com.ojodev.cookinghero.recipes.domain.model.ProductStatusEnumBO;
+import com.ojodev.cookinghero.recipes.mapper.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,13 +30,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @Api(tags = "products", value = "Products used in recipes")
+@Slf4j
 public class ProductsApiController implements ProductsApi {
 
 
@@ -54,6 +56,12 @@ public class ProductsApiController implements ProductsApi {
     private ProductsPatchMapper productsPatchMapper;
 
     @Autowired
+    private ProductsSearchMapper productsSearchMapper;
+
+    @Autowired
+    private ProductStatusEnumMapper productStatusEnumMapper;
+
+    @Autowired
     private LanguageEnumMapper languageEnumMapper;
 
     @Autowired
@@ -62,25 +70,32 @@ public class ProductsApiController implements ProductsApi {
     @Autowired
     private RecipesConfig config;
 
+    @Autowired
+    ServerInfo serverInfo;
+
 
     //TODO DMS: Implementar params order
     @JsonPropertyOrder(value = {"acceptLanguage", "name", "limit", "offset"})
     public ResponseEntity<ProductsSearch> getProducts(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage,
                                                       @ApiParam(value = "Product name, singular or plural.", example = "potato") @Valid @RequestParam(value = "name", required = false) String name,
-                                                      @Min(1) @Max(100) @ApiParam(value = "Maximum number of records returned, by default 10.", example = "10") @Valid @RequestParam(value = "limit", required = false) Integer limit,
-                                                      @Min(0) @ApiParam(value = "Number of page for skip (pagination).", example = "0") @Valid @RequestParam(value = "offset", required = false) Integer offset) throws ApiFieldsException {
-        //TODO DMS: Por hacer
+                                                      @ApiParam(value = "Product status.", example = "APPROVED_BY_ADMIN") @Valid @RequestParam(value = "status", required = false) ProductStatusEnum status,
+                                                      @Min(1) @Max(100) @ApiParam(value = "Maximum number of records returned, by default 10.", example = "10", defaultValue = "10") @Valid @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+                                                      @Min(0) @ApiParam(value = "Number of page for skip (pagination).", example = "0", defaultValue = "0") @Valid @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset) throws ApiException {
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
-        List<ProductBO> productList = productsBusiness.getProducts(name, language, limit, offset);
-        Long productNumber = productsBusiness.countProducts(name, language, limit, offset);
+        ProductStatusEnumBO statusBO = productStatusEnumMapper.toProductStatusEnumBO(status);
+        List<ProductBO> productList = productsBusiness.getProducts(name, statusBO, language, offset, limit);
+        Long totalProducts = productList.size() < limit ? productList.size() : productsBusiness.countProducts(name, statusBO, language);
 
-
-
-
-      /*  return ResponseEntity.status(HttpStatus.OK)
-                .header(org.springframework.http.HttpHeaders.CONTENT_LANGUAGE, acceptLanguage)
-                .body(productsMapper.toProductsSearch());*/
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        try {
+            //TODO: Meter Feign para identificar recursos, u otra cosa de Spring Cloud
+            URL url = new URL(serverInfo.getServerResourceURI("/products"));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .header(org.springframework.http.HttpHeaders.CONTENT_LANGUAGE, acceptLanguage)
+                    .body(productsSearchMapper.toProductsSearch(productList, offset, limit, totalProducts.intValue(), url));
+        } catch (MalformedURLException e) {
+            log.error("MalformedURLException: " + e.getMessage());
+            throw new ApiException(messages.get("error.server.code"), messages.get("error.server.desc"));
+        }
     }
 
     public ResponseEntity<Void> addProduct(@ApiParam(value = "Product info") @Valid @RequestBody ProductNew body) throws ApiException {
@@ -93,7 +108,7 @@ public class ProductsApiController implements ProductsApi {
                                               @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws ApiException {
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
-        ProductBO productBO = productsBusiness.getProduct(productId, language).orElseThrow(NotFoundException::new);
+        ProductBO productBO = productsBusiness.getProduct(productId, language).orElseThrow(() -> new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc")));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .header(org.springframework.http.HttpHeaders.CONTENT_LANGUAGE, acceptLanguage)
@@ -154,7 +169,7 @@ public class ProductsApiController implements ProductsApi {
     }
 
     private void throwErrorIfProductNotExists(String measureId) throws NotFoundException {
-        productsBusiness.getProduct(measureId, RecipesConstants.DEFAULT_LANGUAGE).orElseThrow(NotFoundException::new);
+        productsBusiness.getProduct(measureId, RecipesConstants.DEFAULT_LANGUAGE).orElseThrow(() -> new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc")));
     }
 
     /**

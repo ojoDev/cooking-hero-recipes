@@ -5,8 +5,6 @@ import com.ojodev.cookinghero.recipes.api.model.CuisineTypeUpdate;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
-import com.ojodev.cookinghero.recipes.domain.exception.ApiFieldsException;
-import com.ojodev.cookinghero.recipes.domain.exception.FieldError;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.utils.TestUtils;
 import org.junit.Test;
@@ -18,8 +16,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -61,7 +57,7 @@ public class CuisineTypesApiControllerPatchTest {
 
         CuisineTypeUpdate cuisineTypeUpdate = new CuisineTypeUpdate(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH);
 
-        doThrow(new NotFoundException()).when(cuisineTypesBusiness).addOrReplaceCuisineType(any());
+        doThrow(new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc"))).when(cuisineTypesBusiness).addOrReplaceCuisineType(any());
 
         this.mvc.perform(patch("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)

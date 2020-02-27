@@ -37,7 +37,7 @@ public class PaginationLinksTest {
     }
 
     @Test
-    public void createPaginationLinksOffsetNotMultipleOfLimit() throws MalformedURLException {
+    public void createPaginationLinksOffsetNotMultipleOfLimit() {
         Integer offset = 25;
         Integer limit = 10;
         Integer totalElements = 77;
@@ -59,7 +59,7 @@ public class PaginationLinksTest {
     }
 
     @Test
-    public void createPaginationInfoFirstPage() throws MalformedURLException {
+    public void createPaginationInfoFirstPage() {
         Integer offset = 0;
         Integer limit = 10;
         Integer totalElements = 77;
@@ -79,7 +79,7 @@ public class PaginationLinksTest {
     }
 
     @Test
-    public void createPaginationInfoSecondPage() throws MalformedURLException {
+    public void createPaginationInfoSecondPage() {
         Integer offset = 10;
         Integer limit = 10;
         Integer totalElements = 77;
@@ -101,7 +101,7 @@ public class PaginationLinksTest {
     }
 
     @Test
-    public void createPaginationInfoPrevLastPage() throws MalformedURLException {
+    public void createPaginationInfoPrevLastPage() {
         Integer offset = 65;
         Integer limit = 10;
         Integer totalElements = 77;
@@ -123,7 +123,7 @@ public class PaginationLinksTest {
     }
 
     @Test
-    public void createPaginationInfoLastPage() throws MalformedURLException {
+    public void createPaginationInfoLastPage() {
         Integer offset = 70;
         Integer limit = 10;
         Integer totalElements = 77;
@@ -139,9 +139,22 @@ public class PaginationLinksTest {
         assertNotNull(paginationLinks);
         assertEquals(sUrl + "?limit=10", paginationLinks.getFirst());
         assertEquals(sUrl + "?offset=60&limit=10", paginationLinks.getPrev());
-        assertEquals(sUrl + "?offset=70&limit=10", paginationLinks.getSelf());;
+        assertEquals(sUrl + "?offset=70&limit=10", paginationLinks.getSelf());
+        ;
     }
 
+    @Test
+    public void testNullURL() {
+        Integer offset = 70;
+        Integer limit = 10;
+        Integer totalElements = 77;
+        try {
+            new PaginationLinks(offset, limit, totalElements, null);
+            fail("Need throws an exception");
+        } catch (IllegalArgumentException e) {
+            assertNotNull(e.getMessage());
+        }
+    }
 
 
 }

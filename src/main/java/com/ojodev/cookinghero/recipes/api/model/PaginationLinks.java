@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URISyntaxException;
@@ -48,15 +47,12 @@ public class PaginationLinks {
         Integer totalPages = Integer.valueOf((int) Math.ceil(totalElements.doubleValue() /  limit.doubleValue()));
         if (page > 1) {
             this.first = buildUrl(0, limit, url);
-          //  this.prev = buildUrl(((page - 2) * limit)  < limit ? 0 : ((page - 2) * limit), limit, url);
             this.prev = buildUrl(offset - limit  < limit ? 0 : offset - limit, limit, url);
         }
         this.self = buildUrl(offset, limit, url);
         if (page < totalPages) {
-          //  this.next = buildUrl((page) * limit , limit, url);
             this.next = buildUrl(offset + limit > totalElements ? offset : offset + limit, limit, url);
-          //  this.last = buildUrl((totalPages - 1) * limit, limit, url);
-            this.last = buildUrl((totalPages - 1) * limit, limit, url);
+            this.last = buildUrl((totalPages - 1) * limit + (offset % limit ), limit, url);
 
         }
     }

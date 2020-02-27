@@ -1,7 +1,6 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.MeasureUpdate;
-import com.ojodev.cookinghero.recipes.api.model.ProductStatusEnum;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.ProductBO;
@@ -24,8 +23,9 @@ public abstract class ProductsMapperDecorator implements ProductsMapper {
     @Autowired
     private DescriptiveNameMapper descriptiveNameMapper;
 
+
     @Override
-    public ProductBO toProductBO(ProductPO productPO, LanguageEnumBO language){
+    public ProductBO toProductBO(ProductPO productPO, LanguageEnumBO language) {
         if (productPO == null) {
             return null;
         }
@@ -36,7 +36,6 @@ public abstract class ProductsMapperDecorator implements ProductsMapper {
         productBO.setStatus(StringUtils.isEmpty(productPO.getStatus()) ? null : ProductStatusEnumBO.valueOf(productPO.getStatus()));
         return productBO;
     }
-
 
     private DescriptiveNamePO selectNameByLanguage(List<DescriptiveNamePO> names, String language) {
         List<DescriptiveNamePO> filteredNames = names.stream().filter(n -> language.equals(n.getLanguage())).collect(Collectors.toList());
@@ -49,16 +48,6 @@ public abstract class ProductsMapperDecorator implements ProductsMapper {
 
     private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
         return language == null ? RecipesConstants.DEFAULT_LANGUAGE : language;
-    }
-
-    public ProductBO toProductBO(MeasureUpdate measureUpdate, String id, LanguageEnumBO language) {
-        if (measureUpdate == null) {
-            return null;
-        }
-        ProductBO ProductBO = new ProductBO();
-        ProductBO.setName(descriptiveNameMapper.toDescriptiveNameBO(measureUpdate.getName(), language));
-        ProductBO.setId(id);
-        return ProductBO;
     }
 
 }
