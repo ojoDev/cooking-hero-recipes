@@ -72,6 +72,10 @@ public class Recipe {
     @ApiModelProperty(example = "ojodev", value = "Owner user name.")
     private String userId;
 
+    @JsonProperty("language")
+    @ApiModelProperty(example = "en", value = "Recipe language.")
+    private LanguageEnum language;
+
     @JsonProperty("creationDate")
     @ApiModelProperty(example = "2019-01-23T17:32:28Z", value = "Recipe creation date.")
     private DateTime creationDate;

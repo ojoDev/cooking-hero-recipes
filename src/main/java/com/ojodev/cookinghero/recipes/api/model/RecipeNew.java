@@ -64,4 +64,8 @@ public class RecipeNew {
     @ApiModelProperty(example = "ojodev", value = "Owner username.")
     private String user;
 
+    @JsonProperty("language")
+    @ApiModelProperty(example = "en", value = "Recipe language.")
+    private LanguageEnum language;
+
 }
