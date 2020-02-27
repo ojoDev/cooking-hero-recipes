@@ -8,7 +8,7 @@ import com.ojodev.cookinghero.recipes.infrastructure.po.IngredientPO;
 @Mapper(componentModel = "spring")
 public interface IngredientMapper {
 	
-	Ingredient toIngredient(IngredientPO ingredientPO);
+	//Ingredient toIngredient(IngredientPO ingredientPO);
 
-	IngredientPO toIngredientPO(Ingredient ingredient);
+	//IngredientPO toIngredientPO(Ingredient ingredient);
 }

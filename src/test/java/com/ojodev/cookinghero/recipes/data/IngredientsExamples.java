@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class IngredientsExamples {
 
-	public static final String INGREDIENT_01_PRODUCT = "potatoes";
+/*	public static final String INGREDIENT_01_PRODUCT = "potatoes";
 	public static final Integer INGREDIENT_01_QUANTITY = 2;
 	public static final String INGREDIENT_01_MEASURE = "units";
 	public static final IngredientPO INGREDIENT_01 = new IngredientPO(INGREDIENT_01_PRODUCT,INGREDIENT_01_QUANTITY,INGREDIENT_01_MEASURE);
@@ -30,10 +30,10 @@ public class IngredientsExamples {
 	public static final String INGREDIENT_REQUEST_01_PRODUCT = "potatoes";
 	public static final BigDecimal INGREDIENT_REQUEST_01_QUANTITY = new BigDecimal(2);
 	public static final String INGREDIENT_REQUEST_01_MEASURE = "units";
-	public static final Ingredient INGREDIENT_REQUEST_01 = new Ingredient(INGREDIENT_REQUEST_01_PRODUCT,INGREDIENT_REQUEST_01_QUANTITY,INGREDIENT_REQUEST_01_MEASURE);
+	//public static final Ingredient INGREDIENT_REQUEST_01 = new Ingredient(INGREDIENT_REQUEST_01_PRODUCT,INGREDIENT_REQUEST_01_QUANTITY,INGREDIENT_REQUEST_01_MEASURE);
 
 	public static final String INGREDIENT_REQUEST_02_PRODUCT = "salt";
-	public static final Ingredient INGREDIENT_REQUEST_02 = new Ingredient(INGREDIENT_REQUEST_01_PRODUCT);
-
+	//public static final Ingredient INGREDIENT_REQUEST_02 = new Ingredient(INGREDIENT_REQUEST_01_PRODUCT);
+*/
 	
 }

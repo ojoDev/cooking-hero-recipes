@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 //TODO DMS: Faltan atributos Media
 public class StepsExamples {
-
+/**
 	public static final String STEP_01_DESCRIPTION = "Cut potatoes and onion in small portions.";
 	public static final Integer STEP_01_TIME = 15;
 	public static final MediaPO STEP_01_MEDIA = MediaExamples.MEDIA_01;
@@ -42,6 +42,7 @@ public class StepsExamples {
 	public static final BigDecimal STEP_REQUEST_02_TIME = new BigDecimal(15);
 	public static final Media STEP_REQUEST_02_MEDIA = MediaExamples.MEDIA_REQUEST_02;
 	public static final Step STEP_REQUEST_02 = new Step(STEP_02_DESCRIPTION, STEP_REQUEST_02_TIME, STEP_REQUEST_02_MEDIA);
+ */
 	
 	
 

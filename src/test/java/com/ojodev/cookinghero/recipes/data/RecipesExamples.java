@@ -1,23 +1,11 @@
 package com.ojodev.cookinghero.recipes.data;
 
-import com.ojodev.cookinghero.recipes.api.model.PhotoRef;
-import com.ojodev.cookinghero.recipes.api.model.Recipe;
-import com.ojodev.cookinghero.recipes.api.model.RecipeRequest;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
-import com.ojodev.cookinghero.recipes.infrastructure.po.RecipePO;
-import org.bson.types.Decimal128;
-import org.bson.types.ObjectId;
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class RecipesExamples {
 	
-
+/**
 	public static final String RECIPE_ID_01 = "0123456789ab0123456789ab";
 	public static final String RECIPE_NAME_01 = "Spanish ommelete";
 	public static final String RECIPE_DESCRIPTION_01 = "Classic Spanish omelette filled with pan-fried potatoes and onion.";
@@ -101,11 +89,12 @@ public class RecipesExamples {
 		recipe.setCuisineType(Arrays.asList(RECIPE_01_CUISINE_TYPE_01, RECIPE_01_CUISINE_TYPE_02));
 		recipe.setPreparationTime(RECIPE_REQUEST_PREPARATION_TIME);
 		recipe.setDifficulty(RECIPE_REQUEST_DIFFICULTY);
-		recipe.setPhoto(RECIPE_REQUEST_PHOTO);
+		recipe.setM(RECIPE_REQUEST_PHOTO);
 		recipe.setSteps(Arrays.asList(StepsExamples.STEP_REQUEST_01, StepsExamples.STEP_REQUEST_02));
 		recipe.setIngredients(Arrays.asList(IngredientsExamples.INGREDIENT_REQUEST_01, IngredientsExamples.INGREDIENT_REQUEST_02));
 		recipe.setUser(RECIPE_USER_01);
 		return recipe;
 	}
+ **/
 
 }

@@ -1,29 +1,20 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.data.IngredientsExamples;
-import com.ojodev.cookinghero.recipes.data.RecipesExamples;
-import com.ojodev.cookinghero.recipes.data.StepsExamples;
-import com.ojodev.cookinghero.recipes.infrastructure.po.RecipePO;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -38,7 +29,7 @@ public class RecipesControllerGetRecipeTest {
 
 	@MockBean
 	private MongoTemplate mongoTemplate;
-	
+	/**
 	@Test
 	public void getRecipeById() throws Exception {
 		initMongoRecipe();
@@ -101,5 +92,5 @@ public class RecipesControllerGetRecipeTest {
 
 	private void initOutOfMemoryException() {
 		when(this.mongoTemplate.findById(any(), eq(RecipePO.class))).thenThrow(new OutOfMemoryError());
-	}
+	}*/
 }

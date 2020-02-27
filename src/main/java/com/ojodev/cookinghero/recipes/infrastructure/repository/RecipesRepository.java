@@ -1,28 +1,17 @@
 package com.ojodev.cookinghero.recipes.infrastructure.repository;
 
+import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
+import com.ojodev.cookinghero.recipes.infrastructure.po.RecipePO;
+import org.springframework.data.neo4j.annotation.Query;
+import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
-import com.ojodev.cookinghero.recipes.domain.enume.UpsertResultEnum;
-import com.ojodev.cookinghero.recipes.infrastructure.po.RecipePO;
+@Component
+public interface RecipesRepository extends Neo4jRepository<RecipePO, Long> {
 
-public interface RecipesRepository {
-    
-	RecipePO findRecipeById(String recipeId);
-	
-	List<RecipePO> findRecipes();
-	
-	List<RecipePO> findRecipes(String recipeName);
-	
-	/**
-	 * Insert a new recipe in DB
-	 * 
-	 * @param recipe recipe object
-	 * 
-	 * @return internal ID of create object
-	 */
-	String addRecipe(RecipePO recipe);
-	
-	RecipePO deleteRecipe(String recipeId);
+    List<RecipePO> findByObjectId(String objectId);
 
-	UpsertResultEnum upsertRecipe(RecipePO recipe);
 }

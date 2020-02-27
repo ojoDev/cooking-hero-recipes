@@ -5,7 +5,7 @@ import com.ojodev.cookinghero.recipes.domain.enume.MediaTypeEnum;
 import com.ojodev.cookinghero.recipes.infrastructure.po.MediaPO;
 
 public class MediaExamples {
-
+/*
 	public static final MediaTypeEnum MEDIA_01_TYPE = MediaTypeEnum.VIDEO;
 	public static final String MEDIA_01_HREF = "media/videos/776603030340cc";
 	public static final MediaPO MEDIA_01 = new MediaPO(MEDIA_01_TYPE, MEDIA_01_HREF);
@@ -20,4 +20,6 @@ public class MediaExamples {
 	
 	public static final Media MEDIA_REQUEST_01 = new Media(Media.MediaTypeEnum.PHOTO, MEDIA_01_HREF);
 	public static final Media MEDIA_REQUEST_02 = new Media(Media.MediaTypeEnum.VIDEO, MEDIA_02_HREF);
+	*/
+
 }
