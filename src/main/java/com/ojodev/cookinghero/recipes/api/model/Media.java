@@ -17,52 +17,21 @@ import lombok.NoArgsConstructor;
 /**
  * media (photo or video) associated to a recipe
  */
-@ApiModel(description = "media (photo or video) associated to a recipe")
+@ApiModel(description = "Media (image or video) associated to a recipe.")
 @Validated
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Media {
 
-	/**
-	 * media type (photo or video)
-	 */
-	public enum MediaTypeEnum {
-
-		PHOTO("PHOTO"),
-
-		VIDEO("VIDEO");
-
-		private String value;
-
-		MediaTypeEnum(String value) {
-			this.value = value;
-		}
-
-		@Override
-		@JsonValue
-		public String toString() {
-			return String.valueOf(value);
-		}
-
-		@JsonCreator
-		public static MediaTypeEnum fromValue(String text) {
-			for (MediaTypeEnum b : MediaTypeEnum.values()) {
-				if (String.valueOf(b.value).equals(text)) {
-					return b;
-				}
-			}
-			return null;
-		}
-	}
 
 	@JsonProperty("mediaType")
-	@ApiModelProperty(example = "PHOTO", required = true, value = "media type (photo or video)")
+	@ApiModelProperty(example = "IMAGE", required = true, value = "Media type (image or video).")
 	@NotNull
 	private MediaTypeEnum mediaType;
 
 	@JsonProperty("href")
-	@ApiModelProperty(example = "media/photos/23425324", required = true, value = "href to photo or video resource")
+	@ApiModelProperty(example = "https://www.mycompany.com/api/media/v1/media/21344123123", required = true, value = "Href to photo or video resource.")
 	@NotNull
 	private String href;
 

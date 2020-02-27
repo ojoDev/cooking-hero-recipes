@@ -1,32 +1,26 @@
 package com.ojodev.cookinghero.recipes.api.model;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.joda.time.DateTime;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.annotations.ApiModel;
-import lombok.Data;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
- * Recipe created by a user
+ * Request to create a new recipe.
  */
-@ApiModel(description = "Recipe created by a user.")
+@ApiModel(description = "Request to create a new recipe.")
 @Validated
 @Data
-public class Recipe {
-
-    @JsonProperty("id")
-    @ApiModelProperty(example = "8899457821", required = true, value = "Recipe id.")
-    @NotNull
-    private String id;
+public class RecipeNew {
 
     @JsonProperty("name")
     @ApiModelProperty(example = "Spanish tortilla", required = true, value = "Name of the recipe.")
@@ -48,14 +42,12 @@ public class Recipe {
     private Integer preparationTime;
 
     @JsonProperty("difficulty")
-    @ApiModelProperty(example = "4", required = true, value = "Difficult level (1-5).")
-    @NotNull
+    @ApiModelProperty(example = "4", value = "Difficult level (1-5).")
     @Min(1)
     @Max(5)
     private Integer difficulty;
 
     @JsonProperty("mainImage")
-    @ApiModelProperty(value = "Main image of the recipe. Needs to be an image.")
     private Media mainImage;
 
     @JsonProperty("steps")
@@ -68,21 +60,8 @@ public class Recipe {
     @Valid
     private List<Ingredient> ingredients;
 
-    @JsonProperty("userId")
-    @ApiModelProperty(example = "ojodev", value = "Owner user name.")
-    private String userId;
-
-    @JsonProperty("creationDate")
-    @ApiModelProperty(example = "2019-01-23T17:32:28Z", value = "Recipe creation date.")
-    private DateTime creationDate;
-
-    @JsonProperty("updateDate")
-    @ApiModelProperty(example = "2019-04-23T21:20:55Z", value = "Recipe las update date.")
-    @Valid
-    private DateTime updateDate;
-
-    @JsonProperty("status")
-    @ApiModelProperty(value = "Recipe status")
-    private RecipeStatusEnum status;
+    @JsonProperty("user")
+    @ApiModelProperty(example = "ojodev", value = "Owner username.")
+    private String user;
 
 }
