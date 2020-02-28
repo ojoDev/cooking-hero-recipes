@@ -1,14 +1,12 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-
 import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.business.IngredientsBusiness;
+import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
+import com.ojodev.cookinghero.recipes.mapper.IngredientsMapper;
 import io.swagger.annotations.Api;
-import org.joda.time.DateTime;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
-import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
-import com.ojodev.cookinghero.recipes.domain.enume.UpsertResultEnum;
-import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
-
-import io.swagger.annotations.ApiParam;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.util.List;
 
 @Controller
 @Api(tags = "recipes", description = "Hero recipes")
@@ -30,6 +26,12 @@ public class RecipesApiController implements RecipesApi {
 
     @Autowired
     private RecipesBusiness recipeBusiness;
+
+    @Autowired
+    private IngredientsMapper ingredientsMapper;
+
+    @Autowired
+    private IngredientsBusiness ingredientsBusiness;
 
     /**
      * public ResponseEntity<List<Recipe>> getRecipes(
@@ -104,9 +106,10 @@ public class RecipesApiController implements RecipesApi {
 
 
     @Override
-    public ResponseEntity<List<Ingredient>> getIngredients(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId) {
+    public ResponseEntity<List<Ingredient>> getIngredients(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId) throws NotFoundException {
         //TODO Hacer
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ingredientsMapper.toIngredientList(ingredientsBusiness.getIngredients(recipeId)));
     }
 
     @Override

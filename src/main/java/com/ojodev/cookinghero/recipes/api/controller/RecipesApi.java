@@ -159,7 +159,7 @@ public interface RecipesApi {
             @ApiResponse(code = 500, message = "Internal server error.", response = ApiError.class)})
     @GetMapping(value = "/recipes/{recipe-id}/ingredients",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    ResponseEntity<List<Ingredient>> getIngredients(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId);
+    ResponseEntity<List<Ingredient>> getIngredients(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId) throws NotFoundException;
 
 
     @ApiOperation(value = "Obtain ingredient details", nickname = "getIngredient", notes = "Obtain ingredient details. ", response = Ingredient.class, tags = {TAG_RECIPES})

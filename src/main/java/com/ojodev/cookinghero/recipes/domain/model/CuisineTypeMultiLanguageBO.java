@@ -27,7 +27,7 @@ public class CuisineTypeMultiLanguageBO {
     }
 
 
-    public static class Builder extends IdentifiableBO{
+    public static class Builder extends IdentifiableBO {
 
        private List<LanguageNameBO> languageNames = new ArrayList<>();
 
