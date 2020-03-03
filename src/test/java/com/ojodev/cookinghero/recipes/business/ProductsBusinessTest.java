@@ -1,25 +1,20 @@
 package com.ojodev.cookinghero.recipes.business;
 
-import com.ojodev.cookinghero.recipes.api.model.ProductStatusEnum;
 import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.*;
 import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.ProductPO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.ProductPO;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.ProductsRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,17 +27,14 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc
-public class ProductsBusinessTests {
+public class ProductsBusinessTest {
 
-    @Autowired
-    private MockMvc mvc;
-
-    @Autowired
-    private Messages messages;
 
     @Autowired
     private ProductsBusiness productsBusiness;
+
+    @Autowired
+    private Messages messages;
 
     @MockBean
     private ProductsRepository productsRepository;
@@ -285,8 +277,8 @@ public class ProductsBusinessTests {
         when(this.productsRepository.findByObjectId(ProductsExamples.PRODUCT_01_ID)).thenReturn(null);
 
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> productsBusiness.addOrReplaceProduct(productBO));
-        assertEquals(messages.get("error.notfound.code"), exception.getCode());
-        assertEquals(messages.get("error.notfound.desc"), exception.getDescription());
+        assertEquals(messages.get("error.notfound.product.code"), exception.getCode());
+        assertEquals(messages.get("error.notfound.product.desc"), exception.getDescription());
     }
 
     @Test
@@ -306,8 +298,8 @@ public class ProductsBusinessTests {
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
             productsBusiness.deleteProduct(ProductsExamples.PRODUCT_01_ID);
         });
-        assertEquals(messages.get("error.notfound.code"), exception.getCode());
-        assertEquals(messages.get("error.notfound.desc"), exception.getDescription());
+        assertEquals(messages.get("error.notfound.product.code"), exception.getCode());
+        assertEquals(messages.get("error.notfound.product.desc"), exception.getDescription());
     }
 
     private static ProductPO initProductOnlyEnglish() {

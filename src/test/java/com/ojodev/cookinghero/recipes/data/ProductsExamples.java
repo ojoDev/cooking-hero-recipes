@@ -17,6 +17,9 @@ public class ProductsExamples {
     public static final String LANGUAGE_EN = "en";
     public static final String LANGUAGE_ES = "es";
 
+    public static final String PRODUCT_STATUS_APPROVED_BY_ADMIN = "APPROVED_BY_ADMIN";
+    public static final String PRODUCT_STATUS_CREATED_BY_USER = "CREATED_BY_USER";
+
     public static final String PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED = "tomato_xxx";
     public static final String PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED = "tomatoes_xxx";
 

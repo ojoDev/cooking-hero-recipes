@@ -71,7 +71,7 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
     public void addOrReplaceCuisineType(CuisineTypeBO cuisineType) throws ApiException {
         CuisineTypePO cuisineTypePO = cuisineTypesRepository.findById(cuisineType.getId());
 
-        checkIfExists(cuisineTypePO);
+        throwErrorIfNotExists(cuisineTypePO);
 
         if (existLanguageName(cuisineTypePO,cuisineType)) {
             updateLanguageName(cuisineTypePO,cuisineType);
@@ -81,9 +81,9 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
         cuisineTypesRepository.save(cuisineTypePO);
     }
 
-    private void checkIfExists(CuisineTypePO cuisineTypePO) throws NotFoundException {
+    private void throwErrorIfNotExists(CuisineTypePO cuisineTypePO) throws NotFoundException {
         if (cuisineTypePO == null) {
-            throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
+            throw new NotFoundException(messages.get("error.notfound.cuisinetype.code"), messages.get("error.notfound.cuisinetype.desc"));
         }
     }
 
@@ -97,9 +97,7 @@ public class CuisineTypesBusinessImpl implements CuisineTypesBusiness{
 
     @Override
     public void deleteCuisineType(String cuisineTypeId) throws NotFoundException {
-        if (cuisineTypesRepository.findById(cuisineTypeId) == null) {
-            throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
-        }
+        throwErrorIfNotExists(cuisineTypesRepository.findById(cuisineTypeId));
         cuisineTypesRepository.deleteById(cuisineTypeId);
     }
 

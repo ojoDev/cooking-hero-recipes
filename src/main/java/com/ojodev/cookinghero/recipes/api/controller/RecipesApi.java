@@ -172,7 +172,7 @@ public interface RecipesApi {
     @GetMapping(value = "/recipes/{recipe-id}/ingredients/{ingredient-id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<Ingredient> getIngredient(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId,
-                                             @ApiParam(value = "Ingredient id.", required = true) @PathVariable("ingredient-id") String ingredientId);
+                                             @ApiParam(value = "Ingredient id.", required = true) @PathVariable("ingredient-id") String ingredientId) throws NotFoundException;
 
 
     @ApiOperation(value = "Adds a new ingredient in a recipe or change a existing ingredient", nickname = "addIngredient", notes = "Adds a new ingredient in a recipe if ingredient name not exists.   If ingredient name exists, update quantity and/or measure. ", tags = {TAG_RECIPES})

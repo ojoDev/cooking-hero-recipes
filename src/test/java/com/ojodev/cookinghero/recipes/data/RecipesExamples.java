@@ -20,4 +20,7 @@ public class RecipesExamples {
 	public static final String RECIPE_USER_01 = "admin";
 	public static final String RECIPE_CREATION_DATE_01_STRING = "2019-02-12T21:39:45.618Z";
 
+	public static final String LANGUAGE_EN = "en";
+	public static final String LANGUAGE_ES = "es";
+
 }

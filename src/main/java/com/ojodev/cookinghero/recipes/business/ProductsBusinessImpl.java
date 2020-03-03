@@ -109,7 +109,7 @@ public class ProductsBusinessImpl implements ProductsBusiness {
 
     private void throwErrorIfNotExists(List<ProductPO> products) throws NotFoundException {
         if (products == null || products.isEmpty()) {
-            throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
+            throw new NotFoundException(messages.get("error.notfound.product.code"), messages.get("error.notfound.product.desc"));
         }
     }
 

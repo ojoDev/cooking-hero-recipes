@@ -1,6 +1,5 @@
 package com.ojodev.cookinghero.recipes.infrastructure.po;
 
-import com.ojodev.cookinghero.recipes.api.model.Ingredient;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -21,7 +20,11 @@ public class RecipePO {
 
     private String description;
 
-    private List<Ingredient> ingredients;
+    private List<IngredientPO> ingredients;
+
+    private List<StepPO> steps;
+
+    private String language;
 
 
     public RecipePO() {
@@ -65,11 +68,27 @@ public class RecipePO {
         this.description = description;
     }
 
-    public List<Ingredient> getIngredients() {
+    public List<IngredientPO> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public List<StepPO> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<StepPO> steps) {
+        this.steps = steps;
+    }
+
+    public void setIngredients(List<IngredientPO> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

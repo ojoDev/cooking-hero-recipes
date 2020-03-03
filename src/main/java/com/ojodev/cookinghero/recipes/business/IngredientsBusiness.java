@@ -5,18 +5,15 @@ import com.ojodev.cookinghero.recipes.domain.model.IngredientBO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public interface IngredientsBusiness {
 
-    /**
-     * Return ingredients included in a recipe.
-     * Names of measures and products are in recipe main language.
-     *
-     * @param recipeId Recipe Id
-     * @return list of ingredients. Empty list if recipe exists but don't have ingredients yet.
-     * @throws NotFoundException recipe not found.
-     */
+    Optional<IngredientBO> getIngredient(String recipeId, String ingredientId) throws NotFoundException;
+
     List<IngredientBO> getIngredients(String recipeId) throws NotFoundException;
+
+
 
 }

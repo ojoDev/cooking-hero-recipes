@@ -92,7 +92,7 @@ public class MeasuresBusinessImpl implements MeasuresBusiness {
 
     private void throwErrorIfNotExists(List<MeasurePO> measures) throws NotFoundException {
         if (measures == null || measures.isEmpty()) {
-            throw new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"));
+            throw new NotFoundException(messages.get("error.notfound.measure.code"), messages.get("error.notfound.measure.desc"));
         }
     }
 

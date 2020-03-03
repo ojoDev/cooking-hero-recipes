@@ -26,20 +26,26 @@ import lombok.Data;
 @AllArgsConstructor
 public class Ingredient {
 
+	@JsonProperty("id")
+	@ApiModelProperty(example= "recipe01-potato", required = true, value = "Ingredient id.", position = 0)
+	@NotNull
+	@Valid
+	private String id;
+
 	@JsonProperty("product")
-	@ApiModelProperty(required = true, value = "Product.", position = 0)
+	@ApiModelProperty(required = true, value = "Product.", position = 1)
 	@NotNull
 	@Valid
 	private Product product;
 
 	@JsonProperty("quantity")
-	@ApiModelProperty(example = "2", value = "Number of product units or quantity.", position = 1)
+	@ApiModelProperty(example = "2", value = "Number of product units or quantity.", position = 2)
 	@Valid
 	@Min(1)
 	private BigDecimal quantity;
 
 	@JsonProperty("measure")
-	@ApiModelProperty(example = "gr", value = "Type of measure.", position = 2)
+	@ApiModelProperty(example = "gr", value = "Type of measure.", position = 3)
 	private Measure measure;
 
 }

@@ -1,6 +1,7 @@
 package com.ojodev.cookinghero.recipes.infrastructure.repository;
 
 import com.ojodev.cookinghero.recipes.RecipesApplication;
+import com.ojodev.cookinghero.recipes.data.RecipesExamples;
 import com.ojodev.cookinghero.recipes.domain.model.ProductStatusEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.ProductPO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.RecipePO;
@@ -33,8 +34,9 @@ public class StepsRespositoryTest {
     private RecipesRepository recipesRepository;
 
     @Test
+    @Ignore
     public void addStep() {
-        RecipePO recipe = recipesRepository.findByObjectId("test-recipe01").get(0);
+        RecipePO recipe = recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01).get(0);
 
         StepPO newStep = new StepPO("testId", "Add salt.", null);
         newStep.setRecipe(recipe);

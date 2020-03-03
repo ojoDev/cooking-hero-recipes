@@ -14,4 +14,10 @@ public interface IngredientsRepository extends Neo4jRepository<IngredientPO, Lon
 
     @Query("MATCH (i:Ingredient)-[rp:FORMED_BY]->(p)-[rln:REPRESENTED_BY]->(ln:LanguageName) RETURN i, rp, p, rln, ln")
     List<IngredientPO> findByObjectId(String objectId);
+
+    @Query("MATCH (i:Ingredient)<-[ri:INCLUDE]-(r:Recipe) " +
+            "MATCH (i)-[rp:FORMED_BY]->(m)-[rn:REPRESENTED_BY]->(ln:LanguageName) " +
+            "WHERE r.objectId = 'test-recipe01' " +
+            "RETURN i,rp,m,rn,ln")
+    List<IngredientPO> findByRecipeId(String recipeId);
 }

@@ -15,11 +15,9 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,17 +30,13 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc
-public class MeasuresBusinessTests {
-
-    @Autowired
-    private MockMvc mvc;
-
-    @Autowired
-    private Messages messages;
+public class MeasuresBusinessTest {
 
     @Autowired
     private MeasuresBusiness measuresBusiness;
+
+    @Autowired
+    private Messages messages;
 
     @MockBean
     private MeasuresRepository measuresRepository;
@@ -242,8 +236,8 @@ public class MeasuresBusinessTests {
         when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_01_ID)).thenReturn(null);
 
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> measuresBusiness.addOrReplaceMeasure(measureBO));
-        assertEquals(messages.get("error.notfound.code"), exception.getCode());
-        assertEquals(messages.get("error.notfound.desc"), exception.getDescription());
+        assertEquals(messages.get("error.notfound.measure.code"), exception.getCode());
+        assertEquals(messages.get("error.notfound.measure.desc"), exception.getDescription());
     }
 
     @Test
@@ -262,8 +256,8 @@ public class MeasuresBusinessTests {
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
             measuresBusiness.deleteMeasure(MeasuresExamples.MEASURE_01_ID);
         });
-        assertEquals(messages.get("error.notfound.code"), exception.getCode());
-        assertEquals(messages.get("error.notfound.desc"), exception.getDescription());
+        assertEquals(messages.get("error.notfound.measure.code"), exception.getCode());
+        assertEquals(messages.get("error.notfound.measure.desc"), exception.getDescription());
     }
 
     private static MeasurePO initMeasureOnlyEnglish() {

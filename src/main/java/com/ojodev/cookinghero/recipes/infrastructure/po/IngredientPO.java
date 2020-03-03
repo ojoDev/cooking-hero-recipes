@@ -5,6 +5,8 @@ import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
+import java.math.BigDecimal;
+
 @NodeEntity(label = "Ingredient")
 public class IngredientPO {
 
@@ -17,7 +19,7 @@ public class IngredientPO {
     @Relationship(type = "FORMED_BY")
     private ProductPO product;
 
-    private Integer quantity;
+    private BigDecimal quantity;
 
     @Relationship(type = "FORMED_BY")
     private MeasurePO measure;
@@ -35,11 +37,19 @@ public class IngredientPO {
         this.product = product;
     }
 
-    public IngredientPO(String objectId, ProductPO product, Integer quantity, MeasurePO measure) {
+    public IngredientPO(String objectId, ProductPO product, BigDecimal quantity, MeasurePO measure) {
 		this.objectId = objectId;
         this.product = product;
         this.quantity = quantity;
         this.measure = measure;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getObjectId() {
@@ -56,6 +66,14 @@ public class IngredientPO {
 
     public void setProduct(ProductPO product) {
         this.product = product;
+    }
+
+    public BigDecimal getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(BigDecimal quantity) {
+        this.quantity = quantity;
     }
 
     public MeasurePO getMeasure() {

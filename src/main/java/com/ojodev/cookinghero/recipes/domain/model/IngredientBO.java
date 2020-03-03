@@ -22,11 +22,17 @@ public class IngredientBO {
 
     private MeasureBO measure;
 
-    public IngredientBO(ProductBO product) {
+
+    public IngredientBO() {
+    }
+
+    public IngredientBO(String id, ProductBO product) {
+        this.id = id;
         this.product = product;
     }
 
-    public IngredientBO(ProductBO product, BigDecimal quantity, MeasureBO measure) {
+    public IngredientBO(String id, ProductBO product, BigDecimal quantity, MeasureBO measure) {
+        this.id = id;
         this.product = product;
         this.quantity = quantity;
         this.measure = measure;

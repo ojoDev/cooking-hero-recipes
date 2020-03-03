@@ -21,7 +21,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Component
 @Slf4j
-public class RecipesRepositoryImpl implements RecipesRepositoryMongo {
+public class RecipesRepositoryMongoImpl implements RecipesRepositoryMongo {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;

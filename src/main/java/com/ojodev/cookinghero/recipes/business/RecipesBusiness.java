@@ -13,6 +13,8 @@ import java.util.List;
 public interface RecipesBusiness {
 
 	List<Recipe> getRecipes();
+
+	boolean existsRecipe(String recipeId);
 	
 	List<Recipe> getRecipes(String recipeName);
 	

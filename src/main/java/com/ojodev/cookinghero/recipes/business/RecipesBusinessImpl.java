@@ -5,6 +5,7 @@ import com.ojodev.cookinghero.recipes.api.model.RecipeRequest;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.enume.UpsertResultEnum;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
+import com.ojodev.cookinghero.recipes.infrastructure.repository.RecipesRepository;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.RecipesRepositoryMongo;
 import com.ojodev.cookinghero.recipes.mapper.RecipeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.List;
 public class RecipesBusinessImpl implements RecipesBusiness{
 	
 	@Autowired
-	private RecipesRepositoryMongo recipesRepository;
+	private RecipesRepository recipesRepository;
 	
 	@Autowired
 	private RecipeMapper recipeMapper;
@@ -31,7 +32,12 @@ public class RecipesBusinessImpl implements RecipesBusiness{
 //				.collect(Collectors.toList());
 		return null;
 	}
-	
+
+	@Override
+	public boolean existsRecipe(String recipeId) {
+		return recipesRepository.existsByObjectId(recipeId);
+	}
+
 	public List<Recipe> getRecipes(String recipeName) {
 //		List<RecipePO> recipesPOList =recipesRepository.findRecipes(recipeName);
 //		return recipesPOList.stream().map(recipePO -> recipeMapper.toRecipe(recipePO))

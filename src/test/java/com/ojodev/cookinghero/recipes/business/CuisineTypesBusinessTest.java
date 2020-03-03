@@ -34,17 +34,13 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc
-public class CuisineTypesBusinessTests {
-
-    @Autowired
-    private MockMvc mvc;
-
-    @Autowired
-    private Messages messages;
+public class CuisineTypesBusinessTest {
 
     @Autowired
     private CuisineTypesBusiness cuisineTypesBusiness;
+
+    @Autowired
+    private Messages messages;
 
     @MockBean
     private CuisineTypesRepository cuisineTypesRepository;
@@ -280,7 +276,7 @@ public class CuisineTypesBusinessTests {
         assertEquals(messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"), e.getDescription());
     }
 
-    @Test()
+    @Test
     @DisplayName("Replace cuisine type name if name exists")
     public void addOrReplaceCuisineTypeReplace() {
 
@@ -295,7 +291,7 @@ public class CuisineTypesBusinessTests {
 
     }
 
-    @Test()
+    @Test
     @DisplayName("Add cuisine type name if name exists")
     public void addOrReplaceCuisineTypeAddLanguage() {
 
@@ -335,8 +331,8 @@ public class CuisineTypesBusinessTests {
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
             cuisineTypesBusiness.deleteCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID);
         });
-        assertEquals(messages.get("error.notfound.code"), exception.getCode());
-        assertEquals(messages.get("error.notfound.desc"), exception.getDescription());
+        assertEquals(messages.get("error.notfound.cuisinetype.code"), exception.getCode());
+        assertEquals(messages.get("error.notfound.cuisinetype.desc"), exception.getDescription());
     }
 
     private static CuisineTypePO initCuisineTypeNewOnlyEnglish() {
