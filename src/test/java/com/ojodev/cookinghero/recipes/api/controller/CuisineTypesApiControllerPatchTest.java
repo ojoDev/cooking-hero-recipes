@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,14 +51,16 @@ public class CuisineTypesApiControllerPatchTest {
                 .header(HttpHeaders.ACCEPT_LANGUAGE, CuisineTypesExamples.LANGUAGE_ES)
                 .content(TestUtils.asJsonString(cuisineTypeUpdate)))
                 .andExpect(status().isNoContent());
-        }
+
+        verify(cuisineTypesBusiness).addOrReplaceCuisineType(any());
+    }
 
     @Test
     public void patchCuisineTypeNotFound() throws Exception {
 
         CuisineTypeUpdate cuisineTypeUpdate = new CuisineTypeUpdate(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH);
 
-        doThrow(new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc"))).when(cuisineTypesBusiness).addOrReplaceCuisineType(any());
+        doThrow(new NotFoundException(messages.get("error.notfound.code"), messages.get("error.notfound.desc"))).when(cuisineTypesBusiness).addOrReplaceCuisineType(any());
 
         this.mvc.perform(patch("/cuisine-types/{cuisine-type-id}", CuisineTypesExamples.CUISINE_TYPE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -67,6 +70,8 @@ public class CuisineTypesApiControllerPatchTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
+
+        verify(cuisineTypesBusiness).addOrReplaceCuisineType(any());
     }
 
 }

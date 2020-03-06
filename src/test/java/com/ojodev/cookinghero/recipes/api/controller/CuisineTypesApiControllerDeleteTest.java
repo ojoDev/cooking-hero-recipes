@@ -4,6 +4,8 @@ import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.business.CuisineTypesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
+import com.ojodev.cookinghero.recipes.data.IngredientsExamples;
+import com.ojodev.cookinghero.recipes.data.RecipesExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,6 +47,8 @@ public class CuisineTypesApiControllerDeleteTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH))
                 .andExpect(status().isNoContent());
+
+        verify(cuisineTypesBusiness).deleteCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID);
     }
 
     @Test
@@ -59,6 +63,8 @@ public class CuisineTypesApiControllerDeleteTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
+
+        verify(cuisineTypesBusiness).deleteCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID);
     }
 
 

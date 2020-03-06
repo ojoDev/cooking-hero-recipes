@@ -27,7 +27,7 @@ public class MeasureMultiLanguageBO {
     }
 
 
-    public static class Builder extends IdentifiableBO{
+    public static class Builder extends IdentifiableBO {
 
        private List<DescriptiveNameBO> names;
 

@@ -5,6 +5,7 @@ import com.ojodev.cookinghero.recipes.infrastructure.po.ProductPO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.StepPO;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface IngredientsRepository extends Neo4jRepository<IngredientPO, Lon
             "WHERE r.objectId = 'test-recipe01' " +
             "RETURN i,rp,m,rn,ln")
     List<IngredientPO> findByRecipeId(String recipeId);
+
+    @Query("MATCH (i:Ingredient) WHERE i.objectId={id} DETACH DELETE i")
+    void deleteByObjectId(@Param("id") String id);
 }

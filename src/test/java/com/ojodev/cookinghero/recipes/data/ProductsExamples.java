@@ -14,6 +14,12 @@ public class ProductsExamples {
     public static final String PRODUCT_02_NAME_SPANISH_SINGULAR = "tomate";
     public static final String PRODUCT_02_NAME_SPANISH_PLURAL = "tomates";
 
+    public static final String PRODUCT_03_ID = "cucumber";
+    public static final String PRODUCT_03_NAME_ENGLISH_SINGULAR = "cucumber";
+    public static final String PRODUCT_03_NAME_ENGLISH_PLURAL = "cucumbers";
+    public static final String PRODUCT_03_NAME_SPANISH_SINGULAR = "pepino";
+    public static final String PRODUCT_03_NAME_SPANISH_PLURAL = "pepinos";
+
     public static final String LANGUAGE_EN = "en";
     public static final String LANGUAGE_ES = "es";
 

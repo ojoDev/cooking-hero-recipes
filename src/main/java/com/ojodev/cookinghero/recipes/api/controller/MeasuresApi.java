@@ -2,6 +2,7 @@ package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.api.model.Tag;
 import com.ojodev.cookinghero.recipes.config.patch.json.Patch;
 import com.ojodev.cookinghero.recipes.config.patch.json.PatchRequestBody;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(value = "measures")
+@Api(value = Tag.MEASURES)
 public interface MeasuresApi {
 
-    @ApiOperation(value = "Get measures", nickname = "getMeasures", notes = "Search measures in a specific language. ", response = Measure.class, responseContainer = "List", tags = {"measures"})
+    @ApiOperation(value = "Get measures", nickname = "getMeasures", notes = "Search measures in a specific language. ", response = Measure.class, responseContainer = "List", tags = {Tag.MEASURES})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Measure list.", response = Measure.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Bad input parameter.", response = ApiFieldsError.class),
@@ -31,7 +32,7 @@ public interface MeasuresApi {
     ResponseEntity<List<Measure>> getMeasures(@ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws ApiFieldsException;
 
 
-    @ApiOperation(value = "Add a measure", nickname = "addMeasure", notes = "Add a new measure.\nYou can add multiple languages in a single request. English (en) is mandatory. ", tags = {"measures"})
+    @ApiOperation(value = "Add a measure", nickname = "addMeasure", notes = "Add a new measure.\nYou can add multiple languages in a single request. English (en) is mandatory. ", tags = {Tag.MEASURES})
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Resource created."),
             @ApiResponse(code = 400, message = "Bad input parameter.", response = ApiFieldsError.class),
@@ -44,7 +45,7 @@ public interface MeasuresApi {
     ResponseEntity<Void> addMeasure(@ApiParam(value = "Measure to add.") @Valid @RequestBody MeasureNew body) throws ApiException;
 
 
-    @ApiOperation(value = "Get a measure by id", nickname = "getMeasure", notes = "Search for a measure in a specific language.", response = Measure.class, tags = {"measures"})
+    @ApiOperation(value = "Get a measure by id", nickname = "getMeasure", notes = "Search for a measure in a specific language.", response = Measure.class, tags = {Tag.MEASURES})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Measure.", response = Measure.class),
             @ApiResponse(code = 400, message = "Bad input parameter.", response = ApiFieldsError.class),
@@ -59,7 +60,7 @@ public interface MeasuresApi {
     ) throws NotFoundException, ApiFieldsException;
 
 
-    @ApiOperation(value = "Update a measure", nickname = "updateMeasure", notes = "Update a measure description.\nYou can add more languages to a exist cuisine type with Accept-Language header. ", tags = {"measures"})
+    @ApiOperation(value = "Update a measure", nickname = "updateMeasure", notes = "Update a measure description.\nYou can add more languages to a exist cuisine type with Accept-Language header. ", tags = {Tag.MEASURES})
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Measure description updated."),
             @ApiResponse(code = 400, message = "Bad input parameter.", response = ApiFieldsError.class),
@@ -77,7 +78,7 @@ public interface MeasuresApi {
     ) throws ApiException;
 
 
-    @ApiOperation(value = "Delete a measure", nickname = "deleteMeasure", notes = "Delete a measure.", tags = {"measures"})
+    @ApiOperation(value = "Delete a measure", nickname = "deleteMeasure", notes = "Delete a measure.", tags = {Tag.MEASURES})
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Measure deleted."),
             @ApiResponse(code = 401, message = "The request has not been applied because it lacks valid authentication credentials for the target resource.", response = ApiError.class),

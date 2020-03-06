@@ -31,6 +31,11 @@ public interface ProductsRepository extends Neo4jRepository<ProductPO, Long> {
 
     List<ProductPO> findByObjectId(String objectId);
 
+    @Query("MATCH (p:Product) " +
+            "WHERE p.objectId={id} " +
+            "RETURN count(p) > 0" )
+    boolean existsByObjectId(@Param("id") String id);
+
 
     @Query("MATCH (p:Product)-[r:REPRESENTED_BY]->(ln:LanguageName) " +
             "WHERE p.objectId={id} " +

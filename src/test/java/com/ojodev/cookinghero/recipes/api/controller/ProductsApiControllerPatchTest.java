@@ -25,7 +25,7 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,6 +59,8 @@ public class ProductsApiControllerPatchTest {
                 .header(HttpHeaders.ACCEPT_LANGUAGE, ProductsExamples.LANGUAGE_ES)
                 .content(TestUtils.asJsonString(productUpdateComplete)))
                 .andExpect(status().isNoContent());
+
+        verify(productsBusiness).addOrReplaceProduct(any());
     }
 
     @Test
@@ -75,6 +77,8 @@ public class ProductsApiControllerPatchTest {
                 .header(HttpHeaders.ACCEPT_LANGUAGE, ProductsExamples.LANGUAGE_ES)
                 .content(TestUtils.asJsonString(ProductUpdate)))
                 .andExpect(status().isNoContent());
+
+        verify(productsBusiness).addOrReplaceProduct(any());
     }
 
 
@@ -93,6 +97,8 @@ public class ProductsApiControllerPatchTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
+
+        verify(productsBusiness, never()).addOrReplaceProduct(any());
     }
 
 

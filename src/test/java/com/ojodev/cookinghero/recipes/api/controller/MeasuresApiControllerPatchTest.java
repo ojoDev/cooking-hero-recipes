@@ -25,7 +25,7 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,6 +59,8 @@ public class MeasuresApiControllerPatchTest {
                 .header(HttpHeaders.ACCEPT_LANGUAGE, MeasuresExamples.LANGUAGE_ES)
                 .content(TestUtils.asJsonString(measureUpdateComplete)))
                 .andExpect(status().isNoContent());
+
+        verify(measuresBusiness).addOrReplaceMeasure(any());
     }
 
     @Test
@@ -76,6 +78,8 @@ public class MeasuresApiControllerPatchTest {
                 .header(HttpHeaders.ACCEPT_LANGUAGE, MeasuresExamples.LANGUAGE_ES)
                 .content(TestUtils.asJsonString(measureUpdate)))
                 .andExpect(status().isNoContent());
+
+        verify(measuresBusiness).addOrReplaceMeasure(any());
     }
 
     @Test
@@ -94,6 +98,8 @@ public class MeasuresApiControllerPatchTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
+
+        verify(measuresBusiness, never()).addOrReplaceMeasure(any());
     }
 
 

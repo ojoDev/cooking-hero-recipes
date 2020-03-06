@@ -27,7 +27,7 @@ import java.util.Arrays;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -49,6 +49,7 @@ public class CuisineTypesApiControllerPostTest {
     private CuisineTypesBusiness cuisineTypesBusiness;
 
     private static final String LOCALE_ENGLISH = "en";
+
     @Test
     public void postCuisineType() throws Exception {
 
@@ -63,12 +64,14 @@ public class CuisineTypesApiControllerPostTest {
                 .content(TestUtils.asJsonString(cuisineTypeNew)))
                 .andExpect(header().string(HttpHeaders.LOCATION, endsWith("/cuisine-types/" + CuisineTypesExamples.CUISINE_TYPE_01_ID)))
                 .andExpect(status().isCreated());
-        }
+
+        verify(cuisineTypesBusiness).addCuisineType(any());
+    }
 
     @Test
     public void postNotDefaultCuisineType() throws Exception {
 
-        CuisineTypeNew cuisineTypeNewNoDefaultLanguage = new  CuisineTypeNew(Arrays.asList(
+        CuisineTypeNew cuisineTypeNewNoDefaultLanguage = new CuisineTypeNew(Arrays.asList(
                 new CuisineTypeNewName(CuisineTypesExamples.CUISINE_TYPE_01_NAME_SPANISH, LanguageEnum.ES)));
 
         this.mvc.perform(post("/cuisine-types")
@@ -79,6 +82,8 @@ public class CuisineTypesApiControllerPostTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.mustcontaindefault.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.mustcontaindefault.desc", LOCALE_ENGLISH))));
+
+        verify(cuisineTypesBusiness, never()).addCuisineType(any());
     }
 
     @Test
@@ -92,6 +97,8 @@ public class CuisineTypesApiControllerPostTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.invalidlanguage.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidlanguage.desc", LanguageEnumBO.getValueList()))));
+
+        verify(cuisineTypesBusiness, never()).addCuisineType(any());
     }
 
     @Test
@@ -111,6 +118,8 @@ public class CuisineTypesApiControllerPostTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.duplicatedentityname.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"))));
+
+        verify(cuisineTypesBusiness).addCuisineType(any());
     }
 
 }

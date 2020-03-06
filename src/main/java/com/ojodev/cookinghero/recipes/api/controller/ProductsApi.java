@@ -4,6 +4,7 @@ package com.ojodev.cookinghero.recipes.api.controller;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.api.model.Tag;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import io.swagger.annotations.*;
@@ -15,10 +16,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-@Api(value = "products", description= "Products used in recipes")
+@Api(value = Tag.PRODUCTS, description= "Products used in recipes")
 public interface ProductsApi {
 
-    @ApiOperation(value = "Get product list", nickname = "getProducts", notes = "Search products in a specific language. ", response = ProductsSearch.class, tags = {"products"})
+    @ApiOperation(value = "Get product list", nickname = "getProducts", notes = "Search products in a specific language. ", response = ProductsSearch.class, tags = {Tag.PRODUCTS})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Product list.", response = ProductsSearch.class),
             @ApiResponse(code = 400, message = "Bad input parameter.", response = ApiFieldsError.class),
@@ -35,7 +36,7 @@ public interface ProductsApi {
                                                @Min(0) @ApiParam(value = "Number of page for skip (pagination).", example = "0", allowableValues = "", defaultValue = "0" ) @Valid @RequestParam(value = "offset", required = false, defaultValue = "0" ) Integer offset) throws ApiException;
 
 
-    @ApiOperation(value = "Add a product", nickname = "addProduct", notes = "Add a new product.\nYou can add multiple languages in a single request. English (en) is mandatory.\nAn **Hero** can be freely define a new product as CREATED_BY_USER.\nAn **Admin** can create a new product as APPROVED_BY_ADMIN, or change (approve) a user product status. This products are show to all users to select in this recipes. ", tags = {"products"})
+    @ApiOperation(value = "Add a product", nickname = "addProduct", notes = "Add a new product.\nYou can add multiple languages in a single request. English (en) is mandatory.\nAn **Hero** can be freely define a new product as CREATED_BY_USER.\nAn **Admin** can create a new product as APPROVED_BY_ADMIN, or change (approve) a user product status. This products are show to all users to select in this recipes. ", tags = {Tag.PRODUCTS})
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Resource created."),
             @ApiResponse(code = 400, message = "Bad input parameter.", response = ApiFieldsError.class),
@@ -48,7 +49,7 @@ public interface ProductsApi {
     ResponseEntity<Void> addProduct(@ApiParam(value = "Product info") @Valid @RequestBody ProductNew body) throws ApiException;
 
 
-    @ApiOperation(value = "Get a product", nickname = "getProduct", notes = "Search for a product in a specific language. ", response = Product.class, tags = {"products"})
+    @ApiOperation(value = "Get a product", nickname = "getProduct", notes = "Search for a product in a specific language. ", response = Product.class, tags = {Tag.PRODUCTS})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Product.", response = Product.class),
             @ApiResponse(code = 400, message = "Bad input parameter.", response = ApiFieldsError.class),
@@ -62,7 +63,7 @@ public interface ProductsApi {
                                        @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true) @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws ApiException;
 
 
-    @ApiOperation(value = "Update a product", nickname = "updateProduct", notes = "Update a product.    You can add more languages to a exist product with Accept-Language header.   Only an **Admin** can change the status. ", tags = {"products"})
+    @ApiOperation(value = "Update a product", nickname = "updateProduct", notes = "Update a product.    You can add more languages to a exist product with Accept-Language header.   Only an **Admin** can change the status. ", tags = {Tag.PRODUCTS})
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Product description updated."),
             @ApiResponse(code = 400, message = "Bad input parameter.", response = ApiFieldsError.class),
@@ -77,7 +78,7 @@ public interface ProductsApi {
                                        @ApiParam(value = "Product id.", required = true) @PathVariable("product-id") String productId,
                                        @ApiParam(value = "Product to update.") @Valid @RequestBody ProductUpdate body) throws ApiException;
 
-    @ApiOperation(value = "Delete a product", nickname = "deleteProduct", notes = "Delete a product. ", tags = {"products"})
+    @ApiOperation(value = "Delete a product", nickname = "deleteProduct", notes = "Delete a product. ", tags = {Tag.PRODUCTS})
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Product deleted."),
             @ApiResponse(code = 401, message = "The request has not been applied because it lacks valid authentication credentials for the target resource.", response = ApiError.class),

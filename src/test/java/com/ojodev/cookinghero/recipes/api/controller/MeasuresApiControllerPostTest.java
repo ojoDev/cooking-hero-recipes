@@ -28,7 +28,7 @@ import java.util.Arrays;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -67,7 +67,9 @@ public class MeasuresApiControllerPostTest {
                 .content(TestUtils.asJsonString(measureNew)))
                 .andExpect(header().string(HttpHeaders.LOCATION, endsWith("/measures/" + MeasuresExamples.MEASURE_01_ID)))
                 .andExpect(status().isCreated());
-        }
+
+        verify(measuresBusiness).addMeasure(any());
+    }
 
     @Test
     public void postNotDefaultMeasure() throws Exception {
@@ -84,6 +86,8 @@ public class MeasuresApiControllerPostTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.mustcontaindefault.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.mustcontaindefault.desc", LOCALE_ENGLISH))));
+
+        verify(measuresBusiness, never()).addMeasure(any());
     }
 
     @Test
@@ -97,6 +101,8 @@ public class MeasuresApiControllerPostTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.invalidlanguage.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidlanguage.desc", LanguageEnumBO.getValueList()))));
+
+        verify(measuresBusiness, never()).addMeasure(any());
     }
 
     @Test
@@ -116,6 +122,8 @@ public class MeasuresApiControllerPostTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.duplicatedentityname.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"))));
+
+        verify(measuresBusiness).addMeasure(any());
     }
 
 }

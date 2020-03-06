@@ -8,6 +8,7 @@ import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
 import com.ojodev.cookinghero.recipes.domain.model.MeasureMultiLanguageBO;
+import com.ojodev.cookinghero.recipes.infrastructure.po.CuisineTypePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.MeasuresRepository;
@@ -26,7 +27,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -181,6 +182,8 @@ public class MeasuresBusinessTest {
         when(this.measuresRepository.save(any())).thenReturn(null);
 
         Assertions.assertDoesNotThrow(() -> measuresBusiness.addMeasure(measureMultiLanguageBO));
+
+        verify(measuresRepository).save(any(MeasurePO.class));
     }
 
     @Test
@@ -203,6 +206,8 @@ public class MeasuresBusinessTest {
 
         assertEquals(messages.get("error.badrequest.duplicatedentityname.code"), e.getCode());
         assertEquals(messages.get("error.badrequest.duplicatedentityname.desc", "measure"), e.getDescription());
+
+        verify(measuresRepository, never()).save(any(MeasurePO.class));
     }
 
     @Test()
@@ -216,6 +221,8 @@ public class MeasuresBusinessTest {
         when(this.measuresRepository.findByObjectId(measurePO.getObjectId())).thenReturn(Arrays.asList(measurePO));
 
         Assertions.assertDoesNotThrow(() -> measuresBusiness.addOrReplaceMeasure(measureBOEs));
+
+        verify(measuresRepository).save(any(MeasurePO.class));
     }
 
     @Test()
@@ -227,6 +234,8 @@ public class MeasuresBusinessTest {
         when(this.measuresRepository.findByObjectId(measurePOOnlyEnglish.getObjectId())).thenReturn(Arrays.asList(measurePOOnlyEnglish));
 
         Assertions.assertDoesNotThrow(() -> measuresBusiness.addOrReplaceMeasure(measureBOEs));
+
+        verify(measuresRepository).save(any(MeasurePO.class));
     }
 
     @Test
@@ -238,6 +247,8 @@ public class MeasuresBusinessTest {
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> measuresBusiness.addOrReplaceMeasure(measureBO));
         assertEquals(messages.get("error.notfound.measure.code"), exception.getCode());
         assertEquals(messages.get("error.notfound.measure.desc"), exception.getDescription());
+
+        verify(measuresRepository, never()).save(any(MeasurePO.class));
     }
 
     @Test
@@ -249,6 +260,8 @@ public class MeasuresBusinessTest {
         when(this.measuresRepository.findByObjectId(measurePO.getObjectId())).thenReturn(Arrays.asList(measurePO));
 
         Assertions.assertDoesNotThrow(() -> measuresBusiness.deleteMeasure(MeasuresExamples.MEASURE_01_ID), "Need to delete the resource");
+
+        verify(measuresRepository).deleteById(MeasuresExamples.MEASURE_01_ID);
     }
 
     @Test
@@ -258,6 +271,8 @@ public class MeasuresBusinessTest {
         });
         assertEquals(messages.get("error.notfound.measure.code"), exception.getCode());
         assertEquals(messages.get("error.notfound.measure.desc"), exception.getDescription());
+
+        verify(measuresRepository, never()).deleteById(anyString());
     }
 
     private static MeasurePO initMeasureOnlyEnglish() {

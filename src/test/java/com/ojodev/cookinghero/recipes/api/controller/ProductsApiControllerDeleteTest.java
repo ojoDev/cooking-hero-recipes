@@ -3,6 +3,7 @@ package com.ojodev.cookinghero.recipes.api.controller;
 import com.google.common.net.HttpHeaders;
 import com.ojodev.cookinghero.recipes.business.ProductsBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
+import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,6 +47,8 @@ public class ProductsApiControllerDeleteTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH))
                 .andExpect(status().isNoContent());
+
+        verify(productsBusiness).deleteProduct(ProductsExamples.PRODUCT_01_ID);
     }
 
     @Test
@@ -59,6 +63,8 @@ public class ProductsApiControllerDeleteTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
+
+        verify(productsBusiness).deleteProduct(ProductsExamples.PRODUCT_01_ID);
     }
 
 

@@ -8,4 +8,5 @@ public class IngredientsExamples {
     public static final BigDecimal INGREDIENT_01_QUANTITY = new BigDecimal(0.5);
 
     public static final String INGREDIENT_02_ID = "test-recipe01-potato";
+
 }

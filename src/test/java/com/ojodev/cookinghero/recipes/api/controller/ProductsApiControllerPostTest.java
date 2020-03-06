@@ -25,7 +25,7 @@ import java.util.Arrays;
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -50,7 +50,7 @@ public class ProductsApiControllerPostTest {
 
 
     @Test
-    public void postMeasure() throws Exception {
+    public void postProduct() throws Exception {
 
         ProductNew productNew = new ProductNew(Arrays.asList(
                 new ProductNewName(new DescriptiveName(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL), LanguageEnum.EN),
@@ -64,12 +64,14 @@ public class ProductsApiControllerPostTest {
                 .content(TestUtils.asJsonString(productNew)))
                 .andExpect(header().string(HttpHeaders.LOCATION, endsWith("/products/" + ProductsExamples.PRODUCT_01_ID)))
                 .andExpect(status().isCreated());
+
+        verify(productsBusiness).addProduct(any());
     }
 
     @Test
-    public void postNotDefaultMeasure() throws Exception {
+    public void postNotDefaultProduct() throws Exception {
 
-        ProductNew measureNoDefaultLanguage = new ProductNew(Arrays.asList(
+        ProductNew productNoDefaultLanguage = new ProductNew(Arrays.asList(
                 new ProductNewName(new DescriptiveName(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL), LanguageEnum.ES)),
                 ProductStatusEnum.APPROVED_BY_ADMIN);
 
@@ -77,14 +79,16 @@ public class ProductsApiControllerPostTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
-                .content(TestUtils.asJsonString(measureNoDefaultLanguage)))
+                .content(TestUtils.asJsonString(productNoDefaultLanguage)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.mustcontaindefault.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.mustcontaindefault.desc", LOCALE_ENGLISH))));
+
+        verify(productsBusiness, never()).addProduct(any());;
     }
 
     @Test
-    public void postInvalidLanguageInMeasureName() throws Exception {
+    public void postInvalidLanguageInProductName() throws Exception {
 
         this.mvc.perform(post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -94,6 +98,8 @@ public class ProductsApiControllerPostTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.invalidlanguage.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.invalidlanguage.desc", LanguageEnumBO.getValueList()))));
+
+        verify(productsBusiness, never()).addProduct(any());
     }
 
     @Test
@@ -114,6 +120,8 @@ public class ProductsApiControllerPostTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.badrequest.duplicatedentityname.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"))));
+
+        verify(productsBusiness).addProduct(any());
     }
 
 }

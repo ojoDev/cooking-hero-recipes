@@ -13,7 +13,7 @@ import java.util.List;
 public interface RecipesRepository extends Neo4jRepository<RecipePO, Long> {
 
     @Query("MATCH (r:Recipe)-[ri:INCLUDE]->(i:Ingredient) " +
-            "MATCH (i)-[rp:FORMED_BY]->(m)-[rn:REPRESENTED_BY]->(ln:LanguageName) " +
+            "OPTIONAL MATCH (i)-[rp:FORMED_BY]->(m)-[rn:REPRESENTED_BY]->(ln:LanguageName) " +
             "WHERE r.objectId = {id} " +
             "RETURN r,ri,i,rp,m,rn,ln")
     List<RecipePO> findByObjectId(@Param("id") String id);

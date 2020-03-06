@@ -19,4 +19,12 @@ public interface MeasuresRepository extends Neo4jRepository<MeasurePO, Long> {
             "WHERE m.objectId={id} " +
             "DETACH DELETE m,r,ln")
     void deleteById(@Param("id") String id);
+
+    @Query("MATCH (m:Measure) " +
+            "WHERE m.objectId={id} " +
+            "RETURN count(m) > 0" )
+    boolean existsByObjectId(@Param("id") String id);
+
+
+
 }

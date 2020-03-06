@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@Api(tags = "products", value = "Products used in recipes")
+@Api(tags = "products", description = "Products used in recipes")
 @Slf4j
 public class ProductsApiController implements ProductsApi {
 

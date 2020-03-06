@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RecipesApiControllerGetIngredientsTest {
+public class IngredientsApiControllerGetIngredientsTest {
 
     @Autowired
     private MockMvc mvc;

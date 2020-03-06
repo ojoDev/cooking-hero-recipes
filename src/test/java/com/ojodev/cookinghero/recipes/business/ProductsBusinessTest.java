@@ -1,6 +1,7 @@
 package com.ojodev.cookinghero.recipes.business;
 
 import com.ojodev.cookinghero.recipes.config.Messages;
+import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
@@ -23,7 +24,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -219,6 +220,8 @@ public class ProductsBusinessTest {
         when(this.productsRepository.save(any())).thenReturn(null);
 
         Assertions.assertDoesNotThrow(() -> productsBusiness.addProduct(productMultiLanguageBO));
+
+        verify(productsRepository).save(any(ProductPO.class));
     }
 
     @Test
@@ -243,6 +246,8 @@ public class ProductsBusinessTest {
 
         assertEquals(messages.get("error.badrequest.duplicatedentityname.code"), e.getCode());
         assertEquals(messages.get("error.badrequest.duplicatedentityname.desc", "product"), e.getDescription());
+
+        verify(productsRepository, never()).save(any(ProductPO.class));
     }
 
     @Test()
@@ -257,6 +262,8 @@ public class ProductsBusinessTest {
         when(this.productsRepository.findByObjectId(productPO.getObjectId())).thenReturn(Arrays.asList(productPO));
 
         Assertions.assertDoesNotThrow(() -> productsBusiness.addOrReplaceProduct(productBOEs));
+
+        verify(productsRepository).save(any(ProductPO.class));
     }
 
     @Test()
@@ -268,6 +275,8 @@ public class ProductsBusinessTest {
         when(this.productsRepository.findByObjectId(productPOOnlyEnglish.getObjectId())).thenReturn(Arrays.asList(productPOOnlyEnglish));
 
         Assertions.assertDoesNotThrow(() -> productsBusiness.addOrReplaceProduct(productBOEs));
+
+        verify(productsRepository).save(any(ProductPO.class));
     }
 
     @Test
@@ -279,6 +288,8 @@ public class ProductsBusinessTest {
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> productsBusiness.addOrReplaceProduct(productBO));
         assertEquals(messages.get("error.notfound.product.code"), exception.getCode());
         assertEquals(messages.get("error.notfound.product.desc"), exception.getDescription());
+
+        verify(productsRepository, never()).save(any(ProductPO.class));
     }
 
     @Test
@@ -291,6 +302,8 @@ public class ProductsBusinessTest {
         when(this.productsRepository.findByObjectId(productPO.getObjectId())).thenReturn(Arrays.asList(productPO));
 
         Assertions.assertDoesNotThrow(() -> productsBusiness.deleteProduct(ProductsExamples.PRODUCT_01_ID), "Need to delete the resource");
+
+        verify(productsRepository).deleteById(ProductsExamples.PRODUCT_01_ID);
     }
 
     @Test
@@ -300,6 +313,8 @@ public class ProductsBusinessTest {
         });
         assertEquals(messages.get("error.notfound.product.code"), exception.getCode());
         assertEquals(messages.get("error.notfound.product.desc"), exception.getDescription());
+
+        verify(productsRepository, never()).deleteById(anyString());
     }
 
     private static ProductPO initProductOnlyEnglish() {

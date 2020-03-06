@@ -2,6 +2,7 @@ package com.ojodev.cookinghero.recipes.business;
 
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.CuisineTypesExamples;
+import com.ojodev.cookinghero.recipes.data.IngredientsExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.CuisineTypeBO;
@@ -30,7 +31,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -254,6 +255,8 @@ public class CuisineTypesBusinessTest {
         when(this.cuisineTypesRepository.save(any())).thenReturn(null);
 
         Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.addCuisineType(cuisineTypeMultiLanguageBO));
+
+        verify(cuisineTypesRepository).save(any(CuisineTypePO.class));
     }
 
     @Test
@@ -274,6 +277,8 @@ public class CuisineTypesBusinessTest {
         });
         assertEquals(messages.get("error.badrequest.duplicatedentityname.code"), e.getCode());
         assertEquals(messages.get("error.badrequest.duplicatedentityname.desc", "cuisine type"), e.getDescription());
+
+        verify(cuisineTypesRepository, never()).save(any(CuisineTypePO.class));
     }
 
     @Test
@@ -289,6 +294,8 @@ public class CuisineTypesBusinessTest {
 
         Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeEs));
 
+        verify(cuisineTypesRepository).save(any(CuisineTypePO.class));
+
     }
 
     @Test
@@ -302,6 +309,8 @@ public class CuisineTypesBusinessTest {
 
         Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeEs));
 
+        verify(cuisineTypesRepository).save(any(CuisineTypePO.class));
+
     }
 
     @Test
@@ -312,6 +321,8 @@ public class CuisineTypesBusinessTest {
         when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_01_ID)).thenReturn(null);
 
         Assertions.assertThrows(NotFoundException.class, () -> cuisineTypesBusiness.addOrReplaceCuisineType(cuisineTypeBO));
+
+        verify(cuisineTypesRepository, never()).save(any(CuisineTypePO.class));
     }
 
     @Test
@@ -324,6 +335,8 @@ public class CuisineTypesBusinessTest {
         when(this.cuisineTypesRepository.findById(CuisineTypesExamples.CUISINE_TYPE_01_ID)).thenReturn(cuisineTypePO);
 
         Assertions.assertDoesNotThrow(() -> cuisineTypesBusiness.deleteCuisineType(CuisineTypesExamples.CUISINE_TYPE_01_ID), "Need to delete the resource");
+
+        verify(cuisineTypesRepository).deleteById(CuisineTypesExamples.CUISINE_TYPE_01_ID);
     }
 
     @Test
@@ -333,6 +346,8 @@ public class CuisineTypesBusinessTest {
         });
         assertEquals(messages.get("error.notfound.cuisinetype.code"), exception.getCode());
         assertEquals(messages.get("error.notfound.cuisinetype.desc"), exception.getDescription());
+
+        verify(cuisineTypesRepository, never()).deleteById(anyString());
     }
 
     private static CuisineTypePO initCuisineTypeNewOnlyEnglish() {
