@@ -2,6 +2,7 @@ package com.ojodev.cookinghero.recipes.infrastructure.repository;
 
 import com.ojodev.cookinghero.recipes.RecipesApplication;
 import com.ojodev.cookinghero.recipes.data.RecipesExamples;
+import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.IngredientPO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.ProductPO;
@@ -31,7 +32,7 @@ public class RecipesRepositoryTest {
     @Test
     @Ignore
     public void addBasicRecipe() {
-        RecipePO newRecipe = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01);
+        RecipePO newRecipe = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
         recipesRepository.save(newRecipe);
         RecipePO recipe = recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01).get(0);
         Assert.assertNotNull(recipe);

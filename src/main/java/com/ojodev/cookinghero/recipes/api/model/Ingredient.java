@@ -3,6 +3,7 @@ package com.ojodev.cookinghero.recipes.api.model;
 import java.math.BigDecimal;
 
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -41,7 +42,7 @@ public class Ingredient {
 	@JsonProperty("quantity")
 	@ApiModelProperty(example = "2", value = "Number of product units or quantity.", position = 2)
 	@Valid
-	@Min(1)
+	@DecimalMin("0.01")
 	private BigDecimal quantity;
 
 	@JsonProperty("measure")

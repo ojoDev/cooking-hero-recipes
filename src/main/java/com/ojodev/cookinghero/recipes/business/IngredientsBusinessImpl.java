@@ -1,6 +1,10 @@
 package com.ojodev.cookinghero.recipes.business;
 
+import com.ojodev.cookinghero.recipes.api.model.Ingredient;
 import com.ojodev.cookinghero.recipes.config.Messages;
+import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiBadRequestException;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.*;
 import com.ojodev.cookinghero.recipes.infrastructure.po.*;
@@ -68,6 +72,9 @@ public class IngredientsBusinessImpl implements IngredientsBusiness {
         }
         List<RecipePO> recipes = recipesRepository.findByObjectId(recipeId);
         throwErrorIfRecipeNotExists(recipes);
+        if (recipes.get(0).getIngredients() == null || recipes.get(0).getIngredients().isEmpty()) {
+            return Optional.empty();
+        }
         List<IngredientPO> ingredientPOList = recipes.get(0).getIngredients().stream().filter(i -> ingredientId.equals(i.getObjectId())).collect(Collectors.toList());
         if (ingredientPOList.isEmpty()) {
             return Optional.empty();
@@ -76,25 +83,30 @@ public class IngredientsBusinessImpl implements IngredientsBusiness {
     }
 
     @Override
-    public void addIngredient(IngredientNewBO ingredient) throws NotFoundException {
-        RecipePO recipes = getRecipeOrThrowErrorIfRecipeNotExists(ingredient.getRecipeId());
+    public void addIngredient(IngredientNewBO ingredient) throws ApiException {
+        RecipePO recipe = getRecipeOrThrowErrorIfRecipeNotExists(ingredient.getRecipeId());
+        throwErrorIfProductExistsInRecipe(ingredient, recipe);
         MeasurePO measure = getMeasureOrThrowErrorIfNotExists(ingredient.getMeasureId());
-        ProductPO product = getProductOrCreateNewProductIfNotExists(ingredient.getProductName(), ingredient.getQuantity(), LanguageEnumBO.fromValue(recipes.getLanguage()));
-        IngredientPO ingredientPO = new IngredientPO(selectIdFromProduct(product), product, ingredient.getQuantity(), measure);
+        ProductPO product = getProductOrCreateNewProductIfNotExists(ingredient.getProductName(), ingredient.getQuantity(), LanguageEnumBO.fromValue(recipe.getLanguage()));
+        IngredientPO ingredientPO = new IngredientPO(ingredient.getId(), product, ingredient.getQuantity(), measure);
+        ingredientPO.setRecipe(recipe);
         ingredientsRepository.save(ingredientPO);
 
     }
 
-    private String selectIdFromProduct(ProductPO product) {
-        String id = null;
-        if (product != null) {
-            if (StringUtils.isNotEmpty(product.getObjectId())) {
-                id = product.getObjectId();
-            } else if (product.getNames() != null && !product.getNames().isEmpty()) {
-                id = StringUtils.isNotEmpty(product.getNames().get(0).getSingular()) ? product.getNames().get(0).getSingular() : product.getNames().get(0).getPlural();
+    private void throwErrorIfProductExistsInRecipe(IngredientNewBO ingredient, RecipePO recipe) throws ApiBadRequestException {
+        if (recipe != null && ingredient != null && recipe.getIngredients() != null && ingredient.getProductName() != null && recipe.getLanguage() != null) {
+            for (IngredientPO ingredientInRecipe : recipe.getIngredients()) {
+                if (ingredientInRecipe.getProduct() != null && ingredientInRecipe.getProduct().getNames() != null) {
+                    for (DescriptiveNamePO descriptiveNameInProduct : ingredientInRecipe.getProduct().getNames()) {
+                        if ((descriptiveNameInProduct.getSingular() != null && (ingredient.getProductName().equals(descriptiveNameInProduct.getSingular())))
+                                || (descriptiveNameInProduct.getPlural() != null && (ingredient.getProductName().equals(descriptiveNameInProduct.getPlural())))) {
+                            throw new ApiBadRequestException(messages.get("error.ingredient.duplicateinrecipe.code"), messages.get("error.ingredient.duplicateinrecipe.desc", ingredient.getProductName()));
+                        }
+                    }
+                }
             }
         }
-        return id;
     }
 
     @Override
@@ -118,6 +130,7 @@ public class IngredientsBusinessImpl implements IngredientsBusiness {
         }
     }
 
+
     private RecipePO getRecipeOrThrowErrorIfRecipeNotExists(String recipeId) throws NotFoundException {
         List<RecipePO> recipePOList = new ArrayList<>();
         if (!StringUtils.isEmpty(recipeId)) {
@@ -131,15 +144,18 @@ public class IngredientsBusinessImpl implements IngredientsBusiness {
     }
 
     private MeasurePO getMeasureOrThrowErrorIfNotExists(String measureId) throws NotFoundException {
-        List<MeasurePO> measurePOList = new ArrayList<>();
-        if (!StringUtils.isEmpty(measureId)) {
-            measurePOList = measuresRepository.findByObjectId(measureId);
-        }
-        if (measurePOList.isEmpty()) {
-            throw new NotFoundException(messages.get("error.notfound.measure.code"), messages.get("error.notfound.measure.desc"));
+        if (StringUtils.isEmpty(measureId)) {
+            return null;
         } else {
-            return measurePOList.get(0);
+
+            List<MeasurePO> measurePOList = measuresRepository.findByObjectId(measureId);
+            if (measurePOList.isEmpty()) {
+                throw new NotFoundException(messages.get("error.notfound.measure.code"), messages.get("error.notfound.measure.desc"));
+            } else {
+                return measurePOList.get(0);
+            }
         }
+
     }
 
     /**
@@ -158,11 +174,11 @@ public class IngredientsBusinessImpl implements IngredientsBusiness {
         if (!StringUtils.isEmpty(productName)) {
             List<ProductPO> productList = productsRepository.findProducts(productName,
                     ProductStatusEnumBO.APPROVED_BY_ADMIN.toString(),
-                    language.toString(), 0, 1);
+                    setDefaultLanguageIfNull(language).toString(), 0, 1);
             if (productList.isEmpty()) {
                 DescriptiveNamePO descriptiveNamePO = new DescriptiveNamePO();
                 descriptiveNamePO.setLanguage(language.toString());
-                if (quantity.compareTo(BigDecimal.ONE) > 1) {
+                if (quantity != null && quantity.compareTo(BigDecimal.ONE) > 1) {
                     descriptiveNamePO.setPlural(productName);
                 } else {
                     descriptiveNamePO.setSingular(productName);
@@ -173,6 +189,10 @@ public class IngredientsBusinessImpl implements IngredientsBusiness {
             }
         }
         return productPO;
+    }
+
+    private LanguageEnumBO setDefaultLanguageIfNull(LanguageEnumBO language) {
+        return language == null ? RecipesConstants.DEFAULT_LANGUAGE : language;
     }
 
 }

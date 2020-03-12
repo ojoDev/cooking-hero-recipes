@@ -1,9 +1,6 @@
 package com.ojodev.cookinghero.recipes.domain.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -25,6 +22,9 @@ public class IngredientNewBO extends IdentifiableBO {
 
     private String measureId;
 
+    public IngredientNewBO(String id) {
+        super(id);
+    }
 
     public IngredientNewBO(String recipeId, String productName) {
         super(recipeId + "-" + productName);

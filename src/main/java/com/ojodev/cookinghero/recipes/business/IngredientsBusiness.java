@@ -1,5 +1,6 @@
 package com.ojodev.cookinghero.recipes.business;
 
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.IngredientBO;
 import com.ojodev.cookinghero.recipes.domain.model.IngredientNewBO;
@@ -17,7 +18,7 @@ public interface IngredientsBusiness {
 
     void deleteIngredient(String recipeId, String ingredientId) throws NotFoundException;
 
-    void addIngredient(IngredientNewBO ingredient) throws NotFoundException;
+    void addIngredient(IngredientNewBO ingredient) throws ApiException;
 
 
 

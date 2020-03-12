@@ -1,13 +1,10 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
-import com.ojodev.cookinghero.recipes.api.model.MeasureUpdate;
-import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
+import com.ojodev.cookinghero.recipes.api.model.IngredientNew;
 import com.ojodev.cookinghero.recipes.domain.model.IngredientBO;
+import com.ojodev.cookinghero.recipes.domain.model.IngredientNewBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
-import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.DescriptiveNamePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.IngredientPO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.MeasurePO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -41,5 +38,6 @@ public abstract class IngredientsMapperDecorator implements IngredientsMapper {
     public ArrayList<IngredientBO> toIngredientBOList(List<IngredientPO> ingredients, LanguageEnumBO language){
         return ingredients.stream().map(i -> toIngredientBO(i, language)).collect(Collectors.toCollection(ArrayList::new));
     }
+
 
 }

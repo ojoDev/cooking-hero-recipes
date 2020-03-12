@@ -96,8 +96,8 @@ public class MeasuresApiControllerPatchTest {
                 .header(HttpHeaders.ACCEPT_LANGUAGE, MeasuresExamples.LANGUAGE_ES)
                 .content(TestUtils.asJsonString(measureUpdateComplete)))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
-                .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
+                .andExpect(jsonPath("$.code", is(messages.get("error.notfound.measure.code"))))
+                .andExpect(jsonPath("$.description", is(messages.get("error.notfound.measure.desc"))));
 
         verify(measuresBusiness, never()).addOrReplaceMeasure(any());
     }

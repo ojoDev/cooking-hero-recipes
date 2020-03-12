@@ -1,5 +1,6 @@
 package com.ojodev.cookinghero.recipes.infrastructure.po;
 
+import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -30,10 +31,13 @@ public class RecipePO {
     public RecipePO() {
     }
 
-    public RecipePO(String objectId, String name, String description) {
+    public RecipePO(String objectId, String name, String description, LanguageEnumBO language) {
         this.objectId = objectId;
         this.name = name;
         this.description = description;
+        if (language != null) {
+            this.language = language.toString();
+        }
     }
 
     public Long getId() {

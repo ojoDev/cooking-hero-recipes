@@ -5,6 +5,8 @@ import com.ojodev.cookinghero.recipes.data.IngredientsExamples;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.data.RecipesExamples;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiBadRequestException;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.IngredientBO;
 import com.ojodev.cookinghero.recipes.domain.model.IngredientNewBO;
@@ -73,8 +75,7 @@ public class IngredientsBusinessTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01);
-        recipePO.setLanguage(RecipesExamples.LANGUAGE_EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
         when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
@@ -128,8 +129,7 @@ public class IngredientsBusinessTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01);
-        recipePO.setLanguage(RecipesExamples.LANGUAGE_ES);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
         when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
@@ -195,8 +195,7 @@ public class IngredientsBusinessTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01);
-        recipePO.setLanguage(RecipesExamples.LANGUAGE_EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
         when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
@@ -245,8 +244,7 @@ public class IngredientsBusinessTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01);
-        recipePO.setLanguage(RecipesExamples.LANGUAGE_ES);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
         when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
@@ -306,9 +304,23 @@ public class IngredientsBusinessTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01);
-        recipePO.setLanguage(RecipesExamples.LANGUAGE_ES);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
+
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
+
+        try {
+            Optional<IngredientBO> ingredientBO = ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_01, INVALID_ID);
+            assertEquals(Optional.empty(), ingredientBO);
+        } catch (NotFoundException e) {
+            fail("Needs to return a Optional.empty() object");
+        }
+    }
+
+    @Test
+    public void getIngredientIngredientNotFoundRecipeWithoutIngredients() {
+
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
 
         when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
 
@@ -340,8 +352,7 @@ public class IngredientsBusinessTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01);
-        recipePO.setLanguage(RecipesExamples.LANGUAGE_EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
         IngredientNewBO newIngredient = new IngredientNewBO(RecipesExamples.RECIPE_ID_01, ProductsExamples.PRODUCT_03_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, MeasuresExamples.MEASURE_01_ID);
@@ -375,8 +386,7 @@ public class IngredientsBusinessTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01);
-        recipePO.setLanguage(RecipesExamples.LANGUAGE_EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
         IngredientNewBO newIngredient = new IngredientNewBO(RecipesExamples.RECIPE_ID_01, ProductsExamples.PRODUCT_03_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, MeasuresExamples.MEASURE_01_ID);
@@ -391,6 +401,47 @@ public class IngredientsBusinessTest {
         verify(measuresRepository).findByObjectId(MeasuresExamples.MEASURE_01_ID);
         verify(recipesRepository).findByObjectId(RecipesExamples.RECIPE_ID_01);
         verify(ingredientsRepository).save(any(IngredientPO.class));
+
+    }
+
+    @Test
+    public void addIngredientDuplicateIngredientInRecipe() {
+        ProductPO product01 = new ProductPO(ProductsExamples.PRODUCT_01_ID,
+                Arrays.asList(new DescriptiveNamePO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, ProductsExamples.LANGUAGE_EN),
+                        new DescriptiveNamePO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, ProductsExamples.LANGUAGE_ES)),
+                ProductsExamples.PRODUCT_STATUS_APPROVED_BY_ADMIN);
+        MeasurePO measure01 = new MeasurePO(MeasuresExamples.MEASURE_01_ID,
+                Arrays.asList(new DescriptiveNamePO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, ProductsExamples.LANGUAGE_EN),
+                        new DescriptiveNamePO(MeasuresExamples.MEASURE_01_NAME_SPANISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_SPANISH_PLURAL, ProductsExamples.LANGUAGE_ES)));
+        ProductPO product02 = new ProductPO(ProductsExamples.PRODUCT_02_ID,
+                Arrays.asList(new DescriptiveNamePO(ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_02_NAME_ENGLISH_PLURAL, ProductsExamples.LANGUAGE_EN),
+                        new DescriptiveNamePO(ProductsExamples.PRODUCT_02_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_02_NAME_SPANISH_PLURAL, ProductsExamples.LANGUAGE_ES)),
+                ProductsExamples.PRODUCT_STATUS_CREATED_BY_USER);
+        ProductPO product03 = new ProductPO(ProductsExamples.PRODUCT_03_ID,
+                Arrays.asList(new DescriptiveNamePO(ProductsExamples.PRODUCT_03_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_03_NAME_ENGLISH_PLURAL, ProductsExamples.LANGUAGE_EN),
+                        new DescriptiveNamePO(ProductsExamples.PRODUCT_03_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_03_NAME_SPANISH_PLURAL, ProductsExamples.LANGUAGE_ES)),
+                ProductsExamples.PRODUCT_STATUS_APPROVED_BY_ADMIN);
+        List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
+                new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
+
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
+        recipePO.setIngredients(ingredientPOList);
+
+        IngredientNewBO newIngredient = new IngredientNewBO(RecipesExamples.RECIPE_ID_01, ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, MeasuresExamples.MEASURE_01_ID);
+
+        when(this.productsRepository.findProducts(eq(ProductsExamples.PRODUCT_03_NAME_ENGLISH_SINGULAR), any(), any(), anyInt(), anyInt())).thenReturn(Arrays.asList(product03));
+        when(this.measuresRepository.findByObjectId(MeasuresExamples.MEASURE_01_ID)).thenReturn(Arrays.asList(measure01));
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
+
+        ApiBadRequestException exception = Assertions.assertThrows(ApiBadRequestException.class,
+                () -> {
+                    ingredientsBusiness.addIngredient(newIngredient);
+                }, "Need to be throw an exception. Ingredient duplicated.");
+
+        Assert.assertEquals(messages.get("error.ingredient.duplicateinrecipe.code"), exception.getCode());
+        Assert.assertEquals(messages.get("error.ingredient.duplicateinrecipe.desc", ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR), exception.getDescription());
+
+        verify(ingredientsRepository, never()).save(any(IngredientPO.class));
 
     }
 
@@ -440,8 +491,7 @@ public class IngredientsBusinessTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01);
-        recipePO.setLanguage(RecipesExamples.LANGUAGE_EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
         IngredientNewBO newIngredient = new IngredientNewBO(RecipesExamples.RECIPE_ID_01, ProductsExamples.PRODUCT_03_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, MeasuresExamples.MEASURE_01_ID);
@@ -477,8 +527,7 @@ public class IngredientsBusinessTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01);
-        recipePO.setLanguage(RecipesExamples.LANGUAGE_EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
         when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
@@ -519,8 +568,7 @@ public class IngredientsBusinessTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01);
-        recipePO.setLanguage(RecipesExamples.LANGUAGE_ES);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
         when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));

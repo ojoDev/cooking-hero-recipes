@@ -54,15 +54,15 @@ public class ProductsApiControllerDeleteTest {
     @Test
     public void deleteNotFoundProduct() throws Exception {
 
-        doThrow(new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc"))).when(productsBusiness).deleteProduct(ProductsExamples.PRODUCT_01_ID);
+        doThrow(new NotFoundException(messages.get("error.notfound.product.code"),messages.get("error.notfound.product.desc"))).when(productsBusiness).deleteProduct(ProductsExamples.PRODUCT_01_ID);
 
         this.mvc.perform(delete("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
-                .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
+                .andExpect(jsonPath("$.code", is(messages.get("error.notfound.product.code"))))
+                .andExpect(jsonPath("$.description", is(messages.get("error.notfound.product.desc"))));
 
         verify(productsBusiness).deleteProduct(ProductsExamples.PRODUCT_01_ID);
     }

@@ -54,15 +54,15 @@ public class MeasuresApiControllerDeleteTest {
     @Test
     public void deleteNotFoundMeasure() throws Exception {
 
-        doThrow(new NotFoundException(messages.get("error.notfound.code"),messages.get("error.notfound.desc"))).when(measuresBusiness).deleteMeasure(MeasuresExamples.MEASURE_01_ID);
+        doThrow(new NotFoundException(messages.get("error.notfound.measure.code"),messages.get("error.notfound.measure.desc"))).when(measuresBusiness).deleteMeasure(MeasuresExamples.MEASURE_01_ID);
 
         this.mvc.perform(delete("/measures/{measures-id}", MeasuresExamples.MEASURE_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
-                .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
+                .andExpect(jsonPath("$.code", is(messages.get("error.notfound.measure.code"))))
+                .andExpect(jsonPath("$.description", is(messages.get("error.notfound.measure.desc"))));
 
         verify(measuresBusiness).deleteMeasure(MeasuresExamples.MEASURE_01_ID);
     }

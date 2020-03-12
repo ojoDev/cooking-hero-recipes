@@ -1,6 +1,7 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.Ingredient;
+import com.ojodev.cookinghero.recipes.api.model.IngredientNew;
 import com.ojodev.cookinghero.recipes.api.model.ProductStatusEnum;
 import com.ojodev.cookinghero.recipes.data.IngredientsExamples;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
@@ -144,8 +145,7 @@ public class IngredientsMapperTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01);
-        recipePO.setLanguage(RecipesExamples.LANGUAGE_EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
 
@@ -179,7 +179,6 @@ public class IngredientsMapperTest {
         assertNull(ingredientBOList.get(1).getQuantity());
         assertNull(ingredientBOList.get(1).getMeasure());
     }
-
 
 
 }
