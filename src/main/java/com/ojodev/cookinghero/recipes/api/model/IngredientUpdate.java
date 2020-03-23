@@ -12,11 +12,11 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-@ApiModel(description = "New ingredient with a existent measure and a possible new or existent product.")
+@ApiModel(description = "Update ingredient with a existent measure and a possible new or existent product.")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class IngredientNew {
+public class IngredientUpdate {
 
     @JsonProperty("productName")
     @ApiModelProperty(example = "potato", required = true, value = "Product name. If product not exist, create a new product (status: CREATED_BY_USER) ", position = 0)
@@ -30,7 +30,7 @@ public class IngredientNew {
     private BigDecimal quantity;
 
     @JsonProperty("measure")
-    @ApiModelProperty(value = "Measure id, related to a existent measure.", position = 2)
+    @ApiModelProperty(value = "Measure reference with id, related to a existent measure.", position = 2)
     private MeasureRef measure;
 
 }

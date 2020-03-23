@@ -68,12 +68,12 @@ public interface IngredientsApi {
             @ApiResponse(code = 403, message = "The server understood the request but refuses to authorize it.", response = ApiError.class),
             @ApiResponse(code = 404, message = "Not found.", response = ApiError.class),
             @ApiResponse(code = 500, message = "Internal server error.", response = ApiError.class)})
-    @PutMapping(value = "/recipes/{recipe-id}/ingredients/{ingredient-id}",
+    @PatchMapping(value = "/recipes/{recipe-id}/ingredients/{ingredient-id}",
             produces = {MediaType.APPLICATION_JSON_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<Void> updateIngredient(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId,
                                           @ApiParam(value = "Ingredient id.", required = true) @PathVariable("ingredient-id") String ingredientId,
-                                          @ApiParam(value = "Ingredient to update.") @Valid @RequestBody Ingredient body);
+                                          @ApiParam(value = "Ingredient to update.") @Valid @RequestBody IngredientUpdate body);
 
 
     @ApiOperation(value = "Delete ingredient of a recipe", nickname = "deleteIngredient", notes = "Delete ingredient of a recipe. ", tags = {Tag.RECIPES})

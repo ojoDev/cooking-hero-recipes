@@ -23,12 +23,12 @@ public class IngredientNewTest extends AbstractJavaBeanTest<IngredientNew> {
 
     @Test
     public void constructorAllFields() {
-        IngredientNew ingredientNew = new IngredientNew(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, MeasuresExamples.MEASURE_01_ID);
+        IngredientNew ingredientNew = new IngredientNew(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, new MeasureRef(MeasuresExamples.MEASURE_01_ID));
 
         assertNotNull(ingredientNew);
         assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ingredientNew.getProductName());
         assertEquals(IngredientsExamples.INGREDIENT_01_QUANTITY, ingredientNew.getQuantity());
-        assertEquals(MeasuresExamples.MEASURE_01_ID, ingredientNew.getMeasureId());
-
+        assertNotNull(ingredientNew.getMeasure());
+        assertEquals(MeasuresExamples.MEASURE_01_ID, ingredientNew.getMeasure().getId());
     }
 }

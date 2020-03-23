@@ -94,15 +94,62 @@ public class IngredientsBusinessImpl implements IngredientsBusiness {
 
     }
 
+    @Override
+    public void addOrReplaceIngredient(IngredientNewBO ingredient) throws ApiException {
+        RecipePO recipe = getRecipeOrThrowErrorIfRecipeNotExists(ingredient.getRecipeId());
+        MeasurePO measure = getMeasureOrThrowErrorIfNotExists(ingredient.getMeasureId());
+        ProductPO product = getProductOrCreateNewProductIfNotExists(ingredient.getProductName(), ingredient.getQuantity(), LanguageEnumBO.fromValue(recipe.getLanguage()));
+        IngredientPO ingredientPO = createOrReplaceIngredientPO(recipe, ingredient.getId(), product, ingredient.getQuantity(), measure);
+        ingredientPO.setRecipe(recipe);
+        ingredientsRepository.save(ingredientPO);
+    }
+
+    /**
+     * If not exist an ingredient with the same name (singular or plural) in the recipe, create a new Ingredient.
+     * If exists an ingredient with the same name (singular or plural) in the recipe, modify this Ingredient.
+     *
+     * @param recipe recipe
+     * @param objectId ingredient objectId
+     * @param product ingredient product
+     * @param quantity ingredient quantity
+     * @param measure ingredient measure
+     * @return new or modified existent ingredient
+     */
+    private IngredientPO createOrReplaceIngredientPO(RecipePO recipe, String objectId, ProductPO product, BigDecimal quantity, MeasurePO measure) {
+        IngredientPO newOrExistingIngredient = new IngredientPO(objectId, product, quantity, measure);
+        if (recipe != null && recipe.getIngredients() != null && recipe.getLanguage() != null && product != null && product.getNames() != null)  {
+            List<DescriptiveNamePO> productNamesInRecipeLanguage = product.getNames().stream().filter(n -> n.getLanguage()!= null && n.getLanguage().equals(recipe.getLanguage())).collect(Collectors.toList());
+            if (!productNamesInRecipeLanguage.isEmpty()) {
+                for (IngredientPO ingredientInRecipe : recipe.getIngredients()) {
+                    if (ingredientContainsProductName(ingredientInRecipe,  productNamesInRecipeLanguage.get(0))) {
+                        newOrExistingIngredient.setId(ingredientInRecipe.getId());
+                        return newOrExistingIngredient;
+                    }
+                }
+            }
+        }
+        return newOrExistingIngredient;
+    }
+
+    private boolean ingredientContainsProductName(IngredientPO ingredientInRecipe, DescriptiveNamePO productNameInRecipeLanguage) {
+        if (ingredientInRecipe.getProduct() != null && ingredientInRecipe.getProduct().getNames() != null) {
+            for (DescriptiveNamePO descriptiveNameInProduct : ingredientInRecipe.getProduct().getNames()) {
+                if (StringUtils.equals(productNameInRecipeLanguage.getSingular(), descriptiveNameInProduct.getSingular()) ||
+                        StringUtils.equals(productNameInRecipeLanguage.getPlural(), descriptiveNameInProduct.getPlural()))
+                    return true;
+            }
+        }
+        return false;
+    }
+
     private void throwErrorIfProductExistsInRecipe(IngredientNewBO ingredient, RecipePO recipe) throws ApiBadRequestException {
         if (recipe != null && ingredient != null && recipe.getIngredients() != null && ingredient.getProductName() != null && recipe.getLanguage() != null) {
             for (IngredientPO ingredientInRecipe : recipe.getIngredients()) {
                 if (ingredientInRecipe.getProduct() != null && ingredientInRecipe.getProduct().getNames() != null) {
                     for (DescriptiveNamePO descriptiveNameInProduct : ingredientInRecipe.getProduct().getNames()) {
-                        if ((descriptiveNameInProduct.getSingular() != null && (ingredient.getProductName().equals(descriptiveNameInProduct.getSingular())))
-                                || (descriptiveNameInProduct.getPlural() != null && (ingredient.getProductName().equals(descriptiveNameInProduct.getPlural())))) {
+                        if (StringUtils.equals(ingredient.getProductName(), descriptiveNameInProduct.getSingular()) ||
+                                StringUtils.equals(ingredient.getProductName(), descriptiveNameInProduct.getPlural()))
                             throw new ApiBadRequestException(messages.get("error.ingredient.duplicateinrecipe.code"), messages.get("error.ingredient.duplicateinrecipe.desc", ingredient.getProductName()));
-                        }
                     }
                 }
             }

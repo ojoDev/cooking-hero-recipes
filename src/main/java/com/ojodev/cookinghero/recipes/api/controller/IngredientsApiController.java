@@ -79,7 +79,7 @@ public class IngredientsApiController implements IngredientsApi {
     @Override
     public ResponseEntity<Void> updateIngredient(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId,
                                                  @ApiParam(value = "Ingredient id.", required = true) @PathVariable("ingredient-id") String ingredientId,
-                                                 @ApiParam(value = "Ingredient to update.") @Valid @RequestBody Ingredient body) {
+                                                 @ApiParam(value = "Ingredient to update.") @Valid @RequestBody IngredientUpdate body) {
         //TODO Hacer
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }

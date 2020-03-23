@@ -20,6 +20,6 @@ public interface IngredientsBusiness {
 
     void addIngredient(IngredientNewBO ingredient) throws ApiException;
 
-
+    void addOrReplaceIngredient(IngredientNewBO ingredient) throws ApiException;
 
 }

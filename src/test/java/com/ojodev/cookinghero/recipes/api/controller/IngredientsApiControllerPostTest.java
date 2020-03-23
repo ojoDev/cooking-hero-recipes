@@ -56,7 +56,7 @@ public class IngredientsApiControllerPostTest {
     @Test
     public void postIngredient() throws Exception {
 
-        IngredientNew ingredientNew = new IngredientNew(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, MeasuresExamples.MEASURE_01_ID);
+        IngredientNew ingredientNew = new IngredientNew(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, new MeasureRef(MeasuresExamples.MEASURE_01_ID));
         String ingredientId = RecipesExamples.RECIPE_ID_01 + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR;
 
         this.mvc.perform(post("/recipes/{recipe-id}/ingredients", RecipesExamples.RECIPE_ID_01)
@@ -74,7 +74,7 @@ public class IngredientsApiControllerPostTest {
     @Test
     public void postIngredientDuplicatedInRecipe() throws Exception {
 
-        IngredientNew ingredientNew = new IngredientNew(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, MeasuresExamples.MEASURE_01_ID);
+        IngredientNew ingredientNew = new IngredientNew(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, new MeasureRef(MeasuresExamples.MEASURE_01_ID));
         String ingredientId = RecipesExamples.RECIPE_ID_01 + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR;
 
         doThrow(new ApiBadRequestException(messages.get("error.ingredient.duplicateinrecipe.code"),messages.get("error.ingredient.duplicateinrecipe.desc", ingredientId))).when(ingredientsBusiness).addIngredient(any());
@@ -84,7 +84,7 @@ public class IngredientsApiControllerPostTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .content(TestUtils.asJsonString(ingredientNew)))
-                .andExpect(status().isNotFound())
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code", is(messages.get("error.ingredient.duplicateinrecipe.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.ingredient.duplicateinrecipe.desc", ingredientId))));
 
@@ -94,7 +94,7 @@ public class IngredientsApiControllerPostTest {
 
     @Test
     public void postRecipeNotFound() throws Exception {
-        IngredientNew ingredientNew = new IngredientNew(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, MeasuresExamples.MEASURE_01_ID);
+        IngredientNew ingredientNew = new IngredientNew(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, new MeasureRef(MeasuresExamples.MEASURE_01_ID));
 
         doThrow(new NotFoundException(messages.get("error.notfound.recipe.code"),messages.get("error.notfound.recipe.desc"))).when(ingredientsBusiness).addIngredient(any());
 
