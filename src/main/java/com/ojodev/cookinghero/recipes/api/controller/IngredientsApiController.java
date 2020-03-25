@@ -79,9 +79,13 @@ public class IngredientsApiController implements IngredientsApi {
     @Override
     public ResponseEntity<Void> updateIngredient(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId,
                                                  @ApiParam(value = "Ingredient id.", required = true) @PathVariable("ingredient-id") String ingredientId,
-                                                 @ApiParam(value = "Ingredient to update.") @Valid @RequestBody IngredientUpdate body) {
-        //TODO Hacer
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+                                                 @ApiParam(value = "Ingredient to update.") @Valid @RequestBody IngredientUpdate body) throws ApiException {
+        throwErrorIfRecipeNotFound(recipeId);
+
+        IngredientBO ingredientBO = ingredientsBusiness.getIngredient(recipeId, ingredientId).orElseThrow((() -> new NotFoundException(messages.get("error.notfound.ingredient.code"), messages.get("error.notfound.ingredient.desc"))));
+
+       // ingredientsBusiness.addOrReplaceIngredient(ingredientsNewMapper.toIngredientNewBO(body, recipeId));
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

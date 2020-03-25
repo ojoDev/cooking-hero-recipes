@@ -26,7 +26,7 @@ public class IdentifiableBO {
         StringBuilder normalizedId = new StringBuilder();
         for (char s : id.toCharArray()) {
             if (ACCEPTED_CHARS.matcher(String.valueOf(s)).matches()) {
-                normalizedId.append(s);
+                normalizedId.append(Character.toLowerCase(s));
             }
         }
         return normalizedId.toString().trim().replace(" ", ID_WORD_SEPARATOR);

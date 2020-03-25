@@ -34,7 +34,6 @@ public class ProductUpdate {
     /**
      * name
      **/
-
     public DescriptiveNameUpdate getName() {
         return name.isPresent() ? name.get() : null;
     }
@@ -51,7 +50,6 @@ public class ProductUpdate {
     /**
      * status
      **/
-
     public ProductStatusEnum getStatus() {
         return status.isPresent() ? status.get() : null;
     }

@@ -62,10 +62,11 @@ public class CuisineTypesApiControllerPostTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .content(TestUtils.asJsonString(cuisineTypeNew)))
-                .andExpect(header().string(HttpHeaders.LOCATION, endsWith("/cuisine-types/" + CuisineTypesExamples.CUISINE_TYPE_01_ID)))
+                .andExpect(header().string(HttpHeaders.LOCATION, endsWith(String.format("/cuisine-types/%s", CuisineTypesExamples.CUISINE_TYPE_01_ID))))
                 .andExpect(status().isCreated());
 
         verify(cuisineTypesBusiness).addCuisineType(any());
+
     }
 
     @Test

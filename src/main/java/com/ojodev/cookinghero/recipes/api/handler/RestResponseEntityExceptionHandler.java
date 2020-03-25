@@ -132,7 +132,7 @@ public class RestResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleException(Exception e) {
         LOGGER.error("Exception: " + e);
-        return new ResponseEntity<>(new ApiError(messages.get("error.server.code"), messages.get("error.server.desc")), HttpStatus.INTERNAL_SERVER_ERROR);
+           return new ResponseEntity<>(new ApiError(messages.get("error.server.code"), messages.get("error.server.desc")), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

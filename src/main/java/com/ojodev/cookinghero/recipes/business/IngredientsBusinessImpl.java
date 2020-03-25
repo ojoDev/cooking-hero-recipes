@@ -163,11 +163,14 @@ public class IngredientsBusinessImpl implements IngredientsBusiness {
         }
         List<RecipePO> recipes = recipesRepository.findByObjectId(recipeId);
         throwErrorIfRecipeNotExists(recipes);
-        List<IngredientPO> ingredientPOList = recipes.get(0).getIngredients().stream().filter(i -> ingredientId.equals(i.getObjectId())).collect(Collectors.toList());
-        if (ingredientPOList.isEmpty()) {
+        if (!ingredientInRecipe(ingredientId, recipes.get(0))) {
             throw new NotFoundException(messages.get("error.notfound.ingredient.code"), messages.get("error.notfound.ingredient.desc"));
         }
         ingredientsRepository.deleteByObjectId(ingredientId);
+    }
+
+    private boolean ingredientInRecipe(String ingredientId, RecipePO recipePO) {
+        return recipePO != null && ingredientId != null && recipePO.getIngredients() != null && recipePO.getIngredients().stream().anyMatch(i -> i.equals(ingredientId));
     }
 
 
@@ -217,11 +220,12 @@ public class IngredientsBusinessImpl implements IngredientsBusiness {
      * @throws NotFoundException
      */
     private ProductPO getProductOrCreateNewProductIfNotExists(String productName, BigDecimal quantity, LanguageEnumBO language) {
+        language = setDefaultLanguageIfNull(language);
         ProductPO productPO = null;
         if (!StringUtils.isEmpty(productName)) {
             List<ProductPO> productList = productsRepository.findProducts(productName,
                     ProductStatusEnumBO.APPROVED_BY_ADMIN.toString(),
-                    setDefaultLanguageIfNull(language).toString(), 0, 1);
+                    language.toString(), 0, 1);
             if (productList.isEmpty()) {
                 DescriptiveNamePO descriptiveNamePO = new DescriptiveNamePO();
                 descriptiveNamePO.setLanguage(language.toString());

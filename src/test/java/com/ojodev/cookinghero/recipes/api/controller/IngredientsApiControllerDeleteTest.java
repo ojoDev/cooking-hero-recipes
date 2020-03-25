@@ -83,5 +83,4 @@ public class IngredientsApiControllerDeleteTest {
         verify(ingredientsBusiness).deleteIngredient(RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID);
     }
 
-
 }

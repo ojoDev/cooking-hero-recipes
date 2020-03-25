@@ -6,13 +6,17 @@ import com.ojodev.cookinghero.recipes.api.model.ProductStatusEnum;
 import com.ojodev.cookinghero.recipes.api.model.ProductUpdate;
 import com.ojodev.cookinghero.recipes.business.ProductsBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
+import com.ojodev.cookinghero.recipes.data.FileNameEnum;
 import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.domain.model.DescriptiveNameBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.ProductBO;
+import com.ojodev.cookinghero.recipes.domain.model.ProductStatusEnumBO;
+import com.ojodev.cookinghero.recipes.utils.FileUtils;
 import com.ojodev.cookinghero.recipes.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -41,6 +46,9 @@ public class ProductsApiControllerPatchTest {
     @Autowired
     private Messages messages;
 
+    @Autowired
+    private FileUtils fileUtils;
+
     @MockBean
     private ProductsBusiness productsBusiness;
 
@@ -48,7 +56,7 @@ public class ProductsApiControllerPatchTest {
     @Test
     public void patchProductComplete() throws Exception {
 
-        ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_02_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_02_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.CREATED_BY_USER);
         ProductUpdate productUpdateComplete = new ProductUpdate(new DescriptiveNameUpdate(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED), ProductStatusEnum.APPROVED_BY_ADMIN);
 
         when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.of(productBOEs));
@@ -57,17 +65,21 @@ public class ProductsApiControllerPatchTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, ProductsExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(productUpdateComplete)))
+                .content(fileUtils.fileAsJsonString(FileNameEnum.PRODUCT_PATCH_COMPLETE)))
                 .andExpect(status().isNoContent());
 
-        verify(productsBusiness).addOrReplaceProduct(any());
+        ArgumentCaptor<ProductBO> argumentProduct = ArgumentCaptor.forClass(ProductBO.class);
+        verify(productsBusiness).addOrReplaceProduct(argumentProduct.capture());
+        assertNotNull(argumentProduct.getValue().getName());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, argumentProduct.getValue().getName().getSingular());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED, argumentProduct.getValue().getName().getPlural());
+        assertEquals(ProductStatusEnumBO.APPROVED_BY_ADMIN, argumentProduct.getValue().getStatus());
     }
 
     @Test
     public void patchProductPartial() throws Exception {
 
-        ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES));
-        ProductUpdate ProductUpdate = initPartialProductUpdate();
+        ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES), ProductStatusEnumBO.CREATED_BY_USER);
 
         when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.of(productBOEs));
 
@@ -75,10 +87,37 @@ public class ProductsApiControllerPatchTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, ProductsExamples.LANGUAGE_ES)
-                .content(TestUtils.asJsonString(ProductUpdate)))
+                .content(fileUtils.fileAsJsonString(FileNameEnum.PRODUCT_PATCH_PARTIAL)))
                 .andExpect(status().isNoContent());
 
-        verify(productsBusiness).addOrReplaceProduct(any());
+        ArgumentCaptor<ProductBO> argumentProduct = ArgumentCaptor.forClass(ProductBO.class);
+        verify(productsBusiness).addOrReplaceProduct(argumentProduct.capture());
+        assertNotNull(argumentProduct.getValue().getName());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, argumentProduct.getValue().getName().getSingular());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, argumentProduct.getValue().getName().getPlural());
+        assertEquals(ProductStatusEnumBO.CREATED_BY_USER, argumentProduct.getValue().getStatus());
+    }
+
+    @Test
+    public void patchProductPartialAndNull() throws Exception {
+
+        ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_SPANISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_SPANISH_PLURAL, LanguageEnumBO.ES), ProductStatusEnumBO.CREATED_BY_USER);
+
+        when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.of(productBOEs));
+
+        this.mvc.perform(patch("/products/{product-id}", ProductsExamples.PRODUCT_01_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.ACCEPT_LANGUAGE, ProductsExamples.LANGUAGE_ES)
+                .content(fileUtils.fileAsJsonString(FileNameEnum.PRODUCT_PATCH_PARTIAL_AND_NULL)))
+                .andExpect(status().isNoContent());
+
+        ArgumentCaptor<ProductBO> argumentProduct = ArgumentCaptor.forClass(ProductBO.class);
+        verify(productsBusiness).addOrReplaceProduct(argumentProduct.capture());
+        assertNotNull(argumentProduct.getValue().getName());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, argumentProduct.getValue().getName().getSingular());
+        assertNull(argumentProduct.getValue().getName().getPlural());
+        assertEquals(ProductStatusEnumBO.CREATED_BY_USER, argumentProduct.getValue().getStatus());
     }
 
 
@@ -100,13 +139,5 @@ public class ProductsApiControllerPatchTest {
 
         verify(productsBusiness, never()).addOrReplaceProduct(any());
     }
-
-
-    private static ProductUpdate initPartialProductUpdate() {
-        DescriptiveNameUpdate descriptiveNameUpdate = new DescriptiveNameUpdate();
-        descriptiveNameUpdate.setSingular(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED);
-        return new ProductUpdate(descriptiveNameUpdate, null);
-    }
-
 
 }

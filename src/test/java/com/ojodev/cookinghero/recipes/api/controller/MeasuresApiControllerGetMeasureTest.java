@@ -161,8 +161,8 @@ public class MeasuresApiControllerGetMeasureTest {
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code", is(messages.get("error.notfound.code"))))
-                .andExpect(jsonPath("$.description", is(messages.get("error.notfound.desc"))));
+                .andExpect(jsonPath("$.code", is(messages.get("error.notfound.measure.code"))))
+                .andExpect(jsonPath("$.description", is(messages.get("error.notfound.measure.desc"))));
     }
 
     @Test

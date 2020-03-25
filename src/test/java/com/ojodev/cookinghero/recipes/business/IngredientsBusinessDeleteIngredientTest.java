@@ -118,4 +118,23 @@ public class IngredientsBusinessDeleteIngredientTest {
     }
 
 
+
+    @Test
+    public void deleteIngredientRecipeWithoutIngredients() {
+
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
+
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
+
+        NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
+            ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_ID_01, INVALID_ID);
+        });
+        assertNotNull(exception);
+        Assert.assertEquals(messages.get("error.notfound.ingredient.code"), exception.getCode());
+        Assert.assertEquals(messages.get("error.notfound.ingredient.desc"), exception.getDescription());
+
+        verify(ingredientsRepository, never()).deleteByObjectId(IngredientsExamples.INGREDIENT_01_ID);
+    }
+
+
 }

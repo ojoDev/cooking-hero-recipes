@@ -1,6 +1,7 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.IngredientNew;
+import com.ojodev.cookinghero.recipes.api.model.IngredientUpdate;
 import com.ojodev.cookinghero.recipes.api.model.MeasureRef;
 import com.ojodev.cookinghero.recipes.data.IngredientsExamples;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
@@ -24,7 +25,7 @@ public class IngredientsNewMapperTest {
     private IngredientsNewMapper ingredientsNewMapper;
 
     @Test
-    public void toIngredientNewBO() {
+    public void IngredientNewToIngredientNewBO() {
 
         IngredientNew ingredientNew = new IngredientNew(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, new MeasureRef(MeasuresExamples.MEASURE_01_ID));
 

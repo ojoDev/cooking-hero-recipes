@@ -65,7 +65,7 @@ public class MeasuresApiControllerPostTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .content(TestUtils.asJsonString(measureNew)))
-                .andExpect(header().string(HttpHeaders.LOCATION, endsWith("/measures/" + MeasuresExamples.MEASURE_01_ID)))
+                .andExpect(header().string(HttpHeaders.LOCATION, endsWith(String.format("/measures/%s", MeasuresExamples.MEASURE_01_ID))))
                 .andExpect(status().isCreated());
 
         verify(measuresBusiness).addMeasure(any());

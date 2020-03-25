@@ -8,10 +8,13 @@ import com.ojodev.cookinghero.recipes.data.FileNameEnum;
 import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiBadRequestException;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
+import com.ojodev.cookinghero.recipes.domain.model.MeasureBO;
+import com.ojodev.cookinghero.recipes.domain.model.ProductMultiLanguageBO;
 import com.ojodev.cookinghero.recipes.utils.FileUtils;
 import com.ojodev.cookinghero.recipes.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,7 +65,7 @@ public class ProductsApiControllerPostTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)
                 .content(TestUtils.asJsonString(productNew)))
-                .andExpect(header().string(HttpHeaders.LOCATION, endsWith("/products/" + ProductsExamples.PRODUCT_01_ID)))
+                .andExpect(header().string(HttpHeaders.LOCATION, endsWith(String.format("/products/%s", ProductsExamples.PRODUCT_01_ID))))
                 .andExpect(status().isCreated());
 
         verify(productsBusiness).addProduct(any());
