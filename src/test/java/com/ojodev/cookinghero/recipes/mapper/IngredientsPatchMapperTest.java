@@ -58,15 +58,38 @@ public class IngredientsPatchMapperTest {
                 new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
         IngredientBO originalIngredient = new IngredientBO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01);
 
-        IngredientUpdate patchIngredient = new IngredientUpdate();
-        patchIngredient.setProductName(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED);
+        IngredientUpdate patchIngredient01 = new IngredientUpdate();
+        patchIngredient01.setProductName(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED);
 
-        IngredientNewBO resultIngredient = ingredientsPatchMapper.patch(originalIngredient, patchIngredient);
-        assertNotNull(resultIngredient);
-        assertEquals(IngredientsExamples.INGREDIENT_01_ID, resultIngredient.getId());
-        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, resultIngredient.getProductName());
-        assertEquals(IngredientsExamples.INGREDIENT_01_QUANTITY, resultIngredient.getQuantity());
-        assertEquals(MeasuresExamples.MEASURE_01_ID, resultIngredient.getMeasureId());
+        IngredientNewBO resultIngredient01 = ingredientsPatchMapper.patch(originalIngredient, patchIngredient01);
+        assertNotNull(resultIngredient01);
+        assertEquals(IngredientsExamples.INGREDIENT_01_ID, resultIngredient01.getId());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, resultIngredient01.getProductName());
+        assertEquals(IngredientsExamples.INGREDIENT_01_QUANTITY, resultIngredient01.getQuantity());
+        assertEquals(MeasuresExamples.MEASURE_01_ID, resultIngredient01.getMeasureId());
+
+
+        IngredientUpdate patchIngredient02 = new IngredientUpdate();
+        patchIngredient02.setQuantity(IngredientsExamples.INGREDIENT_01_QUANTITY_CHANGED);
+
+        IngredientNewBO resultIngredient02 = ingredientsPatchMapper.patch(originalIngredient, patchIngredient02);
+        assertNotNull(resultIngredient02);
+        assertEquals(IngredientsExamples.INGREDIENT_01_ID, resultIngredient02.getId());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, resultIngredient02.getProductName());
+        assertEquals(IngredientsExamples.INGREDIENT_01_QUANTITY_CHANGED, resultIngredient02.getQuantity());
+        assertEquals(MeasuresExamples.MEASURE_01_ID, resultIngredient02.getMeasureId());
+
+
+        IngredientUpdate patchIngredient03 = new IngredientUpdate();
+        patchIngredient03.setMeasure(new MeasureRef(MeasuresExamples.MEASURE_02_ID));
+
+        IngredientNewBO resultIngredient03 = ingredientsPatchMapper.patch(originalIngredient, patchIngredient03);
+        assertNotNull(resultIngredient03);
+        assertEquals(IngredientsExamples.INGREDIENT_01_ID, resultIngredient03.getId());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, resultIngredient03.getProductName());
+        assertEquals(IngredientsExamples.INGREDIENT_01_QUANTITY, resultIngredient03.getQuantity());
+        assertEquals(MeasuresExamples.MEASURE_02_ID, resultIngredient03.getMeasureId());
+
     }
 
     @Test

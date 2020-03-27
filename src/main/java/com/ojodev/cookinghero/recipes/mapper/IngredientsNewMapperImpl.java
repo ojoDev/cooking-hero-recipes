@@ -1,8 +1,6 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.IngredientNew;
-import com.ojodev.cookinghero.recipes.api.model.IngredientUpdate;
-import com.ojodev.cookinghero.recipes.api.model.MeasureRef;
 import com.ojodev.cookinghero.recipes.domain.model.IngredientNewBO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

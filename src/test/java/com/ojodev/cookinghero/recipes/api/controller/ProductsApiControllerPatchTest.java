@@ -57,7 +57,6 @@ public class ProductsApiControllerPatchTest {
     public void patchProductComplete() throws Exception {
 
         ProductBO productBOEs = new ProductBO(ProductsExamples.PRODUCT_02_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.CREATED_BY_USER);
-        ProductUpdate productUpdateComplete = new ProductUpdate(new DescriptiveNameUpdate(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL_CHANGED), ProductStatusEnum.APPROVED_BY_ADMIN);
 
         when(this.productsBusiness.getProduct(any(), any())).thenReturn(Optional.of(productBOEs));
 

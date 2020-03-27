@@ -23,7 +23,6 @@ public interface CuisineTypesMapper {
 
 	CuisineTypeBO toCuisineTypeBO(CuisineTypePO cuisineTypePO, LanguageEnumBO language);
 
-	CuisineTypeBO toCuisineTypeBO(CuisineTypeNewName cuisineTypeNewName);
 
 
 }

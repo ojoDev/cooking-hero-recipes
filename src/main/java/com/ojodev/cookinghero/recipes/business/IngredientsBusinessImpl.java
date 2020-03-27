@@ -1,6 +1,5 @@
 package com.ojodev.cookinghero.recipes.business;
 
-import com.ojodev.cookinghero.recipes.api.model.Ingredient;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.constants.RecipesConstants;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiBadRequestException;
@@ -16,15 +15,12 @@ import com.ojodev.cookinghero.recipes.mapper.DescriptiveNameMapper;
 import com.ojodev.cookinghero.recipes.mapper.IngredientsMapper;
 import com.ojodev.cookinghero.recipes.mapper.LanguageEnumMapper;
 import org.apache.commons.lang3.StringUtils;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-
-import org.apache.shiro.session.mgt.DelegatingSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -108,20 +104,20 @@ public class IngredientsBusinessImpl implements IngredientsBusiness {
      * If not exist an ingredient with the same name (singular or plural) in the recipe, create a new Ingredient.
      * If exists an ingredient with the same name (singular or plural) in the recipe, modify this Ingredient.
      *
-     * @param recipe recipe
+     * @param recipe   recipe
      * @param objectId ingredient objectId
-     * @param product ingredient product
+     * @param product  ingredient product
      * @param quantity ingredient quantity
-     * @param measure ingredient measure
+     * @param measure  ingredient measure
      * @return new or modified existent ingredient
      */
     private IngredientPO createOrReplaceIngredientPO(RecipePO recipe, String objectId, ProductPO product, BigDecimal quantity, MeasurePO measure) {
         IngredientPO newOrExistingIngredient = new IngredientPO(objectId, product, quantity, measure);
-        if (recipe != null && recipe.getIngredients() != null && recipe.getLanguage() != null && product != null && product.getNames() != null)  {
-            List<DescriptiveNamePO> productNamesInRecipeLanguage = product.getNames().stream().filter(n -> n.getLanguage()!= null && n.getLanguage().equals(recipe.getLanguage())).collect(Collectors.toList());
+        if (recipe != null && recipe.getIngredients() != null && recipe.getLanguage() != null && product != null && product.getNames() != null) {
+            List<DescriptiveNamePO> productNamesInRecipeLanguage = product.getNames().stream().filter(n -> n.getLanguage() != null && n.getLanguage().equals(recipe.getLanguage())).collect(Collectors.toList());
             if (!productNamesInRecipeLanguage.isEmpty()) {
                 for (IngredientPO ingredientInRecipe : recipe.getIngredients()) {
-                    if (ingredientContainsProductName(ingredientInRecipe,  productNamesInRecipeLanguage.get(0))) {
+                    if (ingredientContainsProductName(ingredientInRecipe, productNamesInRecipeLanguage.get(0))) {
                         newOrExistingIngredient.setId(ingredientInRecipe.getId());
                         return newOrExistingIngredient;
                     }
@@ -170,7 +166,7 @@ public class IngredientsBusinessImpl implements IngredientsBusiness {
     }
 
     private boolean ingredientInRecipe(String ingredientId, RecipePO recipePO) {
-        return recipePO != null && ingredientId != null && recipePO.getIngredients() != null && recipePO.getIngredients().stream().anyMatch(i -> i.equals(ingredientId));
+        return recipePO != null && ingredientId != null && recipePO.getIngredients() != null && recipePO.getIngredients().stream().anyMatch(i -> i.getObjectId().equals(ingredientId));
     }
 
 

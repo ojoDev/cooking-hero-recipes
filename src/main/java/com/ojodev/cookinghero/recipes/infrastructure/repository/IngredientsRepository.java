@@ -1,8 +1,6 @@
 package com.ojodev.cookinghero.recipes.infrastructure.repository;
 
 import com.ojodev.cookinghero.recipes.infrastructure.po.IngredientPO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.ProductPO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.StepPO;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;

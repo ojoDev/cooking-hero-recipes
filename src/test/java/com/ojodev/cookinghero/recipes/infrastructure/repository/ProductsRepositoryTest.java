@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(classes = {TestConfiguration.class })
 @SpringBootTest(classes = RecipesApplication.class)
 @Slf4j
-public class ProductsRespositoryTest {
+public class ProductsRepositoryTest {
 
     @Autowired
     private ProductsRepository productsRepository;

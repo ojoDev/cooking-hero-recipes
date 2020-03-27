@@ -209,5 +209,23 @@ public class IngredientsBusinessGetIngredientTest {
         }
     }
 
+    @Test
+    public void getIngredientInvalidCall() {
+
+        try {
+            Optional<IngredientBO> ingredientBO = ingredientsBusiness.getIngredient(null, IngredientsExamples.INGREDIENT_01_ID);
+            assertEquals(Optional.empty(), ingredientBO);
+        } catch (NotFoundException e) {
+            fail("Needs to return a Optional.empty() object");
+        }
+
+        try {
+            Optional<IngredientBO> ingredientBO = ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_01, null);
+            assertEquals(Optional.empty(), ingredientBO);
+        } catch (NotFoundException e) {
+            fail("Needs to return a Optional.empty() object");
+        }
+    }
+
 
 }

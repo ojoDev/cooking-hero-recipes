@@ -25,7 +25,7 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(classes = {TestConfiguration.class})
 @SpringBootTest(classes = RecipesApplication.class)
 @Slf4j
-public class StepsRespositoryTest {
+public class StepsRepositoryTest {
 
     @Autowired
     private StepsRepository stepsRepository;

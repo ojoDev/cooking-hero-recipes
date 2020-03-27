@@ -6,6 +6,7 @@ import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.data.RecipesExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
+import com.ojodev.cookinghero.recipes.domain.model.IngredientBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.*;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.IngredientsRepository;
@@ -22,8 +23,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -134,6 +136,24 @@ public class IngredientsBusinessDeleteIngredientTest {
         Assert.assertEquals(messages.get("error.notfound.ingredient.desc"), exception.getDescription());
 
         verify(ingredientsRepository, never()).deleteByObjectId(IngredientsExamples.INGREDIENT_01_ID);
+    }
+
+    @Test
+    public void getIngredientInvalidCall() {
+
+        NotFoundException exception01 = Assertions.assertThrows(NotFoundException.class, () -> {
+            ingredientsBusiness.deleteIngredient(null, IngredientsExamples.INGREDIENT_01_ID);
+        });
+        assertNotNull(exception01);
+        Assert.assertEquals(messages.get("error.notfound.ingredient.code"), exception01.getCode());
+        Assert.assertEquals(messages.get("error.notfound.ingredient.desc"), exception01.getDescription());
+
+        NotFoundException exception02 = Assertions.assertThrows(NotFoundException.class, () -> {
+            ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_ID_01, null);
+        });
+        assertNotNull(exception02);
+        Assert.assertEquals(messages.get("error.notfound.ingredient.code"), exception02.getCode());
+        Assert.assertEquals(messages.get("error.notfound.ingredient.desc"), exception02.getDescription());
     }
 
 

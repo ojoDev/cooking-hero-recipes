@@ -1,6 +1,8 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
-import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.api.model.Ingredient;
+import com.ojodev.cookinghero.recipes.api.model.IngredientNew;
+import com.ojodev.cookinghero.recipes.api.model.IngredientUpdate;
 import com.ojodev.cookinghero.recipes.business.IngredientsBusiness;
 import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
@@ -10,6 +12,7 @@ import com.ojodev.cookinghero.recipes.domain.model.IngredientBO;
 import com.ojodev.cookinghero.recipes.domain.model.IngredientNewBO;
 import com.ojodev.cookinghero.recipes.mapper.IngredientsMapper;
 import com.ojodev.cookinghero.recipes.mapper.IngredientsNewMapper;
+import com.ojodev.cookinghero.recipes.mapper.IngredientsPatchMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.net.URI;
 import java.util.List;
 
@@ -35,9 +35,11 @@ public class IngredientsApiController implements IngredientsApi {
     @Autowired
     private IngredientsMapper ingredientsMapper;
 
-
     @Autowired
     private IngredientsNewMapper ingredientsNewMapper;
+
+    @Autowired
+    private IngredientsPatchMapper ingredientsPatchMapper;
 
     @Autowired
     private IngredientsBusiness ingredientsBusiness;
@@ -54,7 +56,6 @@ public class IngredientsApiController implements IngredientsApi {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ingredientsMapper.toIngredientList(ingredientsBusiness.getIngredients(recipeId)));
     }
-
 
 
     @Override
@@ -83,8 +84,9 @@ public class IngredientsApiController implements IngredientsApi {
         throwErrorIfRecipeNotFound(recipeId);
 
         IngredientBO ingredientBO = ingredientsBusiness.getIngredient(recipeId, ingredientId).orElseThrow((() -> new NotFoundException(messages.get("error.notfound.ingredient.code"), messages.get("error.notfound.ingredient.desc"))));
-
-       // ingredientsBusiness.addOrReplaceIngredient(ingredientsNewMapper.toIngredientNewBO(body, recipeId));
+        IngredientNewBO ingredientPatched = ingredientsPatchMapper.patch(ingredientBO, body);
+        ingredientPatched.setRecipeId(recipeId);
+        ingredientsBusiness.addOrReplaceIngredient(ingredientPatched);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

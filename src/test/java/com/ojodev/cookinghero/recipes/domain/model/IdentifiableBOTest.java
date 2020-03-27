@@ -14,7 +14,7 @@ public class IdentifiableBOTest {
 
     @Test
     public void createIdentifiableBOWithValidId() {
-        String initialId = "ABCabc123";
+        String initialId = "abc123";
         IdentifiableBO identifiableBO = new IdentifiableBO(initialId);
         assertNotNull(identifiableBO);
         assertNotNull(identifiableBO.getId());
@@ -29,7 +29,7 @@ public class IdentifiableBOTest {
     @Test
     public void createIdentifiableBOWithSpaces() {
         String initialId = "ABC abc 123";
-        String normalizedId = "ABC-abc-123";
+        String normalizedId = "abc-abc-123";
         IdentifiableBO identifiableBO = new IdentifiableBO(initialId);
         assertNotNull(identifiableBO);
         assertNotNull(identifiableBO.getId());
@@ -44,7 +44,7 @@ public class IdentifiableBOTest {
     @Test
     public void createIdentifiableBOWithStrangeChars() {
         String initialId = "** ** ** A&BC ab#c-12¬¬3  ";
-        String normalizedId = "ABC-abc-123";
+        String normalizedId = "abc-abc-123";
         IdentifiableBO identifiableBO = new IdentifiableBO(initialId);
         assertNotNull(identifiableBO);
         assertNotNull(identifiableBO.getId());

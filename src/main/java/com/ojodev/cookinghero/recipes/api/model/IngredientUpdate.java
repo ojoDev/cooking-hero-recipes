@@ -24,9 +24,6 @@ public class IngredientUpdate {
     private Optional<String> productName = Optional.empty();
 
     @JsonProperty("quantity")
-    @ApiModelProperty(example = "2", value = "Number of product units or quantity.", position = 1)
-    @Valid
-    @DecimalMin("0.01")
     private Optional<BigDecimal> quantity = Optional.empty();
 
     @JsonProperty("measure")
@@ -52,6 +49,9 @@ public class IngredientUpdate {
     /**
      * quantity
      */
+    @ApiModelProperty(example = "2", value = "Number of product units or quantity.", position = 1)
+    @Valid
+    @DecimalMin("0.01")
     public BigDecimal getQuantity() {
         return quantity != null && quantity.isPresent() ? quantity.get() : null;
     }

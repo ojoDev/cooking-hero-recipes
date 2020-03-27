@@ -1,19 +1,17 @@
 package com.ojodev.cookinghero.recipes.api.model;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.joda.time.DateTime;
 import org.springframework.validation.annotation.Validated;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.annotations.ApiModel;
-import lombok.Data;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Recipe created by a user

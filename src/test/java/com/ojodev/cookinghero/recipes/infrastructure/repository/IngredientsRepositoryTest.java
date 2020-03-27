@@ -85,4 +85,21 @@ public class IngredientsRepositoryTest {
         Assert.assertNotNull(ingredient.getMeasure().getNames().get(0).getPlural());
     }
 
+    @Test
+    @Ignore
+    public void updateIngredient() {
+        IngredientPO ingredient = ingredientsRepository.findByRecipeId(RecipesExamples.RECIPE_ID_01).get(0);
+        Assert.assertNotNull(ingredient);
+        BigDecimal quantity = ingredient.getQuantity();
+        BigDecimal quantityPlusOne = quantity.add(new BigDecimal(1.0));
+
+        ingredient.setQuantity(quantityPlusOne);
+        ingredientsRepository.save(ingredient);
+
+        IngredientPO ingredientModified = ingredientsRepository.findByRecipeId(RecipesExamples.RECIPE_ID_01).get(0);
+        Assert.assertNotNull(ingredientModified);
+        Assert.assertEquals(quantityPlusOne, ingredientModified.getQuantity());
+
+    }
+
 }
