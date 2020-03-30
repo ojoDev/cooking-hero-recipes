@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
  * Cuisine type.
  */
 @ApiModel(description = "Cuisine type.")
-@Validated
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

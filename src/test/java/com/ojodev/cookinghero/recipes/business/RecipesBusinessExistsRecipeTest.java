@@ -14,11 +14,11 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RecipesBusinessTest {
+public class RecipesBusinessExistsRecipeTest {
 
 
     @Autowired
-    private RecipesBusiness recipesBusiness;
+    private RecipesBusiness_old recipesBusiness;
 
     @MockBean
     private RecipesRepository recipesRepository;
@@ -27,18 +27,18 @@ public class RecipesBusinessTest {
     @Test
     public void existsRecipeTrueTest() {
 
-        when(recipesRepository.existsByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(true);
+        when(recipesRepository.existsByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(true);
 
-        boolean exists = recipesBusiness.existsRecipe(RecipesExamples.RECIPE_ID_01);
+        boolean exists = recipesBusiness.existsRecipe(RecipesExamples.RECIPE_01_ID);
         assertTrue(exists);
     }
 
     @Test
     public void existsRecipeFalseTest() {
 
-        when(recipesRepository.existsByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(false);
+        when(recipesRepository.existsByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(false);
 
-        boolean exists = recipesBusiness.existsRecipe(RecipesExamples.RECIPE_ID_01);
+        boolean exists = recipesBusiness.existsRecipe(RecipesExamples.RECIPE_01_ID);
 
         assertFalse(exists);
 

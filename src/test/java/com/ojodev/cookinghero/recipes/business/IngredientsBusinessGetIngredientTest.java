@@ -72,15 +72,15 @@ public class IngredientsBusinessGetIngredientTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_01_ID, RecipesExamples.RECIPE_01_NAME, RecipesExamples.RECIPE_01_DESCRIPTION, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
-        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(Arrays.asList(recipePO));
 
         Optional<IngredientBO> ingredientBO = Optional.empty();
         ;
         try {
-            ingredientBO = ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID);
+            ingredientBO = ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID);
         } catch (NotFoundException e) {
             fail("Needs to found the ingredient");
         }
@@ -121,14 +121,14 @@ public class IngredientsBusinessGetIngredientTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.ES);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_01_ID, RecipesExamples.RECIPE_01_NAME, RecipesExamples.RECIPE_01_DESCRIPTION, LanguageEnumBO.ES);
         recipePO.setIngredients(ingredientPOList);
 
-        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(Arrays.asList(recipePO));
 
         Optional<IngredientBO> ingredientBO = Optional.empty();
         try {
-            ingredientBO = ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID);
+            ingredientBO = ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID);
         } catch (NotFoundException e) {
             fail("Needs to found the ingredient");
         }
@@ -155,10 +155,10 @@ public class IngredientsBusinessGetIngredientTest {
 
     @Test
     public void getIngredientRecipeNotFound() {
-        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(new ArrayList<>());
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(new ArrayList<>());
 
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID);
+            ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID);
         });
         assertNotNull(exception);
         Assert.assertEquals(messages.get("error.notfound.recipe.code"), exception.getCode());
@@ -181,13 +181,13 @@ public class IngredientsBusinessGetIngredientTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_01_ID, RecipesExamples.RECIPE_01_NAME, RecipesExamples.RECIPE_01_DESCRIPTION, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
-        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(Arrays.asList(recipePO));
 
         try {
-            Optional<IngredientBO> ingredientBO = ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_01, INVALID_ID);
+            Optional<IngredientBO> ingredientBO = ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_01_ID, INVALID_ID);
             assertEquals(Optional.empty(), ingredientBO);
         } catch (NotFoundException e) {
             fail("Needs to return a Optional.empty() object");
@@ -197,12 +197,12 @@ public class IngredientsBusinessGetIngredientTest {
     @Test
     public void getIngredientIngredientNotFoundRecipeWithoutIngredients() {
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_01_ID, RecipesExamples.RECIPE_01_NAME, RecipesExamples.RECIPE_01_DESCRIPTION, LanguageEnumBO.EN);
 
-        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(Arrays.asList(recipePO));
 
         try {
-            Optional<IngredientBO> ingredientBO = ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_01, INVALID_ID);
+            Optional<IngredientBO> ingredientBO = ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_01_ID, INVALID_ID);
             assertEquals(Optional.empty(), ingredientBO);
         } catch (NotFoundException e) {
             fail("Needs to return a Optional.empty() object");
@@ -220,7 +220,7 @@ public class IngredientsBusinessGetIngredientTest {
         }
 
         try {
-            Optional<IngredientBO> ingredientBO = ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_01, null);
+            Optional<IngredientBO> ingredientBO = ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_01_ID, null);
             assertEquals(Optional.empty(), ingredientBO);
         } catch (NotFoundException e) {
             fail("Needs to return a Optional.empty() object");

@@ -4,7 +4,7 @@ import com.ojodev.cookinghero.recipes.api.model.Ingredient;
 import com.ojodev.cookinghero.recipes.api.model.IngredientNew;
 import com.ojodev.cookinghero.recipes.api.model.IngredientUpdate;
 import com.ojodev.cookinghero.recipes.business.IngredientsBusiness;
-import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
+import com.ojodev.cookinghero.recipes.business.RecipesBusiness_old;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
@@ -45,7 +45,7 @@ public class IngredientsApiController implements IngredientsApi {
     private IngredientsBusiness ingredientsBusiness;
 
     @Autowired
-    private RecipesBusiness recipesBusiness;
+    private RecipesBusiness_old recipesBusiness;
 
     @Autowired
     private Messages messages;

@@ -6,7 +6,6 @@ import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.data.RecipesExamples;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
-import com.ojodev.cookinghero.recipes.domain.model.IngredientBO;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.*;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.IngredientsRepository;
@@ -23,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -63,22 +61,22 @@ public class IngredientsBusinessDeleteIngredientTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_01_ID, RecipesExamples.RECIPE_01_NAME, RecipesExamples.RECIPE_01_DESCRIPTION, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
-        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(Arrays.asList(recipePO));
 
-        Assertions.assertDoesNotThrow(() -> ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID));
+        Assertions.assertDoesNotThrow(() -> ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID));
         verify(ingredientsRepository).deleteByObjectId(IngredientsExamples.INGREDIENT_01_ID);
 
     }
 
     @Test
     public void deleteIngredientRecipeNotFound() {
-        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(new ArrayList<>());
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(new ArrayList<>());
 
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID);
+            ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID);
         });
         assertNotNull(exception);
         Assert.assertEquals(messages.get("error.notfound.recipe.code"), exception.getCode());
@@ -104,13 +102,13 @@ public class IngredientsBusinessDeleteIngredientTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_01_ID, RecipesExamples.RECIPE_01_NAME, RecipesExamples.RECIPE_01_DESCRIPTION, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
-        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(Arrays.asList(recipePO));
 
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_ID_01, INVALID_ID);
+            ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_01_ID, INVALID_ID);
         });
         assertNotNull(exception);
         Assert.assertEquals(messages.get("error.notfound.ingredient.code"), exception.getCode());
@@ -124,12 +122,12 @@ public class IngredientsBusinessDeleteIngredientTest {
     @Test
     public void deleteIngredientRecipeWithoutIngredients() {
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_01_ID, RecipesExamples.RECIPE_01_NAME, RecipesExamples.RECIPE_01_DESCRIPTION, LanguageEnumBO.EN);
 
-        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(Arrays.asList(recipePO));
 
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_ID_01, INVALID_ID);
+            ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_01_ID, INVALID_ID);
         });
         assertNotNull(exception);
         Assert.assertEquals(messages.get("error.notfound.ingredient.code"), exception.getCode());
@@ -149,7 +147,7 @@ public class IngredientsBusinessDeleteIngredientTest {
         Assert.assertEquals(messages.get("error.notfound.ingredient.desc"), exception01.getDescription());
 
         NotFoundException exception02 = Assertions.assertThrows(NotFoundException.class, () -> {
-            ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_ID_01, null);
+            ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_01_ID, null);
         });
         assertNotNull(exception02);
         Assert.assertEquals(messages.get("error.notfound.ingredient.code"), exception02.getCode());

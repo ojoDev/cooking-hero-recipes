@@ -20,10 +20,10 @@ public class IngredientNewBOTest {
 
     @Test
     public void constructorTwoFields() {
-        IngredientNewBO ingredientNewBO = new IngredientNewBO(RecipesExamples.RECIPE_ID_01, ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR);
+        IngredientNewBO ingredientNewBO = new IngredientNewBO(RecipesExamples.RECIPE_01_ID, ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR);
         assertNotNull(ingredientNewBO);
-        assertEquals(RecipesExamples.RECIPE_ID_01 + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ingredientNewBO.getId());
-        assertEquals(RecipesExamples.RECIPE_ID_01, ingredientNewBO.getRecipeId());
+        assertEquals(RecipesExamples.RECIPE_01_ID + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ingredientNewBO.getId());
+        assertEquals(RecipesExamples.RECIPE_01_ID, ingredientNewBO.getRecipeId());
         assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ingredientNewBO.getProductName());
         assertNull(ingredientNewBO.getQuantity());
         assertNull(ingredientNewBO.getMeasureId());
@@ -31,21 +31,21 @@ public class IngredientNewBOTest {
 
     @Test
     public void constructorThreeFields() {
-        IngredientNewBO ingredientNewBO = new IngredientNewBO(RecipesExamples.RECIPE_ID_01, ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY);
+        IngredientNewBO ingredientNewBO = new IngredientNewBO(RecipesExamples.RECIPE_01_ID, ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY);
         assertNotNull(ingredientNewBO);
-        assertEquals(RecipesExamples.RECIPE_ID_01 + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ingredientNewBO.getId());
+        assertEquals(RecipesExamples.RECIPE_01_ID + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ingredientNewBO.getId());
         assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ingredientNewBO.getProductName());
-        assertEquals(RecipesExamples.RECIPE_ID_01, ingredientNewBO.getRecipeId());
+        assertEquals(RecipesExamples.RECIPE_01_ID, ingredientNewBO.getRecipeId());
         assertEquals(IngredientsExamples.INGREDIENT_01_QUANTITY, ingredientNewBO.getQuantity());
         assertNull(ingredientNewBO.getMeasureId());
     }
 
     @Test
     public void constructorFourFields() {
-        IngredientNewBO ingredientNewBO = new IngredientNewBO(RecipesExamples.RECIPE_ID_01, ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, MeasuresExamples.MEASURE_01_ID);
+        IngredientNewBO ingredientNewBO = new IngredientNewBO(RecipesExamples.RECIPE_01_ID, ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, MeasuresExamples.MEASURE_01_ID);
         assertNotNull(ingredientNewBO);
-        assertEquals(RecipesExamples.RECIPE_ID_01 + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ingredientNewBO.getId());
-        assertEquals(RecipesExamples.RECIPE_ID_01, ingredientNewBO.getRecipeId());
+        assertEquals(RecipesExamples.RECIPE_01_ID + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ingredientNewBO.getId());
+        assertEquals(RecipesExamples.RECIPE_01_ID, ingredientNewBO.getRecipeId());
         assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ingredientNewBO.getProductName());
         assertEquals(IngredientsExamples.INGREDIENT_01_QUANTITY, ingredientNewBO.getQuantity());
         assertEquals(MeasuresExamples.MEASURE_01_ID, ingredientNewBO.getMeasureId());
@@ -62,7 +62,7 @@ public class IngredientNewBOTest {
 
     @Test
     public void getterAndSetter() {
-        IngredientNewBO ingredientNewBO = new IngredientNewBO(RecipesExamples.RECIPE_ID_01, ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR);
+        IngredientNewBO ingredientNewBO = new IngredientNewBO(RecipesExamples.RECIPE_01_ID, ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR);
         assertNotNull(ingredientNewBO);
         ingredientNewBO.setId(RecipesExamples.RECIPE_ID_02 + "-" + ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR);
         ingredientNewBO.setRecipeId(RecipesExamples.RECIPE_ID_02);

@@ -12,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
  * Cuisine type name in a specific language.
  */
 @ApiModel(description = "Cuisine type name in a specific language.")
-@Validated
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

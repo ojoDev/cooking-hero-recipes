@@ -2,10 +2,9 @@ package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.ojodev.cookinghero.recipes.api.model.*;
 import com.ojodev.cookinghero.recipes.business.IngredientsBusiness;
-import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
+import com.ojodev.cookinghero.recipes.business.RecipesBusiness_old;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
-import com.ojodev.cookinghero.recipes.domain.model.IngredientBO;
 import com.ojodev.cookinghero.recipes.mapper.IngredientsMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -34,48 +33,10 @@ public class RecipesApiController implements RecipesApi {
     private IngredientsBusiness ingredientsBusiness;
 
     @Autowired
-    private RecipesBusiness recipesBusiness;
+    private RecipesBusiness_old recipesBusiness;
 
     @Autowired
     private Messages messages;
-
-    /**
-     * public ResponseEntity<List<Recipe>> getRecipes(
-     *
-     * @ApiParam(value = "initial date of recipe creation, useful for multiple page lists searches") @Valid @RequestParam(value = "createdFrom", required = false) DateTime createdFrom,
-     * @ApiParam(value = "recipe name, partial searches allowed") @Valid @RequestParam(value = "name", required = false) String name,
-     * @ApiParam(value = "user id that create the recipe") @Valid @RequestParam(value = "userId", required = false) String userId,
-     * @ApiParam(value = "recipe fields returned in response, separated by ','") @Valid @RequestParam(value = "fields", required = false) String fields,
-     * @Min(1) @ApiParam(value = "number of page for skip (pagination)", allowableValues = "") @Valid @RequestParam(value = "skip", required = false) Integer skip,
-     * @Min(1) @Max(50) @ApiParam(value = "maximum number of records returned, by default 20", allowableValues = "") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
-     * List<Recipe> recipeList = recipeBusiness.getRecipes(name);
-     * return recipeList.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(recipeList, HttpStatus.OK);
-     * }
-     * <p>
-     * public ResponseEntity<Recipe> getRecipe(String recipeId) throws NotFoundException {
-     * Recipe recipe = recipeBusiness.getRecipe(recipeId);
-     * return new ResponseEntity<>(recipe, HttpStatus.OK);
-     * }
-     * <p>
-     * public ResponseEntity<Void> addRecipe(@ApiParam(value = "Recipe to add") @Valid @RequestBody RecipeRequest body) {
-     * recipeBusiness.addRecipe(body);
-     * return new ResponseEntity<>(HttpStatus.CREATED);
-     * <p>
-     * public ResponseEntity<Void> updateRecipe(
-     * @ApiParam(value = "recipe id", required = true) @PathVariable("recipe-id") String recipeId,
-     * @ApiParam(value = "recipe to update") @Valid @RequestBody Recipe recipe) {
-     * UpsertResultEnum result = recipeBusiness.updateRecipe(recipe);
-     * return new ResponseEntity<>(UpsertResultEnum.CREATED.equals(result) ? HttpStatus.CREATED : HttpStatus.NO_CONTENT);
-     * }
-     * <p>
-     * public ResponseEntity<Void> deleteRecipe(
-     * @ApiParam(value = "recipe id", required = true) @PathVariable("recipe-id") String recipeId)
-     * throws ApiException {
-     * recipeBusiness.deleteRecipe(recipeId);
-     * return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-     * }
-     * }
-     */
 
     @Override
     public ResponseEntity<List<Recipe>> getRecipes(@ApiParam(value = "Recipe name, partial searches allowed.") @Valid @RequestParam(value = "name", required = false) String name,

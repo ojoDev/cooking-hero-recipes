@@ -2,14 +2,12 @@ package com.ojodev.cookinghero.recipes.api.controller;
 
 
 import com.ojodev.cookinghero.recipes.business.IngredientsBusiness;
-import com.ojodev.cookinghero.recipes.business.ProductsBusiness;
-import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
+import com.ojodev.cookinghero.recipes.business.RecipesBusiness_old;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.IngredientsExamples;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.data.RecipesExamples;
-import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +20,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -46,7 +43,7 @@ public class IngredientsApiControllerGetIngredientTest {
     private IngredientsBusiness ingredientsBusiness;
 
     @MockBean
-    private RecipesBusiness recipesBusiness;
+    private RecipesBusiness_old recipesBusiness;
 
     @Test
     public void getIngredient() throws Exception {
@@ -56,10 +53,10 @@ public class IngredientsApiControllerGetIngredientTest {
                 new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
         IngredientBO ingredient = new IngredientBO(IngredientsExamples.INGREDIENT_01_ID, product, BigDecimal.valueOf(2), measure);
 
-        when(this.recipesBusiness.existsRecipe(RecipesExamples.RECIPE_ID_01)).thenReturn(true);
-        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID)).thenReturn(Optional.of(ingredient));
+        when(this.recipesBusiness.existsRecipe(RecipesExamples.RECIPE_01_ID)).thenReturn(true);
+        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID)).thenReturn(Optional.of(ingredient));
 
-        this.mvc.perform(get("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID)
+        this.mvc.perform(get("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(IngredientsExamples.INGREDIENT_01_ID)))

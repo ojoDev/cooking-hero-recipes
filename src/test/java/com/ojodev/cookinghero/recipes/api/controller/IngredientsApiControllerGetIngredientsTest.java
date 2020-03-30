@@ -56,9 +56,9 @@ public class IngredientsApiControllerGetIngredientsTest {
         List<IngredientBO> ingredientBOList = Arrays.asList(new IngredientBO(IngredientsExamples.INGREDIENT_01_ID, product01, BigDecimal.valueOf(2), measure01),
                 new IngredientBO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        when(this.ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_ID_01)).thenReturn(ingredientBOList);
+        when(this.ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_01_ID)).thenReturn(ingredientBOList);
 
-        this.mvc.perform(get("/recipes/{recipe-id}/ingredients", RecipesExamples.RECIPE_ID_01)
+        this.mvc.perform(get("/recipes/{recipe-id}/ingredients", RecipesExamples.RECIPE_01_ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", is(2)))
@@ -107,9 +107,9 @@ public class IngredientsApiControllerGetIngredientsTest {
     @Test
     public void getProductOutOfMemoryException() throws Exception {
 
-        when(this.ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_ID_01)).thenThrow(new OutOfMemoryError());
+        when(this.ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_01_ID)).thenThrow(new OutOfMemoryError());
 
-        this.mvc.perform(get("/recipes/{recipe-id}/ingredients", RecipesExamples.RECIPE_ID_01)
+        this.mvc.perform(get("/recipes/{recipe-id}/ingredients", RecipesExamples.RECIPE_01_ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.code", is(messages.get("error.server.code"))))

@@ -56,12 +56,12 @@ public class IngredientsApiControllerPatchTest {
                 new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.APPROVED_BY_ADMIN);
         MeasureBO measure01 = new MeasureBO(MeasuresExamples.MEASURE_01_ID,
                 new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
-        String ingredientId = RecipesExamples.RECIPE_ID_01 + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR;
+        String ingredientId = RecipesExamples.RECIPE_01_ID + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR;
         IngredientBO ingredientBO = new IngredientBO(ingredientId, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01);
 
-        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_01, ingredientId)).thenReturn(Optional.of(ingredientBO));
+        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_01_ID, ingredientId)).thenReturn(Optional.of(ingredientBO));
 
-        this.mvc.perform(patch("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_ID_01, ingredientId)
+        this.mvc.perform(patch("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_01_ID, ingredientId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(fileUtils.fileAsJsonString(FileNameEnum.INGREDIENT_PATCH_COMPLETE)))
@@ -70,7 +70,7 @@ public class IngredientsApiControllerPatchTest {
         ArgumentCaptor<IngredientNewBO> argumentIngredientNew = ArgumentCaptor.forClass(IngredientNewBO.class);
         verify(ingredientsBusiness).addOrReplaceIngredient(argumentIngredientNew.capture());
         assertEquals("If name is changed, old id does not change", ingredientId, argumentIngredientNew.getValue().getId());
-        assertEquals(RecipesExamples.RECIPE_ID_01, argumentIngredientNew.getValue().getRecipeId());
+        assertEquals(RecipesExamples.RECIPE_01_ID, argumentIngredientNew.getValue().getRecipeId());
         assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, argumentIngredientNew.getValue().getProductName());
         assertEquals(IngredientsExamples.INGREDIENT_01_QUANTITY_CHANGED, argumentIngredientNew.getValue().getQuantity());
         assertEquals(MeasuresExamples.MEASURE_02_ID, argumentIngredientNew.getValue().getMeasureId());
@@ -84,12 +84,12 @@ public class IngredientsApiControllerPatchTest {
                 new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.APPROVED_BY_ADMIN);
         MeasureBO measure01 = new MeasureBO(MeasuresExamples.MEASURE_01_ID,
                 new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
-        String ingredientId = RecipesExamples.RECIPE_ID_01 + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR;
+        String ingredientId = RecipesExamples.RECIPE_01_ID + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR;
         IngredientBO ingredientBO = new IngredientBO(ingredientId, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01);
 
-        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_01, ingredientId)).thenReturn(Optional.of(ingredientBO));
+        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_01_ID, ingredientId)).thenReturn(Optional.of(ingredientBO));
 
-        this.mvc.perform(patch("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_ID_01, ingredientId)
+        this.mvc.perform(patch("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_01_ID, ingredientId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(fileUtils.fileAsJsonString(FileNameEnum.INGREDIENT_PATCH_PARTIAL)))
@@ -98,7 +98,7 @@ public class IngredientsApiControllerPatchTest {
         ArgumentCaptor<IngredientNewBO> argumentIngredientNew = ArgumentCaptor.forClass(IngredientNewBO.class);
         verify(ingredientsBusiness).addOrReplaceIngredient(argumentIngredientNew.capture());
         assertEquals(ingredientId, argumentIngredientNew.getValue().getId());
-        assertEquals(RecipesExamples.RECIPE_ID_01, argumentIngredientNew.getValue().getRecipeId());
+        assertEquals(RecipesExamples.RECIPE_01_ID, argumentIngredientNew.getValue().getRecipeId());
         assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, argumentIngredientNew.getValue().getProductName());
         assertEquals(IngredientsExamples.INGREDIENT_01_QUANTITY, argumentIngredientNew.getValue().getQuantity());
         assertEquals(MeasuresExamples.MEASURE_01_ID, argumentIngredientNew.getValue().getMeasureId());
@@ -112,12 +112,12 @@ public class IngredientsApiControllerPatchTest {
                 new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.APPROVED_BY_ADMIN);
         MeasureBO measure01 = new MeasureBO(MeasuresExamples.MEASURE_01_ID,
                 new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
-        String ingredientId = RecipesExamples.RECIPE_ID_01 + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR;
+        String ingredientId = RecipesExamples.RECIPE_01_ID + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR;
         IngredientBO ingredientBO = new IngredientBO(ingredientId, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01);
 
-        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_01, ingredientId)).thenReturn(Optional.of(ingredientBO));
+        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_01_ID, ingredientId)).thenReturn(Optional.of(ingredientBO));
 
-        this.mvc.perform(patch("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_ID_01, ingredientId)
+        this.mvc.perform(patch("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_01_ID, ingredientId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(fileUtils.fileAsJsonString(FileNameEnum.INGREDIENT_PATCH_PARTIAL_NULL)))
@@ -126,7 +126,7 @@ public class IngredientsApiControllerPatchTest {
         ArgumentCaptor<IngredientNewBO> argumentIngredientNew = ArgumentCaptor.forClass(IngredientNewBO.class);
         verify(ingredientsBusiness).addOrReplaceIngredient(argumentIngredientNew.capture());
         assertEquals(ingredientId, argumentIngredientNew.getValue().getId());
-        assertEquals(RecipesExamples.RECIPE_ID_01, argumentIngredientNew.getValue().getRecipeId());
+        assertEquals(RecipesExamples.RECIPE_01_ID, argumentIngredientNew.getValue().getRecipeId());
         assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR_CHANGED, argumentIngredientNew.getValue().getProductName());
         assertNull(argumentIngredientNew.getValue().getQuantity());
         assertNull(argumentIngredientNew.getValue().getMeasureId());
@@ -137,11 +137,11 @@ public class IngredientsApiControllerPatchTest {
     public void patchIngredientRecipeNotFound() throws Exception {
 
         IngredientNew ingredientNew = new IngredientNew(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, new MeasureRef(MeasuresExamples.MEASURE_01_ID));
-        String ingredientId = RecipesExamples.RECIPE_ID_01 + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR;
+        String ingredientId = RecipesExamples.RECIPE_01_ID + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR;
 
         doThrow(new NotFoundException(messages.get("error.notfound.recipe.code"), messages.get("error.notfound.recipe.desc"))).when(ingredientsBusiness).getIngredient(any(), any());
 
-        this.mvc.perform(patch("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_ID_01, ingredientId)
+        this.mvc.perform(patch("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_01_ID, ingredientId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(TestUtils.asJsonString(ingredientNew)))
@@ -155,11 +155,11 @@ public class IngredientsApiControllerPatchTest {
     public void patchIngredientIngredientNotFound() throws Exception {
 
         IngredientNew ingredientNew = new IngredientNew(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, IngredientsExamples.INGREDIENT_01_QUANTITY, new MeasureRef(MeasuresExamples.MEASURE_01_ID));
-        String ingredientId = RecipesExamples.RECIPE_ID_01 + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR;
+        String ingredientId = RecipesExamples.RECIPE_01_ID + "-" + ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR;
 
         doThrow(new NotFoundException(messages.get("error.notfound.ingredient.code"), messages.get("error.notfound.ingredient.desc"))).when(ingredientsBusiness).addOrReplaceIngredient(any());
 
-        this.mvc.perform(patch("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_ID_01, ingredientId)
+        this.mvc.perform(patch("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_01_ID, ingredientId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(TestUtils.asJsonString(ingredientNew)))

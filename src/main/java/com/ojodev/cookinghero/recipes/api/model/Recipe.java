@@ -32,7 +32,7 @@ public class Recipe {
     private String name;
 
     @JsonProperty("description")
-    @ApiModelProperty(example = "Classic Spanish omelette filled with pan-fried potatoes and onion.", required = true, value = "General description of the recipe.")
+    @ApiModelProperty(example = "Classic Spanish omelet filled with pan-fried potatoes and onion.", required = true, value = "General description of the recipe.")
     @NotNull
     private String description;
 

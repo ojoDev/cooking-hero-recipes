@@ -71,13 +71,13 @@ public class IngredientsBusinessGetIngredientsTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.EN);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_01_ID, RecipesExamples.RECIPE_01_NAME, RecipesExamples.RECIPE_01_DESCRIPTION, LanguageEnumBO.EN);
         recipePO.setIngredients(ingredientPOList);
 
-        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
-        when(this.ingredientsRepository.findByRecipeId(RecipesExamples.RECIPE_ID_01)).thenReturn(ingredientPOList);
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(Arrays.asList(recipePO));
+        when(this.ingredientsRepository.findByRecipeId(RecipesExamples.RECIPE_01_ID)).thenReturn(ingredientPOList);
 
-        List<IngredientBO> ingredientBOList = ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_ID_01);
+        List<IngredientBO> ingredientBOList = ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_01_ID);
         assertNotNull(ingredientBOList);
         assertEquals(2, ingredientBOList.size());
         assertEquals(IngredientsExamples.INGREDIENT_01_ID, ingredientBOList.get(0).getId());
@@ -125,13 +125,13 @@ public class IngredientsBusinessGetIngredientsTest {
         List<IngredientPO> ingredientPOList = Arrays.asList(new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product01, IngredientsExamples.INGREDIENT_01_QUANTITY, measure01),
                 new IngredientPO(IngredientsExamples.INGREDIENT_02_ID, product02));
 
-        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_ID_01, RecipesExamples.RECIPE_NAME_01, RecipesExamples.RECIPE_DESCRIPTION_01, LanguageEnumBO.ES);
+        RecipePO recipePO = new RecipePO(RecipesExamples.RECIPE_01_ID, RecipesExamples.RECIPE_01_NAME, RecipesExamples.RECIPE_01_DESCRIPTION, LanguageEnumBO.ES);
         recipePO.setIngredients(ingredientPOList);
 
-        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(Arrays.asList(recipePO));
-        when(this.ingredientsRepository.findByRecipeId(RecipesExamples.RECIPE_ID_01)).thenReturn(ingredientPOList);
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(Arrays.asList(recipePO));
+        when(this.ingredientsRepository.findByRecipeId(RecipesExamples.RECIPE_01_ID)).thenReturn(ingredientPOList);
 
-        List<IngredientBO> ingredientBOList = ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_ID_01);
+        List<IngredientBO> ingredientBOList = ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_01_ID);
         assertNotNull(ingredientBOList);
         assertEquals(2, ingredientBOList.size());
         assertEquals(IngredientsExamples.INGREDIENT_01_ID, ingredientBOList.get(0).getId());
@@ -165,10 +165,10 @@ public class IngredientsBusinessGetIngredientsTest {
 
     @Test
     public void getIngredientsRecipeNotFound() {
-        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01)).thenReturn(new ArrayList<>());
+        when(this.recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID)).thenReturn(new ArrayList<>());
 
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_ID_01);
+            ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_01_ID);
         });
         assertNotNull(exception);
         Assert.assertEquals(messages.get("error.notfound.recipe.code"), exception.getCode());

@@ -1,29 +1,25 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
 
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-
+import com.ojodev.cookinghero.recipes.api.model.Tag;
 import com.ojodev.cookinghero.recipes.api.model.*;
-import org.joda.time.DateTime;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
+import io.swagger.annotations.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
-import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.util.List;
 
 @Api(value = "recipes")
 public interface RecipesApi {
+
+
+
 
     /**
      * @ApiOperation(value = "searches recipes", nickname = "getRecipes", notes = "Search for recipe list ", response = Recipe.class, responseContainer = "array", tags={ Tag.RECIPES, })
@@ -133,7 +129,7 @@ public interface RecipesApi {
             produces = {MediaType.APPLICATION_JSON_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<Void> updateRecipe(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId,
-                                            @ApiParam(value = "Recipe to update.") @Valid @RequestBody RecipeUpdate body);
+                                      @ApiParam(value = "Recipe to update.") @Valid @RequestBody RecipeUpdate body);
 
 
     @ApiOperation(value = "Delete recipe", nickname = "deleteRecipe", notes = "Delete recipe. ", tags = {Tag.RECIPES})
@@ -146,7 +142,6 @@ public interface RecipesApi {
     @DeleteMapping(value = "/recipes/{recipe-id}",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<Void> deleteRecipe(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId);
-
 
 
 }

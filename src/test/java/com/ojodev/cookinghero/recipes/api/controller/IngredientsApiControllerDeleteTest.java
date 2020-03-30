@@ -42,21 +42,21 @@ public class IngredientsApiControllerDeleteTest {
     @Test
     public void deleteIngredient() throws Exception {
 
-        this.mvc.perform(delete("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID)
+        this.mvc.perform(delete("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH))
                 .andExpect(status().isNoContent());
 
-        verify(ingredientsBusiness).deleteIngredient(RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID);
+        verify(ingredientsBusiness).deleteIngredient(RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID);
     }
 
     @Test
     public void deleteIngredientNotFoundRecipe() throws Exception {
 
-        doThrow(new NotFoundException(messages.get("error.notfound.recipe.code"),messages.get("error.notfound.recipe.desc"))).when(ingredientsBusiness).deleteIngredient(RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID);
+        doThrow(new NotFoundException(messages.get("error.notfound.recipe.code"),messages.get("error.notfound.recipe.desc"))).when(ingredientsBusiness).deleteIngredient(RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID);
 
-        this.mvc.perform(delete("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID)
+        this.mvc.perform(delete("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH))
@@ -64,15 +64,15 @@ public class IngredientsApiControllerDeleteTest {
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.recipe.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.notfound.recipe.desc"))));
 
-        verify(ingredientsBusiness).deleteIngredient(RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID);
+        verify(ingredientsBusiness).deleteIngredient(RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID);
     }
 
     @Test
     public void deleteIngredientNotFoundIngredient() throws Exception {
 
-        doThrow(new NotFoundException(messages.get("error.notfound.ingredient.code"),messages.get("error.notfound.ingredient.desc"))).when(ingredientsBusiness).deleteIngredient(RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID);
+        doThrow(new NotFoundException(messages.get("error.notfound.ingredient.code"),messages.get("error.notfound.ingredient.desc"))).when(ingredientsBusiness).deleteIngredient(RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID);
 
-        this.mvc.perform(delete("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID)
+        this.mvc.perform(delete("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH))
@@ -80,7 +80,7 @@ public class IngredientsApiControllerDeleteTest {
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.ingredient.code"))))
                 .andExpect(jsonPath("$.description", is(messages.get("error.notfound.ingredient.desc"))));
 
-        verify(ingredientsBusiness).deleteIngredient(RecipesExamples.RECIPE_ID_01, IngredientsExamples.INGREDIENT_01_ID);
+        verify(ingredientsBusiness).deleteIngredient(RecipesExamples.RECIPE_01_ID, IngredientsExamples.INGREDIENT_01_ID);
     }
 
 }

@@ -15,7 +15,6 @@ import java.util.List;
  * Cuisine type new.
  */
 @ApiModel(description = "Cuisine type.")
-@Validated
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

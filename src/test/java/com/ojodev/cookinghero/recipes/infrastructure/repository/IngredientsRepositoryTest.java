@@ -42,7 +42,7 @@ public class IngredientsRepositoryTest {
 
         ProductPO product = productsRepository.findByObjectId("salt").get(0);
         MeasurePO measure = measuresRepository.findByObjectId("tablespoon").get(0);
-        RecipePO recipe = recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01).get(0);
+        RecipePO recipe = recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID).get(0);
 
         IngredientPO newIngredient = new IngredientPO(IngredientsExamples.INGREDIENT_01_ID, product, BigDecimal.valueOf(0.5), measure);
         newIngredient.setRecipe(recipe);
@@ -71,7 +71,7 @@ public class IngredientsRepositoryTest {
     @Test
     @Ignore
     public void getIngredientByRecipeId() {
-        IngredientPO ingredient = ingredientsRepository.findByRecipeId(RecipesExamples.RECIPE_ID_01).get(0);
+        IngredientPO ingredient = ingredientsRepository.findByRecipeId(RecipesExamples.RECIPE_01_ID).get(0);
         Assert.assertNotNull(ingredient);
         Assert.assertNotNull(ingredient.getProduct());
         Assert.assertNotNull(ingredient.getProduct().getNames());
@@ -88,7 +88,7 @@ public class IngredientsRepositoryTest {
     @Test
     @Ignore
     public void updateIngredient() {
-        IngredientPO ingredient = ingredientsRepository.findByRecipeId(RecipesExamples.RECIPE_ID_01).get(0);
+        IngredientPO ingredient = ingredientsRepository.findByRecipeId(RecipesExamples.RECIPE_01_ID).get(0);
         Assert.assertNotNull(ingredient);
         BigDecimal quantity = ingredient.getQuantity();
         BigDecimal quantityPlusOne = quantity.add(new BigDecimal(1.0));
@@ -96,7 +96,7 @@ public class IngredientsRepositoryTest {
         ingredient.setQuantity(quantityPlusOne);
         ingredientsRepository.save(ingredient);
 
-        IngredientPO ingredientModified = ingredientsRepository.findByRecipeId(RecipesExamples.RECIPE_ID_01).get(0);
+        IngredientPO ingredientModified = ingredientsRepository.findByRecipeId(RecipesExamples.RECIPE_01_ID).get(0);
         Assert.assertNotNull(ingredientModified);
         Assert.assertEquals(quantityPlusOne, ingredientModified.getQuantity());
 

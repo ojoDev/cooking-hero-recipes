@@ -2,8 +2,6 @@ package com.ojodev.cookinghero.recipes.infrastructure.repository;
 
 import com.ojodev.cookinghero.recipes.RecipesApplication;
 import com.ojodev.cookinghero.recipes.data.RecipesExamples;
-import com.ojodev.cookinghero.recipes.domain.model.ProductStatusEnumBO;
-import com.ojodev.cookinghero.recipes.infrastructure.po.ProductPO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.RecipePO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.StepPO;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -36,7 +32,7 @@ public class StepsRepositoryTest {
     @Test
     @Ignore
     public void addStep() {
-        RecipePO recipe = recipesRepository.findByObjectId(RecipesExamples.RECIPE_ID_01).get(0);
+        RecipePO recipe = recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID).get(0);
 
         StepPO newStep = new StepPO("testId", "Add salt.", null);
         newStep.setRecipe(recipe);
