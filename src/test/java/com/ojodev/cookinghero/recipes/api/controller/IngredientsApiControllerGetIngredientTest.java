@@ -74,9 +74,9 @@ public class IngredientsApiControllerGetIngredientTest {
     @Test
     public void getIngredientRecipeNotFound() throws Exception {
 
-        when(this.recipesBusiness.existsRecipe(RecipesExamples.RECIPE_ID_02)).thenReturn(false);
+        when(this.recipesBusiness.existsRecipe(RecipesExamples.RECIPE_02_ID)).thenReturn(false);
 
-        this.mvc.perform(get("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_ID_02, IngredientsExamples.INGREDIENT_01_ID)
+        this.mvc.perform(get("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_02_ID, IngredientsExamples.INGREDIENT_01_ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.recipe.code"))))
@@ -86,10 +86,10 @@ public class IngredientsApiControllerGetIngredientTest {
     @Test
     public void getIngredientIngredientNotFound() throws Exception {
 
-        when(this.recipesBusiness.existsRecipe(RecipesExamples.RECIPE_ID_02)).thenReturn(true);
-        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_02, IngredientsExamples.INGREDIENT_01_ID)).thenReturn(Optional.empty());
+        when(this.recipesBusiness.existsRecipe(RecipesExamples.RECIPE_02_ID)).thenReturn(true);
+        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_02_ID, IngredientsExamples.INGREDIENT_01_ID)).thenReturn(Optional.empty());
 
-        this.mvc.perform(get("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_ID_02, IngredientsExamples.INGREDIENT_01_ID)
+        this.mvc.perform(get("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_02_ID, IngredientsExamples.INGREDIENT_01_ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.ingredient.code"))))
@@ -99,10 +99,10 @@ public class IngredientsApiControllerGetIngredientTest {
     @Test
     public void getProductOutOfMemoryException() throws Exception {
 
-        when(this.recipesBusiness.existsRecipe(RecipesExamples.RECIPE_ID_02)).thenReturn(true);
-        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_ID_02, IngredientsExamples.INGREDIENT_01_ID)).thenThrow(new OutOfMemoryError());
+        when(this.recipesBusiness.existsRecipe(RecipesExamples.RECIPE_02_ID)).thenReturn(true);
+        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_02_ID, IngredientsExamples.INGREDIENT_01_ID)).thenThrow(new OutOfMemoryError());
 
-        this.mvc.perform(get("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_ID_02, IngredientsExamples.INGREDIENT_01_ID)
+        this.mvc.perform(get("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_02_ID, IngredientsExamples.INGREDIENT_01_ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.code", is(messages.get("error.server.code"))))

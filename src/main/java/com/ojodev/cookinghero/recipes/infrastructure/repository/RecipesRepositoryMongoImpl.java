@@ -1,7 +1,7 @@
 package com.ojodev.cookinghero.recipes.infrastructure.repository;
 
 import com.mongodb.client.result.UpdateResult;
-import com.ojodev.cookinghero.recipes.domain.enume.UpsertResultEnum;
+import com.ojodev.cookinghero.recipes.domain.enume.UpsertResultEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.RecipeMongoPO;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -52,10 +52,10 @@ public class RecipesRepositoryMongoImpl implements RecipesRepositoryMongo {
 	}
 	
 	@Override
-	public UpsertResultEnum upsertRecipe(RecipeMongoPO recipe) {
+	public UpsertResultEnumBO upsertRecipe(RecipeMongoPO recipe) {
 		Update updateData = generateFullUpdate(recipe);
 		UpdateResult updateResult = mongoTemplate.upsert(query(where("id").is(recipe.getId())), updateData, RecipeMongoPO.class);
-		return updateResult != null && updateResult.getMatchedCount() > 0 ? UpsertResultEnum.UPDATED : UpsertResultEnum.CREATED;
+		return updateResult != null && updateResult.getMatchedCount() > 0 ? UpsertResultEnumBO.UPDATED : UpsertResultEnumBO.CREATED;
 	}
 
 	//TODO DMS Mejorarlo haciendo una clase genérica que modifique todos los atributos

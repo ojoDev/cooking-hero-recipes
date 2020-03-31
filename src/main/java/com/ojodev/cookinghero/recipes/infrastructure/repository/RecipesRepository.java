@@ -17,13 +17,14 @@ public interface RecipesRepository extends Neo4jRepository<RecipePO, Long> {
             "RETURN r,ri,i,rp,m,rn,ln")
     List<RecipePO> findByObjectIdBasic(@Param("id") String id);
 
-    @Query("MATCH (r:Recipe) "+
+    @Query("MATCH (r:Recipe) " +
             "WHERE r.objectId = {id} " +
-            "OPTIONAL MATCH (r)-[ri:INCLUDE]->(i:Ingredient) "+
-            "OPTIONAL MATCH (i)-[rp:FORMED_BY]->(m)-[rn:REPRESENTED_BY]->(ln:LanguageName) "+
-            "OPTIONAL MATCH (r)-[rb:REPRESENTED_BY]->(s) "+
-            "OPTIONAL MATCH (r)-[ri2:INCLUDE]->(c:CuisineType)-[rb2:REPRESENTED_BY]->(ln2:LanguageName) "+
-            "RETURN r,ri,i,rp,m,rn,ln,rb,s,ri2,c,rb2,ln2")
+            "OPTIONAL MATCH (r)-[ri:INCLUDE]->(i:Ingredient) " +
+            "OPTIONAL MATCH (i)-[rp:FORMED_BY]->(m)-[rn:REPRESENTED_BY]->(ln:LanguageName) " +
+            "OPTIONAL MATCH (r)-[ri2:INCLUDE]->(s:Step) " +
+            "OPTIONAL MATCH (r)-[rb2:REPRESENTED_BY]->(c:CuisineType)-[rb3:REPRESENTED_BY]->(ln2:LanguageName) " +
+            "OPTIONAL MATCH (r)-[rb4:REPRESENTED_BY]->(med:Media) " +
+            "RETURN r,ri,i,rp,m,rn,ln,ri2,s,rb2,c,rb3,ln2,rb4,med")
     List<RecipePO> findByObjectId(@Param("id") String id);
 
     @Query("MATCH (r:Recipe) " +

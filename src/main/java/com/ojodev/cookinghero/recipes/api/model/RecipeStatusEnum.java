@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * Recipe status.   DRAFT is for no published recipes, may have inconsistences. PUBLISHED is for publisded and public recipes. DELETED is for deleted users or recipes.
+ * Recipe status.   DRAFT is for no published recipes, may have inconsistencies. PUBLISHED is for published and public recipes. DELETED is for deleted users or recipes.
  */
 public enum RecipeStatusEnum {
 

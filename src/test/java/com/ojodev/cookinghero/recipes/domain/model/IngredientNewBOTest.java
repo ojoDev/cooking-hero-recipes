@@ -64,14 +64,14 @@ public class IngredientNewBOTest {
     public void getterAndSetter() {
         IngredientNewBO ingredientNewBO = new IngredientNewBO(RecipesExamples.RECIPE_01_ID, ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR);
         assertNotNull(ingredientNewBO);
-        ingredientNewBO.setId(RecipesExamples.RECIPE_ID_02 + "-" + ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR);
-        ingredientNewBO.setRecipeId(RecipesExamples.RECIPE_ID_02);
+        ingredientNewBO.setId(RecipesExamples.RECIPE_02_ID + "-" + ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR);
+        ingredientNewBO.setRecipeId(RecipesExamples.RECIPE_02_ID);
         ingredientNewBO.setProductName(ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR);
         ingredientNewBO.setQuantity(IngredientsExamples.INGREDIENT_01_QUANTITY);
         ingredientNewBO.setMeasureId(MeasuresExamples.MEASURE_02_ID);
 
-        assertEquals(RecipesExamples.RECIPE_ID_02 + "-" + ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR, ingredientNewBO.getId());
-        assertEquals(RecipesExamples.RECIPE_ID_02, ingredientNewBO.getRecipeId());
+        assertEquals(RecipesExamples.RECIPE_02_ID + "-" + ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR, ingredientNewBO.getId());
+        assertEquals(RecipesExamples.RECIPE_02_ID, ingredientNewBO.getRecipeId());
         assertEquals(ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR, ingredientNewBO.getProductName());
         assertEquals(IngredientsExamples.INGREDIENT_01_QUANTITY, ingredientNewBO.getQuantity());
         assertEquals(MeasuresExamples.MEASURE_02_ID, ingredientNewBO.getMeasureId());

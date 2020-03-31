@@ -12,27 +12,27 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * step to cook a recipe
+ * Step to cook a recipe.
  */
-@ApiModel(description = "step to cook a recipe")
+@ApiModel(description = "Step to cook a recipe.")
 @Validated
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Step {
 
+	@JsonProperty("id")
+	@ApiModelProperty(example = "1", required = true, value = "Position of step in a recipe.", position = 0)
+	@NotNull
+	private Integer id;
+
 	@JsonProperty("description")
-	@ApiModelProperty(example = "In a large frying pan or skillet, heat olive oil over medium-high heat.", required = true, value = "Description of ordered actions to cook the recipe.", position = 0)
+	@ApiModelProperty(example = "In a large frying pan or skillet, heat olive oil over medium-high heat.", required = true, value = "Description of ordered actions to cook the recipe.", position = 1)
 	@NotNull
 	private String description;
 
-	@JsonProperty("time")
-	@ApiModelProperty(example = "15", value = "Time in minutes to finish this step (cooking or/and preparation time).", position = 1)
-	@Valid
-	private Integer time;
-
 	@JsonProperty("media")
-	@ApiModelProperty(value = "step visualization", position = 2)
+	@ApiModelProperty(value = "Step visualization.", position = 2)
 	@Valid
 	private Media media;
 

@@ -1,7 +1,8 @@
 package com.ojodev.cookinghero.recipes.domain.model;
 
-import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.domain.enume.RecipeStatusEnumBO;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.UUID;
  * Recipe created by a user.
  */
 @Data
+@NoArgsConstructor
 public class RecipeBO {
 
     private String id;
@@ -19,35 +21,37 @@ public class RecipeBO {
 
     private String description;
 
-    private List<CuisineType> cuisineType;
+    private List<CuisineTypeBO> cuisineTypes;
 
     private Integer preparationTime;
 
     private Integer difficulty;
 
-    private Media mainImage;
+    private MediaBO mainImage;
 
-    private List<Step> steps;
+    private List<StepBO> steps;
 
-    private List<Ingredient> ingredients;
+    private List<IngredientBO> ingredients;
 
     private String userId;
 
-    private LanguageEnum language;
+    private LanguageEnumBO language;
 
     private DateTime creationDate;
 
     private DateTime updateDate;
 
-    private RecipeStatusEnum status;
+    private RecipeStatusEnumBO status;
 
-    public RecipeBO(String name) {
+    public RecipeBO(String name, String userId) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
+        this.userId = userId;
     }
 
-    public RecipeBO(String id, String name) {
+    public RecipeBO(String id, String name, String userId) {
         this.id = id;
         this.name = name;
+        this.userId = userId;
     }
 }

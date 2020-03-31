@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.NotNull;
 
 /**
- * media (photo or video) associated to a recipe
+ * Media (image or video) associated to a recipe.
  */
 @ApiModel(description = "Media (image or video) associated to a recipe.")
 @Validated
@@ -27,7 +27,7 @@ public class Media {
 	private MediaTypeEnum mediaType;
 
 	@JsonProperty("href")
-	@ApiModelProperty(example = "https://www.mycompany.com/api/media/v1/media/21344123123", required = true, value = "Href to photo or video resource.")
+	@ApiModelProperty(example = "https://www.mycompany.com/api/media/v1/media/21344123123", required = true, value = "Href to image or video resource.")
 	@NotNull
 	private String href;
 

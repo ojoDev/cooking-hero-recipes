@@ -84,9 +84,9 @@ public class IngredientsApiControllerGetIngredientsTest {
     @Test
     public void getIngredientsNoIngredients() throws Exception {
 
-        when(this.ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_ID_02)).thenReturn(new ArrayList<>());
+        when(this.ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_02_ID)).thenReturn(new ArrayList<>());
 
-        this.mvc.perform(get("/recipes/{recipe-id}/ingredients", RecipesExamples.RECIPE_ID_02)
+        this.mvc.perform(get("/recipes/{recipe-id}/ingredients", RecipesExamples.RECIPE_02_ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", is(0)));
@@ -95,9 +95,9 @@ public class IngredientsApiControllerGetIngredientsTest {
     @Test
     public void getProductByIdNotFound() throws Exception {
 
-        when(this.ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_ID_02)).thenThrow(new NotFoundException(messages.get("error.notfound.recipe.code"), messages.get("error.notfound.recipe.desc")));
+        when(this.ingredientsBusiness.getIngredients(RecipesExamples.RECIPE_02_ID)).thenThrow(new NotFoundException(messages.get("error.notfound.recipe.code"), messages.get("error.notfound.recipe.desc")));
 
-        this.mvc.perform(get("/recipes/{recipe-id}/ingredients", RecipesExamples.RECIPE_ID_02)
+        this.mvc.perform(get("/recipes/{recipe-id}/ingredients", RecipesExamples.RECIPE_02_ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code", is(messages.get("error.notfound.recipe.code"))))

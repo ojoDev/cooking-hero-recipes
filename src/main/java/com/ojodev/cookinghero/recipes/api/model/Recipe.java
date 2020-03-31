@@ -36,10 +36,10 @@ public class Recipe {
     @NotNull
     private String description;
 
-    @JsonProperty("cuisineType")
+    @JsonProperty("cuisineTypes")
     @ApiModelProperty(value = "Recipe cuisine types.")
     @Valid
-    private List<CuisineType> cuisineType;
+    private List<CuisineType> cuisineTypes;
 
     @JsonProperty("preparationTime")
     @ApiModelProperty(example = "15", value = "Ingredient preparation and cooking time in minutes (cut potatoes, fry, ...).")
@@ -67,12 +67,8 @@ public class Recipe {
     private List<Ingredient> ingredients;
 
     @JsonProperty("userId")
-    @ApiModelProperty(example = "ojodev", value = "Owner user name.")
+    @ApiModelProperty(example = "ojodev", value = "Owner user id.")
     private String userId;
-
-    @JsonProperty("language")
-    @ApiModelProperty(example = "en", value = "Recipe language.")
-    private LanguageEnum language;
 
     @JsonProperty("creationDate")
     @ApiModelProperty(example = "2019-01-23T17:32:28Z", value = "Recipe creation date.")

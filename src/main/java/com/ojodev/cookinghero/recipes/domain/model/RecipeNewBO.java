@@ -2,6 +2,7 @@ package com.ojodev.cookinghero.recipes.domain.model;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
@@ -10,6 +11,7 @@ import java.util.UUID;
  * Recipe created by a user.
  */
 @Data
+@NoArgsConstructor
 public class RecipeNewBO {
 
     @Getter
@@ -25,13 +27,10 @@ public class RecipeNewBO {
 
     private String userId;
 
-    private LanguageEnumBO language;
-
-    public RecipeNewBO(@NotNull String name, @NotNull String userI, @NotNull LanguageEnumBO language) {
+    public RecipeNewBO(@NotNull String name, @NotNull String userId) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.userId = userId;
-        this.language = language;
     }
 
 }

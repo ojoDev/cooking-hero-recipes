@@ -92,7 +92,7 @@ public class IngredientsApiControllerPostTest {
 
         doThrow(new NotFoundException(messages.get("error.notfound.recipe.code"),messages.get("error.notfound.recipe.desc"))).when(ingredientsBusiness).addIngredient(any());
 
-        this.mvc.perform(post("/recipes/{recipe-id}/ingredients", RecipesExamples.RECIPE_ID_02)
+        this.mvc.perform(post("/recipes/{recipe-id}/ingredients", RecipesExamples.RECIPE_02_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.ACCEPT_LANGUAGE, LOCALE_ENGLISH)

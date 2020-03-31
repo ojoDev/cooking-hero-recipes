@@ -2,7 +2,7 @@ package com.ojodev.cookinghero.recipes.infrastructure.repository;
 
 import java.util.List;
 
-import com.ojodev.cookinghero.recipes.domain.enume.UpsertResultEnum;
+import com.ojodev.cookinghero.recipes.domain.enume.UpsertResultEnumBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.RecipeMongoPO;
 
 public interface RecipesRepositoryMongo {
@@ -24,5 +24,5 @@ public interface RecipesRepositoryMongo {
 	
 	RecipeMongoPO deleteRecipe(String recipeId);
 
-	UpsertResultEnum upsertRecipe(RecipeMongoPO recipe);
+	UpsertResultEnumBO upsertRecipe(RecipeMongoPO recipe);
 }

@@ -3,7 +3,9 @@ package com.ojodev.cookinghero.recipes.api.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -14,6 +16,8 @@ import javax.validation.constraints.NotNull;
  */
 @ApiModel(description = "Request to create a new recipe.")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RecipeNew {
 
     @JsonProperty("name")
@@ -35,9 +39,9 @@ public class RecipeNew {
     @Max(5)
     private Integer difficulty;
 
-    @JsonProperty("user")
-    @ApiModelProperty(example = "ojodev", value = "Owner username.")
-    private String user;
+    @JsonProperty("userId")
+    @ApiModelProperty(example = "ojodev", required = true, value = "Owner user id.")
+    private String userId;
 
 }
 

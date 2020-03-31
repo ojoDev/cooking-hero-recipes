@@ -1,11 +1,15 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
-import com.ojodev.cookinghero.recipes.api.model.*;
-import com.ojodev.cookinghero.recipes.business.IngredientsBusiness;
-import com.ojodev.cookinghero.recipes.business.RecipesBusiness_old;
+import com.ojodev.cookinghero.recipes.api.model.Recipe;
+import com.ojodev.cookinghero.recipes.api.model.RecipeNew;
+import com.ojodev.cookinghero.recipes.api.model.RecipeStatusEnum;
+import com.ojodev.cookinghero.recipes.api.model.RecipeUpdate;
+import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
-import com.ojodev.cookinghero.recipes.mapper.IngredientsMapper;
+import com.ojodev.cookinghero.recipes.domain.model.RecipeBO;
+import com.ojodev.cookinghero.recipes.domain.model.RecipeNewBO;
+import com.ojodev.cookinghero.recipes.mapper.RecipesMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +19,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.net.URI;
 import java.util.List;
 
 @Controller
@@ -27,13 +33,10 @@ public class RecipesApiController implements RecipesApi {
 
 
     @Autowired
-    private IngredientsMapper ingredientsMapper;
+    private RecipesBusiness recipesBusiness;
 
     @Autowired
-    private IngredientsBusiness ingredientsBusiness;
-
-    @Autowired
-    private RecipesBusiness_old recipesBusiness;
+    private RecipesMapper recipesMapper;
 
     @Autowired
     private Messages messages;
@@ -50,12 +53,15 @@ public class RecipesApiController implements RecipesApi {
 
     @Override
     public ResponseEntity<Void> addRecipe(@ApiParam(value = "Recipe to add.") @Valid @RequestBody RecipeNew body) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        RecipeNewBO recipeNewBO = recipesMapper.toRecipeNewBO(body);
+        recipesBusiness.addRecipe(recipeNewBO);
+        return ResponseEntity.created(generateLocationHeader(recipeNewBO.getId())).build();
     }
 
     public ResponseEntity<Recipe> getRecipe(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId) throws NotFoundException {
-        //TODO Hacer
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        RecipeBO recipeBO = recipesBusiness.getRecipe(recipeId).orElseThrow(() -> new NotFoundException(messages.get("error.notfound.recipe.code"),messages.get("error.notfound.recipe.desc")));;
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(recipesMapper.toRecipe(recipeBO));
     }
 
     @Override
@@ -69,6 +75,13 @@ public class RecipesApiController implements RecipesApi {
     public ResponseEntity<Void> deleteRecipe(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId) {
         //TODO Hacer
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    private URI generateLocationHeader(String id) {
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(id)
+                .toUri();
     }
 
 }

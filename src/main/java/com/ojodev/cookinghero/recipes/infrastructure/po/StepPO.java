@@ -25,6 +25,11 @@ public class StepPO {
 	public StepPO() {
 	}
 
+	public StepPO(String objectId, String description) {
+		this.objectId = objectId;
+		this.description = description;
+	}
+
 	public StepPO(String objectId, String description, MediaPO media) {
 		this.objectId = objectId;
 		this.description = description;

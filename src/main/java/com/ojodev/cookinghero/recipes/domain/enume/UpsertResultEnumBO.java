@@ -1,5 +1,5 @@
 package com.ojodev.cookinghero.recipes.domain.enume;
 
-public enum UpsertResultEnum {
+public enum UpsertResultEnumBO {
 	CREATED, UPDATED
 }

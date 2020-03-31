@@ -26,7 +26,7 @@ public class RecipePO {
     private String description;
 
     @Relationship(type = "REPRESENTED_BY")
-    private List<CuisineTypePO> cuisineType;
+    private List<CuisineTypePO> cuisineTypes;
 
     private Integer preparationTime;
 
@@ -100,12 +100,12 @@ public class RecipePO {
         this.description = description;
     }
 
-    public List<CuisineTypePO> getCuisineType() {
-        return cuisineType;
+    public List<CuisineTypePO> getCuisineTypes() {
+        return cuisineTypes;
     }
 
-    public void setCuisineType(List<CuisineTypePO> cuisineType) {
-        this.cuisineType = cuisineType;
+    public void setCuisineTypes(List<CuisineTypePO> cuisineTypes) {
+        this.cuisineTypes = cuisineTypes;
     }
 
     public Integer getPreparationTime() {

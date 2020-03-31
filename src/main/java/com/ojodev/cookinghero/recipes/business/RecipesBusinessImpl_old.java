@@ -3,7 +3,7 @@ package com.ojodev.cookinghero.recipes.business;
 import com.ojodev.cookinghero.recipes.api.model.Recipe;
 import com.ojodev.cookinghero.recipes.api.model.RecipeRequest;
 import com.ojodev.cookinghero.recipes.config.Messages;
-import com.ojodev.cookinghero.recipes.domain.enume.UpsertResultEnum;
+import com.ojodev.cookinghero.recipes.domain.enume.UpsertResultEnumBO;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.infrastructure.repository.RecipesRepository;
 import com.ojodev.cookinghero.recipes.mapper.RecipeMapper;
@@ -58,7 +58,7 @@ public class RecipesBusinessImpl_old implements RecipesBusiness_old {
 //		recipesRepository.addRecipe(recipeMapper.toRecipePO(recipeRequest));
 	}
 	
-	public UpsertResultEnum updateRecipe(Recipe recipe) {
+	public UpsertResultEnumBO updateRecipe(Recipe recipe) {
 //		return recipesRepository.upsertRecipe(recipeMapper.toRecipePO(recipe));
 		return null;
 	}
