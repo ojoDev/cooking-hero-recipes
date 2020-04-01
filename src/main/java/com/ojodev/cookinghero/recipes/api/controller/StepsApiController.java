@@ -1,6 +1,6 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
-import com.ojodev.cookinghero.recipes.api.model.*;
+import com.ojodev.cookinghero.recipes.api.model.Step;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;

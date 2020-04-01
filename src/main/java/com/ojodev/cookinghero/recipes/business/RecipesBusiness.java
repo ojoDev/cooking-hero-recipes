@@ -1,6 +1,5 @@
 package com.ojodev.cookinghero.recipes.business;
 
-import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.RecipeBO;
 import com.ojodev.cookinghero.recipes.domain.model.RecipeNewBO;
 
@@ -18,5 +17,8 @@ public interface RecipesBusiness {
     void addRecipe(RecipeNewBO recipe);
 
     Optional<RecipeBO> getRecipe(@NotNull String recipeId);
+
+    boolean existsRecipe(String recipeId);
+
 
 }

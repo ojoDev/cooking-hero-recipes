@@ -34,6 +34,6 @@ public class Step {
 	@JsonProperty("media")
 	@ApiModelProperty(value = "Step visualization.", position = 2)
 	@Valid
-	private Media media;
+	private MediaRef media;
 
 }

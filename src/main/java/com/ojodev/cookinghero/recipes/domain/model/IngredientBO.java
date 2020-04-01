@@ -27,6 +27,12 @@ public class IngredientBO {
         this.product = product;
     }
 
+    public IngredientBO(String id, ProductBO product, BigDecimal quantity) {
+        this.id = id;
+        this.product = product;
+        this.quantity = quantity;
+    }
+
     public IngredientBO(String id, ProductBO product, BigDecimal quantity, MeasureBO measure) {
         this.id = id;
         this.product = product;

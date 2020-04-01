@@ -4,7 +4,7 @@ import com.ojodev.cookinghero.recipes.api.model.Ingredient;
 import com.ojodev.cookinghero.recipes.api.model.IngredientNew;
 import com.ojodev.cookinghero.recipes.api.model.IngredientUpdate;
 import com.ojodev.cookinghero.recipes.business.IngredientsBusiness;
-import com.ojodev.cookinghero.recipes.business.RecipesBusiness_old;
+import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.domain.exception.ApiException;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
@@ -45,7 +45,7 @@ public class IngredientsApiController implements IngredientsApi {
     private IngredientsBusiness ingredientsBusiness;
 
     @Autowired
-    private RecipesBusiness_old recipesBusiness;
+    private RecipesBusiness recipesBusiness;
 
     @Autowired
     private Messages messages;
@@ -68,7 +68,6 @@ public class IngredientsApiController implements IngredientsApi {
     @Override
     public ResponseEntity<Ingredient> getIngredient(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId,
                                                     @ApiParam(value = "Ingredient id.", required = true) @PathVariable("ingredient-id") String ingredientId) throws NotFoundException {
-        throwErrorIfRecipeNotFound(recipeId);
 
         IngredientBO ingredientBO = ingredientsBusiness.getIngredient(recipeId, ingredientId).orElseThrow((() -> new NotFoundException(messages.get("error.notfound.ingredient.code"), messages.get("error.notfound.ingredient.desc"))));
 
@@ -81,8 +80,6 @@ public class IngredientsApiController implements IngredientsApi {
     public ResponseEntity<Void> updateIngredient(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId,
                                                  @ApiParam(value = "Ingredient id.", required = true) @PathVariable("ingredient-id") String ingredientId,
                                                  @ApiParam(value = "Ingredient to update.") @Valid @RequestBody IngredientUpdate body) throws ApiException {
-        throwErrorIfRecipeNotFound(recipeId);
-
         IngredientBO ingredientBO = ingredientsBusiness.getIngredient(recipeId, ingredientId).orElseThrow((() -> new NotFoundException(messages.get("error.notfound.ingredient.code"), messages.get("error.notfound.ingredient.desc"))));
         IngredientNewBO ingredientPatched = ingredientsPatchMapper.patch(ingredientBO, body);
         ingredientPatched.setRecipeId(recipeId);
@@ -102,12 +99,6 @@ public class IngredientsApiController implements IngredientsApi {
         IngredientNewBO ingredientNewBO = ingredientsNewMapper.toIngredientNewBO(ingredientNew, recipeId);
         ingredientsBusiness.addIngredient(ingredientNewBO);
         return ingredientNewBO.getId();
-    }
-
-    private void throwErrorIfRecipeNotFound(String recipeId) throws NotFoundException {
-        if (!recipesBusiness.existsRecipe(recipeId)) {
-            throw new NotFoundException(messages.get("error.notfound.recipe.code"), messages.get("error.notfound.recipe.desc"));
-        }
     }
 
     private URI generateLocationHeader(String id) {

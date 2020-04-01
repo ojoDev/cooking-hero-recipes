@@ -1,8 +1,7 @@
 package com.ojodev.cookinghero.recipes.api.model;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Recipe status.   DRAFT is for no published recipes, may have inconsistencies. PUBLISHED is for published and public recipes. DELETED is for deleted users or recipes.

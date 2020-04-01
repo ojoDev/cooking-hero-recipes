@@ -40,7 +40,7 @@ public class RecipesBusinessGetRecipeTest {
         CuisineTypePO cuisineTypePO02 = new CuisineTypePO(CuisineTypesExamples.CUISINE_TYPE_02_ID, Arrays.asList(
                 new LanguageNamePO(CuisineTypesExamples.LANGUAGE_EN, CuisineTypesExamples.CUISINE_TYPE_02_NAME_ENGLISH),
                 new LanguageNamePO(CuisineTypesExamples.LANGUAGE_ES, CuisineTypesExamples.CUISINE_TYPE_02_NAME_SPANISH)));
-        //TODO DMS: Falta gestion de "Media"
+
         StepPO stepPO01 = new StepPO(StepsExamples.STEP_01_ID.toString(), StepsExamples.STEP_01_DESCRIPTION);
         StepPO stepPO02 = new StepPO(StepsExamples.STEP_02_ID.toString(), StepsExamples.STEP_02_DESCRIPTION);
         StepPO stepPO03 = new StepPO(StepsExamples.STEP_03_ID.toString(), StepsExamples.STEP_03_DESCRIPTION);
@@ -63,7 +63,7 @@ public class RecipesBusinessGetRecipeTest {
         recipePO.setCuisineTypes(Arrays.asList(cuisineTypePO01, cuisineTypePO02));
         recipePO.setPreparationTime(RecipesExamples.RECIPE_01_PREPARATION_TIME);
         recipePO.setDifficulty(RecipesExamples.RECIPE_01_DIFFICULTY);
-        //recipePO.setMainImage();
+
         recipePO.setSteps(Arrays.asList(stepPO01, stepPO02, stepPO03));
         recipePO.setIngredients(ingredientPOList);
         recipePO.setUserId(RecipesExamples.RECIPE_01_USER_ID);

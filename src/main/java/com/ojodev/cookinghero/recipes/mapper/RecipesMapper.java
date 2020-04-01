@@ -1,6 +1,5 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
-import com.ojodev.cookinghero.recipes.api.model.LanguageEnum;
 import com.ojodev.cookinghero.recipes.api.model.Recipe;
 import com.ojodev.cookinghero.recipes.api.model.RecipeNew;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
@@ -48,7 +47,7 @@ public interface RecipesMapper {
 
     @Named("stringToLanguageEnum")
     static LanguageEnumBO languageEnumBOToString(String language) {
-        return language == null ? null : LanguageEnumBO.fromValue(language.toString());
+        return language == null ? null : LanguageEnumBO.fromValue(language);
     }
 
     Recipe toRecipe(RecipeBO recipeBO);

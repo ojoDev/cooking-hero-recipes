@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MediaBO {
+public class MediaRefBO {
 
 	private MediaTypeEnumBO mediaType;
 
-	private String href;
+	private String id;
 
 }

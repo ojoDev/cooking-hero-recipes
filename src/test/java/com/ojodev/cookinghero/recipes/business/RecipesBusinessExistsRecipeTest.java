@@ -18,7 +18,7 @@ public class RecipesBusinessExistsRecipeTest {
 
 
     @Autowired
-    private RecipesBusiness_old recipesBusiness;
+    private RecipesBusiness recipesBusiness;
 
     @MockBean
     private RecipesRepository recipesRepository;

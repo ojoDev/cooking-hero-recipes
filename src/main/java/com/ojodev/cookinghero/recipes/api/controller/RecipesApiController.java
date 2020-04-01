@@ -59,7 +59,7 @@ public class RecipesApiController implements RecipesApi {
     }
 
     public ResponseEntity<Recipe> getRecipe(@ApiParam(value = "Recipe id.", required = true) @PathVariable("recipe-id") String recipeId) throws NotFoundException {
-        RecipeBO recipeBO = recipesBusiness.getRecipe(recipeId).orElseThrow(() -> new NotFoundException(messages.get("error.notfound.recipe.code"),messages.get("error.notfound.recipe.desc")));;
+        RecipeBO recipeBO = recipesBusiness.getRecipe(recipeId).orElseThrow(() -> new NotFoundException(messages.get("error.notfound.recipe.code"),messages.get("error.notfound.recipe.desc")));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(recipesMapper.toRecipe(recipeBO));
     }

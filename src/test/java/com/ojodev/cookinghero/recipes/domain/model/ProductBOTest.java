@@ -24,14 +24,14 @@ public class ProductBOTest extends AbstractJavaBeanTest<Product> {
     @Test
     public void constructorAllFields() {
 
-        DescriptiveNameBO descriptiveName = new DescriptiveNameBO(DescriptiveNamesExamples.DESCRIPTIVE_NAME_01_SINGULAR, DescriptiveNamesExamples.DESCRIPTIVE_NAME_01_PLURAL, LanguageEnumBO.EN);
+        DescriptiveNameBO descriptiveName = new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN);
         ProductBO product = new ProductBO(ProductsExamples.PRODUCT_01_ID, descriptiveName, ProductStatusEnumBO.APPROVED_BY_ADMIN);
 
         assertNotNull(product);
         assertEquals(ProductsExamples.PRODUCT_01_ID, product.getId());
         assertNotNull(product.getName());
-        assertEquals(DescriptiveNamesExamples.DESCRIPTIVE_NAME_01_SINGULAR, product.getName().getSingular());
-        assertEquals(DescriptiveNamesExamples.DESCRIPTIVE_NAME_01_PLURAL, product.getName().getPlural());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR  , product.getName().getSingular());
+        assertEquals(ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, product.getName().getPlural());
         assertEquals(ProductStatusEnumBO.APPROVED_BY_ADMIN, product.getStatus());
     }
 }

@@ -7,13 +7,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 @Controller
 public class ServerInfo {
-
-    private static final Logger LOGGER = Logger.getLogger(ServerInfo.class);
 
     private static final String PORT_SEPARATOR = ":";
     private static final String RESOURCE_SEPARATOR = "/";

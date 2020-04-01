@@ -54,7 +54,7 @@ public class Recipe {
 
     @JsonProperty("mainImage")
     @ApiModelProperty(value = "Main image of the recipe. Needs to be an image.")
-    private Media mainImage;
+    private MediaRef mainImage;
 
     @JsonProperty("steps")
     @ApiModelProperty(value = "Ordered steps needed to cook the recipe.")

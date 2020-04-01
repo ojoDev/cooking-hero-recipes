@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Media {
+public class MediaRef {
 
 
 	@JsonProperty("mediaType")
@@ -26,9 +26,9 @@ public class Media {
 	@NotNull
 	private MediaTypeEnum mediaType;
 
-	@JsonProperty("href")
-	@ApiModelProperty(example = "https://www.mycompany.com/api/media/v1/media/21344123123", required = true, value = "Href to image or video resource.")
+	@JsonProperty("id")
+	@ApiModelProperty(example = "21344123123", required = true, value = "Media id.")
 	@NotNull
-	private String href;
+	private String id;
 
 }

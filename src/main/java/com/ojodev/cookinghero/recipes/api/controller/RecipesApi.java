@@ -3,7 +3,6 @@ package com.ojodev.cookinghero.recipes.api.controller;
 
 import com.ojodev.cookinghero.recipes.api.model.Tag;
 import com.ojodev.cookinghero.recipes.api.model.*;
-import com.ojodev.cookinghero.recipes.api.model.RecipeStatusEnum;
 import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import io.swagger.annotations.*;
 import org.springframework.http.MediaType;

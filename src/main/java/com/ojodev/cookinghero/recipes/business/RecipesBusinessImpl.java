@@ -1,6 +1,5 @@
 package com.ojodev.cookinghero.recipes.business;
 
-import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.LanguageEnumBO;
 import com.ojodev.cookinghero.recipes.domain.model.RecipeBO;
 import com.ojodev.cookinghero.recipes.domain.model.RecipeNewBO;
@@ -36,6 +35,11 @@ public class RecipesBusinessImpl implements RecipesBusiness {
     public Optional<RecipeBO> getRecipe(@NotNull String recipeId) {
         List<RecipePO> recipePOList = recipesRepository.findByObjectId(recipeId);
         return recipePOList == null || recipePOList.isEmpty() ? Optional.empty() : Optional.of(recipesMapper.toRecipeBO(recipePOList.get(0)));
+    }
+
+    @Override
+    public boolean existsRecipe(String recipeId) {
+        return recipesRepository.existsByObjectId(recipeId);
     }
 
     private void throwsExceptionIfUserNotExists(String userId) {

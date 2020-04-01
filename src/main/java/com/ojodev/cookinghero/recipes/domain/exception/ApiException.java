@@ -1,7 +1,5 @@
 package com.ojodev.cookinghero.recipes.domain.exception;
 
-import lombok.*;
-
 import java.util.Objects;
 
 
@@ -26,7 +24,7 @@ public class ApiException extends Exception {
 
 	@Override
 	public String toString() {
-		final StringBuffer sb = new StringBuffer("ApiException{");
+		final StringBuilder sb = new StringBuilder("ApiException{");
 		sb.append("code='").append(code).append('\'');
 		sb.append(", description='").append(description).append('\'');
 		sb.append('}');

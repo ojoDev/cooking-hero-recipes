@@ -36,7 +36,7 @@ public class RecipeUpdate {
 
     @JsonProperty("mainImage")
     @ApiModelProperty(value = "Main image of the recipe. Needs to be an image.")
-    private Media mainImage;
+    private MediaRef mainImage;
 
     @JsonProperty("status")
     @ApiModelProperty(value = "Recipe status")

@@ -2,7 +2,7 @@ package com.ojodev.cookinghero.recipes.api.controller;
 
 
 import com.ojodev.cookinghero.recipes.business.IngredientsBusiness;
-import com.ojodev.cookinghero.recipes.business.RecipesBusiness_old;
+import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.IngredientsExamples;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
@@ -43,7 +43,7 @@ public class IngredientsApiControllerGetIngredientTest {
     private IngredientsBusiness ingredientsBusiness;
 
     @MockBean
-    private RecipesBusiness_old recipesBusiness;
+    private RecipesBusiness recipesBusiness;
 
     @Test
     public void getIngredient() throws Exception {

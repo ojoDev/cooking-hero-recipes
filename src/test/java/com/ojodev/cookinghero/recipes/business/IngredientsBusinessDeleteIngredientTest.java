@@ -137,21 +137,21 @@ public class IngredientsBusinessDeleteIngredientTest {
     }
 
     @Test
-    public void getIngredientInvalidCall() {
+    public void getIngredientInvalidCallNoRecipeId() {
 
         NotFoundException exception01 = Assertions.assertThrows(NotFoundException.class, () -> {
             ingredientsBusiness.deleteIngredient(null, IngredientsExamples.INGREDIENT_01_ID);
         });
         assertNotNull(exception01);
-        Assert.assertEquals(messages.get("error.notfound.ingredient.code"), exception01.getCode());
-        Assert.assertEquals(messages.get("error.notfound.ingredient.desc"), exception01.getDescription());
+        Assert.assertEquals(messages.get("error.notfound.recipe.code"), exception01.getCode());
+        Assert.assertEquals(messages.get("error.notfound.recipe.desc"), exception01.getDescription());
 
         NotFoundException exception02 = Assertions.assertThrows(NotFoundException.class, () -> {
             ingredientsBusiness.deleteIngredient(RecipesExamples.RECIPE_01_ID, null);
         });
         assertNotNull(exception02);
-        Assert.assertEquals(messages.get("error.notfound.ingredient.code"), exception02.getCode());
-        Assert.assertEquals(messages.get("error.notfound.ingredient.desc"), exception02.getDescription());
+        Assert.assertEquals(messages.get("error.notfound.recipe.code"), exception02.getCode());
+        Assert.assertEquals(messages.get("error.notfound.recipe.desc"), exception02.getDescription());
     }
 
 

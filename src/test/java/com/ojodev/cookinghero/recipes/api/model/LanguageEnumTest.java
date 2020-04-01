@@ -29,8 +29,6 @@ public class LanguageEnumTest {
 
     @Test
     public void getValueList() {
-        LanguageEnum languageEnum = LanguageEnum.fromValue(INVALID);
-
         assertEquals("en, es", LanguageEnum.getValueList());
     }
 }

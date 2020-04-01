@@ -20,7 +20,7 @@ public class ApiFieldsException extends ApiException {
     @Override
     public String toString() {
         super.toString();
-        final StringBuffer sb = new StringBuffer("ApiFieldsException{");
+        final StringBuilder sb = new StringBuilder("ApiFieldsException{");
         sb.append("fields=").append(fields);
         sb.append('}');
         return sb.toString();
