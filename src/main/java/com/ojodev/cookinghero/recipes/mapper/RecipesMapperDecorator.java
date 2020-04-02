@@ -14,6 +14,9 @@ public abstract class RecipesMapperDecorator implements RecipesMapper {
     private CuisineTypesMapper cuisineTypesMapper;
 
     @Autowired
+    private MediaRefMapper mediaRefMapper;
+
+    @Autowired
     private IngredientsMapper ingredientsMapper;
 
     @Autowired
@@ -27,6 +30,7 @@ public abstract class RecipesMapperDecorator implements RecipesMapper {
     public RecipeBO toRecipeBO(RecipePO recipePO) {
         RecipeBO recipeBO = toRecipeBOBasic(recipePO);
         recipeBO.setCuisineTypes(getCuisineTypesBO(recipePO));
+        recipeBO.setMainImage(mediaRefMapper.toMediaRefBO(recipePO.getMainImage()));
         recipeBO.setSteps(getStepsBO(recipePO));
         recipeBO.setIngredients(getIngredientsBO(recipePO));
         return recipeBO;

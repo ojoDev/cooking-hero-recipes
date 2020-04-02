@@ -41,7 +41,7 @@ public class RecipeBOTest {
     public void setVideoAsMainImage() {
         RecipeBO recipeBO = new RecipeBO(RecipesExamples.RECIPE_01_ID, RecipesExamples.RECIPE_01_NAME, RecipesExamples.RECIPE_01_USER_ID);
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            recipeBO.setMainImage(new MediaRefBO(MediaTypeEnumBO.VIDEO, MediaExamples.MEDIA_01_ID));
+            recipeBO.setMainImage(new MediaRefBO(MediaExamples.MEDIA_01_ID, MediaTypeEnumBO.VIDEO));
         });
     }
 

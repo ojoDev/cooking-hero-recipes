@@ -22,7 +22,7 @@ public class MediaRefBOTest extends AbstractJavaBeanTest<MediaRefBO> {
 
     @Test
     public void constructorAllFields() {
-        MediaRefBO mediaRefBO = new MediaRefBO(MediaExamples.MEDIA_01_TYPE_BO, MediaExamples.MEDIA_01_ID);
+        MediaRefBO mediaRefBO = new MediaRefBO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO);
 
         assertNotNull(mediaRefBO);
         assertEquals(MediaExamples.MEDIA_01_ID, mediaRefBO.getId());

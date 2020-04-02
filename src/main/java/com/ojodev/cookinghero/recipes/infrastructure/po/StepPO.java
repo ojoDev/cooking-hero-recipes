@@ -17,7 +17,7 @@ public class StepPO {
 	private String description;
 
 	@Relationship(type = "REPRESENTED_BY")
-	private MediaPO media;
+	private MediaRefPO media;
 
 	@Relationship(type="INCLUDE", direction = Relationship.INCOMING)
 	private RecipePO recipe;
@@ -30,7 +30,7 @@ public class StepPO {
 		this.description = description;
 	}
 
-	public StepPO(String objectId, String description, MediaPO media) {
+	public StepPO(String objectId, String description, MediaRefPO media) {
 		this.objectId = objectId;
 		this.description = description;
 		this.media = media;
@@ -60,11 +60,11 @@ public class StepPO {
 		this.description = description;
 	}
 
-	public MediaPO getMedia() {
+	public MediaRefPO getMedia() {
 		return media;
 	}
 
-	public void setMedia(MediaPO media) {
+	public void setMedia(MediaRefPO media) {
 		this.media = media;
 	}
 

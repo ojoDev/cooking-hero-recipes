@@ -20,15 +20,14 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class MediaRef {
 
-
-	@JsonProperty("mediaType")
-	@ApiModelProperty(example = "IMAGE", required = true, value = "Media type (image or video).")
-	@NotNull
-	private MediaTypeEnum mediaType;
-
 	@JsonProperty("id")
-	@ApiModelProperty(example = "21344123123", required = true, value = "Media id.")
+	@ApiModelProperty(example = "21344123123", required = true, value = "Media id.", position = 0)
 	@NotNull
 	private String id;
+
+	@JsonProperty("mediaType")
+	@ApiModelProperty(example = "IMAGE", required = true, value = "Media type (image or video).", position = 1)
+	@NotNull
+	private MediaTypeEnum mediaType;
 
 }

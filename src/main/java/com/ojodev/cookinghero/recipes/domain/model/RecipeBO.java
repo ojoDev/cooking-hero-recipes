@@ -1,6 +1,7 @@
 package com.ojodev.cookinghero.recipes.domain.model;
 
 import com.ojodev.cookinghero.recipes.api.model.MediaTypeEnum;
+import com.ojodev.cookinghero.recipes.domain.enume.MediaTypeEnumBO;
 import com.ojodev.cookinghero.recipes.domain.enume.RecipeStatusEnumBO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -57,7 +58,7 @@ public class RecipeBO {
     }
 
     public void setMainImage(MediaRefBO mainImage) {
-        if (mainImage != null && !MediaTypeEnum.IMAGE.equals(mainImage.getMediaType())) {
+        if (mainImage != null && !MediaTypeEnumBO.IMAGE.equals(mainImage.getMediaType())) {
             throw new IllegalArgumentException("mainImage must be IMAGE type");
         }
         this.mainImage = mainImage;

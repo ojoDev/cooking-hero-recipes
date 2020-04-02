@@ -1,8 +1,11 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
 import com.ojodev.cookinghero.recipes.api.model.Step;
+import com.ojodev.cookinghero.recipes.data.MediaExamples;
 import com.ojodev.cookinghero.recipes.data.StepsExamples;
+import com.ojodev.cookinghero.recipes.domain.model.MediaRefBO;
 import com.ojodev.cookinghero.recipes.domain.model.StepBO;
+import com.ojodev.cookinghero.recipes.infrastructure.po.MediaRefPO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.StepPO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,25 +25,35 @@ public class StepsMapperTest {
 
     @Test
     public void convertStepPOToStepBO() {
-        //TODO DMS Falta gestión de Media
-        StepPO stepPO = new StepPO(StepsExamples.STEP_01_ID.toString(), StepsExamples.STEP_01_DESCRIPTION);
+
+        MediaRefPO mediaPO = new MediaRefPO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO.toString());
+
+        StepPO stepPO = new StepPO(StepsExamples.STEP_01_ID.toString(), StepsExamples.STEP_01_DESCRIPTION, mediaPO);
 
         StepBO stepBO = stepsMapper.toStepBO(stepPO);
 
         assertNotNull(stepBO);
         assertEquals(StepsExamples.STEP_01_ID, stepBO.getId());
         assertEquals(StepsExamples.STEP_01_DESCRIPTION, stepBO.getDescription());
+        assertNotNull(stepBO.getMedia());
+        assertEquals(MediaExamples.MEDIA_01_ID, stepBO.getMedia().getId());
+        assertEquals( MediaExamples.MEDIA_01_TYPE_BO, stepBO.getMedia().getMediaType());
     }
 
     @Test
     public void convertStepBOToStep() {
-        //TODO DMS Falta gestión de Media
-        StepBO stepBO = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_DESCRIPTION);
+
+        MediaRefBO mediaBO = new MediaRefBO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO);
+
+        StepBO stepBO = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_DESCRIPTION, mediaBO);
 
         Step step = stepsMapper.toStep(stepBO);
 
         assertNotNull(step);
         assertEquals(Integer.valueOf(StepsExamples.STEP_01_ID), step.getId());
         assertEquals(StepsExamples.STEP_01_DESCRIPTION, step.getDescription());
+        assertNotNull(step.getMedia());
+        assertEquals(MediaExamples.MEDIA_01_ID, step.getMedia().getId());
+        assertEquals( MediaExamples.MEDIA_01_TYPE, step.getMedia().getMediaType());
     }
 }

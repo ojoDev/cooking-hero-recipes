@@ -33,7 +33,7 @@ public class StepBOTest extends AbstractJavaBeanTest<StepBO> {
 
     @Test
     public void constructorThreeFields() {
-        StepBO stepBO = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_DESCRIPTION, new MediaRefBO(MediaExamples.MEDIA_01_TYPE_BO, MediaExamples.MEDIA_01_ID));
+        StepBO stepBO = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_DESCRIPTION, new MediaRefBO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO));
 
         assertNotNull(stepBO);
         assertEquals(StepsExamples.STEP_01_ID, stepBO.getId());

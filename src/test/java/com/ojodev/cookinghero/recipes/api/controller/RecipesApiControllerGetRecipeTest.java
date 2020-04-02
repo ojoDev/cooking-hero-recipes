@@ -1,5 +1,6 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
+import com.ojodev.cookinghero.recipes.api.model.MediaTypeEnum;
 import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.*;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.print.attribute.standard.Media;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +50,9 @@ public class RecipesApiControllerGetRecipeTest {
 
         CuisineTypeBO cuisineTypeBO01 = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_01_ID, CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN);
         CuisineTypeBO cuisineTypeBO02 = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_02_ID, CuisineTypesExamples.CUISINE_TYPE_02_NAME_ENGLISH, LanguageEnumBO.EN);
-        //TODO DMS: Falta gestion de "Media"
+
+        MediaRefBO mainImage = new MediaRefBO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO);
+
         StepBO stepBO01 = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_DESCRIPTION);
         StepBO stepBO02 = new StepBO(StepsExamples.STEP_02_ID, StepsExamples.STEP_02_DESCRIPTION);
         StepBO stepBO03 = new StepBO(StepsExamples.STEP_03_ID, StepsExamples.STEP_03_DESCRIPTION);
@@ -66,7 +70,7 @@ public class RecipesApiControllerGetRecipeTest {
         recipeBO.setCuisineTypes(Arrays.asList(cuisineTypeBO01, cuisineTypeBO02));
         recipeBO.setPreparationTime(RecipesExamples.RECIPE_01_PREPARATION_TIME);
         recipeBO.setDifficulty(RecipesExamples.RECIPE_01_DIFFICULTY);
-        //recipePO.setMainImage();
+        recipeBO.setMainImage(mainImage);
         recipeBO.setSteps(Arrays.asList(stepBO01, stepBO02, stepBO03));
         recipeBO.setIngredients(ingredientBOList);
         recipeBO.setUserId(RecipesExamples.RECIPE_01_USER_ID);
@@ -89,6 +93,8 @@ public class RecipesApiControllerGetRecipeTest {
                 .andExpect(jsonPath("$.cuisineTypes[1].name", is(CuisineTypesExamples.CUISINE_TYPE_02_NAME_ENGLISH)))
                 .andExpect(jsonPath("$.preparationTime", is(Integer.valueOf(RecipesExamples.RECIPE_01_PREPARATION_TIME.toString()))))
                 .andExpect(jsonPath("$.difficulty", is(Integer.valueOf(RecipesExamples.RECIPE_01_DIFFICULTY.toString()))))
+                .andExpect(jsonPath("$.mainImage.id", is(MediaExamples.MEDIA_01_ID.toString())))
+                .andExpect(jsonPath("$.mainImage.mediaType", is(MediaExamples.MEDIA_01_TYPE)))
                 .andExpect(jsonPath("$.steps[0].id", is(StepsExamples.STEP_01_ID)))
                 .andExpect(jsonPath("$.steps[0].description", is(StepsExamples.STEP_01_DESCRIPTION)))
                 .andExpect(jsonPath("$.steps[1].id", is(StepsExamples.STEP_02_ID)))

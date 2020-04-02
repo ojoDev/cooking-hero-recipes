@@ -15,4 +15,6 @@ public enum MediaTypeEnumBO {
 		public String toString() {
 			return String.valueOf(value);
 		}
+
+
 }

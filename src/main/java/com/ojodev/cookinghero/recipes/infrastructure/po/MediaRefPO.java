@@ -5,7 +5,7 @@ import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 
 @NodeEntity(label="Media")
-public class MediaPO {
+public class MediaRefPO {
 
 	@Id
 	@GeneratedValue
@@ -13,14 +13,14 @@ public class MediaPO {
 
 	private String objectId;
 
-	private String type;
+	private String mediaType;
 
-	public MediaPO() {
+	public MediaRefPO() {
 	}
 
-	public MediaPO(String objectId, String type) {
+	public MediaRefPO(String objectId, String mediaType) {
 		this.objectId = objectId;
-		this.type = type;
+		this.mediaType = mediaType;
 	}
 
 	public Long getId() {
@@ -39,11 +39,11 @@ public class MediaPO {
 		this.objectId = objectId;
 	}
 
-	public String getType() {
-		return type;
+	public String getMediaType() {
+		return mediaType;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setMediaType(String mediaType) {
+		this.mediaType = mediaType;
 	}
 }

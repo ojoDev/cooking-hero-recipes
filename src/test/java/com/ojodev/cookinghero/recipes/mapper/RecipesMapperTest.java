@@ -76,7 +76,9 @@ public class RecipesMapperTest {
         CuisineTypePO cuisineTypePO02 = new CuisineTypePO(CuisineTypesExamples.CUISINE_TYPE_02_ID, Arrays.asList(
                 new LanguageNamePO(CuisineTypesExamples.LANGUAGE_EN, CuisineTypesExamples.CUISINE_TYPE_02_NAME_ENGLISH),
                 new LanguageNamePO(CuisineTypesExamples.LANGUAGE_ES, CuisineTypesExamples.CUISINE_TYPE_02_NAME_SPANISH)));
-        //TODO DMS: Falta gestion de "Media"
+
+        MediaRefPO mainImage = new MediaRefPO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO.toString());
+
         StepPO stepPO01 = new StepPO(StepsExamples.STEP_01_ID.toString(), StepsExamples.STEP_01_DESCRIPTION);
         StepPO stepPO02 = new StepPO(StepsExamples.STEP_02_ID.toString(), StepsExamples.STEP_02_DESCRIPTION);
         StepPO stepPO03 = new StepPO(StepsExamples.STEP_03_ID.toString(), StepsExamples.STEP_03_DESCRIPTION);
@@ -99,7 +101,7 @@ public class RecipesMapperTest {
         recipePO.setCuisineTypes(Arrays.asList(cuisineTypePO01, cuisineTypePO02));
         recipePO.setPreparationTime(RecipesExamples.RECIPE_01_PREPARATION_TIME);
         recipePO.setDifficulty(RecipesExamples.RECIPE_01_DIFFICULTY);
-        //recipePO.setMainImage();
+        recipePO.setMainImage(mainImage);
         recipePO.setSteps(Arrays.asList(stepPO01, stepPO02, stepPO03));
         recipePO.setIngredients(ingredientPOList);
         recipePO.setUserId(RecipesExamples.RECIPE_01_USER_ID);
@@ -123,7 +125,9 @@ public class RecipesMapperTest {
         assertEquals(RecipesExamples.RECIPE_01_LANGUAGE, recipeBO.getCuisineTypes().get(1).getLanguage());
         assertEquals(RecipesExamples.RECIPE_01_PREPARATION_TIME, recipeBO.getPreparationTime());
         assertEquals(RecipesExamples.RECIPE_01_DIFFICULTY, recipeBO.getDifficulty());
-        //assertEquals(RecipesExamples.RECIPE_01_PREPARATION_TIME, recipeBO.getMainImage());
+        assertNotNull(recipeBO.getMainImage());
+        assertEquals(MediaExamples.MEDIA_01_ID, recipeBO.getMainImage().getId());
+        assertEquals(MediaExamples.MEDIA_01_TYPE_BO, recipeBO.getMainImage().getMediaType());
         assertNotNull(recipeBO.getSteps());
         assertEquals(3, recipeBO.getSteps().size());
         assertEquals(StepsExamples.STEP_01_ID, recipeBO.getSteps().get(0).getId());
@@ -192,7 +196,9 @@ public class RecipesMapperTest {
 
         CuisineTypeBO cuisineTypeBO01 = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_01_ID, CuisineTypesExamples.CUISINE_TYPE_01_NAME_ENGLISH, LanguageEnumBO.EN);
         CuisineTypeBO cuisineTypeBO02 = new CuisineTypeBO(CuisineTypesExamples.CUISINE_TYPE_02_ID, CuisineTypesExamples.CUISINE_TYPE_02_NAME_ENGLISH, LanguageEnumBO.EN);
-        //TODO DMS: Falta gestion de "Media"
+
+        MediaRefBO mainImage = new MediaRefBO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO);
+
         StepBO stepBO01 = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_DESCRIPTION);
         StepBO stepBO02 = new StepBO(StepsExamples.STEP_02_ID, StepsExamples.STEP_02_DESCRIPTION);
         StepBO stepBO03 = new StepBO(StepsExamples.STEP_03_ID, StepsExamples.STEP_03_DESCRIPTION);
@@ -200,7 +206,7 @@ public class RecipesMapperTest {
         ProductBO productBO01 = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.APPROVED_BY_ADMIN);
         ProductBO productBO02 = new ProductBO(ProductsExamples.PRODUCT_02_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_02_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.CREATED_BY_USER);
 
-        MeasureBO measureBO = new MeasureBO(MeasuresExamples.MEASURE_01_ID,  new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
+        MeasureBO measureBO = new MeasureBO(MeasuresExamples.MEASURE_01_ID, new DescriptiveNameBO(MeasuresExamples.MEASURE_01_NAME_ENGLISH_SINGULAR, MeasuresExamples.MEASURE_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN));
 
         List<IngredientBO> ingredientBOList = Arrays.asList(new IngredientBO(IngredientsExamples.INGREDIENT_01_ID, productBO01, IngredientsExamples.INGREDIENT_01_QUANTITY, measureBO),
                 new IngredientBO(IngredientsExamples.INGREDIENT_02_ID, productBO02));
@@ -210,7 +216,7 @@ public class RecipesMapperTest {
         recipeBO.setCuisineTypes(Arrays.asList(cuisineTypeBO01, cuisineTypeBO02));
         recipeBO.setPreparationTime(RecipesExamples.RECIPE_01_PREPARATION_TIME);
         recipeBO.setDifficulty(RecipesExamples.RECIPE_01_DIFFICULTY);
-        //recipePO.setMainImage();
+        recipeBO.setMainImage(mainImage);
         recipeBO.setSteps(Arrays.asList(stepBO01, stepBO02, stepBO03));
         recipeBO.setIngredients(ingredientBOList);
         recipeBO.setUserId(RecipesExamples.RECIPE_01_USER_ID);
@@ -233,7 +239,9 @@ public class RecipesMapperTest {
         assertEquals(CuisineTypesExamples.CUISINE_TYPE_02_NAME_ENGLISH, recipe.getCuisineTypes().get(1).getName());
         assertEquals(RecipesExamples.RECIPE_01_PREPARATION_TIME, recipe.getPreparationTime());
         assertEquals(RecipesExamples.RECIPE_01_DIFFICULTY, recipe.getDifficulty());
-        //assertEquals(RecipesExamples.RECIPE_01_PREPARATION_TIME, recipeBO.getMainImage());
+        assertNotNull(recipe.getMainImage());
+        assertEquals(MediaExamples.MEDIA_01_ID, recipe.getMainImage().getId());
+        assertEquals(MediaExamples.MEDIA_01_TYPE, recipe.getMainImage().getMediaType());
         assertNotNull(recipe.getSteps());
         assertEquals(3, recipe.getSteps().size());
         assertEquals(StepsExamples.STEP_01_ID, recipe.getSteps().get(0).getId());
@@ -281,7 +289,7 @@ public class RecipesMapperTest {
         recipeBO.setCreationDate(RecipesExamples.RECIPE_01_CREATION_DATE);
         recipeBO.setStatus(RecipesExamples.RECIPE_01_STATUS_BO);
 
-        Recipe recipe= recipesMapper.toRecipe(recipeBO);
+        Recipe recipe = recipesMapper.toRecipe(recipeBO);
 
         assertNotNull(recipeBO);
         assertEquals(RecipesExamples.RECIPE_01_ID, recipe.getId());

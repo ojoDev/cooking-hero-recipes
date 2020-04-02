@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MediaTest extends AbstractJavaBeanTest<MediaRef> {
+public class MediaRefTest extends AbstractJavaBeanTest<MediaRef> {
 
     @Override
     protected MediaRef getBeanInstance() {
@@ -22,7 +22,7 @@ public class MediaTest extends AbstractJavaBeanTest<MediaRef> {
     @Test
     public void constructorAllFields() {
 
-        MediaRef media = new MediaRef(MediaExamples.MEDIA_01_TYPE, MediaExamples.MEDIA_01_ID);
+        MediaRef media = new MediaRef(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE);
 
         assertNotNull(media);
         assertEquals(MediaExamples.MEDIA_01_ID, media.getId());

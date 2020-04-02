@@ -33,7 +33,7 @@ public class RecipePO {
     private Integer difficulty;
 
     @Relationship(type = "REPRESENTED_BY")
-    private MediaPO mainImage;
+    private MediaRefPO mainImage;
 
     @Relationship(type = "INCLUDE")
     private List<StepPO> steps;
@@ -124,11 +124,11 @@ public class RecipePO {
         this.difficulty = difficulty;
     }
 
-    public MediaPO getMainImage() {
+    public MediaRefPO getMainImage() {
         return mainImage;
     }
 
-    public void setMainImage(MediaPO mainImage) {
+    public void setMainImage(MediaRefPO mainImage) {
         this.mainImage = mainImage;
     }
 
