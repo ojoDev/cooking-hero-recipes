@@ -28,11 +28,13 @@ public class RecipePO {
     @Relationship(type = "REPRESENTED_BY")
     private List<CuisineTypePO> cuisineTypes;
 
+    //@Relationship(type = "REPRESENTED_BY")
+    //private List<RecipeCuisineTypeRelationship> cuisineTypesRel;
+
     private Integer preparationTime;
 
     private Integer difficulty;
 
-    @Relationship(type = "REPRESENTED_BY")
     private MediaRefPO mainImage;
 
     @Relationship(type = "INCLUDE")
@@ -187,4 +189,12 @@ public class RecipePO {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    /*public List<RecipeCuisineTypeRelationship> getCuisineTypesRel() {
+        return cuisineTypesRel;
+    }
+
+    public void setCuisineTypesRel(List<RecipeCuisineTypeRelationship> cuisineTypesRel) {
+        this.cuisineTypesRel = cuisineTypesRel;
+    }*/
 }

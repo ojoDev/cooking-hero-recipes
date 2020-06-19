@@ -22,7 +22,7 @@ public interface RecipesRepository extends Neo4jRepository<RecipePO, Long> {
             "OPTIONAL MATCH (r)-[ri:INCLUDE]->(i:Ingredient) " +
             "OPTIONAL MATCH (i)-[rp:FORMED_BY]->(m)-[rn:REPRESENTED_BY]->(ln:LanguageName) " +
             "OPTIONAL MATCH (r)-[ri2:INCLUDE]->(s:Step) " +
-            "OPTIONAL MATCH (r)-[rb2:REPRESENTED_BY]->(c:CuisineType)-[rb3:REPRESENTED_BY]->(ln2:LanguageName) " +
+            "OPTIONAL MATCH (r)-[rb2:REPRESENTED_BY]-(c:CuisineType)-[rb3:REPRESENTED_BY]->(ln2:LanguageName) " +
             "OPTIONAL MATCH (r)-[rb4:REPRESENTED_BY]->(med:Media) " +
             "RETURN r,ri,i,rp,m,rn,ln,ri2,s,rb2,c,rb3,ln2,rb4,med")
     List<RecipePO> findByObjectId(@Param("id") String id);
@@ -31,4 +31,5 @@ public interface RecipesRepository extends Neo4jRepository<RecipePO, Long> {
             "WHERE r.objectId = {id} " +
             "RETURN count(r) > 0")
     boolean existsByObjectId(@Param("id") String id);
+
 }

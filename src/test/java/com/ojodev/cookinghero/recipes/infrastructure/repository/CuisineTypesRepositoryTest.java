@@ -110,7 +110,6 @@ public class CuisineTypesRepositoryTest {
     }*/
 
     @Test
-    @Ignore
     public void findAll() {
         List<CuisineTypePO> cuisineType = cuisineTypesRepository.findAll();
         assertNotNull(cuisineType);

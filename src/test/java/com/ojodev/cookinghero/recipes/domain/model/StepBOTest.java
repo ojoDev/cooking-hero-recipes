@@ -23,7 +23,7 @@ public class StepBOTest extends AbstractJavaBeanTest<StepBO> {
 
     @Test
     public void constructorTwoFields() {
-        StepBO stepBO = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_DESCRIPTION);
+        StepBO stepBO = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_POSITION, StepsExamples.STEP_01_DESCRIPTION);
 
         assertNotNull(stepBO);
         assertEquals(StepsExamples.STEP_01_ID, stepBO.getId());
@@ -33,10 +33,12 @@ public class StepBOTest extends AbstractJavaBeanTest<StepBO> {
 
     @Test
     public void constructorThreeFields() {
-        StepBO stepBO = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_DESCRIPTION, new MediaRefBO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO));
+        MediaRefBO mediaRefBO = new MediaRefBO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO);
+        StepBO stepBO = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_POSITION, StepsExamples.STEP_01_DESCRIPTION, mediaRefBO);
 
         assertNotNull(stepBO);
         assertEquals(StepsExamples.STEP_01_ID, stepBO.getId());
+        assertEquals(StepsExamples.STEP_01_POSITION, stepBO.getPosition());
         assertEquals(StepsExamples.STEP_01_DESCRIPTION, stepBO.getDescription());
         assertNotNull(stepBO.getMedia());
         assertEquals(MediaExamples.MEDIA_01_ID, stepBO.getMedia().getId());

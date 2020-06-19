@@ -18,12 +18,6 @@ public abstract class AbstractJavaBeanTest<T> {
         EqualsVerifier.forClass(getBeanInstance().getClass()).suppress(Warning.STRICT_INHERITANCE, Warning.NONFINAL_FIELDS).verify();
     }
 
-    @Test
-    public void getterAndSetterCorrectness() throws Exception {
-        final BeanTester beanTester = new BeanTester();
-        beanTester.getFactoryCollection().addFactory(LocalDateTime.class, new LocalDateTimeFactory());
-        beanTester.testBean(getBeanInstance().getClass());
-    }
 
     protected abstract T getBeanInstance();
 

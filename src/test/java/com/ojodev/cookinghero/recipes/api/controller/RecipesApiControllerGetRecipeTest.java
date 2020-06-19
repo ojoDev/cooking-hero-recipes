@@ -1,6 +1,5 @@
 package com.ojodev.cookinghero.recipes.api.controller;
 
-import com.ojodev.cookinghero.recipes.api.model.MediaTypeEnum;
 import com.ojodev.cookinghero.recipes.business.RecipesBusiness;
 import com.ojodev.cookinghero.recipes.config.Messages;
 import com.ojodev.cookinghero.recipes.data.*;
@@ -15,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.print.attribute.standard.Media;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -53,9 +51,9 @@ public class RecipesApiControllerGetRecipeTest {
 
         MediaRefBO mainImage = new MediaRefBO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO);
 
-        StepBO stepBO01 = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_DESCRIPTION);
-        StepBO stepBO02 = new StepBO(StepsExamples.STEP_02_ID, StepsExamples.STEP_02_DESCRIPTION);
-        StepBO stepBO03 = new StepBO(StepsExamples.STEP_03_ID, StepsExamples.STEP_03_DESCRIPTION);
+        StepBO stepBO01 = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_POSITION, StepsExamples.STEP_01_DESCRIPTION);
+        StepBO stepBO02 = new StepBO(StepsExamples.STEP_02_ID, StepsExamples.STEP_02_POSITION, StepsExamples.STEP_02_DESCRIPTION);
+        StepBO stepBO03 = new StepBO(StepsExamples.STEP_03_ID, StepsExamples.STEP_03_POSITION, StepsExamples.STEP_03_DESCRIPTION);
 
         ProductBO productBO01 = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.APPROVED_BY_ADMIN);
         ProductBO productBO02 = new ProductBO(ProductsExamples.PRODUCT_02_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_02_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.CREATED_BY_USER);
@@ -93,8 +91,8 @@ public class RecipesApiControllerGetRecipeTest {
                 .andExpect(jsonPath("$.cuisineTypes[1].name", is(CuisineTypesExamples.CUISINE_TYPE_02_NAME_ENGLISH)))
                 .andExpect(jsonPath("$.preparationTime", is(Integer.valueOf(RecipesExamples.RECIPE_01_PREPARATION_TIME.toString()))))
                 .andExpect(jsonPath("$.difficulty", is(Integer.valueOf(RecipesExamples.RECIPE_01_DIFFICULTY.toString()))))
-                .andExpect(jsonPath("$.mainImage.id", is(MediaExamples.MEDIA_01_ID.toString())))
-                .andExpect(jsonPath("$.mainImage.mediaType", is(MediaExamples.MEDIA_01_TYPE)))
+                .andExpect(jsonPath("$.mainImage.id", is(MediaExamples.MEDIA_01_ID)))
+                .andExpect(jsonPath("$.mainImage.mediaType", is(MediaExamples.MEDIA_01_TYPE.toString())))
                 .andExpect(jsonPath("$.steps[0].id", is(StepsExamples.STEP_01_ID)))
                 .andExpect(jsonPath("$.steps[0].description", is(StepsExamples.STEP_01_DESCRIPTION)))
                 .andExpect(jsonPath("$.steps[1].id", is(StepsExamples.STEP_02_ID)))

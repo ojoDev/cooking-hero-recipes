@@ -79,9 +79,9 @@ public class RecipesMapperTest {
 
         MediaRefPO mainImage = new MediaRefPO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO.toString());
 
-        StepPO stepPO01 = new StepPO(StepsExamples.STEP_01_ID.toString(), StepsExamples.STEP_01_DESCRIPTION);
-        StepPO stepPO02 = new StepPO(StepsExamples.STEP_02_ID.toString(), StepsExamples.STEP_02_DESCRIPTION);
-        StepPO stepPO03 = new StepPO(StepsExamples.STEP_03_ID.toString(), StepsExamples.STEP_03_DESCRIPTION);
+        StepPO stepPO01 = new StepPO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_POSITION, StepsExamples.STEP_01_DESCRIPTION);
+        StepPO stepPO02 = new StepPO(StepsExamples.STEP_02_ID, StepsExamples.STEP_02_POSITION, StepsExamples.STEP_02_DESCRIPTION);
+        StepPO stepPO03 = new StepPO(StepsExamples.STEP_03_ID, StepsExamples.STEP_03_POSITION, StepsExamples.STEP_03_DESCRIPTION);
 
         ProductPO product01 = new ProductPO(ProductsExamples.PRODUCT_01_ID,
                 Arrays.asList(new DescriptiveNamePO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, ProductsExamples.LANGUAGE_EN),
@@ -199,9 +199,9 @@ public class RecipesMapperTest {
 
         MediaRefBO mainImage = new MediaRefBO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO);
 
-        StepBO stepBO01 = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_DESCRIPTION);
-        StepBO stepBO02 = new StepBO(StepsExamples.STEP_02_ID, StepsExamples.STEP_02_DESCRIPTION);
-        StepBO stepBO03 = new StepBO(StepsExamples.STEP_03_ID, StepsExamples.STEP_03_DESCRIPTION);
+        StepBO stepBO01 = new StepBO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_POSITION, StepsExamples.STEP_01_DESCRIPTION);
+        StepBO stepBO02 = new StepBO(StepsExamples.STEP_02_ID, StepsExamples.STEP_02_POSITION, StepsExamples.STEP_02_DESCRIPTION);
+        StepBO stepBO03 = new StepBO(StepsExamples.STEP_03_ID, StepsExamples.STEP_03_POSITION, StepsExamples.STEP_03_DESCRIPTION);
 
         ProductBO productBO01 = new ProductBO(ProductsExamples.PRODUCT_01_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.APPROVED_BY_ADMIN);
         ProductBO productBO02 = new ProductBO(ProductsExamples.PRODUCT_02_ID, new DescriptiveNameBO(ProductsExamples.PRODUCT_02_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_02_NAME_ENGLISH_PLURAL, LanguageEnumBO.EN), ProductStatusEnumBO.CREATED_BY_USER);

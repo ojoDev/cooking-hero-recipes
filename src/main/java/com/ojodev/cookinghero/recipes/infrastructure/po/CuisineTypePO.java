@@ -50,6 +50,4 @@ public class CuisineTypePO {
     public void setNames(List<LanguageNamePO> names) {
         this.names = names;
     }
-
-
 }

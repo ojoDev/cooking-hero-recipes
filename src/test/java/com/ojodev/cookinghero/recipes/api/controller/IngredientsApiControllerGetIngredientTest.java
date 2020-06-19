@@ -8,6 +8,8 @@ import com.ojodev.cookinghero.recipes.data.IngredientsExamples;
 import com.ojodev.cookinghero.recipes.data.MeasuresExamples;
 import com.ojodev.cookinghero.recipes.data.ProductsExamples;
 import com.ojodev.cookinghero.recipes.data.RecipesExamples;
+import com.ojodev.cookinghero.recipes.domain.exception.ApiBadRequestException;
+import com.ojodev.cookinghero.recipes.domain.exception.NotFoundException;
 import com.ojodev.cookinghero.recipes.domain.model.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,7 +76,7 @@ public class IngredientsApiControllerGetIngredientTest {
     @Test
     public void getIngredientRecipeNotFound() throws Exception {
 
-        when(this.recipesBusiness.existsRecipe(RecipesExamples.RECIPE_02_ID)).thenReturn(false);
+        when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_02_ID, IngredientsExamples.INGREDIENT_01_ID)).thenThrow(new NotFoundException(messages.get("error.notfound.recipe.code"), messages.get("error.notfound.recipe.desc")));
 
         this.mvc.perform(get("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_02_ID, IngredientsExamples.INGREDIENT_01_ID)
                 .accept(MediaType.APPLICATION_JSON))
@@ -86,7 +88,6 @@ public class IngredientsApiControllerGetIngredientTest {
     @Test
     public void getIngredientIngredientNotFound() throws Exception {
 
-        when(this.recipesBusiness.existsRecipe(RecipesExamples.RECIPE_02_ID)).thenReturn(true);
         when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_02_ID, IngredientsExamples.INGREDIENT_01_ID)).thenReturn(Optional.empty());
 
         this.mvc.perform(get("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_02_ID, IngredientsExamples.INGREDIENT_01_ID)
@@ -99,7 +100,6 @@ public class IngredientsApiControllerGetIngredientTest {
     @Test
     public void getProductOutOfMemoryException() throws Exception {
 
-        when(this.recipesBusiness.existsRecipe(RecipesExamples.RECIPE_02_ID)).thenReturn(true);
         when(this.ingredientsBusiness.getIngredient(RecipesExamples.RECIPE_02_ID, IngredientsExamples.INGREDIENT_01_ID)).thenThrow(new OutOfMemoryError());
 
         this.mvc.perform(get("/recipes/{recipe-id}/ingredients/{ingredient-id}", RecipesExamples.RECIPE_02_ID, IngredientsExamples.INGREDIENT_01_ID)

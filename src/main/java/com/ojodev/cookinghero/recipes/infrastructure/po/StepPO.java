@@ -14,6 +14,8 @@ public class StepPO {
 
 	private String objectId;
 
+	private Integer position;
+
 	private String description;
 
 	@Relationship(type = "REPRESENTED_BY")
@@ -25,13 +27,15 @@ public class StepPO {
 	public StepPO() {
 	}
 
-	public StepPO(String objectId, String description) {
+	public StepPO(String objectId, Integer position, String description) {
 		this.objectId = objectId;
+		this.position = position;
 		this.description = description;
 	}
 
-	public StepPO(String objectId, String description, MediaRefPO media) {
+	public StepPO(String objectId,  Integer position, String description, MediaRefPO media) {
 		this.objectId = objectId;
+		this.position = position;
 		this.description = description;
 		this.media = media;
 	}
@@ -58,6 +62,14 @@ public class StepPO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Integer getPosition() {
+		return position;
+	}
+
+	public void setPosition(Integer position) {
+		this.position = position;
 	}
 
 	public MediaRefPO getMedia() {

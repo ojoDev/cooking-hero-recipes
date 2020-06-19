@@ -12,19 +12,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * Step to cook a recipe.
+ * New step to cook a recipe.
  */
-@ApiModel(description = "Step to cook a recipe.")
+@ApiModel(description = "New step to cook a recipe.")
 @Validated
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Step {
-
-    @JsonProperty("id")
-    @ApiModelProperty(example = "18899457821-1", required = true, value = "Recipe step id.", position = 0)
-    @NotNull
-    private String id;
+public class StepNew {
 
     @JsonProperty("position")
     @ApiModelProperty(example = "1", required = true, value = "Position of step in a recipe.", position = 1)

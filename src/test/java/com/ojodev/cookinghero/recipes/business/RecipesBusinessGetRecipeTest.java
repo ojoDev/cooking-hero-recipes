@@ -41,9 +41,9 @@ public class RecipesBusinessGetRecipeTest {
                 new LanguageNamePO(CuisineTypesExamples.LANGUAGE_EN, CuisineTypesExamples.CUISINE_TYPE_02_NAME_ENGLISH),
                 new LanguageNamePO(CuisineTypesExamples.LANGUAGE_ES, CuisineTypesExamples.CUISINE_TYPE_02_NAME_SPANISH)));
 
-        StepPO stepPO01 = new StepPO(StepsExamples.STEP_01_ID.toString(), StepsExamples.STEP_01_DESCRIPTION);
-        StepPO stepPO02 = new StepPO(StepsExamples.STEP_02_ID.toString(), StepsExamples.STEP_02_DESCRIPTION);
-        StepPO stepPO03 = new StepPO(StepsExamples.STEP_03_ID.toString(), StepsExamples.STEP_03_DESCRIPTION);
+        StepPO stepPO01 = new StepPO(StepsExamples.STEP_01_ID, StepsExamples.STEP_01_POSITION, StepsExamples.STEP_01_DESCRIPTION);
+        StepPO stepPO02 = new StepPO(StepsExamples.STEP_02_ID, StepsExamples.STEP_02_POSITION, StepsExamples.STEP_02_DESCRIPTION);
+        StepPO stepPO03 = new StepPO(StepsExamples.STEP_03_ID, StepsExamples.STEP_03_POSITION, StepsExamples.STEP_03_DESCRIPTION);
 
         ProductPO product01 = new ProductPO(ProductsExamples.PRODUCT_01_ID,
                 Arrays.asList(new DescriptiveNamePO(ProductsExamples.PRODUCT_01_NAME_ENGLISH_SINGULAR, ProductsExamples.PRODUCT_01_NAME_ENGLISH_PLURAL, ProductsExamples.LANGUAGE_EN),
@@ -95,10 +95,13 @@ public class RecipesBusinessGetRecipeTest {
         assertNotNull(recipeBO.getSteps());
         assertEquals(3, recipeBO.getSteps().size());
         assertEquals(StepsExamples.STEP_01_ID, recipeBO.getSteps().get(0).getId());
+        assertEquals(StepsExamples.STEP_01_POSITION, recipeBO.getSteps().get(0).getPosition());
         assertEquals(StepsExamples.STEP_01_DESCRIPTION, recipeBO.getSteps().get(0).getDescription());
         assertEquals(StepsExamples.STEP_02_ID, recipeBO.getSteps().get(1).getId());
+        assertEquals(StepsExamples.STEP_02_POSITION, recipeBO.getSteps().get(1).getPosition());
         assertEquals(StepsExamples.STEP_02_DESCRIPTION, recipeBO.getSteps().get(1).getDescription());
         assertEquals(StepsExamples.STEP_03_ID, recipeBO.getSteps().get(2).getId());
+        assertEquals(StepsExamples.STEP_03_POSITION, recipeBO.getSteps().get(2).getPosition());
         assertEquals(StepsExamples.STEP_03_DESCRIPTION, recipeBO.getSteps().get(2).getDescription());
         assertNotNull(recipeBO.getIngredients());
         assertEquals(2, recipeBO.getIngredients().size());

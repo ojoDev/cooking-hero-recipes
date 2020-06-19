@@ -47,12 +47,12 @@ public class RecipesRepositoryTest {
         Assert.assertTrue(exists);
     }
 
-
     @Test
     @Ignore
     public void getByObjectId() {
         List<RecipePO> recipeList = recipesRepository.findByObjectId(RecipesExamples.RECIPE_01_ID);
         Assert.assertNotNull(recipeList);
     }
+
 
 }

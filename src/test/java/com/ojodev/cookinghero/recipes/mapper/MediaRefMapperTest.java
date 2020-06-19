@@ -1,5 +1,6 @@
 package com.ojodev.cookinghero.recipes.mapper;
 
+import com.ojodev.cookinghero.recipes.api.model.MediaRef;
 import com.ojodev.cookinghero.recipes.data.MediaExamples;
 import com.ojodev.cookinghero.recipes.domain.model.MediaRefBO;
 import com.ojodev.cookinghero.recipes.infrastructure.po.MediaRefPO;
@@ -20,15 +21,26 @@ public class MediaRefMapperTest {
     private MediaRefMapper mediaRefMapper;
 
     @Test
-    public void convertStepPOToStepBO() {
+    public void convertMediaRefPOToMediaRefBO() {
 
-        MediaRefPO mediaPO = new MediaRefPO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO.toString());
+        MediaRefPO mediaRefPO = new MediaRefPO(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE_BO.toString());
 
-        MediaRefBO mediaRefBO = mediaRefMapper.toMediaRefBO(mediaPO);
+        MediaRefBO mediaRefBO = mediaRefMapper.toMediaRefBO(mediaRefPO);
 
         assertNotNull(mediaRefBO);
         assertEquals(MediaExamples.MEDIA_01_ID, mediaRefBO.getId());
-        assertEquals( MediaExamples.MEDIA_01_TYPE_BO, mediaRefBO.getMediaType());
+        assertEquals(MediaExamples.MEDIA_01_TYPE_BO, mediaRefBO.getMediaType());
     }
 
+    @Test
+    public void convertMediaRefToMediaRefBO() {
+
+        MediaRef mediaRef = new MediaRef(MediaExamples.MEDIA_01_ID, MediaExamples.MEDIA_01_TYPE);
+
+        MediaRefBO mediaRefBO = mediaRefMapper.toMediaRefBO(mediaRef);
+
+        assertNotNull(mediaRefBO);
+        assertEquals(MediaExamples.MEDIA_01_ID, mediaRefBO.getId());
+        assertEquals(MediaExamples.MEDIA_01_TYPE_BO, mediaRefBO.getMediaType());
+    }
 }

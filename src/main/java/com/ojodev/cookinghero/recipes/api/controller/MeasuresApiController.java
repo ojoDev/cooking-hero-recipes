@@ -75,7 +75,7 @@ public class MeasuresApiController implements MeasuresApi {
     }
 
     public ResponseEntity<Measure> getMeasure(@ApiParam(value = "Measure id.", required = true, example = "tablespoon") @PathVariable("measure-id") String measureId,
-                                              @ApiParam(value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws NotFoundException, ApiFieldsException {
+                                              @ApiParam( value = "User need to choose a language to receive data. Valid values are: en, es.", required = true, example = "en") @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE) String acceptLanguage) throws NotFoundException, ApiFieldsException {
         LanguageEnumBO language = checkAndExtractAcceptedLanguage(acceptLanguage);
 
         MeasureBO measureBO = measuresBusiness.getMeasure(measureId, language).orElseThrow(() -> new NotFoundException(messages.get("error.notfound.measure.code"),messages.get("error.notfound.measure.desc")));
